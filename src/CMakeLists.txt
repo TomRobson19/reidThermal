@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project( MogHog )
+find_package( OpenCV REQUIRED )
+add_compile_options(-g)
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( MogHog mog_and_hog.cpp )
+target_link_libraries( MogHog ${OpenCV_LIBS} )
