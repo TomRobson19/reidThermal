@@ -41,7 +41,7 @@ int main( int argc, char** argv )
   int width = 40;
   int height = 100;
   int learning = 1000;
-  int padding = 5; // pad extracted objects by 5%
+  int padding = 75; // pad extracted objects by 75%
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
@@ -64,6 +64,10 @@ int main( int argc, char** argv )
 
       Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2();
 
+
+      HOGDescriptor hog;
+      hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
+      namedWindow("people detector", 1);
 	  // start main loop
 
 	  while (keepProcessing)
@@ -141,9 +145,7 @@ int main( int argc, char** argv )
             (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
         {
           //HoG code
-          HOGDescriptor hog;
-          hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
-          namedWindow("people detector", 1);
+          
 
           vector<Rect> found, found_filtered;
           //double t = (double) getTickCount();
@@ -152,7 +154,11 @@ int main( int argc, char** argv )
           // (and more false alarms, respectively), decrease the hitThreshold and
           // groupThreshold (set groupThreshold to 0 to turn off the grouping completely).
           
-          hog.detectMultiScale(img, found, 0, Size(8,8), Size(32,32), 1.05, 2);
+          //LOOK AT TOBY AND MIKOS PAPERS FOR 
+
+          Mat roi = img(r);
+
+          hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 2);
           
           //t = (double) getTickCount() - t;
           //cout << "detection time = " << (t*1000./cv::getTickFrequency()) << " ms" << endl;
@@ -160,6 +166,10 @@ int main( int argc, char** argv )
           for(size_t i = 0; i < found.size(); i++ )
           {
             Rect rec = found[i];
+
+            rec.x += r.x;
+            rec.y += r.y;
+
 
             size_t j;
             // Do not add small detections inside a bigger detection.
