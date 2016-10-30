@@ -154,7 +154,7 @@ int main( int argc, char** argv )
           // (and more false alarms, respectively), decrease the hitThreshold and
           // groupThreshold (set groupThreshold to 0 to turn off the grouping completely).
           
-          //LOOK AT TOBY AND MIKOS PAPERS FOR 
+          //LOOK AT TOBY AND MIKOS PAPERS FOR HOG PARAMETERS
 
           Mat roi = img(r);
 
