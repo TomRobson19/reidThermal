@@ -1,1 +1,4 @@
-src/videos/
+/src/videos/
+/src/CMakeFiles/
+/CMakeFiles/
+CMakeCache.txt
