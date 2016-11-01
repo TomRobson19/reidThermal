@@ -1,0 +1,173 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 3cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip bigskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery
+ 
+\end_layout
+
+\begin_layout Section*
+Description
+\end_layout
+
+\begin_layout Standard
+Although use of thermal imagery currently poses significant advantages for
+ 24/7 day/night surveillance in terms of the visibility of human, animal
+ and vehicle targets under all environmental conditions, a key limitation
+ is the lack of colour detail suitable for many current approaches to the
+ problem of cross-camera person re-identification (i.e.
+ the camera-to-camera tracking of pedestrian targets).
+ Cross-camera person re-identification is a key research problem within
+ the domain of visual surveillance and a key challenge for the future deployment
+ of thermal sensing as an autonomous sensor technology.
+ This project aims to investigate the development and transferability of
+ current state of the art techniques in the domain of cross-camera person
+ re-identification and related work in pedestrian tracking to a multiple
+ camera network comprising of far infrared (thermal) cameras.
+ This project would make use of existing all-weather thermal camera sensing
+ units currently used on an existing research programme within the Durham
+ research team (from which time-synchronised imagery can already be obtained)
+ It would build and support upon a range of existing thermal image detection,
+ tracking and classification approaches within the Durham team.
+\end_layout
+
+\begin_layout Section*
+Preliminary Preparation
+\end_layout
+
+\begin_layout Enumerate
+Level 2 Image Processing course in Software Methodologies 
+\end_layout
+
+\begin_layout Enumerate
+Background reading of references below 
+\end_layout
+
+\begin_layout Enumerate
+Experience with OpenCV, C, C++ and Python
+\end_layout
+
+\begin_layout Section*
+Minimum Objectives
+\end_layout
+
+\begin_layout Enumerate
+Ability to detect a person within thermal video imagery in real time.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Ability to distinguish a person from other objects.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Ability to track a person moving through a scene in real time.
+\end_layout
+
+\begin_layout Section*
+Intermediate Objectives
+\end_layout
+
+\begin_layout Enumerate
+Implement 2-3 state of the art features/attributes for re-identification.
+\end_layout
+
+\begin_layout Enumerate
+First pass/Initial framework for re-identification using these features/attribut
+es.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Ability to re-identify 5+ people within a test video sequence in real time
+ using multiple cameras.
+\end_layout
+
+\begin_layout Section*
+Advanced Objectives
+\end_layout
+
+\begin_layout Enumerate
+Extend this by implementing 2 more state of the art features/attributes.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Extend the re-identification ability to 10+ people.
+\end_layout
+
+\end_body
+\end_document
