@@ -1,4 +1,14 @@
 /src/videos/
 /src/CMakeFiles/
+/src/CMakeCache.txt
+/src/cmake_install.cmake
+
 /CMakeFiles/
 CMakeCache.txt
+
+/Examples/*
+!/Examples/*.cpp
+!/Examples/CMakeLists.txt
+
+/General/*
+!/General/*.lyx
