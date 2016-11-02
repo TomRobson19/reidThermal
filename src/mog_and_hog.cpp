@@ -86,7 +86,7 @@ int main( int argc, char** argv )
   				} 
           else 
           {
-  					std::cerr << "ERROR: cannot get next fram from camera" << std::endl;
+  					std::cerr << "ERROR: cannot get next frame from camera" << std::endl;
   				}
   				exit(0);
 			  }
@@ -144,9 +144,6 @@ int main( int argc, char** argv )
         if ((r.width >= width) && (r.height >= height) &&
             (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
         {
-          //HoG code
-          
-
           vector<Rect> found, found_filtered;
           //double t = (double) getTickCount();
 
@@ -154,8 +151,7 @@ int main( int argc, char** argv )
           // (and more false alarms, respectively), decrease the hitThreshold and
           // groupThreshold (set groupThreshold to 0 to turn off the grouping completely).
           
-          //LOOK AT TOBY AND MIKOS PAPERS FOR HOG PARAMETERS
-
+          //set region of interest based on Mog
           Mat roi = img(r);
 
           hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 2);
@@ -198,7 +194,7 @@ int main( int argc, char** argv )
 
           // draws calculated rectangle onto image
 
-          //rectangle(img, r, Scalar(0,0,255), 2, 8, 0);
+          rectangle(img, r, Scalar(0,0,255), 2, 8, 0);
 
           // displays extracted region
 
