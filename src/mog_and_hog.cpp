@@ -145,7 +145,6 @@ int main( int argc, char** argv )
             (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
         {
           vector<Rect> found, found_filtered;
-          //double t = (double) getTickCount();
 
           // Run the detector with default parameters. to get a higher hit-rate
           // (and more false alarms, respectively), decrease the hitThreshold and
@@ -156,9 +155,6 @@ int main( int argc, char** argv )
 
           hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 2);
           
-          //t = (double) getTickCount() - t;
-          //cout << "detection time = " << (t*1000./cv::getTickFrequency()) << " ms" << endl;
-
           for(size_t i = 0; i < found.size(); i++ )
           {
             Rect rec = found[i];
