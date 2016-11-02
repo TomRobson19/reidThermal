@@ -1,3 +1,0 @@
-/home/tomrobson/Documents/Project/reidThermal/src/CMakeFiles/edit_cache.dir
-/home/tomrobson/Documents/Project/reidThermal/src/CMakeFiles/rebuild_cache.dir
-/home/tomrobson/Documents/Project/reidThermal/src/CMakeFiles/MogHog.dir
