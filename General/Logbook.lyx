@@ -184,8 +184,21 @@ Potentially could apply this to thermal using thermal intensity.
 \end_layout
 
 \begin_layout Itemize
-http://www.cs.cornell.edu/~rdz/papers/huang-cvpr97.pdf, put in to mendeley using
- chrome extension
+http://www.cs.cornell.edu/~rdz/papers/huang-cvpr97.pdf and http://www.sersc.org/journa
+ls/IJHIT/vol8_no1_2015/3.pdf, put in to mendeley using chrome extension
+\end_layout
+
+\begin_layout Itemize
+Look at using cascade detector - Toby is sending XML files, python example
+ on Computer Vision Github Repo
+\end_layout
+
+\begin_layout Itemize
+Next step is implementing a Kalman filter
+\end_layout
+
+\begin_layout Itemize
+Continue looking into correlograms and maybe implement
 \end_layout
 
 \end_body

@@ -144,6 +144,7 @@ int main( int argc, char** argv )
         if ((r.width >= width) && (r.height >= height) &&
             (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
         {
+          //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
           vector<Rect> found, found_filtered;
 
           // Run the detector with default parameters. to get a higher hit-rate
@@ -161,7 +162,6 @@ int main( int argc, char** argv )
 
             rec.x += r.x;
             rec.y += r.y;
-
 
             size_t j;
             // Do not add small detections inside a bigger detection.
@@ -184,6 +184,8 @@ int main( int argc, char** argv )
             rec.y += cvRound(rec.height*0.07);
             rec.height = cvRound(rec.height*0.8);
             rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+
+            //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
           }
 
           imshow("people detector", img);
