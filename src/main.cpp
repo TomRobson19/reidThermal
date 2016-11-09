@@ -14,11 +14,16 @@
 #include <opencv2/objdetect.hpp>
 #include <opencv2/video.hpp>
 #include <opencv2/videoio.hpp>
+#include <opencv2/ml.hpp>
 #include <iostream>
 #include <stdexcept>
 
 using namespace cv;
 using namespace std;
+using namespace ml;
+
+#define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
+#define SVM_TO_USE  "classifiers/peopleir_lap.svm"
 
 /******************************************************************************/
 
@@ -64,11 +69,14 @@ int main( int argc, char** argv )
 
       Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2();
 
-
       HOGDescriptor hog;
       hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
       namedWindow("people detector", 1);
 
+      CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
+      Ptr<SVM> svm = Algorithm::load<SVM>(SVM_TO_USE);
+
+      int method = 0; //0 for Hog, 1 for cascade
 
       KalmanFilter kf();
 
@@ -148,48 +156,96 @@ int main( int argc, char** argv )
         if ((r.width >= width) && (r.height >= height) &&
             (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
         {
-          //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
-          vector<Rect> found, found_filtered;
-
-          // Run the detector with default parameters. to get a higher hit-rate
-          // (and more false alarms, respectively), decrease the hitThreshold and
-          // groupThreshold (set groupThreshold to 0 to turn off the grouping completely).
-          
-          //set region of interest based on Mog
-          Mat roi = img(r);
-
-          hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 2);
-          
-          for(size_t i = 0; i < found.size(); i++ )
+          if (method == 0)
           {
-            Rect rec = found[i];
+            //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
+            vector<Rect> found, found_filtered;
+            
+            //set region of interest based on Mog
+            Mat roi = img(r);
 
-            rec.x += r.x;
-            rec.y += r.y;
+            hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 2);
+            
+            for(size_t i = 0; i < found.size(); i++ )
+            {
+              Rect rec = found[i];
 
-            size_t j;
-            // Do not add small detections inside a bigger detection.
-            for ( j = 0; j < found.size(); j++ )
-              if ( j != i && (rec & found[j]) == rec )
-                  break;
+              rec.x += r.x;
+              rec.y += r.y;
 
-            if ( j == found.size() )
-              found_filtered.push_back(rec);
+              size_t j;
+              // Do not add small detections inside a bigger detection.
+              for ( j = 0; j < found.size(); j++ )
+                if ( j != i && (rec & found[j]) == rec )
+                    break;
+
+              if ( j == found.size() )
+                found_filtered.push_back(rec);
+            }
+
+            for (size_t i = 0; i < found_filtered.size(); i++)
+            {
+              Rect rec = found_filtered[i];
+
+              // The HOG detector returns slightly larger rectangles than the real objects,
+              // so we slightly shrink the rectangles to get a nicer output.
+              rec.x += cvRound(rec.width*0.1);
+              rec.width = cvRound(rec.width*0.8);
+              rec.y += cvRound(rec.height*0.07);
+              rec.height = cvRound(rec.height*0.8);
+              rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+            }
+              //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
           }
-
-          for (size_t i = 0; i < found_filtered.size(); i++)
+          else
           {
-            Rect rec = found_filtered[i];
+            //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
+            vector<Rect> found, found_filtered;
+            Mat resized, resized2, test, test2;
+            
+            '''
+            this bit doesnt work
+            '''
+            //cascade.detectMultiScale(img, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
 
-            // The HOG detector returns slightly larger rectangles than the real objects,
-            // so we slightly shrink the rectangles to get a nicer output.
-            rec.x += cvRound(rec.width*0.1);
-            rec.width = cvRound(rec.width*0.8);
-            rec.y += cvRound(rec.height*0.07);
-            rec.height = cvRound(rec.height*0.8);
-            rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+            for( vector<Rect>::const_iterator i = found.begin(); i != found.end(); i++)
+            {
+              Mat roi = img(*i);
+              resize(roi, resized, Size(16,32), 0, 0, CV_INTER_CUBIC);
 
-            //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
+              // do a whole load of messing around so we can use the
+              // old CvLaplace() call as in the original work
+              IplImage tmp1, tmp2;
+              resized2 = resized.clone();
+              tmp1 = IplImage(resized);
+              tmp2 = IplImage(resized2);
+
+              cvLaplace(&tmp1, &tmp2, 3);
+
+              // now normalize both, add them, then re-normalize
+
+              resized.convertTo(test, CV_32F);
+              resized2.convertTo(test2, CV_32F);
+
+              normalize(test, test, 0.0, 1.0, NORM_MINMAX);
+              normalize(test2, test2, 0.0, 1.0, NORM_MINMAX);
+
+              test = test + test2;
+
+              normalize(test, test, 0.0, 1.0, NORM_MINMAX);
+
+              // reshape to single row for SVM prediction
+
+              test = test.reshape(0, 1);
+              resize(resized2, resized2, Size(), 8, 8, CV_INTER_CUBIC);
+              imshow("Cascade -> SVM Input (upscaled)", resized2);
+
+              if (svm->predict(test) == 1)
+              {
+                  rectangle(img, *i, Scalar(0,255,0), 2, 8, 0);
+              }
+            }
+            //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
           }
 
           imshow("people detector", img);

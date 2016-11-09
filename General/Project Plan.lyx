@@ -114,6 +114,11 @@ Although use of thermal imagery currently poses significant advantages for
 Research Question
 \end_layout
 
+\begin_layout Standard
+Can we develop an effective feature based person re-identification system
+ in thermal space?
+\end_layout
+
 \begin_layout Section*
 Aims
 \end_layout
@@ -163,7 +168,28 @@ Experience with OpenCV, C, C++ and Python
 \end_layout
 
 \begin_layout Section*
-Minimum Objectives
+Deliverables
+\end_layout
+
+\begin_layout Enumerate
+Effective tracking of an object through a thermal scene.
+\end_layout
+
+\begin_layout Enumerate
+Ability to distinguish people from other objects in the scene.
+\end_layout
+
+\begin_layout Enumerate
+List of appropriate features for re-identification.
+\end_layout
+
+\begin_layout Enumerate
+Implementation of these features and evaluation of their effectiveness.
+ 
+\end_layout
+
+\begin_layout Section*
+Minimum Deliverables
 \end_layout
 
 \begin_layout Enumerate
@@ -181,7 +207,7 @@ Ability to track a person moving through a scene in real time.
 \end_layout
 
 \begin_layout Section*
-Intermediate Objectives
+Intermediate Deliverables
 \end_layout
 
 \begin_layout Enumerate
@@ -200,7 +226,7 @@ Ability to re-identify 5+ people within a test video sequence in real time
 \end_layout
 
 \begin_layout Section*
-Advanced Objectives
+Advanced Deliverables
 \end_layout
 
 \begin_layout Enumerate
@@ -210,14 +236,6 @@ Extend this by implementing 2 more state of the art features/attributes.
 
 \begin_layout Enumerate
 Extend the re-identification ability to 10+ people.
-\end_layout
-
-\begin_layout Section*
-Deliverables
-\end_layout
-
-\begin_layout Section*
-GANTT Chart
 \end_layout
 
 \end_body

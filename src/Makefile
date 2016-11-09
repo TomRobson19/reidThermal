@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named MogHog
+# Target rules for targets named main
 
 # Build rule for target.
-MogHog: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 MogHog
-.PHONY : MogHog
+main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 main
+.PHONY : main
 
 # fast build rule for target.
-MogHog/fast:
-	$(MAKE) -f CMakeFiles/MogHog.dir/build.make CMakeFiles/MogHog.dir/build
-.PHONY : MogHog/fast
+main/fast:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
 
-mog_and_hog.o: mog_and_hog.cpp.o
+main.o: main.cpp.o
 
-.PHONY : mog_and_hog.o
+.PHONY : main.o
 
 # target to build an object file
-mog_and_hog.cpp.o:
-	$(MAKE) -f CMakeFiles/MogHog.dir/build.make CMakeFiles/MogHog.dir/mog_and_hog.cpp.o
-.PHONY : mog_and_hog.cpp.o
+main.cpp.o:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-mog_and_hog.i: mog_and_hog.cpp.i
+main.i: main.cpp.i
 
-.PHONY : mog_and_hog.i
+.PHONY : main.i
 
 # target to preprocess a source file
-mog_and_hog.cpp.i:
-	$(MAKE) -f CMakeFiles/MogHog.dir/build.make CMakeFiles/MogHog.dir/mog_and_hog.cpp.i
-.PHONY : mog_and_hog.cpp.i
+main.cpp.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-mog_and_hog.s: mog_and_hog.cpp.s
+main.s: main.cpp.s
 
-.PHONY : mog_and_hog.s
+.PHONY : main.s
 
 # target to generate assembly for a file
-mog_and_hog.cpp.s:
-	$(MAKE) -f CMakeFiles/MogHog.dir/build.make CMakeFiles/MogHog.dir/mog_and_hog.cpp.s
-.PHONY : mog_and_hog.cpp.s
+main.cpp.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 # Help Target
 help:
@@ -158,10 +158,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... MogHog"
-	@echo "... mog_and_hog.o"
-	@echo "... mog_and_hog.i"
-	@echo "... mog_and_hog.s"
+	@echo "... main"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 .PHONY : help
 
 
