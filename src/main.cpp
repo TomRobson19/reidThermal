@@ -45,8 +45,9 @@ int main( int argc, char** argv )
   vector<Vec4i> hierarchy;
   int width = 40;
   int height = 100;
-  int learning = 1000;
+  int learning = 2000;
   int padding = 75; // pad extracted objects by 75%
+  int method = 1; //0 for Hog, 1 for cascade
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
@@ -75,8 +76,6 @@ int main( int argc, char** argv )
 
       CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
       Ptr<SVM> svm = Algorithm::load<SVM>(SVM_TO_USE);
-
-      int method = 0; //0 for Hog, 1 for cascade
 
       KalmanFilter kf();
 
@@ -203,7 +202,7 @@ int main( int argc, char** argv )
             vector<Rect> found, found_filtered;
             Mat resized, resized2, test, test2;
             
-            //cascade.detectMultiScale(img, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
+            cascade.detectMultiScale(img, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
 
             for( vector<Rect>::const_iterator i = found.begin(); i != found.end(); i++)
             {
@@ -239,7 +238,7 @@ int main( int argc, char** argv )
 
               if (svm->predict(test) == 1)
               {
-                  rectangle(img, *i, Scalar(0,255,0), 2, 8, 0);
+                rectangle(img, *i, Scalar(0,255,0), 2, 8, 0);
               }
             }
             //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
@@ -256,9 +255,7 @@ int main( int argc, char** argv )
           //imshow ("Extracted Region", img(r));
         }
       }
-
 		  // display image in window
-
 		  imshow(windowName, img);
       //imshow(windowNameF, fg);
       //if (!bg.empty())
@@ -273,24 +270,18 @@ int main( int argc, char** argv )
 
 		  if (key == 'x')
       {
-
 	   		// if user presses "x" then exit
-
-			  	std::cout << "Keyboard exit requested : exiting now - bye!"
-				  		  << std::endl;
-	   			keepProcessing = false;
+		  	std::cout << "Keyboard exit requested : exiting now - bye!"
+			  		  << std::endl;
+   			keepProcessing = false;
 		  }
 	  }
 
 	  // the camera will be deinitialized automatically in VideoCapture destructor
-
       // all OK : main returns 0
-
       return 0;
     }
-
     // not OK : main returns -1
-
     return -1;
 }
 /******************************************************************************/
