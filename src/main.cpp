@@ -203,9 +203,6 @@ int main( int argc, char** argv )
             vector<Rect> found, found_filtered;
             Mat resized, resized2, test, test2;
             
-            '''
-            this bit doesnt work
-            '''
             //cascade.detectMultiScale(img, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
 
             for( vector<Rect>::const_iterator i = found.begin(); i != found.end(); i++)
