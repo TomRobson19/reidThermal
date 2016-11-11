@@ -23,7 +23,7 @@ using namespace std;
 using namespace ml;
 
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
-#define SVM_TO_USE  "classifiers/peopleir_lap.svm"
+#define SVM_TO_USE "classifiers/peopleir_lap.svm"
 
 /******************************************************************************/
 
@@ -155,14 +155,14 @@ int main( int argc, char** argv )
         if ((r.width >= width) && (r.height >= height) &&
             (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
         {
+          vector<Rect> found, found_filtered;
+
+          Mat roi = img(r);
+
           if (method == 0)
           {
             //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
-            vector<Rect> found, found_filtered;
-            
             //set region of interest based on Mog
-            Mat roi = img(r);
-
             hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 2);
             
             for(size_t i = 0; i < found.size(); i++ )
@@ -199,9 +199,6 @@ int main( int argc, char** argv )
           else
           {
             //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
-            vector<Rect> found, found_filtered;
-
-            Mat roi = img(r);
             
             cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
 
@@ -281,6 +278,12 @@ int main( int argc, char** argv )
 
           rectangle(img, r, Scalar(0,0,255), 2, 8, 0);
 
+          //KALMAN HERE
+          //KALMAN HERE
+          //KALMAN HERE
+          //KALMAN HERE
+          //KALMAN HERE
+
           // displays extracted region
 
           //imshow ("Extracted Region", img(r));
@@ -293,9 +296,6 @@ int main( int argc, char** argv )
       //{
         //imshow(windowNameB, bg);
       //}
-
-		  // start event processing loop (very important,in fact essential for GUI)
-	      // 40 ms roughly equates to 1000ms/25fps = 4ms per frame
 
 		  key = waitKey(EVENT_LOOP_DELAY);
 
