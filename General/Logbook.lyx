@@ -201,5 +201,25 @@ Next step is implementing a Kalman filter
 Continue looking into correlograms and maybe implement
 \end_layout
 
+\begin_layout Section*
+Week 5
+\end_layout
+
+\begin_layout Itemize
+Implemented Haar cascade classification as provided, working but not well
+\end_layout
+
+\begin_layout Itemize
+Experimenting with using the svm more but not currently working
+\end_layout
+
+\begin_layout Itemize
+Now need to implement Kalman filter
+\end_layout
+
+\begin_layout Itemize
+Did more work on project plan
+\end_layout
+
 \end_body
 \end_document

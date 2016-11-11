@@ -235,36 +235,42 @@ int main( int argc, char** argv )
 
               //experimenting with this
 
-              Mat test,test2,resized,resized2;
+              int experiment = 0;
 
-              resize(roi, resized, Size(16,32), 0, 0, CV_INTER_CUBIC);
-              IplImage tmp1, tmp2;
-              resized2 = resized.clone();
-              tmp1 = IplImage(resized);
-              tmp2 = IplImage(resized2);
+              if (experiment == 1)
+              {
+                Mat test,test2,resized,resized2;
 
-              cvLaplace(&tmp1, &tmp2, 3);
+                resize(roi, resized, Size(16,32), 0, 0, CV_INTER_CUBIC);
+                IplImage tmp1, tmp2;
+                resized2 = resized.clone();
+                tmp1 = IplImage(resized);
+                tmp2 = IplImage(resized2);
 
-              normalize(test, test, 0.0, 1.0, NORM_MINMAX);
-              normalize(test2, test2, 0.0, 1.0, NORM_MINMAX);
+                cvLaplace(&tmp1, &tmp2, 3);
 
-              test = test + test2;
+                normalize(test, test, 0.0, 1.0, NORM_MINMAX);
+                normalize(test2, test2, 0.0, 1.0, NORM_MINMAX);
 
-              normalize(test, test, 0.0, 1.0, NORM_MINMAX);
+                test = test + test2;
 
-              // reshape to single row for SVM prediction
+                normalize(test, test, 0.0, 1.0, NORM_MINMAX);
 
-              test = test.reshape(0, 1);
+                // reshape to single row for SVM prediction
 
-              if (svm->predict(test) == 1)
+                test = test.reshape(0, 1);
+
+                if (svm->predict(test) == 1)
+                {
+                  rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+                }
+              }
+              //experimenting with this
+
+              else
               {
                 rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
               }
-
-              //experimenting with this
-
-              //rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
-
             }
             //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
           }
