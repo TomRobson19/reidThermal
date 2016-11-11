@@ -47,39 +47,37 @@ int main( int argc, char** argv )
   int height = 100;
   int learning = 2000;
   int padding = 75; // pad extracted objects by 75%
-  int method = 1; //0 for Hog, 1 for cascade
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
 
-    if(( argc == 2 && (cap.open(argv[1]) == true )) ||
-	  ( argc != 2 && (cap.open(0) == true)))
-    {
-      // create window object (use flag=0 to allow resize, 1 to auto fix size)
+  if(( argc == 2 && (cap.open(argv[1]) == true )) ||
+  ( argc != 2 && (cap.open(0) == true)))
+  {
+    // create window object (use flag=0 to allow resize, 1 to auto fix size)
 
-      namedWindow(windowName, 0);
-      //namedWindow(windowNameF, 0);
-      //namedWindow(windowNameB, 0);
+    namedWindow(windowName, 0);
+    //namedWindow(windowNameF, 0);
+    //namedWindow(windowNameB, 0);
 
-      createTrackbar("width", windowName, &width, 700);
-      createTrackbar("height", windowName, &height, 700);
-      createTrackbar("1 / learning", windowName, &learning, 5000);
-      createTrackbar("padding n%", windowName, &padding, 100);
+    createTrackbar("width", windowName, &width, 700);
+    createTrackbar("height", windowName, &height, 700);
+    createTrackbar("1 / learning", windowName, &learning, 5000);
+    createTrackbar("padding n%", windowName, &padding, 100);
 
-      // create background / foreground Mixture of Gaussian (MoG) model
+    // create background / foreground Mixture of Gaussian (MoG) model
 
-      Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2();
+    Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2();
 
-      HOGDescriptor hog;
-      hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
-      namedWindow("people detector", 1);
+    HOGDescriptor hog;
+    hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
+    namedWindow("people detector", 1);
 
-      CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
-      Ptr<SVM> svm = Algorithm::load<SVM>(SVM_TO_USE);
+    CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
-      KalmanFilter kf();
+    KalmanFilter kf();
 
-	  // start main loop
+  // start main loop
 
 	  while (keepProcessing)
     {
@@ -159,118 +157,46 @@ int main( int argc, char** argv )
 
           Mat roi = img(r);
 
+          int method = 1; //0 for Hog, 1 for cascade
+
           if (method == 0)
           {
-            //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
-            //set region of interest based on Mog
             hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 2);
-            
-            for(size_t i = 0; i < found.size(); i++ )
-            {
-              Rect rec = found[i];
-
-              rec.x += r.x;
-              rec.y += r.y;
-
-              size_t j;
-              // Do not add small detections inside a bigger detection.
-              for ( j = 0; j < found.size(); j++ )
-                if ( j != i && (rec & found[j]) == rec )
-                    break;
-
-              if ( j == found.size() )
-                found_filtered.push_back(rec);
-            }
-
-            for (size_t i = 0; i < found_filtered.size(); i++)
-            {
-              Rect rec = found_filtered[i];
-
-              // The HOG detector returns slightly larger rectangles than the real objects,
-              // so we slightly shrink the rectangles to get a nicer output.
-              rec.x += cvRound(rec.width*0.1);
-              rec.width = cvRound(rec.width*0.8);
-              rec.y += cvRound(rec.height*0.07);
-              rec.height = cvRound(rec.height*0.8);
-              rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
-            }
-              //HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//HOG//
           }
-          else
+          else 
           {
-            //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
-            
             cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
-
-            for(size_t i = 0; i < found.size(); i++ )
-            {
-              Rect rec = found[i];
-
-              rec.x += r.x;
-              rec.y += r.y;
-
-              size_t j;
-              // Do not add small detections inside a bigger detection.
-              for ( j = 0; j < found.size(); j++ )
-                if ( j != i && (rec & found[j]) == rec )
-                    break;
-
-              if ( j == found.size() )
-                found_filtered.push_back(rec);
-            }
-
-            for (size_t i = 0; i < found_filtered.size(); i++)
-            {
-              Rect rec = found_filtered[i];
-
-              // The detector returns slightly larger rectangles than the real objects,
-              // so we slightly shrink the rectangles to get a nicer output.
-              rec.x += cvRound(rec.width*0.1);
-              rec.width = cvRound(rec.width*0.8);
-              rec.y += cvRound(rec.height*0.07);
-              rec.height = cvRound(rec.height*0.8);
-
-              //experimenting with this
-
-              int experiment = 0;
-
-              if (experiment == 1)
-              {
-                Mat test,test2,resized,resized2;
-
-                resize(roi, resized, Size(16,32), 0, 0, CV_INTER_CUBIC);
-                IplImage tmp1, tmp2;
-                resized2 = resized.clone();
-                tmp1 = IplImage(resized);
-                tmp2 = IplImage(resized2);
-
-                cvLaplace(&tmp1, &tmp2, 3);
-
-                normalize(test, test, 0.0, 1.0, NORM_MINMAX);
-                normalize(test2, test2, 0.0, 1.0, NORM_MINMAX);
-
-                test = test + test2;
-
-                normalize(test, test, 0.0, 1.0, NORM_MINMAX);
-
-                // reshape to single row for SVM prediction
-
-                test = test.reshape(0, 1);
-
-                if (svm->predict(test) == 1)
-                {
-                  rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
-                }
-              }
-              //experimenting with this
-
-              else
-              {
-                rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
-              }
-            }
-            //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
           }
+            
+          for(size_t i = 0; i < found.size(); i++ )
+          {
+            Rect rec = found[i];
+
+            rec.x += r.x;
+            rec.y += r.y;
+
+            size_t j;
+            // Do not add small detections inside a bigger detection.
+            for ( j = 0; j < found.size(); j++ )
+              if ( j != i && (rec & found[j]) == rec )
+                  break;
+
+            if ( j == found.size() )
+              found_filtered.push_back(rec);
+          }
+
+          for (size_t i = 0; i < found_filtered.size(); i++)
+          {
+            Rect rec = found_filtered[i];
+
+            // The HOG detector returns slightly larger rectangles than the real objects,
+            // so we slightly shrink the rectangles to get a nicer output.
+            rec.x += cvRound(rec.width*0.1);
+            rec.width = cvRound(rec.width*0.8);
+            rec.y += cvRound(rec.height*0.07);
+            rec.height = cvRound(rec.height*0.8);
+            rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+          } 
 
           imshow("people detector", img);
 

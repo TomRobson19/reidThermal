@@ -221,5 +221,35 @@ Now need to implement Kalman filter
 Did more work on project plan, now done all exept Gantt chart
 \end_layout
 
+\begin_layout Itemize
+SVM stuff is a second phase, try and optimise Haar and make it better, otherwise
+ stick with Hog.
+\end_layout
+
+\begin_layout Itemize
+Potential feature is contour around foreground object used to calculate
+ bounding box (although view specific)
+\end_layout
+
+\begin_layout Itemize
+Use contours to calculate other features rather than box to cut out the
+ background
+\end_layout
+
+\begin_layout Itemize
+Use condensation.py to learn and implement Kalman, also given book.
+\end_layout
+
+\begin_layout Itemize
+Condensation one uses random model because of mouse motion, need to change
+ this to model of humans moving (e.g.
+ most likely to continue in direction of travel)
+\end_layout
+
+\begin_layout Itemize
+Image moments as a potential feature (Toby will give material later on)
+ 
+\end_layout
+
 \end_body
 \end_document
