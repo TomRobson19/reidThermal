@@ -200,28 +200,50 @@ int main( int argc, char** argv )
           {
             //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
             vector<Rect> found, found_filtered;
-            Mat resized, resized2, test, test2;
+
+            Mat roi = img(r);
             
-            cascade.detectMultiScale(img, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
+            cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
 
-            for( vector<Rect>::const_iterator i = found.begin(); i != found.end(); i++)
+            for(size_t i = 0; i < found.size(); i++ )
             {
-              Mat roi = img(*i);
-              resize(roi, resized, Size(16,32), 0, 0, CV_INTER_CUBIC);
+              Rect rec = found[i];
 
-              // do a whole load of messing around so we can use the
-              // old CvLaplace() call as in the original work
+              rec.x += r.x;
+              rec.y += r.y;
+
+              size_t j;
+              // Do not add small detections inside a bigger detection.
+              for ( j = 0; j < found.size(); j++ )
+                if ( j != i && (rec & found[j]) == rec )
+                    break;
+
+              if ( j == found.size() )
+                found_filtered.push_back(rec);
+            }
+
+            for (size_t i = 0; i < found_filtered.size(); i++)
+            {
+              Rect rec = found_filtered[i];
+
+              // The detector returns slightly larger rectangles than the real objects,
+              // so we slightly shrink the rectangles to get a nicer output.
+              rec.x += cvRound(rec.width*0.1);
+              rec.width = cvRound(rec.width*0.8);
+              rec.y += cvRound(rec.height*0.07);
+              rec.height = cvRound(rec.height*0.8);
+
+              //experimenting with this
+
+              Mat test,test2,resized,resized2;
+
+              resize(roi, resized, Size(16,32), 0, 0, CV_INTER_CUBIC);
               IplImage tmp1, tmp2;
               resized2 = resized.clone();
               tmp1 = IplImage(resized);
               tmp2 = IplImage(resized2);
 
               cvLaplace(&tmp1, &tmp2, 3);
-
-              // now normalize both, add them, then re-normalize
-
-              resized.convertTo(test, CV_32F);
-              resized2.convertTo(test2, CV_32F);
 
               normalize(test, test, 0.0, 1.0, NORM_MINMAX);
               normalize(test2, test2, 0.0, 1.0, NORM_MINMAX);
@@ -233,13 +255,16 @@ int main( int argc, char** argv )
               // reshape to single row for SVM prediction
 
               test = test.reshape(0, 1);
-              resize(resized2, resized2, Size(), 8, 8, CV_INTER_CUBIC);
-              imshow("Cascade -> SVM Input (upscaled)", resized2);
 
               if (svm->predict(test) == 1)
               {
-                rectangle(img, *i, Scalar(0,255,0), 2, 8, 0);
+                rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
               }
+
+              //experimenting with this
+
+              //rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+
             }
             //cascade//cascade//cascade//cascade//cascade//cascade//cascade//cascade//
           }
