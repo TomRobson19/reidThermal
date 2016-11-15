@@ -77,7 +77,7 @@ int main( int argc, char** argv )
 
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
-    KalmanFilter KF = KalmanFilter(4,2);
+    KalmanFilter KF(4,2);
 
     Mat state(2, 1, CV_32F); /* (phi, delta_phi) */
     Mat processNoise(2, 1, CV_32F);
@@ -217,7 +217,7 @@ int main( int argc, char** argv )
 
 
 
-            
+
 
             Point2f center(rec.width*0.5f, rec.height*0.5f);
             float R = rec.width/3.f;
