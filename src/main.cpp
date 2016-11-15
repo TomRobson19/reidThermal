@@ -11,12 +11,14 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/video/background_segm.hpp>
+#include <opencv2/video/tracking.hpp>
 #include <opencv2/objdetect.hpp>
 #include <opencv2/video.hpp>
 #include <opencv2/videoio.hpp>
 #include <opencv2/ml.hpp>
 #include <iostream>
 #include <stdexcept>
+#include <stdio.h>
 
 using namespace cv;
 using namespace std;
@@ -75,7 +77,21 @@ int main( int argc, char** argv )
 
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
-    KalmanFilter kf();
+    KalmanFilter KF = KalmanFilter(4,2);
+
+    Mat state(2, 1, CV_32F); /* (phi, delta_phi) */
+    Mat processNoise(2, 1, CV_32F);
+    Mat measurement = Mat::zeros(1, 1, CV_32F);
+
+    randn( state, Scalar::all(0), Scalar::all(0.1) );
+    KF.transitionMatrix = (Mat_<float>(2, 2) << 1, 1, 0, 1);
+
+    setIdentity(KF.measurementMatrix);
+    setIdentity(KF.processNoiseCov, Scalar::all(1e-5));
+    setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+    setIdentity(KF.errorCovPost, Scalar::all(1));
+
+    randn(KF.statePost, Scalar::all(0), Scalar::all(0.1));
 
   // start main loop
 
@@ -157,11 +173,12 @@ int main( int argc, char** argv )
 
           Mat roi = img(r);
 
-          int method = 1; //0 for Hog, 1 for cascade
+          int method = 0; //0 for Hog, 1 for cascade
 
           if (method == 0)
           {
-            hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 2);
+            //changing last parameter helps deal with multiple rectangles per person
+            hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 5);
           }
           else 
           {
@@ -196,19 +213,29 @@ int main( int argc, char** argv )
             rec.y += cvRound(rec.height*0.07);
             rec.height = cvRound(rec.height*0.8);
             rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+
+
+
+
+            
+
+            Point2f center(rec.width*0.5f, rec.height*0.5f);
+            float R = rec.width/3.f;
+            double stateAngle = state.at<float>(0);
+            //Point statePt = calcPoint(center, R, stateAngle);
+
+            Mat prediction = KF.predict();
+            double predictAngle = prediction.at<float>(0);
+            //Point predictPt = calcPoint(center, R, predictAngle);
+
           } 
+
 
           imshow("people detector", img);
 
           // draws calculated rectangle onto image
 
           rectangle(img, r, Scalar(0,0,255), 2, 8, 0);
-
-          //KALMAN HERE
-          //KALMAN HERE
-          //KALMAN HERE
-          //KALMAN HERE
-          //KALMAN HERE
 
           // displays extracted region
 
