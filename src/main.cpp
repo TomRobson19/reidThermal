@@ -77,8 +77,8 @@ int main( int argc, char** argv )
 
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
-    KalmanFilter KF(4,2);
 
+    KalmanFilter KF(4,2);
     Mat state(2, 1, CV_32F); /* (phi, delta_phi) */
     Mat processNoise(2, 1, CV_32F);
     Mat measurement = Mat::zeros(1, 1, CV_32F);
@@ -86,8 +86,10 @@ int main( int argc, char** argv )
     randn( state, Scalar::all(0), Scalar::all(0.1) );
     KF.transitionMatrix = (Mat_<float>(2, 2) << 1, 1, 0, 1);
 
+    //setting to identity matrix - opencv function
+    //try printing this out
     setIdentity(KF.measurementMatrix);
-    setIdentity(KF.processNoiseCov, Scalar::all(1e-5));
+    setIdentity(KF.processNoiseCov, Scalar::all(1e-5)); //creates scalar mat object with all entries 1e-5
     setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
     setIdentity(KF.errorCovPost, Scalar::all(1));
 
@@ -215,19 +217,18 @@ int main( int argc, char** argv )
             rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
 
-
+            //basically just need correct, predict, draw
+            //try running Toby's example python code on my video files
 
 
 
             Point2f center(rec.width*0.5f, rec.height*0.5f);
-            float R = rec.width/3.f;
-            double stateAngle = state.at<float>(0);
-            //Point statePt = calcPoint(center, R, stateAngle);
+            
+            KF.correct(Mat(img,rec));
 
             Mat prediction = KF.predict();
-            double predictAngle = prediction.at<float>(0);
-            //Point predictPt = calcPoint(center, R, predictAngle);
 
+            //rectangle(img, rec.tl(), rec.br(), cv::Scalar(255,0,0), 3);
           } 
 
 
