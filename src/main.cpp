@@ -78,7 +78,7 @@ int main( int argc, char** argv )
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
 
-    KalmanFilter KF(4,2);
+    KalmanFilter KF(4,2); //(6,4) for the next step
     Mat state(2, 1, CV_32F); /* (phi, delta_phi) */
     Mat processNoise(2, 1, CV_32F);
     Mat measurement = Mat::zeros(1, 1, CV_32F);
@@ -95,7 +95,7 @@ int main( int argc, char** argv )
 
     randn(KF.statePost, Scalar::all(0), Scalar::all(0.1));
 
-  // start main loop
+    // start main loop
 
 	  while (keepProcessing)
     {
@@ -186,7 +186,6 @@ int main( int argc, char** argv )
           {
             cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
           }
-            
           for(size_t i = 0; i < found.size(); i++ )
           {
             Rect rec = found[i];
@@ -216,17 +215,15 @@ int main( int argc, char** argv )
             rec.height = cvRound(rec.height*0.8);
             rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
-
-            //basically just need correct, predict, draw
             //try running Toby's example python code on my video files
 
-
-
             Point2f center(rec.width*0.5f, rec.height*0.5f);
-            
-            KF.correct(Mat(img,rec));
+
+            KF.correct(Mat (center)); //for rectangle, expand state vector to 4 dimensions, store top left corner(2D) or centre, width and height, maybe also velocity
 
             Mat prediction = KF.predict();
+
+            //std::cout << prediction;
 
             //rectangle(img, rec.tl(), rec.br(), cv::Scalar(255,0,0), 3);
           } 

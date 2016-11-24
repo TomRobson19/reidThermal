@@ -3,6 +3,12 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\usepackage{standalone}
+\usepackage{pdflscape}
+\usepackage{gantt}
+\usepackage{preview}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -239,6 +245,62 @@ Extend this by implementing 2 more state of the art features/attributes.
 
 \begin_layout Enumerate
 Extend the re-identification ability to 10+ people.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{landscape}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+newgeometry{left=1cm,bottom=-6cm,right=-4cm}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand include
+filename "gantt.tex"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+restoregeometry
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{landscape}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body

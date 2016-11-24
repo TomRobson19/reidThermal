@@ -271,5 +271,32 @@ Learning OpenCV 3 Computer Vision with Python
  - cited in mendeley
 \end_layout
 
+\begin_layout Itemize
+Have implemented it (I think, it compiles), but have not got the output
+ working yet, had to take a back seat to Numerical this week.
+\end_layout
+
+\begin_layout Section*
+Week 7
+\end_layout
+
+\begin_layout Itemize
+Looking into how to output the Kalman filter properly.
+\end_layout
+
+\begin_layout Itemize
+Look at source code for Kalman in OpenCV library to see if better commented/expl
+ained!
+\end_layout
+
+\begin_layout Itemize
+Check github for other users of Opencv kalman
+\end_layout
+
+\begin_layout Itemize
+Have a more thorough look at Hungarian Algorithm stuff - try and make work,
+ if doesn't give up
+\end_layout
+
 \end_body
 \end_document
