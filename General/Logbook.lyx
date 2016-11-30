@@ -221,7 +221,7 @@ Now need to implement Kalman filter
 \end_layout
 
 \begin_layout Itemize
-Did more work on project plan, now done all exept Gantt chart
+Did more work on project plan, now done all except Gantt chart
 \end_layout
 
 \begin_layout Itemize
@@ -296,6 +296,22 @@ Check github for other users of Opencv kalman
 \begin_layout Itemize
 Have a more thorough look at Hungarian Algorithm stuff - try and make work,
  if doesn't give up
+\end_layout
+
+\begin_layout Itemize
+Made Gantt chart, need to come up with full tasks and timescale
+\end_layout
+
+\begin_layout Section*
+Week 8
+\end_layout
+
+\begin_layout Itemize
+Did more research on Kalman filter and Hungarian algorithm 
+\end_layout
+
+\begin_layout Itemize
+Tried many implementations, unsuccessful (spent lots of time)
 \end_layout
 
 \end_body

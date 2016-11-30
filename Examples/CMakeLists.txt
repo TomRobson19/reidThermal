@@ -53,4 +53,3 @@ add_compile_options(-g)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 add_executable( Haar irpeople.cpp )
 target_link_libraries( Haar ${OpenCV_LIBS} )
-

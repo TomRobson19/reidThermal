@@ -175,7 +175,7 @@ int main( int argc, char** argv )
 
           Mat roi = img(r);
 
-          int method = 0; //0 for Hog, 1 for cascade
+          int method = 1; //0 for Hog, 1 for cascade
 
           if (method == 0)
           {
@@ -215,15 +215,17 @@ int main( int argc, char** argv )
             rec.height = cvRound(rec.height*0.8);
             rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
-            //try running Toby's example python code on my video files
-
             Point2f center(rec.width*0.5f, rec.height*0.5f);
 
-            KF.correct(Mat (center)); //for rectangle, expand state vector to 4 dimensions, store top left corner(2D) or centre, width and height, maybe also velocity
+            //for rectangle, expand state vector to 4 dimensions,store top left corner(2D) or centre, width and height, maybe also velocity
+            
+            KF.correct(Mat (center)); 
 
             Mat prediction = KF.predict();
+            Point predictPt(prediction.at<float>(0),prediction.at<float>(1));
 
-            //std::cout << prediction;
+            KF.statePre.copyTo(KF.statePost);
+            KF.errorCovPre.copyTo(KF.errorCovPost);
 
             //rectangle(img, rec.tl(), rec.br(), cv::Scalar(255,0,0), 3);
           } 
