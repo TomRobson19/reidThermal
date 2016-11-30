@@ -87,8 +87,8 @@ int main( int argc, char** argv )
 
     KalmanFilter KF(4,2,0); //(6,4) for the next step
     Mat state(4, 1, CV_32F); /* (phi, delta_phi) */
-    Mat processNoise(2, 1, CV_32F);
-    Mat measurement = Mat::zeros(1, 1, CV_32F);
+    Mat processNoise(4, 1, CV_32F);
+    Mat measurement = Mat::zeros(2, 1, CV_32F);
 
     randn( state, Scalar::all(0), Scalar::all(0.1) );
     //KF.transitionMatrix = (Mat_<float>(2, 2) << 1, 1, 0, 1);
