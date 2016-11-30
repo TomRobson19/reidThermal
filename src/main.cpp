@@ -26,6 +26,13 @@ using namespace ml;
 
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
 #define SVM_TO_USE "classifiers/peopleir_lap.svm"
+#define drawCross( center, color, d )                                        \
+                line( img, Point( center.x - d, center.y - d ),                          \
+                             Point( center.x + d, center.y + d ), color, 1, LINE_AA, 0); \
+                line( img, Point( center.x + d, center.y - d ),                          \
+                             Point( center.x - d, center.y + d ), color, 1, LINE_AA, 0 )
+
+
 
 /******************************************************************************/
 
@@ -229,8 +236,8 @@ int main( int argc, char** argv )
             KF.statePre.copyTo(KF.statePost);
             KF.errorCovPre.copyTo(KF.errorCovPost);
 
+            //drawCross(predictPt, Scalar(255, 0, 0), 1);  //DON'T GET THIS YET
 
-            
 
             //rectangle(img, rec.tl(), rec.br(), cv::Scalar(255,0,0), 3);
           } 

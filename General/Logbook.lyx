@@ -307,11 +307,23 @@ Week 8
 \end_layout
 
 \begin_layout Itemize
-Did more research on Kalman filter and Hungarian algorithm 
+Did more research on Kalman filter and Hungarian algorithm (sent email about
+ code from 
+\begin_inset CommandInset href
+LatexCommand href
+target "https://www.youtube.com/watch?v=XN8GPu5TTLI"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
 Tried many implementations, unsuccessful (spent lots of time)
+\end_layout
+
+\begin_layout Itemize
+Now compiles, working on draw cross to determine if it is correct.
 \end_layout
 
 \end_body
