@@ -78,13 +78,15 @@ int main( int argc, char** argv )
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
 
-    KalmanFilter KF(4,2); //(6,4) for the next step
-    Mat state(2, 1, CV_32F); /* (phi, delta_phi) */
+    KalmanFilter KF(4,2,0); //(6,4) for the next step
+    Mat state(4, 1, CV_32F); /* (phi, delta_phi) */
     Mat processNoise(2, 1, CV_32F);
     Mat measurement = Mat::zeros(1, 1, CV_32F);
 
     randn( state, Scalar::all(0), Scalar::all(0.1) );
-    KF.transitionMatrix = (Mat_<float>(2, 2) << 1, 1, 0, 1);
+    //KF.transitionMatrix = (Mat_<float>(2, 2) << 1, 1, 0, 1);
+    KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,   0,1,0,1,  0,0,1,0,  0,0,0,1;  
+
 
     //setting to identity matrix - opencv function
     //try printing this out
@@ -226,6 +228,9 @@ int main( int argc, char** argv )
 
             KF.statePre.copyTo(KF.statePost);
             KF.errorCovPre.copyTo(KF.errorCovPost);
+
+
+            
 
             //rectangle(img, rec.tl(), rec.br(), cv::Scalar(255,0,0), 3);
           } 
