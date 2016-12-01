@@ -288,6 +288,7 @@ int main( int argc, char** argv )
 
             p = kalmanPredict();
 
+            drawCross(p, Scalar(255, 255, 255), 5);
 
             cout << "correct" << s << '\n';  
             cout << "predict" << p << '\n';  
