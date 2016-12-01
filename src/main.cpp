@@ -99,10 +99,10 @@ int main( int argc, char** argv )
     //try printing this out
     setIdentity(KF.measurementMatrix);
     setIdentity(KF.processNoiseCov, Scalar::all(1e-5)); //creates scalar mat object with all entries 1e-5
-    setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-    setIdentity(KF.errorCovPost, Scalar::all(1));
+    //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+    //setIdentity(KF.errorCovPost, Scalar::all(1));
 
-    randn(KF.statePost, Scalar::all(0), Scalar::all(0.1));
+    //randn(KF.statePost, Scalar::all(0), Scalar::all(0.1));
 
     // start main loop
 
@@ -224,19 +224,23 @@ int main( int argc, char** argv )
             rec.height = cvRound(rec.height*0.8);
             rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
-            Point2f center(rec.width*0.5f, rec.height*0.5f);
+            Point2f center = Point2f(float(rec.x + rec.width)/2.0, float(rec.y + rec.height)/2.0);
 
             //for rectangle, expand state vector to 4 dimensions,store top left corner(2D) or centre, width and height, maybe also velocity
             
-            KF.correct(Mat (center)); 
+            KF.correct(Mat(center)); 
+
+            cout << Mat(center) << '\n';  
 
             Mat prediction = KF.predict();
-            Point predictPt(prediction.at<float>(0),prediction.at<float>(1));
+            Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
 
-            KF.statePre.copyTo(KF.statePost);
-            KF.errorCovPre.copyTo(KF.errorCovPost);
+            //KF.statePre.copyTo(KF.statePost);
+            //KF.errorCovPre.copyTo(KF.errorCovPost);
 
-            //drawCross(predictPt, Scalar(255, 0, 0), 1);  //DON'T GET THIS YET
+            cout << prediction << '\n';
+
+            drawCross(predictPt, Scalar(0, 255, 0), 5);  
 
 
             //rectangle(img, rec.tl(), rec.br(), cv::Scalar(255,0,0), 3);
