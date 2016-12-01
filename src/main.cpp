@@ -36,6 +36,60 @@ using namespace ml;
 
 /******************************************************************************/
 
+cv::KalmanFilter KF;
+cv::Mat_<float> measurement(2,1); 
+Mat_<float> state(4, 1); // (x, y, Vx, Vy)
+int incr=0;
+
+void initKalman(float x, float y)
+{
+    // Instantate Kalman Filter with
+    // 4 dynamic parameters and 2 measurement parameters,
+    // where my measurement is: 2D location of object,
+    // and dynamic is: 2D location and 2D velocity.
+    KF.init(4, 2, 0);
+
+    measurement = Mat_<float>::zeros(2,1);
+    measurement.at<float>(0, 0) = x;
+    measurement.at<float>(0, 0) = y;
+
+
+    KF.statePre.setTo(0);
+    KF.statePre.at<float>(0, 0) = x;
+    KF.statePre.at<float>(1, 0) = y;
+
+    KF.statePost.setTo(0);
+    KF.statePost.at<float>(0, 0) = x;
+    KF.statePost.at<float>(1, 0) = y; 
+
+    setIdentity(KF.transitionMatrix);
+    setIdentity(KF.measurementMatrix);
+    setIdentity(KF.processNoiseCov, Scalar::all(.005)); //adjust this for faster convergence - but higher noise
+    setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+    setIdentity(KF.errorCovPost, Scalar::all(.1));
+}
+
+Point kalmanPredict() 
+{
+    Mat prediction = KF.predict();
+    Point predictPt(prediction.at<float>(0),prediction.at<float>(1));
+
+    KF.statePre.copyTo(KF.statePost);
+    KF.errorCovPre.copyTo(KF.errorCovPost);
+
+    return predictPt;
+}
+
+Point kalmanCorrect(float x, float y)
+{
+    measurement(0) = x;
+    measurement(1) = y;
+    Mat estimated = KF.correct(measurement);
+    Point statePt(estimated.at<float>(0),estimated.at<float>(1));
+    return statePt;
+}
+
+
 int main( int argc, char** argv )
 {
 
@@ -84,25 +138,26 @@ int main( int argc, char** argv )
 
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
+    initKalman(0,0);
 
-    KalmanFilter KF(4,2,0); //(6,4) for the next step
-    Mat state(4, 1, CV_32F); /* (phi, delta_phi) */
-    Mat processNoise(4, 1, CV_32F);
-    Mat measurement = Mat::zeros(2, 1, CV_32F);
+    // KalmanFilter KF(4,2,0); //(6,4) for the next step
+    // Mat state(4, 1, CV_32F); /* (phi, delta_phi) */
+    // Mat processNoise(4, 1, CV_32F);
+    // Mat measurement = Mat::zeros(2, 1, CV_32F);
 
-    randn( state, Scalar::all(0), Scalar::all(0.1) );
-    //KF.transitionMatrix = (Mat_<float>(2, 2) << 1, 1, 0, 1);
-    KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,   0,1,0,1,  0,0,1,0,  0,0,0,1;  
+    // randn( state, Scalar::all(0), Scalar::all(0.1) );
+    // //KF.transitionMatrix = (Mat_<float>(2, 2) << 1, 1, 0, 1);
+    // KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,   0,1,0,1,  0,0,1,0,  0,0,0,1;  
 
 
-    //setting to identity matrix - opencv function
-    //try printing this out
-    setIdentity(KF.measurementMatrix);
-    setIdentity(KF.processNoiseCov, Scalar::all(1e-5)); //creates scalar mat object with all entries 1e-5
-    //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-    //setIdentity(KF.errorCovPost, Scalar::all(1));
+    // //setting to identity matrix - opencv function
+    // //try printing this out
+    // setIdentity(KF.measurementMatrix);
+    // setIdentity(KF.processNoiseCov, Scalar::all(1e-5)); //creates scalar mat object with all entries 1e-5
+    // //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+    // //setIdentity(KF.errorCovPost, Scalar::all(1));
 
-    //randn(KF.statePost, Scalar::all(0), Scalar::all(0.1));
+    // //randn(KF.statePost, Scalar::all(0), Scalar::all(0.1));
 
     // start main loop
 
@@ -227,20 +282,31 @@ int main( int argc, char** argv )
             Point2f center = Point2f(float(rec.x + rec.width)/2.0, float(rec.y + rec.height)/2.0);
 
             //for rectangle, expand state vector to 4 dimensions,store top left corner(2D) or centre, width and height, maybe also velocity
-            
-            KF.correct(Mat(center)); 
+            Point s,p;
 
-            cout << Mat(center) << '\n';  
+            s = kalmanCorrect(center.x,center.y);
 
-            Mat prediction = KF.predict();
-            Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
+            p = kalmanPredict();
 
-            //KF.statePre.copyTo(KF.statePost);
-            //KF.errorCovPre.copyTo(KF.errorCovPost);
 
-            cout << prediction << '\n';
+            cout << "correct" << s << '\n';  
+            cout << "predict" << p << '\n';  
 
-            drawCross(predictPt, Scalar(0, 255, 0), 5);  
+
+            // KF.correct(Mat(center)); 
+
+            // cout << Mat(center) << '\n';  
+
+            // Mat prediction = KF.predict();
+
+            // Point2f predictPt(prediction.at<float>(0.0),prediction.at<float>(1.0));
+
+            // //KF.statePre.copyTo(KF.statePost);
+            // //KF.errorCovPre.copyTo(KF.errorCovPost);
+
+            // cout << prediction << '\n';
+
+            // drawCross(predictPt, Scalar(0, 255, 0), 5);  
 
 
             //rectangle(img, rec.tl(), rec.br(), cv::Scalar(255,0,0), 3);

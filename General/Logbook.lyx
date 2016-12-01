@@ -334,5 +334,16 @@ Had type error with float conversion, now fixed
 prediction matrix still not right
 \end_layout
 
+\begin_layout Itemize
+Fixed issue using code from 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://stackoverflow.com/questions/25494595/multiple-object-tracking-with-kalman-filter"
+
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document
