@@ -326,5 +326,13 @@ Tried many implementations, unsuccessful (spent lots of time)
 Now compiles, working on draw cross to determine if it is correct.
 \end_layout
 
+\begin_layout Itemize
+Had type error with float conversion, now fixed
+\end_layout
+
+\begin_layout Itemize
+prediction matrix still not right
+\end_layout
+
 \end_body
 \end_document
