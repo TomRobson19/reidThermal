@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named toby
+
+# Build rule for target.
+toby: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 toby
+.PHONY : toby
+
+# fast build rule for target.
+toby/fast:
+	$(MAKE) -f CMakeFiles/toby.dir/build.make CMakeFiles/toby.dir/build
+.PHONY : toby/fast
+
+#=============================================================================
 # Target rules for targets named main
 
 # Build rule for target.
@@ -150,6 +163,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+toby.o: toby.cpp.o
+
+.PHONY : toby.o
+
+# target to build an object file
+toby.cpp.o:
+	$(MAKE) -f CMakeFiles/toby.dir/build.make CMakeFiles/toby.dir/toby.cpp.o
+.PHONY : toby.cpp.o
+
+toby.i: toby.cpp.i
+
+.PHONY : toby.i
+
+# target to preprocess a source file
+toby.cpp.i:
+	$(MAKE) -f CMakeFiles/toby.dir/build.make CMakeFiles/toby.dir/toby.cpp.i
+.PHONY : toby.cpp.i
+
+toby.s: toby.cpp.s
+
+.PHONY : toby.s
+
+# target to generate assembly for a file
+toby.cpp.s:
+	$(MAKE) -f CMakeFiles/toby.dir/build.make CMakeFiles/toby.dir/toby.cpp.s
+.PHONY : toby.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -157,11 +197,15 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
+	@echo "... toby"
 	@echo "... edit_cache"
 	@echo "... main"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... toby.o"
+	@echo "... toby.i"
+	@echo "... toby.s"
 .PHONY : help
 
 

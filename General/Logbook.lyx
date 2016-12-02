@@ -342,7 +342,16 @@ target "http://stackoverflow.com/questions/25494595/multiple-object-tracking-wit
 
 \end_inset
 
+, still not right
+\end_layout
 
+\begin_layout Itemize
+starts at 0,0 and too slow to correct to real position
+\end_layout
+
+\begin_layout Itemize
+Tried directly converting Toby's python code but so far has previous gemm
+ error.
 \end_layout
 
 \end_body
