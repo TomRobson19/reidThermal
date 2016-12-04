@@ -120,7 +120,7 @@ int main( int argc, char** argv )
   {
     // create window object (use flag=0 to allow resize, 1 to auto fix size)
 
-    namedWindow(windowName, 0);
+    namedWindow(windowName, 1);
     //namedWindow(windowNameF, 0);
     //namedWindow(windowNameB, 0);
 
