@@ -41,6 +41,8 @@ cv::Mat_<float> measurement(2,1);
 Mat_<float> state(4, 1); // (x, y, Vx, Vy)
 int incr=0;
 
+int initialised = 0;
+
 void initKalman(float x, float y)
 {
     // Instantate Kalman Filter with
@@ -107,8 +109,8 @@ int main( int argc, char** argv )
   vector<Vec4i> hierarchy;
   int width = 40;
   int height = 100;
-  int learning = 2000;
-  int padding = 75; // pad extracted objects by 75%
+  int learning = 3000;
+  int padding = 50; // pad extracted objects by 75%
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
@@ -137,7 +139,7 @@ int main( int argc, char** argv )
 
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
-    initKalman(0,0);
+    //initKalman(0,0);
 
     // KalmanFilter KF(4,2,0); //(6,4) for the next step
     // Mat state(4, 1, CV_32F); /* (phi, delta_phi) */
@@ -238,7 +240,7 @@ int main( int argc, char** argv )
 
           Mat roi = img(r);
 
-          int method = 1; //0 for Hog, 1 for cascade
+          int method = 0; //0 for Hog, 1 for cascade
 
           if (method == 0)
           {
@@ -247,6 +249,7 @@ int main( int argc, char** argv )
           }
           else 
           {
+            //cascade doesn't give the right center values to the Kalman filter
             cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
           }
           for(size_t i = 0; i < found.size(); i++ )
@@ -278,9 +281,15 @@ int main( int argc, char** argv )
             rec.height = cvRound(rec.height*0.8);
             rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
-            Point2f center = Point2f(float(rec.x + rec.width)/2.0, float(rec.y + rec.height)/2.0);
+            Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
             //for rectangle, expand state vector to 4 dimensions,store top left corner(2D) or center, width and height, maybe also velocity
+
+            if (initialised == 0)
+            {
+              initKalman(center.x,center.y);
+              initialised = 1;
+            }
 
             Point2f s = kalmanCorrect(center.x,center.y);
 

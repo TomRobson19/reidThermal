@@ -182,7 +182,7 @@ int main( int argc, char** argv )
 
           Mat roi = img(r);
 
-          int method = 1; //0 for Hog, 1 for cascade
+          int method = 0; //0 for Hog, 1 for cascade
 
           if (method == 0)
           {

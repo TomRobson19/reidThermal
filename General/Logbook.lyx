@@ -354,5 +354,9 @@ Tried directly converting Toby's python code but so far has previous gemm
  error.
 \end_layout
 
+\begin_layout Itemize
+Made more progress on Kalman, was a problem with the Cascade classifier
+\end_layout
+
 \end_body
 \end_document
