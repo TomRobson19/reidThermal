@@ -1,11 +1,3 @@
-// Example : background / foreground separation of video / camera
-// usage: prog {<video_name>}
-
-// Author : Toby Breckon, toby.breckon@cranfield.ac.uk
-
-// Copyright (c) 2012 School of Engineering, Cranfield University
-// License : LGPL - http://www.gnu.org/licenses/lgpl.html
-
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
@@ -300,25 +292,6 @@ int main( int argc, char** argv )
             cout << "center" << center << '\n';  
             cout << "correct" << s << '\n';  
             cout << "predict" << p << '\n';  
-
-
-            // KF.correct(Mat(center)); 
-
-            // cout << Mat(center) << '\n';  
-
-            // Mat prediction = KF.predict();
-
-            // Point2f predictPt(prediction.at<float>(0.0),prediction.at<float>(1.0));
-
-            // //KF.statePre.copyTo(KF.statePost);
-            // //KF.errorCovPre.copyTo(KF.errorCovPost);
-
-            // cout << prediction << '\n';
-
-            // drawCross(predictPt, Scalar(0, 255, 0), 5);  
-
-
-            //rectangle(img, rec.tl(), rec.br(), cv::Scalar(255,0,0), 3);
           } 
 
 
