@@ -22,7 +22,7 @@ using namespace ml;
                 line( img, Point2f( center.x - d, center.y - d ),                          \
                              Point2f( center.x + d, center.y + d ), color, 1, LINE_AA, 0); \
                 line( img, Point2f( center.x + d, center.y - d ),                          \
-                             Point2f( center.x - d, center.y + d ), color, 1, LINE_AA, 0 )
+                             Point2f( center.x - d, center.y + d ), color, 1, LINE_AA, 0);
 
 
 
@@ -58,7 +58,7 @@ void initKalman(float x, float y)
 
     setIdentity(KF.transitionMatrix);
     setIdentity(KF.measurementMatrix);
-    setIdentity(KF.processNoiseCov, Scalar::all(.005)); //adjust this for faster convergence - but higher noise
+    setIdentity(KF.processNoiseCov, Scalar::all(.5)); //adjust this for faster convergence - but higher noise
     //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
     //setIdentity(KF.errorCovPost, Scalar::all(.1));
 }
@@ -130,27 +130,6 @@ int main( int argc, char** argv )
     //namedWindow("people detector", 1);
 
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
-
-    //initKalman(0,0);
-
-    // KalmanFilter KF(4,2,0); //(6,4) for the next step
-    // Mat state(4, 1, CV_32F); /* (phi, delta_phi) */
-    // Mat processNoise(4, 1, CV_32F);
-    // Mat measurement = Mat::zeros(2, 1, CV_32F);
-
-    // randn( state, Scalar::all(0), Scalar::all(0.1) );
-    // //KF.transitionMatrix = (Mat_<float>(2, 2) << 1, 1, 0, 1);
-    // KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,   0,1,0,1,  0,0,1,0,  0,0,0,1;  
-
-
-    // //setting to identity matrix - opencv function
-    // //try printing this out
-    // setIdentity(KF.measurementMatrix);
-    // setIdentity(KF.processNoiseCov, Scalar::all(1e-5)); //creates scalar mat object with all entries 1e-5
-    // //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-    // //setIdentity(KF.errorCovPost, Scalar::all(1));
-
-    // //randn(KF.statePost, Scalar::all(0), Scalar::all(0.1));
 
     // start main loop
 

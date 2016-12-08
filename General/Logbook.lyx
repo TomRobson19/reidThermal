@@ -368,5 +368,9 @@ Kalman now works, but lags behind fast moving targets and does not work
  
 \end_layout
 
+\begin_layout Itemize
+Begun work on Design Report
+\end_layout
+
 \end_body
 \end_document
