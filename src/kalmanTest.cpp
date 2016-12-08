@@ -29,11 +29,13 @@ using namespace ml;
 /******************************************************************************/
 
 cv::KalmanFilter KF;
-cv::Mat_<float> measurement(2,1); 
-Mat_<float> state(4, 1); // (x, y, Vx, Vy)
+cv::Mat_<float> measurement(6,1); 
+Mat_<float> state(6, 1); // (x, y, Vx, Vy)
 int incr=0;
 
 int initialised = 0;
+
+int timeSteps = 0;
 
 void initKalman(float x, float y)
 {
@@ -46,7 +48,7 @@ void initKalman(float x, float y)
     //position(x,y) velocity(x,y) rectangle(h,w)
     
 
-    measurement = Mat_<float>::zeros(2,1);
+    measurement = Mat_<float>::zeros(6,1);
     //measurement.at<float>(0, 0) = x;
     //measurement.at<float>(1, 0) = y;
 
@@ -60,17 +62,24 @@ void initKalman(float x, float y)
     KF.statePost.at<float>(1, 0) = y; 
 
     //setIdentity(KF.transitionMatrix); 
-    KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,0,0,   0,1,0,1,0,0,  0,0,1,0,0,0,  0,0,0,1,0,0,  0,0,0,0,0,1,  0,0,0,0,0,1;  
+    KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,0,0,   0,1,0,1,0,0,  0,0,1,0,0,0,  0,0,0,1,0,0,  0,0,0,0,1,0,  0,0,0,0,0,1;  
     setIdentity(KF.measurementMatrix);
     setIdentity(KF.processNoiseCov, Scalar::all(1)); //adjust this for faster convergence - but higher noise
     //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
     //setIdentity(KF.errorCovPost, Scalar::all(.1));
 }
 
-Point2f kalmanCorrect(float x, float y)
+Point2f kalmanCorrect(float x, float y,int timeSteps, float w, float h)
 {
+    float currentX = measurement(0);
+    float currentY = measurement(1);
+
     measurement(0) = x;
     measurement(1) = y;
+    measurement(2) = (x - currentX)/timeSteps;
+    measurement(3) = (y - currentY)/timeSteps;
+    measurement(4) = w;
+    measurement(5) = h;
     Mat estimated = KF.correct(Mat(Point2f(x,y)));
     Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
     return statePt;
@@ -266,7 +275,7 @@ int main( int argc, char** argv )
               initialised = 1;
             }
 
-            Point2f s = kalmanCorrect(center.x,center.y);
+            Point2f s = kalmanCorrect(center.x,center.y,timeSteps,rec.width,rec.height);
 
             Point2f p = kalmanPredict();
 
@@ -306,6 +315,7 @@ int main( int argc, char** argv )
 			  		  << std::endl;
    			keepProcessing = false;
 		  }
+      timeSteps += 1;
 	  }
 
 	  // the camera will be deinitialized automatically in VideoCapture destructor
