@@ -60,7 +60,7 @@ void initKalman(float x, float y)
     KF.statePost.at<float>(1, 0) = y; 
 
     //setIdentity(KF.transitionMatrix); 
-    KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,   0,1,0,1,  0,0,1,0,  0,0,0,1;  
+    KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,0,0,   0,1,0,1,0,0,  0,0,1,0,0,0,  0,0,0,1,0,0,  0,0,0,0,0,1,  0,0,0,0,0,1;  
     setIdentity(KF.measurementMatrix);
     setIdentity(KF.processNoiseCov, Scalar::all(1)); //adjust this for faster convergence - but higher noise
     //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
