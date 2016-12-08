@@ -41,7 +41,10 @@ void initKalman(float x, float y)
     // 4 dynamic parameters and 2 measurement parameters,
     // where my measurement is: 2D location of object,
     // and dynamic is: 2D location and 2D velocity.
-    KF.init(4, 2, 0);
+    KF.init(6, 6, 0);
+
+    //position(x,y) velocity(x,y) rectangle(h,w)
+    
 
     measurement = Mat_<float>::zeros(2,1);
     //measurement.at<float>(0, 0) = x;

@@ -3,6 +3,10 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\usepackage {url}
+\usepackage [numbers]{natbib}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -370,6 +374,56 @@ Kalman now works, but lags behind fast moving targets and does not work
 
 \begin_layout Itemize
 Begun work on Design Report
+\end_layout
+
+\begin_layout Itemize
+Learnt how BibTex works and how to integrate with Lyx
+\end_layout
+
+\begin_layout Itemize
+Need to store velocity and rectangle width/height in kalman as per photograph
+ of whiteboard
+\end_layout
+
+\begin_layout Itemize
+NEED TO IMPLEMENT TIME STEP COUNTER (in while loop)
+\end_layout
+
+\begin_layout Itemize
+Need functions to determine if bounding box is near to edge (if center within
+ 5 pixels of edge), therefore it has left, or if it hasn't been seen for
+ a while assume it has left
+\end_layout
+
+\begin_layout Itemize
+Been sent background subtraction code for parameters, too complex to directly
+ integrate.
+\end_layout
+
+\begin_layout Itemize
+Make each target as an object, plot last n tracking points to create lines
+\end_layout
+
+\begin_layout Itemize
+Have array of targets with associated Kalman etc
+\end_layout
+
+\begin_layout Itemize
+Remember the last time counter where target was spotted, if too big then
+ assume it has left
+\end_layout
+
+\begin_layout Itemize
+NEED TO UPDATE MENDELEY, REMOVE STUFF NOT USED AT ALL, UPDATE WITH CORRECT
+ PUBLICATIONS, DATES ETC
+\end_layout
+
+\begin_layout Section*
+Week 10
+\end_layout
+
+\begin_layout Section*
+Christmas Holidays
 \end_layout
 
 \end_body

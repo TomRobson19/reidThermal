@@ -80,6 +80,10 @@
 \begin_body
 
 \begin_layout Title
+Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery
+\end_layout
+
+\begin_layout Title
 Design Report 
 \end_layout
 
@@ -137,6 +141,52 @@ Method
 
 \series bold
 Proposed Solution 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Abstract
+These instructions give you guidelines for preparing the design paper.
+ DO NOT change any settings, such as margins and font sizes.
+ Just use this as a template and modify the contents into your design paper.
+ Do not cite references in the abstract.
+\end_layout
+
+\begin_layout Abstract
+The abstract must be a Structured Abstract with the headings 
+\series bold
+Context/Background
+\series default
+, 
+\series bold
+Aims
+\series default
+, 
+\series bold
+Method
+\series default
+, and 
+\series bold
+Proposed Solution
+\series default
+.
+ This section should not be no longer than a page, and having no more than
+ two or three sentences under each heading is advised.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -330,6 +380,7 @@ citeyear{futher}
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
+btprint "btPrintAll"
 bibfiles "My Collection"
 options "bibtotoc,default"
 
