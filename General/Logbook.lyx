@@ -414,12 +414,16 @@ Remember the last time counter where target was spotted, if too big then
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 NEED TO UPDATE MENDELEY, REMOVE STUFF NOT USED AT ALL, UPDATE WITH CORRECT
  PUBLICATIONS, DATES ETC
 \end_layout
 
 \begin_layout Itemize
-Design Report - ASK TOBY IF HE IS WILLING TO READ DRAFTS
+Design Report - 
+\series bold
+ASK TOBY IF HE IS WILLING TO READ DRAFTS OVER HOLIDAYS
 \end_layout
 
 \begin_deeper
@@ -441,13 +445,14 @@ Templates on DUO of previous Design Reports (not necessarily the best!)
 \end_layout
 
 \begin_layout Itemize
-3 Parts - 12 pages MAX, can be less (Does this include references?)
+3 Parts - 12 pages MAX, can be less (includes references, only include the
+ references that I really need)
 \end_layout
 
 \begin_deeper
 \begin_layout Itemize
-Structured Abstract (1 page) - Covered in workshops before, look at slides
- - Keywords needed (10%)
+Structured Abstract (1 page) - (Covered in workshops before, look at slides
+ - Keywords needed) (10%)
 \end_layout
 
 \begin_layout Itemize
@@ -513,7 +518,11 @@ Possible outline in workshop slides
 \end_layout
 
 \begin_layout Itemize
-Finish on conclusion slide to influence questions
+Finish on conclusion/summary slide to influence questions
+\end_layout
+
+\begin_layout Itemize
+References not really necessary, maybe have the slide but don't show it
 \end_layout
 
 \end_deeper

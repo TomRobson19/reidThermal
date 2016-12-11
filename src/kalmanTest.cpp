@@ -30,14 +30,16 @@ using namespace ml;
 
 cv::KalmanFilter KF;
 cv::Mat_<float> measurement(6,1); 
-Mat_<float> state(6, 1); // (x, y, Vx, Vy)
-int incr=0;
+Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
 
+//initialise kalman when first encounter object
 int initialised = 0;
 
+//enable velocity 
 int timeSteps = 0;
+int lastSeen = 0;
 
-void initKalman(float x, float y)
+void initKalman(float x, float y, float w, float h)
 {
     // Instantate Kalman Filter with
     // 4 dynamic parameters and 2 measurement parameters,
@@ -48,40 +50,67 @@ void initKalman(float x, float y)
     //position(x,y) velocity(x,y) rectangle(h,w)
     
 
-    measurement = Mat_<float>::zeros(6,1);
-    //measurement.at<float>(0, 0) = x;
-    //measurement.at<float>(1, 0) = y;
+    // measurement = Mat_<float>::zeros(6,1);
+    // measurement.at<float>(0, 0) = x;
+    // measurement.at<float>(1, 0) = y;
 
 
     KF.statePre.setTo(0);
     KF.statePre.at<float>(0, 0) = x;
     KF.statePre.at<float>(1, 0) = y;
+    KF.statePre.at<float>(2, 0) = 0;
+    KF.statePre.at<float>(3, 0) = 0;
+    KF.statePre.at<float>(4, 0) = w;
+    KF.statePre.at<float>(5, 0) = h;
 
     KF.statePost.setTo(0);
     KF.statePost.at<float>(0, 0) = x;
     KF.statePost.at<float>(1, 0) = y; 
+    KF.statePost.at<float>(2, 0) = 0;
+    KF.statePost.at<float>(3, 0) = 0;
+    KF.statePost.at<float>(4, 0) = w;
+    KF.statePost.at<float>(5, 0) = h;
 
     //setIdentity(KF.transitionMatrix); 
-    KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,0,0,   0,1,0,1,0,0,  0,0,1,0,0,0,  0,0,0,1,0,0,  0,0,0,0,1,0,  0,0,0,0,0,1;  
+    KF.transitionMatrix = Mat_<float>(6, 6) << 1,0,1,0,0,0,   0,1,0,1,0,0,  0,0,1,0,0,0,  0,0,0,1,0,0,  0,0,0,0,1,0,  0,0,0,0,0,1;  
     setIdentity(KF.measurementMatrix);
     setIdentity(KF.processNoiseCov, Scalar::all(1)); //adjust this for faster convergence - but higher noise
-    //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-    //setIdentity(KF.errorCovPost, Scalar::all(.1));
+    setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+    setIdentity(KF.errorCovPost, Scalar::all(.1));
+
+    lastSeen = timeSteps;
 }
 
-Point2f kalmanCorrect(float x, float y,int timeSteps, float w, float h)
+Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
 {
     float currentX = measurement(0);
     float currentY = measurement(1);
 
+    int timeGap = timeSteps-lastSeen;
+
+    if(timeGap == 0)
+    {
+      timeGap = 1;
+    }
+
+    printf("%d\n", timeGap);
+
     measurement(0) = x;
     measurement(1) = y;
-    measurement(2) = (x - currentX)/timeSteps;
-    measurement(3) = (y - currentY)/timeSteps;
+    measurement(2) = (x - currentX)/timeGap;
+    measurement(3) = (y - currentY)/timeGap;
     measurement(4) = w;
     measurement(5) = h;
-    Mat estimated = KF.correct(Mat(Point2f(x,y)));
+
+    cout << 'm' << measurement << '\n';
+
+    Mat estimated = KF.correct(measurement);
+
+    cout << 'e' << estimated << '\n';
+
     Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
+
+    lastSeen = timeSteps;
     return statePt;
 }
 
@@ -271,19 +300,23 @@ int main( int argc, char** argv )
 
             if (initialised == 0)
             {
-              initKalman(center.x,center.y);
+              initKalman(center.x,center.y,rec.width,rec.height);
               initialised = 1;
             }
+            else
+            {
+              Point2f s = kalmanCorrect(center.x,center.y,timeSteps,rec.width,rec.height);
 
-            Point2f s = kalmanCorrect(center.x,center.y,timeSteps,rec.width,rec.height);
+              Point2f p = kalmanPredict();
 
-            Point2f p = kalmanPredict();
+              drawCross(p, Scalar(255,0,0), 5);
 
-            drawCross(p, Scalar(255,0,0), 5);
+              cout << "center" << center << '\n';  
+              cout << "correct" << s << '\n';  
+              cout << "predict" << p << '\n'; 
+            }
 
-            cout << "center" << center << '\n';  
-            cout << "correct" << s << '\n';  
-            cout << "predict" << p << '\n';  
+             
           } 
 
 

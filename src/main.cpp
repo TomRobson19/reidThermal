@@ -43,7 +43,7 @@ void initKalman(float x, float y)
     // and dynamic is: 2D location and 2D velocity.
     KF.init(4, 2, 0);
 
-    measurement = Mat_<float>::zeros(2,1);
+    //measurement = Mat_<float>::zeros(2,1);
     //measurement.at<float>(0, 0) = x;
     //measurement.at<float>(1, 0) = y;
 
@@ -56,19 +56,19 @@ void initKalman(float x, float y)
     KF.statePost.at<float>(0, 0) = x;
     KF.statePost.at<float>(1, 0) = y; 
 
-    setIdentity(KF.transitionMatrix); 
+    setIdentity(KF.transitionMatrix); //ignores velocity
     //KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,   0,1,0,1,  0,0,1,0,  0,0,0,1;  
     setIdentity(KF.measurementMatrix);
     setIdentity(KF.processNoiseCov, Scalar::all(1)); //adjust this for faster convergence - but higher noise
-    //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-    //setIdentity(KF.errorCovPost, Scalar::all(.1));
+    setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+    setIdentity(KF.errorCovPost, Scalar::all(.1));
 }
 
 Point2f kalmanCorrect(float x, float y)
 {
     measurement(0) = x;
     measurement(1) = y;
-    Mat estimated = KF.correct(Mat(Point2f(x,y)));
+    Mat estimated = KF.correct(measurement);
     Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
     return statePt;
 }
@@ -269,6 +269,7 @@ int main( int argc, char** argv )
 
             drawCross(p, Scalar(255,0,0), 5);
 
+            //cout << "statepre" << KF.statePre <<'\n';
             cout << "center" << center << '\n';  
             cout << "correct" << s << '\n';  
             cout << "predict" << p << '\n';  

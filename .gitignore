@@ -16,3 +16,4 @@ Examples/*
 General/*
 !General/*.lyx
 !General/*.tex
+!General/.*.sty

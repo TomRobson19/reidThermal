@@ -381,7 +381,7 @@ citeyear{futher}
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 btprint "btPrintAll"
-bibfiles "My Collection"
+bibfiles "library"
 options "bibtotoc,default"
 
 \end_inset
