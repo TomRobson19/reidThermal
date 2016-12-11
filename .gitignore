@@ -4,7 +4,7 @@ src/CMakeFiles/
 src/CMakeCache.txt
 src/cmake_install.cmake
 src/main
-src/toby
+src/kalmanTest
 
 CMakeFiles/
 CMakeCache.txt
