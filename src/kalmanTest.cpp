@@ -41,88 +41,89 @@ int lastSeen = 0;
 
 void initKalman(float x, float y, float w, float h)
 {
-    // Instantate Kalman Filter with
-    // 4 dynamic parameters and 2 measurement parameters,
-    // where my measurement is: 2D location of object,
-    // and dynamic is: 2D location and 2D velocity.
-    KF.init(6, 6, 0);
+  // Instantate Kalman Filter with
+  // 4 dynamic parameters and 2 measurement parameters,
+  // where my measurement is: 2D location of object,
+  // and dynamic is: 2D location and 2D velocity.
+  KF.init(6, 6, 0);
 
-    //position(x,y) velocity(x,y) rectangle(h,w)
-    
+  //position(x,y) velocity(x,y) rectangle(h,w)
+  
 
-    // measurement = Mat_<float>::zeros(6,1);
-    // measurement.at<float>(0, 0) = x;
-    // measurement.at<float>(1, 0) = y;
+  // measurement = Mat_<float>::zeros(6,1);
+  // measurement.at<float>(0, 0) = x;
+  // measurement.at<float>(1, 0) = y;
 
 
-    KF.statePre.setTo(0);
-    KF.statePre.at<float>(0, 0) = x;
-    KF.statePre.at<float>(1, 0) = y;
-    KF.statePre.at<float>(2, 0) = 0;
-    KF.statePre.at<float>(3, 0) = 0;
-    KF.statePre.at<float>(4, 0) = w;
-    KF.statePre.at<float>(5, 0) = h;
+  KF.statePre.setTo(0);
+  KF.statePre.at<float>(0, 0) = x;
+  KF.statePre.at<float>(1, 0) = y;
+  KF.statePre.at<float>(2, 0) = 0.0;
+  KF.statePre.at<float>(3, 0) = 0.0;
+  KF.statePre.at<float>(4, 0) = w;
+  KF.statePre.at<float>(5, 0) = h;
 
-    KF.statePost.setTo(0);
-    KF.statePost.at<float>(0, 0) = x;
-    KF.statePost.at<float>(1, 0) = y; 
-    KF.statePost.at<float>(2, 0) = 0;
-    KF.statePost.at<float>(3, 0) = 0;
-    KF.statePost.at<float>(4, 0) = w;
-    KF.statePost.at<float>(5, 0) = h;
+  KF.statePost.setTo(0);
+  KF.statePost.at<float>(0, 0) = x;
+  KF.statePost.at<float>(1, 0) = y; 
+  KF.statePost.at<float>(2, 0) = 0.0;
+  KF.statePost.at<float>(3, 0) = 0.0;
+  KF.statePost.at<float>(4, 0) = w;
+  KF.statePost.at<float>(5, 0) = h;
 
-    //setIdentity(KF.transitionMatrix); 
-    KF.transitionMatrix = Mat_<float>(6, 6) << 1,0,1,0,0,0,   0,1,0,1,0,0,  0,0,1,0,0,0,  0,0,0,1,0,0,  0,0,0,0,1,0,  0,0,0,0,0,1;  
-    setIdentity(KF.measurementMatrix);
-    setIdentity(KF.processNoiseCov, Scalar::all(1)); //adjust this for faster convergence - but higher noise
-    setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-    setIdentity(KF.errorCovPost, Scalar::all(.1));
+  //setIdentity(KF.transitionMatrix); 
+  KF.transitionMatrix = Mat_<float>(6, 6) << 1.0,0.0,1.0,0.0,0.0,0.0,   0.0,1.0,0.0,1.0,0.0,0.0,  0.0,0.0,1.0,0.0,0.0,0.0,  0.0,0.0,0.0,1.0,0.0,0.0,  0.0,0.0,0.0,0.0,1.0,0.0,  0.0,0.0,0.0,0.0,0.0,1.0;  
+  setIdentity(KF.measurementMatrix);
+  setIdentity(KF.processNoiseCov, Scalar::all(1)); //adjust this for faster convergence - but higher noise
+  setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+  setIdentity(KF.errorCovPost, Scalar::all(.1));
 
-    lastSeen = timeSteps;
+  lastSeen = timeSteps;
 }
 
 Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
 {
-    float currentX = measurement(0);
-    float currentY = measurement(1);
+  float currentX = measurement(0);
+  float currentY = measurement(1);
 
-    int timeGap = timeSteps-lastSeen;
+  int timeGap = timeSteps-lastSeen;
 
-    if(timeGap == 0)
-    {
-      timeGap = 1;
-    }
+  if(timeGap == 0) //occurs when two rectangles are found in the same loop, find better solution for this
+  {
+    timeGap = 1;
+  }
 
-    printf("%d\n", timeGap);
+  measurement(0) = x;
+  measurement(1) = y;
+  measurement(2) = float((x - currentX)/timeGap);
+  measurement(3) = float((y - currentY)/timeGap);
+  measurement(4) = w;
+  measurement(5) = h;
 
-    measurement(0) = x;
-    measurement(1) = y;
-    measurement(2) = (x - currentX)/timeGap;
-    measurement(3) = (y - currentY)/timeGap;
-    measurement(4) = w;
-    measurement(5) = h;
+  cout << "measurement" << measurement << '\n';
 
-    cout << 'm' << measurement << '\n';
+  Mat estimated = KF.correct(measurement);
 
-    Mat estimated = KF.correct(measurement);
+  cout << "estimated" << estimated << '\n';
 
-    cout << 'e' << estimated << '\n';
+  Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
 
-    Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
-
-    lastSeen = timeSteps;
-    return statePt;
+  lastSeen = timeSteps;
+  return statePt;
 }
 
 Point2f kalmanPredict() 
 {
-    Mat prediction = KF.predict();
-    Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
+  Mat prediction = KF.predict();
 
-    KF.statePre.copyTo(KF.statePost);
-    KF.errorCovPre.copyTo(KF.errorCovPost);
+  cout << "prediction" << prediction << '\n';
 
-    return predictPt;
+  Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
+
+  KF.statePre.copyTo(KF.statePost);
+  KF.errorCovPre.copyTo(KF.errorCovPost);
+
+  return predictPt;
 }
 
 int main( int argc, char** argv )
