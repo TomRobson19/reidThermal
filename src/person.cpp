@@ -22,10 +22,6 @@ public:
 	int lastSeen = 0;
 	void initKalman(float x, float y, float w, float h, int timeSteps)
 	{
-	  // Instantate Kalman Filter with
-	  // 4 dynamic parameters and 2 measurement parameters,
-	  // where my measurement is: 2D location of object,
-	  // and dynamic is: 2D location and 2D velocity.
 	  KF.init(6, 6, 0);
 
 	  //position(x,y) velocity(x,y) rectangle(h,w)
@@ -51,7 +47,6 @@ public:
 	  KF.statePost.at<float>(4, 0) = w;
 	  KF.statePost.at<float>(5, 0) = h;
 
-	  //setIdentity(KF.transitionMatrix); 
 	  KF.transitionMatrix = (Mat_<float>(6, 6) << 1, 0, 1, 0, 0, 0,
 	                                              0, 1, 0, 1, 0, 0,
 	                                              0, 0, 1, 0, 0, 0,

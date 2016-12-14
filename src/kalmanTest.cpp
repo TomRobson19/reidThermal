@@ -24,10 +24,6 @@ using namespace ml;
                 line( img, Point2f( center.x + d, center.y - d ),                          \
                              Point2f( center.x - d, center.y + d ), color, 1, LINE_AA, 0);
 
-
-
-/******************************************************************************/
-
 cv::KalmanFilter KF;
 cv::Mat_<float> measurement(6,1); 
 // cv::Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
@@ -43,13 +39,7 @@ int lastSeen = 0;
 
 void initKalman(float x, float y, float w, float h)
 {
-  // Instantate Kalman Filter with
-  // 4 dynamic parameters and 2 measurement parameters,
-  // where my measurement is: 2D location of object,
-  // and dynamic is: 2D location and 2D velocity.
-  KF.init(6, 6, 0);
-
-  //position(x,y) velocity(x,y) rectangle(h,w)
+  KF.init(6, 6, 0);  //position(x,y) velocity(x,y) rectangle(h,w)
 
   measurement(0) = x;
   measurement(1) = y;
@@ -72,7 +62,6 @@ void initKalman(float x, float y, float w, float h)
   KF.statePost.at<float>(4, 0) = w;
   KF.statePost.at<float>(5, 0) = h;
 
-  //setIdentity(KF.transitionMatrix); 
   KF.transitionMatrix = (Mat_<float>(6, 6) << 1, 0, 1, 0, 0, 0,
                                               0, 1, 0, 1, 0, 0,
                                               0, 0, 1, 0, 0, 0,
@@ -85,7 +74,7 @@ void initKalman(float x, float y, float w, float h)
   //small floating point errors present
 
   setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-  setIdentity(KF.errorCovPost, Scalar::all(.1));
+  setIdentity(KF.errorCovPost, Scalar::all(0.1));
 
   lastSeen = timeSteps;
 }
@@ -154,7 +143,7 @@ int main( int argc, char** argv )
   int width = 40;
   int height = 100;
   int learning = 1000;
-  int padding = 50; // pad extracted objects by 75%
+  int padding = 40; 
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
