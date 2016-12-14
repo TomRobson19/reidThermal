@@ -543,9 +543,11 @@ Gives both numbers and nan errors for no discernible reason.
 \end_layout
 
 \begin_layout Itemize
-Turns out the Transition Matrix was not being created correctly, changed
- initialisation method and now functions correctly.
- 
+Turns out the Transition Matrix was not being created correctly.
+\end_layout
+
+\begin_layout Itemize
+The 6x6 Kalman Filter now works
 \end_layout
 
 \begin_layout Itemize
@@ -588,7 +590,12 @@ morphEroSize: 1 - used
 \end_deeper
 \begin_layout Itemize
 Still considering trade off between HOG and Haar Cascade, HOG seems better
- at classifying but much slower
+ at classifying but much slower (No Free Lunch!)
+\end_layout
+
+\begin_layout Itemize
+Implemented Person class ready for next step.
+ 
 \end_layout
 
 \begin_layout Section*

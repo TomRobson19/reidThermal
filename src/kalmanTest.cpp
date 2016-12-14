@@ -164,7 +164,7 @@ int main( int argc, char** argv )
 
     // create background / foreground Mixture of Gaussian (MoG) model
 
-    Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25);
+    Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25,false);
 
     HOGDescriptor hog;
     hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
@@ -205,7 +205,7 @@ int main( int argc, char** argv )
 
 		  // update background model and get background/foreground
 
-		  MoG->apply(img, fg_msk, double (1.0 / learning));
+		  MoG->apply(img, fg_msk, (double) (1.0 / learning));
 		  MoG->getBackgroundImage(bg);
 
       // perform erosion - removes boundaries of foreground object
