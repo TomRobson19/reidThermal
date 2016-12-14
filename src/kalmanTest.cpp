@@ -30,7 +30,9 @@ using namespace ml;
 
 cv::KalmanFilter KF;
 cv::Mat_<float> measurement(6,1); 
-Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
+cv::Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
+cv::Mat_<float> estimated(6, 1);
+cv::Mat_<float> prediction(6, 1);
 
 //initialise kalman when first encounter object
 int initialised = 0;
@@ -48,14 +50,14 @@ void initKalman(float x, float y, float w, float h)
   KF.init(6, 6, 0);
 
   //position(x,y) velocity(x,y) rectangle(h,w)
-  
 
-  // measurement = Mat_<float>::zeros(6,1);
-  // measurement.at<float>(0, 0) = x;
-  // measurement.at<float>(1, 0) = y;
+  measurement(0) = x;
+  measurement(1) = y;
+  measurement(2) = 0.0;
+  measurement(3) = 0.0;
+  measurement(4) = w;
+  measurement(5) = h;
 
-
-  KF.statePre.setTo(0);
   KF.statePre.at<float>(0, 0) = x;
   KF.statePre.at<float>(1, 0) = y;
   KF.statePre.at<float>(2, 0) = 0.0;
@@ -63,7 +65,6 @@ void initKalman(float x, float y, float w, float h)
   KF.statePre.at<float>(4, 0) = w;
   KF.statePre.at<float>(5, 0) = h;
 
-  KF.statePost.setTo(0);
   KF.statePost.at<float>(0, 0) = x;
   KF.statePost.at<float>(1, 0) = y; 
   KF.statePost.at<float>(2, 0) = 0.0;
@@ -72,11 +73,21 @@ void initKalman(float x, float y, float w, float h)
   KF.statePost.at<float>(5, 0) = h;
 
   //setIdentity(KF.transitionMatrix); 
-  KF.transitionMatrix = Mat_<float>(6, 6) << 1.0,0.0,1.0,0.0,0.0,0.0,   0.0,1.0,0.0,1.0,0.0,0.0,  0.0,0.0,1.0,0.0,0.0,0.0,  0.0,0.0,0.0,1.0,0.0,0.0,  0.0,0.0,0.0,0.0,1.0,0.0,  0.0,0.0,0.0,0.0,0.0,1.0;  
+  KF.transitionMatrix = (Mat_<float>(6, 6) << 1, 0, 1, 0, 0, 0,
+                                              0, 1, 0, 1, 0, 0,
+                                              0, 0, 1, 0, 0, 0,
+                                              0, 0, 0, 1, 0, 0,
+                                              0, 0, 0, 0, 1, 0,
+                                              0, 0, 0, 0, 0, 1);
   setIdentity(KF.measurementMatrix);
-  setIdentity(KF.processNoiseCov, Scalar::all(1)); //adjust this for faster convergence - but higher noise
-  setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-  setIdentity(KF.errorCovPost, Scalar::all(.1));
+
+  cout << KF.transitionMatrix << '\n';
+
+  setIdentity(KF.processNoiseCov, Scalar::all(0.03)); //adjust this for faster convergence - but higher noise
+  //small floating point errors present
+
+  //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+  //setIdentity(KF.errorCovPost, Scalar::all(.1));
 
   lastSeen = timeSteps;
 }
@@ -88,21 +99,23 @@ Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
 
   int timeGap = timeSteps-lastSeen;
 
-  if(timeGap == 0) //occurs when two rectangles are found in the same loop, find better solution for this
+  if(timeGap == 0)
   {
     timeGap = 1;
   }
 
+  printf("%d\n", timeGap);
+
   measurement(0) = x;
   measurement(1) = y;
-  measurement(2) = float((x - currentX)/timeGap);
-  measurement(3) = float((y - currentY)/timeGap);
+  measurement(2) = (float) ((x - currentX)/timeGap);
+  measurement(3) = (float) ((y - currentY)/timeGap);
   measurement(4) = w;
   measurement(5) = h;
 
   cout << "measurement" << measurement << '\n';
 
-  Mat estimated = KF.correct(measurement);
+  estimated = KF.correct(measurement);
 
   cout << "estimated" << estimated << '\n';
 
@@ -114,7 +127,7 @@ Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
 
 Point2f kalmanPredict() 
 {
-  Mat prediction = KF.predict();
+  prediction = KF.predict();
 
   cout << "prediction" << prediction << '\n';
 
@@ -289,10 +302,10 @@ int main( int argc, char** argv )
 
             // The HOG detector returns slightly larger rectangles than the real objects,
             // so we slightly shrink the rectangles to get a nicer output.
-            rec.x += cvRound(rec.width*0.1);
-            rec.width = cvRound(rec.width*0.8);
-            rec.y += cvRound(rec.height*0.07);
-            rec.height = cvRound(rec.height*0.8);
+            rec.x += rec.width*0.1;
+            rec.width = rec.width*0.8;
+            rec.y += rec.height*0.1;
+            rec.height = rec.height*0.8;
             rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
@@ -306,7 +319,7 @@ int main( int argc, char** argv )
             }
             else
             {
-              Point2f s = kalmanCorrect(center.x,center.y,timeSteps,rec.width,rec.height);
+              Point2f s = kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
               Point2f p = kalmanPredict();
 
@@ -315,12 +328,8 @@ int main( int argc, char** argv )
               cout << "center" << center << '\n';  
               cout << "correct" << s << '\n';  
               cout << "predict" << p << '\n'; 
-            }
-
-             
+            }             
           } 
-
-
           //imshow("people detector", img);
 
           // draws calculated rectangle onto image

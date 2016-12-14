@@ -530,6 +530,28 @@ References not really necessary, maybe have the slide but don't show it
 Week 10
 \end_layout
 
+\begin_layout Itemize
+Enquired about Design Report in Lyx, should be fine as long as the font/margins
+ are the same.
+ 
+\end_layout
+
+\begin_layout Itemize
+Continued experiments with 6x6 Kalman, doesn't predict properly across all
+ dimensions.
+\end_layout
+
+\begin_layout Itemize
+Gives both numbers and nan errors for no discernible reason.
+ 
+\end_layout
+
+\begin_layout Itemize
+Turns out the Transition Matrix was not being created correctly, changed
+ initialisation method and now functions correctly.
+ 
+\end_layout
+
 \begin_layout Section*
 Christmas Holidays
 \end_layout
