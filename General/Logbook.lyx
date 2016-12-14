@@ -373,6 +373,10 @@ Kalman now works, but lags behind fast moving targets and does not work
 \end_layout
 
 \begin_layout Itemize
+Fixed the lag using processNoiseCov
+\end_layout
+
+\begin_layout Itemize
 Begun work on Design Report
 \end_layout
 
@@ -471,15 +475,15 @@ Design (~8 pages) (65%)
 
 \begin_deeper
 \begin_layout Itemize
-Break down into subsections - don't want it to come across as a list of
- steps
+Break down into subsections - however don't want it to come across as a
+ list of steps
 \end_layout
 
 \end_deeper
 \end_deeper
 \begin_layout Itemize
 Writing Skills (10%) - Reference software (OpenCV) - Get someone to proofread
- it
+ it!!!
 \end_layout
 
 \begin_layout Itemize
@@ -596,6 +600,23 @@ Still considering trade off between HOG and Haar Cascade, HOG seems better
 \begin_layout Itemize
 Implemented Person class ready for next step.
  
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Ask about research question - maybe 
+\begin_inset Quotes eld
+\end_inset
+
+which features of a target are appropriate to facilitate re-identification
+ in thermal space?
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\series default
+(needs rewording)
 \end_layout
 
 \begin_layout Section*
