@@ -97,12 +97,10 @@ Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
 
   int timeGap = timeSteps-lastSeen;
 
-  if(timeGap == 0)
+  if(timeGap == 0) //come up with a better way to do this, for now deals with multiple detections in the same timestep
   {
     timeGap = 1;
   }
-
-  printf("%d\n", timeGap);
 
   measurement(0) = x;
   measurement(1) = y;
@@ -155,7 +153,7 @@ int main( int argc, char** argv )
   vector<Vec4i> hierarchy;
   int width = 40;
   int height = 100;
-  int learning = 3000;
+  int learning = 1000;
   int padding = 50; // pad extracted objects by 75%
 
   // if command line arguments are provided try to read image/video_name
@@ -177,7 +175,7 @@ int main( int argc, char** argv )
 
     // create background / foreground Mixture of Gaussian (MoG) model
 
-    Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2();
+    Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25);
 
     HOGDescriptor hog;
     hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
@@ -223,12 +221,12 @@ int main( int argc, char** argv )
 
       // perform erosion - removes boundaries of foreground object
 
-      erode(fg_msk, fg_msk, Mat());
+      erode(fg_msk, fg_msk, Mat(),Point(),1);
 
       // perform morphological closing
 
-      dilate(fg_msk, fg_msk, Mat());
-      erode(fg_msk, fg_msk, Mat());
+      dilate(fg_msk, fg_msk, Mat(),Point(),5);
+      erode(fg_msk, fg_msk, Mat(),Point(),1);
 
       // extract portion of img using foreground mask (colour bit)
 
@@ -274,8 +272,7 @@ int main( int argc, char** argv )
           }
           else 
           {
-            //cascade doesn't give the right center values to the Kalman filter
-            cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
+            cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,32));
           }
           for(size_t i = 0; i < found.size(); i++ )
           {
@@ -323,9 +320,9 @@ int main( int argc, char** argv )
 
               drawCross(p, Scalar(255,0,0), 5);
 
-              cout << "center" << center << '\n';  
-              cout << "correct" << s << '\n';  
-              cout << "predict" << p << '\n'; 
+              // cout << "center" << center << '\n';  
+              // cout << "correct" << s << '\n';  
+              // cout << "predict" << p << '\n'; 
             }             
           } 
           //imshow("people detector", img);

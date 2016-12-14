@@ -552,6 +552,50 @@ Turns out the Transition Matrix was not being created correctly, changed
  
 \end_layout
 
+\begin_layout Itemize
+MOG parameters - still unsure how to implement some of these
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+mogHistory: 500 - used
+\end_layout
+
+\begin_layout Itemize
+mogVarThre: 25 - used
+\end_layout
+
+\begin_layout Itemize
+mogVarInit: 3
+\end_layout
+
+\begin_layout Itemize
+mogLearning: 3 
+\end_layout
+
+\begin_layout Itemize
+mogBGRatio: 10 
+\end_layout
+
+\begin_layout Itemize
+bgmodelTamperThre: 50.
+ 
+\end_layout
+
+\begin_layout Itemize
+morphDilSize: 5 - used
+\end_layout
+
+\begin_layout Itemize
+morphEroSize: 1 -used 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Still considering trade off between HOG and Haar Cascade, HOG seems better
+ at classifying but much slower
+\end_layout
+
 \begin_layout Section*
 Christmas Holidays
 \end_layout
