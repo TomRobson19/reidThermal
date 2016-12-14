@@ -377,16 +377,12 @@ Begun work on Design Report
 \end_layout
 
 \begin_layout Itemize
-Learnt how BibTex works and how to integrate with Lyx
+Learnt how BibTex works and how to integrate with LyX
 \end_layout
 
 \begin_layout Itemize
 Need to store velocity and rectangle width/height in kalman as per photograph
  of whiteboard
-\end_layout
-
-\begin_layout Itemize
-NEED TO IMPLEMENT TIME STEP COUNTER (in while loop)
 \end_layout
 
 \begin_layout Itemize
@@ -578,8 +574,7 @@ mogBGRatio: 10
 \end_layout
 
 \begin_layout Itemize
-bgmodelTamperThre: 50.
- 
+bgmodelTamperThre: 50 
 \end_layout
 
 \begin_layout Itemize
@@ -587,7 +582,7 @@ morphDilSize: 5 - used
 \end_layout
 
 \begin_layout Itemize
-morphEroSize: 1 -used 
+morphEroSize: 1 - used 
 \end_layout
 
 \end_deeper

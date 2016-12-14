@@ -30,7 +30,7 @@ using namespace ml;
 
 cv::KalmanFilter KF;
 cv::Mat_<float> measurement(6,1); 
-//cv::Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
+// cv::Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
 // cv::Mat_<float> estimated(6, 1);
 // cv::Mat_<float> prediction(6, 1);
 
