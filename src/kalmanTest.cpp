@@ -30,9 +30,9 @@ using namespace ml;
 
 cv::KalmanFilter KF;
 cv::Mat_<float> measurement(6,1); 
-cv::Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
-cv::Mat_<float> estimated(6, 1);
-cv::Mat_<float> prediction(6, 1);
+//cv::Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
+// cv::Mat_<float> estimated(6, 1);
+// cv::Mat_<float> prediction(6, 1);
 
 //initialise kalman when first encounter object
 int initialised = 0;
@@ -81,13 +81,11 @@ void initKalman(float x, float y, float w, float h)
                                               0, 0, 0, 0, 0, 1);
   setIdentity(KF.measurementMatrix);
 
-  cout << KF.transitionMatrix << '\n';
-
   setIdentity(KF.processNoiseCov, Scalar::all(0.03)); //adjust this for faster convergence - but higher noise
   //small floating point errors present
 
-  //setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-  //setIdentity(KF.errorCovPost, Scalar::all(.1));
+  setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+  setIdentity(KF.errorCovPost, Scalar::all(.1));
 
   lastSeen = timeSteps;
 }
@@ -113,11 +111,11 @@ Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
   measurement(4) = w;
   measurement(5) = h;
 
-  cout << "measurement" << measurement << '\n';
+  //cout << "measurement" << measurement << '\n';
 
-  estimated = KF.correct(measurement);
+  Mat estimated = KF.correct(measurement);
 
-  cout << "estimated" << estimated << '\n';
+  //cout << "estimated" << estimated << '\n';
 
   Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
 
@@ -127,9 +125,9 @@ Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
 
 Point2f kalmanPredict() 
 {
-  prediction = KF.predict();
+  Mat prediction = KF.predict();
 
-  cout << "prediction" << prediction << '\n';
+  //cout << "prediction" << prediction << '\n';
 
   Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
 
