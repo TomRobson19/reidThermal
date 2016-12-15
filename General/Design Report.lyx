@@ -5,7 +5,6 @@
 \textclass article
 \begin_preamble
 \date{}
-\usepackage{durhampaper}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -96,6 +95,27 @@ Tom Robson
 
 \series bold
 Context/Background
+\end_layout
+
+\begin_layout Abstract
+Although use of thermal imagery currently poses significant advantages for
+ 24/7 day/night surveillance in terms of the visibility of human, animal
+ and vehicle targets under all environmental conditions, a key limitation
+ is the lack of colour detail suitable for many current approaches to the
+ problem of cross-camera person re-identification (i.e.
+ the camera-to-camera tracking of pedestrian targets).
+ Cross-camera person re-identification is a key research problem within
+ the domain of visual surveillance and a key challenge for the future deployment
+ of thermal sensing as an autonomous sensor technology.
+ This project aims to investigate the development and transferability of
+ current state of the art techniques in the domain of cross-camera person
+ re-identification and related work in pedestrian tracking to a multiple
+ camera network comprising of far infrared (thermal) cameras.
+ This project would make use of existing all-weather thermal camera sensing
+ units currently used on an existing research programme within the Durham
+ research team (from which time-synchronised imagery can already be obtained)
+ It would build and support upon a range of existing thermal image detection,
+ tracking and classification approaches within the Durham team.
 \end_layout
 
 \begin_layout Abstract
@@ -226,7 +246,7 @@ This section should be up to 8 pages in length.
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Main Text
