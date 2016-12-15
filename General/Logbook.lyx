@@ -620,7 +620,8 @@ which features of a target are appropriate to facilitate re-identification
 \end_layout
 
 \begin_layout Itemize
-Overall Code Layout
+Overall Code Layout (files - main.cpp, person.cpp, moghog.cpp, associated header
+ files)
 \end_layout
 
 \begin_deeper
