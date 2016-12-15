@@ -101,11 +101,11 @@ Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
   measurement(4) = w;
   measurement(5) = h;
 
-  //cout << "measurement" << measurement << '\n';
+  cout << "measurement" << measurement << '\n';
 
   Mat estimated = KF.correct(measurement);
 
-  //cout << "estimated" << estimated << '\n';
+  cout << "estimated" << estimated << '\n';
 
   Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
 
@@ -117,7 +117,7 @@ Point2f kalmanPredict()
 {
   Mat prediction = KF.predict();
 
-  //cout << "prediction" << prediction << '\n';
+  cout << "prediction" << prediction << '\n';
 
   Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
 
@@ -312,9 +312,9 @@ int main( int argc, char** argv )
 
               drawCross(img, p, Scalar(255,0,0), 5);
 
-              // cout << "center" << center << '\n';  
-              // cout << "correct" << s << '\n';  
-              // cout << "predict" << p << '\n'; 
+              cout << "center" << center << '\n';  
+              cout << "correct" << s << '\n';  
+              cout << "predict" << p << '\n'; 
             }             
           } 
           //imshow("people detector", img);

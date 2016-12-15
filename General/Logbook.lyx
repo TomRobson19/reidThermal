@@ -421,9 +421,10 @@ NEED TO UPDATE MENDELEY, REMOVE STUFF NOT USED AT ALL, UPDATE WITH CORRECT
 \end_layout
 
 \begin_layout Itemize
-Design Report - 
+Design Report
 \series bold
-ASK TOBY IF HE IS WILLING TO READ DRAFTS OVER HOLIDAYS
+ - Toby is willing to read drafts, off from 21st to 4th.
+ Could Skpye.
 \end_layout
 
 \begin_deeper
@@ -488,6 +489,20 @@ Writing Skills (10%) - Reference software (OpenCV) - Get someone to proofread
 
 \begin_layout Itemize
 Mark scheme on DUO
+\end_layout
+
+\begin_layout Itemize
+Make it so a classmate could implement
+\end_layout
+
+\begin_layout Itemize
+Ensure I describe the system requirements
+\end_layout
+
+\begin_layout Itemize
+Functional and Non-Functional requirements, specify which component meets
+ each one.
+ 
 \end_layout
 
 \end_deeper
@@ -568,19 +583,19 @@ mogVarThre: 25 - used
 \end_layout
 
 \begin_layout Itemize
-mogVarInit: 3
+mogVarInit: 3 - not used in provided code
 \end_layout
 
 \begin_layout Itemize
-mogLearning: 3
+mogLearning: 3 - have this with slidebar
 \end_layout
 
 \begin_layout Itemize
-mogBGRatio: 10
+mogBGRatio: 10- not used in provided code
 \end_layout
 
 \begin_layout Itemize
-bgmodelTamperThre: 50
+bgmodelTamperThre: 50 - can ignore
 \end_layout
 
 \begin_layout Itemize
@@ -610,13 +625,13 @@ Ask about research question - maybe
 \end_inset
 
 which features of a target are appropriate to facilitate re-identification
- in thermal space?
+ in thermal video?
 \begin_inset Quotes erd
 \end_inset
 
  
 \series default
-(needs rewording)
+(needs rewording, Toby is happy with this)
 \end_layout
 
 \begin_layout Itemize
@@ -630,7 +645,8 @@ Multiple cameras (video files as command line args)
 \end_layout
 
 \begin_layout Itemize
-Create empty list of person objects (Kalman, Features, Position History)
+Create empty list of person objects (Kalman, Features, Position History,
+ current position (can only be in one place at one time!))
 \end_layout
 
 \begin_layout Itemize
@@ -643,10 +659,23 @@ When this finds a person, compare to existing list and select one (or classify
 \end_layout
 
 \begin_layout Itemize
-Display Hog boxes and annotations (label, possibly confidence level?)
+Display Kalman boxes and annotations (label, possibly confidence level?)
+\end_layout
+
+\begin_layout Itemize
+2 Lists, active targets and inactive targets
+\end_layout
+
+\begin_layout Itemize
+Draw estimation of positions at the end to visualise output, ensure we know
+ camera topology (New advanced deliverable)
 \end_layout
 
 \end_deeper
+\begin_layout Itemize
+Plot Kalman rectangles on current display of results.
+\end_layout
+
 \begin_layout Section*
 Christmas Holidays
 \end_layout
