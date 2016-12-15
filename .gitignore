@@ -1,3 +1,5 @@
+*.lyx~
+*.lyx#
 src/videos/
 src/classifiers
 src/CMakeFiles/
