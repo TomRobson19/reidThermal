@@ -34,11 +34,11 @@ int initialised = 0;
 int timeSteps = 0;
 int lastSeen = 0;
 
-void drawCross(Mat img, Point2f center, Scalar color, int d )
-{
-  line(img, Point2f( center.x - d, center.y - d ), Point2f( center.x + d, center.y + d ), color, 1, LINE_AA, 0);
-  line( img, Point2f( center.x + d, center.y - d ), Point2f( center.x - d, center.y + d ), color, 1, LINE_AA, 0);
-}                                                        
+// void drawCross(Mat img, Point2f center, Scalar color, int d )
+// {
+//   line(img, Point2f( center.x - d, center.y - d ), Point2f( center.x + d, center.y + d ), color, 1, LINE_AA, 0);
+//   line( img, Point2f( center.x + d, center.y - d ), Point2f( center.x - d, center.y + d ), color, 1, LINE_AA, 0);
+// }                                                        
 
 void initKalman(float x, float y, float w, float h)
 {
@@ -113,7 +113,7 @@ Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
   return statePt;
 }
 
-Point2f kalmanPredict() 
+Rect kalmanPredict() 
 {
   Mat prediction = KF.predict();
 
@@ -121,10 +121,16 @@ Point2f kalmanPredict()
 
   Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
 
+  Point2f topLeft(prediction.at<float>(0)-prediction.at<float>(4)/2,prediction.at<float>(1)+prediction.at<float>(5)/2);
+
+  Point2f bottomRight(prediction.at<float>(0)+prediction.at<float>(4)/2,prediction.at<float>(1)-prediction.at<float>(5)/2);
+
+  Rect kalmanRect(topLeft, bottomRight);
+
   KF.statePre.copyTo(KF.statePost);
   KF.errorCovPre.copyTo(KF.errorCovPost);
 
-  return predictPt;
+  return kalmanRect;
 }
 
 int main( int argc, char** argv )
@@ -293,7 +299,7 @@ int main( int argc, char** argv )
             rec.width = rec.width*0.8;
             rec.y += rec.height*0.1;
             rec.height = rec.height*0.8;
-            rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+            //rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
@@ -308,13 +314,14 @@ int main( int argc, char** argv )
             {
               Point2f s = kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
-              Point2f p = kalmanPredict();
+              Rect p = kalmanPredict();
 
-              drawCross(img, p, Scalar(255,0,0), 5);
+              //drawCross(img, p, Scalar(255,0,0), 5);
+              rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-              cout << "center" << center << '\n';  
-              cout << "correct" << s << '\n';  
-              cout << "predict" << p << '\n'; 
+              // cout << "center" << center << '\n';  
+              // cout << "correct" << s << '\n';  
+              // cout << "predict" << p << '\n'; 
             }             
           } 
           //imshow("people detector", img);

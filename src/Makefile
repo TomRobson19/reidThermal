@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named kalmanTest
+# Target rules for targets named singleTarget
 
 # Build rule for target.
-kalmanTest: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 kalmanTest
-.PHONY : kalmanTest
+singleTarget: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 singleTarget
+.PHONY : singleTarget
 
 # fast build rule for target.
-kalmanTest/fast:
-	$(MAKE) -f CMakeFiles/kalmanTest.dir/build.make CMakeFiles/kalmanTest.dir/build
-.PHONY : kalmanTest/fast
+singleTarget/fast:
+	$(MAKE) -f CMakeFiles/singleTarget.dir/build.make CMakeFiles/singleTarget.dir/build
+.PHONY : singleTarget/fast
 
 #=============================================================================
 # Target rules for targets named main
@@ -135,33 +135,6 @@ main: cmake_check_build_system
 main/fast:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
-
-kalmanTest.o: kalmanTest.cpp.o
-
-.PHONY : kalmanTest.o
-
-# target to build an object file
-kalmanTest.cpp.o:
-	$(MAKE) -f CMakeFiles/kalmanTest.dir/build.make CMakeFiles/kalmanTest.dir/kalmanTest.cpp.o
-.PHONY : kalmanTest.cpp.o
-
-kalmanTest.i: kalmanTest.cpp.i
-
-.PHONY : kalmanTest.i
-
-# target to preprocess a source file
-kalmanTest.cpp.i:
-	$(MAKE) -f CMakeFiles/kalmanTest.dir/build.make CMakeFiles/kalmanTest.dir/kalmanTest.cpp.i
-.PHONY : kalmanTest.cpp.i
-
-kalmanTest.s: kalmanTest.cpp.s
-
-.PHONY : kalmanTest.s
-
-# target to generate assembly for a file
-kalmanTest.cpp.s:
-	$(MAKE) -f CMakeFiles/kalmanTest.dir/build.make CMakeFiles/kalmanTest.dir/kalmanTest.cpp.s
-.PHONY : kalmanTest.cpp.s
 
 main.o: main.cpp.o
 
@@ -190,6 +163,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+singleTarget.o: singleTarget.cpp.o
+
+.PHONY : singleTarget.o
+
+# target to build an object file
+singleTarget.cpp.o:
+	$(MAKE) -f CMakeFiles/singleTarget.dir/build.make CMakeFiles/singleTarget.dir/singleTarget.cpp.o
+.PHONY : singleTarget.cpp.o
+
+singleTarget.i: singleTarget.cpp.i
+
+.PHONY : singleTarget.i
+
+# target to preprocess a source file
+singleTarget.cpp.i:
+	$(MAKE) -f CMakeFiles/singleTarget.dir/build.make CMakeFiles/singleTarget.dir/singleTarget.cpp.i
+.PHONY : singleTarget.cpp.i
+
+singleTarget.s: singleTarget.cpp.s
+
+.PHONY : singleTarget.s
+
+# target to generate assembly for a file
+singleTarget.cpp.s:
+	$(MAKE) -f CMakeFiles/singleTarget.dir/build.make CMakeFiles/singleTarget.dir/singleTarget.cpp.s
+.PHONY : singleTarget.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -197,15 +197,15 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... kalmanTest"
+	@echo "... singleTarget"
 	@echo "... edit_cache"
 	@echo "... main"
-	@echo "... kalmanTest.o"
-	@echo "... kalmanTest.i"
-	@echo "... kalmanTest.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... singleTarget.o"
+	@echo "... singleTarget.i"
+	@echo "... singleTarget.s"
 .PHONY : help
 
 

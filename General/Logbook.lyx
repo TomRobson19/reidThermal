@@ -673,7 +673,7 @@ Draw estimation of positions at the end to visualise output, ensure we know
 
 \end_deeper
 \begin_layout Itemize
-Plot Kalman rectangles on current display of results.
+Plot Kalman rectangles on current display of results - done
 \end_layout
 
 \begin_layout Section*
