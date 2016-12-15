@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/tom/Documents/Project/reidThermal/src
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named main
+
+# Build rule for target.
+main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 main
+.PHONY : main
+
+# fast build rule for target.
+main/fast:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
+
+#=============================================================================
 # Target rules for targets named kalmanTest
 
 # Build rule for target.
@@ -124,17 +137,17 @@ kalmanTest/fast:
 .PHONY : kalmanTest/fast
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named person
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 main
-.PHONY : main
+person: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 person
+.PHONY : person
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+person/fast:
+	$(MAKE) -f CMakeFiles/person.dir/build.make CMakeFiles/person.dir/build
+.PHONY : person/fast
 
 kalmanTest.o: kalmanTest.cpp.o
 
@@ -190,22 +203,53 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+person.o: person.cpp.o
+
+.PHONY : person.o
+
+# target to build an object file
+person.cpp.o:
+	$(MAKE) -f CMakeFiles/person.dir/build.make CMakeFiles/person.dir/person.cpp.o
+.PHONY : person.cpp.o
+
+person.i: person.cpp.i
+
+.PHONY : person.i
+
+# target to preprocess a source file
+person.cpp.i:
+	$(MAKE) -f CMakeFiles/person.dir/build.make CMakeFiles/person.dir/person.cpp.i
+.PHONY : person.cpp.i
+
+person.s: person.cpp.s
+
+.PHONY : person.s
+
+# target to generate assembly for a file
+person.cpp.s:
+	$(MAKE) -f CMakeFiles/person.dir/build.make CMakeFiles/person.dir/person.cpp.s
+.PHONY : person.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... kalmanTest"
 	@echo "... edit_cache"
 	@echo "... main"
+	@echo "... kalmanTest"
+	@echo "... person"
+	@echo "... rebuild_cache"
 	@echo "... kalmanTest.o"
 	@echo "... kalmanTest.i"
 	@echo "... kalmanTest.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... person.o"
+	@echo "... person.i"
+	@echo "... person.s"
 .PHONY : help
 
 

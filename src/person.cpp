@@ -16,10 +16,13 @@ using namespace cv;
 using namespace std;
 using namespace ml;
 
-class Person()
+#include "person.hpp"
+
+class Person
 {
 public:
 	int lastSeen = 0;
+	//std::vector<Point2f> positionHistory;
 	void initKalman(float x, float y, float w, float h, int timeSteps)
 	{
 		KF.init(6, 6, 0);	//position(x,y) velocity(x,y) rectangle(h,w)
@@ -62,7 +65,7 @@ public:
 		lastSeen = timeSteps;
 	}
 
-	Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h, int timeSteps)
+	Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
 	{
 		float currentX = measurement(0);
 		float currentY = measurement(1);
@@ -104,5 +107,5 @@ public:
 
 private:
 	cv::KalmanFilter KF;
-	cv::Mat_<float> measurement(6,1); 	
+	cv::Mat_<float> measurement(6,1);
 }

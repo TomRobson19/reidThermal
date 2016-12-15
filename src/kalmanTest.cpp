@@ -16,19 +16,16 @@ using namespace cv;
 using namespace std;
 using namespace ml;
 
+//#include "person.hpp"
+
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
 #define SVM_TO_USE "classifiers/peopleir_lap.svm"
-#define drawCross( center, color, d )                                        \
-                line( img, Point2f( center.x - d, center.y - d ),                          \
-                             Point2f( center.x + d, center.y + d ), color, 1, LINE_AA, 0); \
-                line( img, Point2f( center.x + d, center.y - d ),                          \
-                             Point2f( center.x - d, center.y + d ), color, 1, LINE_AA, 0);
+
+//std::vector<Person> people; creating array of people
 
 cv::KalmanFilter KF;
 cv::Mat_<float> measurement(6,1); 
-// cv::Mat_<float> state(6, 1); // (x, y, Vx, Vy, h, w)
-// cv::Mat_<float> estimated(6, 1);
-// cv::Mat_<float> prediction(6, 1);
+// cv::Mat_<float> state(6, 1); //(x, y, Vx, Vy, h, w)
 
 //initialise kalman when first encounter object
 int initialised = 0;
@@ -36,6 +33,12 @@ int initialised = 0;
 //enable velocity 
 int timeSteps = 0;
 int lastSeen = 0;
+
+void drawCross(Mat img, Point2f center, Scalar color, int d )
+{
+  line(img, Point2f( center.x - d, center.y - d ), Point2f( center.x + d, center.y + d ), color, 1, LINE_AA, 0);
+  line( img, Point2f( center.x + d, center.y - d ), Point2f( center.x - d, center.y + d ), color, 1, LINE_AA, 0);
+}                                                        
 
 void initKalman(float x, float y, float w, float h)
 {
@@ -307,7 +310,7 @@ int main( int argc, char** argv )
 
               Point2f p = kalmanPredict();
 
-              drawCross(p, Scalar(255,0,0), 5);
+              drawCross(img, p, Scalar(255,0,0), 5);
 
               // cout << "center" << center << '\n';  
               // cout << "correct" << s << '\n';  

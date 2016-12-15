@@ -531,7 +531,7 @@ Week 10
 \end_layout
 
 \begin_layout Itemize
-Enquired about Design Report in Lyx, should be fine as long as the font/margins
+Inquired about Design Report in Lyx, should be fine as long as the font/margins
  are the same.
  
 \end_layout
@@ -572,15 +572,15 @@ mogVarInit: 3
 \end_layout
 
 \begin_layout Itemize
-mogLearning: 3 
+mogLearning: 3
 \end_layout
 
 \begin_layout Itemize
-mogBGRatio: 10 
+mogBGRatio: 10
 \end_layout
 
 \begin_layout Itemize
-bgmodelTamperThre: 50 
+bgmodelTamperThre: 50
 \end_layout
 
 \begin_layout Itemize
@@ -588,7 +588,7 @@ morphDilSize: 5 - used
 \end_layout
 
 \begin_layout Itemize
-morphEroSize: 1 - used 
+morphEroSize: 1 - used
 \end_layout
 
 \end_deeper
@@ -619,6 +619,33 @@ which features of a target are appropriate to facilitate re-identification
 (needs rewording)
 \end_layout
 
+\begin_layout Itemize
+Overall Code Layout
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Multiple cameras (video files as command line args)
+\end_layout
+
+\begin_layout Itemize
+Create empty list of person objects (Kalman, Features, Position History)
+\end_layout
+
+\begin_layout Itemize
+Concurrently run Mog and Hog/Haar on all 'cameras'
+\end_layout
+
+\begin_layout Itemize
+When this finds a person, compare to existing list and select one (or classify
+ as new)
+\end_layout
+
+\begin_layout Itemize
+Display Hog boxes and annotations (label, possibly confidence level?)
+\end_layout
+
+\end_deeper
 \begin_layout Section*
 Christmas Holidays
 \end_layout
