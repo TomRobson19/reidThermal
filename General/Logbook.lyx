@@ -673,11 +673,37 @@ Draw estimation of positions at the end to visualise output, ensure we know
 
 \end_deeper
 \begin_layout Itemize
-Plot Kalman rectangles on current display of results - done
+Plot Kalman rectangles on current display of results - done - singleTarget.cpp
+\end_layout
+
+\begin_layout Itemize
+Now created person.cpp and person.hpp, working on main.cpp 
+\end_layout
+
+\begin_layout Itemize
+Use contours to calculate features.
 \end_layout
 
 \begin_layout Section*
 Christmas Holidays
+\end_layout
+
+\begin_layout Itemize
+Implemented person class and header.
+\end_layout
+
+\begin_layout Itemize
+Wrote draft of the presentation (will be using for interview)
+\end_layout
+
+\begin_layout Itemize
+Started a multi-camera test file, for now just working on a single camera
+ file.
+\end_layout
+
+\begin_layout Itemize
+Implementing person arrays, for now just dependent on previous position.
+ 
 \end_layout
 
 \end_body

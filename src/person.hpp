@@ -18,20 +18,25 @@
 using namespace cv;
 using namespace std;
 using namespace ml;
-
+ 
 class Person
 {
 public:
-	int lastSeen;
-	void initKalman(float x, float y, float w, float h, int timeSteps);
+	Person(int identifier, float x, float y, int timeSteps, float w, float h);
 
-	Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h);
+	void setIdentifier(int identifier);
 
-	Point2f kalmanPredict();
+	int getIdentifier();
 
-private:
-	cv::KalmanFilter KF;
-	cv::Mat_<float> measurement; 	
+	int getLastSeen();
+
+	Point2f getLastPosition();
+
+	void initKalman(float x, float y, int timeSteps, float w, float h);
+
+	void kalmanCorrect(float x, float y, int timeSteps, float w, float h);
+
+	Rect kalmanPredict();
 };
-
+ 
 #endif

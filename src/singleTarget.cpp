@@ -21,8 +21,6 @@ using namespace ml;
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
 #define SVM_TO_USE "classifiers/peopleir_lap.svm"
 
-//std::vector<Person> people; creating array of people
-
 cv::KalmanFilter KF;
 cv::Mat_<float> measurement(6,1); 
 // cv::Mat_<float> state(6, 1); //(x, y, Vx, Vy, h, w)

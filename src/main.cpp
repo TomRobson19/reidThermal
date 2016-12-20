@@ -16,73 +16,17 @@ using namespace cv;
 using namespace std;
 using namespace ml;
 
+#include "person.hpp"
+//#include "person.cpp"
+
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
 #define SVM_TO_USE "classifiers/peopleir_lap.svm"
-#define drawCross( center, color, d )                                        \
-                line( img, Point2f( center.x - d, center.y - d ),                          \
-                             Point2f( center.x + d, center.y + d ), color, 1, LINE_AA, 0); \
-                line( img, Point2f( center.x + d, center.y - d ),                          \
-                             Point2f( center.x - d, center.y + d ), color, 1, LINE_AA, 0);
 
+//enable velocity 
+int timeSteps = 0;
 
-
-/******************************************************************************/
-
-cv::KalmanFilter KF;
-cv::Mat_<float> measurement(2,1); 
-Mat_<float> state(4, 1); // (x, y, Vx, Vy)
-int incr=0;
-
-int initialised = 0;
-
-void initKalman(float x, float y)
-{
-    // Instantate Kalman Filter with
-    // 4 dynamic parameters and 2 measurement parameters,
-    // where my measurement is: 2D location of object,
-    // and dynamic is: 2D location and 2D velocity.
-    KF.init(4, 2, 0);
-
-    //measurement = Mat_<float>::zeros(2,1);
-    //measurement.at<float>(0, 0) = x;
-    //measurement.at<float>(1, 0) = y;
-
-
-    KF.statePre.setTo(0);
-    KF.statePre.at<float>(0, 0) = x;
-    KF.statePre.at<float>(1, 0) = y;
-
-    KF.statePost.setTo(0);
-    KF.statePost.at<float>(0, 0) = x;
-    KF.statePost.at<float>(1, 0) = y; 
-
-    setIdentity(KF.transitionMatrix); //ignores velocity
-    //KF.transitionMatrix = Mat_<float>(4, 4) << 1,0,1,0,   0,1,0,1,  0,0,1,0,  0,0,0,1;  
-    setIdentity(KF.measurementMatrix);
-    setIdentity(KF.processNoiseCov, Scalar::all(1)); //adjust this for faster convergence - but higher noise
-    setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-    setIdentity(KF.errorCovPost, Scalar::all(.1));
-}
-
-Point2f kalmanCorrect(float x, float y)
-{
-    measurement(0) = x;
-    measurement(1) = y;
-    Mat estimated = KF.correct(measurement);
-    Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
-    return statePt;
-}
-
-Point2f kalmanPredict() 
-{
-    Mat prediction = KF.predict();
-    Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
-
-    KF.statePre.copyTo(KF.statePost);
-    KF.errorCovPre.copyTo(KF.errorCovPost);
-
-    return predictPt;
-}
+std::vector<Person> activeTargets;
+std::vector<Person> inactiveTargets;                                         
 
 int main( int argc, char** argv )
 {
@@ -102,8 +46,8 @@ int main( int argc, char** argv )
   vector<Vec4i> hierarchy;
   int width = 40;
   int height = 100;
-  int learning = 3000;
-  int padding = 50; // pad extracted objects by 75%
+  int learning = 1000;
+  int padding = 40; 
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
@@ -114,8 +58,6 @@ int main( int argc, char** argv )
     // create window object (use flag=0 to allow resize, 1 to auto fix size)
 
     namedWindow(windowName, 1);
-    //namedWindow(windowNameF, 0);
-    //namedWindow(windowNameB, 0);
 
     createTrackbar("width", windowName, &width, 700);
     createTrackbar("height", windowName, &height, 700);
@@ -124,11 +66,10 @@ int main( int argc, char** argv )
 
     // create background / foreground Mixture of Gaussian (MoG) model
 
-    Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2();
+    Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25,false);
 
     HOGDescriptor hog;
     hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
-    //namedWindow("people detector", 1);
 
     CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
@@ -165,17 +106,17 @@ int main( int argc, char** argv )
 
 		  // update background model and get background/foreground
 
-		  MoG->apply(img, fg_msk, double (1.0 / learning));
+		  MoG->apply(img, fg_msk, (double) (1.0 / learning));
 		  MoG->getBackgroundImage(bg);
 
       // perform erosion - removes boundaries of foreground object
 
-      erode(fg_msk, fg_msk, Mat());
+      erode(fg_msk, fg_msk, Mat(),Point(),1);
 
       // perform morphological closing
 
-      dilate(fg_msk, fg_msk, Mat());
-      erode(fg_msk, fg_msk, Mat());
+      dilate(fg_msk, fg_msk, Mat(),Point(),5);
+      erode(fg_msk, fg_msk, Mat(),Point(),1);
 
       // extract portion of img using foreground mask (colour bit)
 
@@ -221,8 +162,7 @@ int main( int argc, char** argv )
           }
           else 
           {
-            //cascade doesn't give the right center values to the Kalman filter
-            cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64, 32));
+            cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,32));
           }
           for(size_t i = 0; i < found.size(); i++ )
           {
@@ -245,55 +185,61 @@ int main( int argc, char** argv )
           {
             Rect rec = found_filtered[i];
 
-            // The HOG detector returns slightly larger rectangles than the real objects,
+            // The HOG/Cascade detector returns slightly larger rectangles than the real objects,
             // so we slightly shrink the rectangles to get a nicer output.
-            rec.x += cvRound(rec.width*0.1);
-            rec.width = cvRound(rec.width*0.8);
-            rec.y += cvRound(rec.height*0.07);
-            rec.height = cvRound(rec.height*0.8);
-            rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+            rec.x += rec.width*0.1;
+            rec.width = rec.width*0.8;
+            rec.y += rec.height*0.1;
+            rec.height = rec.height*0.8;
+            //rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
-            //for rectangle, expand state vector to 4 dimensions,store top left corner(2D) or center, width and height, maybe also velocity
+            int allocated = 0;
 
-            if (initialised == 0)
+            if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target
             {
-              initKalman(center.x,center.y);
-              initialised = 1;
+              Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
+              activeTargets.push_back(person);
+              allocated = 1;
             }
+            else
+            {
+              for(int a=0; a<activeTargets.size(); a++)
+              {
+                if(timeSteps-activeTargets[a].getLastSeen() > 100)//if hasn't been seen for long enough, make inactive
+                {
+                  inactiveTargets.push_back(activeTargets[a]);
+                  activeTargets.erase(activeTargets.begin()+a);
+                  break;
+                }
 
-            Point2f s = kalmanCorrect(center.x,center.y);
+                Point2f lastPosition = activeTargets[a].getLastPosition();
 
-            Point2f p = kalmanPredict();
+                if(fabs(center.x-lastPosition.x)<20 and fabs(center.y-lastPosition.y)<20) 
+                //if close enough to last postion,it is that person
+                //will change this when features are implemented
+                {
+                  activeTargets[a].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
-            drawCross(p, Scalar(255,0,0), 5);
+                  Rect p = activeTargets[a].kalmanPredict();
 
-            //cout << "statepre" << KF.statePre <<'\n';
-            cout << "center" << center << '\n';  
-            cout << "correct" << s << '\n';  
-            cout << "predict" << p << '\n';  
-          } 
+                  rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+                }
+              }
 
+              for(int b=0; b<inactiveTargets.size(); b++)
+              {
 
-          //imshow("people detector", img);
-
-          // draws calculated rectangle onto image
+              }
+            }        
+          }
 
           rectangle(img, r, Scalar(0,0,255), 2, 8, 0);
-
-          // displays extracted region
-
-          //imshow ("Extracted Region", img(r));
         }
       }
 		  // display image in window
 		  imshow(windowName, img);
-      //imshow(windowNameF, fg);
-      //if (!bg.empty())
-      //{
-        //imshow(windowNameB, bg);
-      //}
 
 		  key = waitKey(EVENT_LOOP_DELAY);
 
@@ -304,6 +250,7 @@ int main( int argc, char** argv )
 			  		  << std::endl;
    			keepProcessing = false;
 		  }
+      timeSteps += 1;
 	  }
 
 	  // the camera will be deinitialized automatically in VideoCapture destructor

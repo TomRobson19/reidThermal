@@ -16,104 +16,127 @@ using namespace cv;
 using namespace std;
 using namespace ml;
 
-// cmake_minimum_required(VERSION 2.8)
-// project( person )
-// find_package( OpenCV REQUIRED )
-// add_compile_options(-g)
-// include_directories( ${OpenCV_INCLUDE_DIRS} )
-// add_executable( person person.cpp )
-// target_link_libraries( person ${OpenCV_LIBS} )
-
 #include "person.hpp"
+ 
+int personIdentifier;
+vector<cv::Mat_<float> > history;
+int lastSeen;
+cv::KalmanFilter KF;
+cv::Mat_<float> measurement(6,1);
 
-class Person
+Person::Person(int identifier, float x, float y, int timeSteps, float w, float h)
 {
-public:
-	int lastSeen = 0;
-	//std::vector<Point2f> positionHistory;
-	void initKalman(float x, float y, float w, float h, int timeSteps)
-	{
-		KF.init(6, 6, 0);	//position(x,y) velocity(x,y) rectangle(h,w)
+	setIdentifier(identifier);
+	initKalman(x,y,timeSteps,w,h);
+}
 
-		measurement(0) = x;
-		measurement(1) = y;
-		measurement(2) = 0.0;
-		measurement(3) = 0.0;
-		measurement(4) = w;
-		measurement(5) = h;
+void Person::setIdentifier(int identifier) 
+{
+	personIdentifier = identifier;
+}
 
-		KF.statePre.at<float>(0, 0) = x;
-		KF.statePre.at<float>(1, 0) = y;
-		KF.statePre.at<float>(2, 0) = 0.0;
-		KF.statePre.at<float>(3, 0) = 0.0;
-		KF.statePre.at<float>(4, 0) = w;
-		KF.statePre.at<float>(5, 0) = h;
+int Person::getIdentifier() 
+{
+	return personIdentifier;
+}
 
-		KF.statePost.at<float>(0, 0) = x;
-		KF.statePost.at<float>(1, 0) = y; 
-		KF.statePost.at<float>(2, 0) = 0.0;
-		KF.statePost.at<float>(3, 0) = 0.0;
-		KF.statePost.at<float>(4, 0) = w;
-		KF.statePost.at<float>(5, 0) = h;
+int Person::getLastSeen()
+{
+	return lastSeen;
+}
 
-		KF.transitionMatrix = (Mat_<float>(6, 6) << 1, 0, 1, 0, 0, 0,
-		                                            0, 1, 0, 1, 0, 0,
-		                                            0, 0, 1, 0, 0, 0,
-		                                            0, 0, 0, 1, 0, 0,
-		                                            0, 0, 0, 0, 1, 0,
-		                                            0, 0, 0, 0, 0, 1);
-		setIdentity(KF.measurementMatrix);
+Point2f Person::getLastPosition()
+{
+	float currentX = measurement(0);
+	float currentY = measurement(1);
 
-		setIdentity(KF.processNoiseCov, Scalar::all(0.03)); //adjust this for faster convergence - but higher noise
-		//small floating point errors present
+	Point2f position = Point2f(currentX,currentY);
 
-		setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
-		setIdentity(KF.errorCovPost, Scalar::all(.1));
+	return position;
+}
 
-		lastSeen = timeSteps;
-	}
+void Person::initKalman(float x, float y, int timeSteps, float w, float h)
+{
+  KF.init(6, 6, 0);  //position(x,y) velocity(x,y) rectangle(h,w)
 
-	Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
-	{
-		float currentX = measurement(0);
-		float currentY = measurement(1);
+  measurement(0) = x;
+  measurement(1) = y;
+  measurement(2) = 0.0;
+  measurement(3) = 0.0;
+  measurement(4) = w;
+  measurement(5) = h;
 
-		int timeGap = timeSteps-lastSeen;
+  KF.statePre.at<float>(0, 0) = x;
+  KF.statePre.at<float>(1, 0) = y;
+  KF.statePre.at<float>(2, 0) = 0.0;
+  KF.statePre.at<float>(3, 0) = 0.0;
+  KF.statePre.at<float>(4, 0) = w;
+  KF.statePre.at<float>(5, 0) = h;
 
-		if(timeGap == 0) //come up with a better way to do this, for now deals with multiple detections in the same timestep
-		{
-			timeGap = 1;
-		}
+  KF.statePost.at<float>(0, 0) = x;
+  KF.statePost.at<float>(1, 0) = y; 
+  KF.statePost.at<float>(2, 0) = 0.0;
+  KF.statePost.at<float>(3, 0) = 0.0;
+  KF.statePost.at<float>(4, 0) = w;
+  KF.statePost.at<float>(5, 0) = h;
 
-		measurement(0) = x;
-		measurement(1) = y;
-		measurement(2) = (float) ((x - currentX)/timeGap);
-		measurement(3) = (float) ((y - currentY)/timeGap);
-		measurement(4) = w;
-		measurement(5) = h;
+  KF.transitionMatrix = (Mat_<float>(6, 6) << 1, 0, 1, 0, 0, 0,
+                                              0, 1, 0, 1, 0, 0,
+                                              0, 0, 1, 0, 0, 0,
+                                              0, 0, 0, 1, 0, 0,
+                                              0, 0, 0, 0, 1, 0,
+                                              0, 0, 0, 0, 0, 1);
+  setIdentity(KF.measurementMatrix);
 
-		Mat estimated = KF.correct(measurement);
+  setIdentity(KF.processNoiseCov, Scalar::all(0.03)); //adjust this for faster convergence - but higher noise
+  //small floating point errors present
 
-		Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
+  setIdentity(KF.measurementNoiseCov, Scalar::all(1e-1));
+  setIdentity(KF.errorCovPost, Scalar::all(0.1));
 
-		lastSeen = timeSteps;
-		return statePt;
-	}
+  lastSeen = timeSteps;
+}
 
-	Point2f kalmanPredict() 
-	{
-		Mat prediction = KF.predict();
+void Person::kalmanCorrect(float x, float y, int timeSteps, float w, float h)
+{
+  float currentX = measurement(0);
+  float currentY = measurement(1);
 
-		Point2f predictPt(prediction.at<float>(0),prediction.at<float>(1));
+  int timeGap = timeSteps-lastSeen;
 
-		KF.statePre.copyTo(KF.statePost);
-		KF.errorCovPre.copyTo(KF.errorCovPost);
+  if(timeGap == 0) //come up with a better way to do this, for now deals with multiple detections in the same timestep
+  {
+    timeGap = 1;
+  }
 
-		return predictPt;
-	}
+  measurement(0) = x;
+  measurement(1) = y;
+  measurement(2) = (float) ((x - currentX)/timeGap);
+  measurement(3) = (float) ((y - currentY)/timeGap);
+  measurement(4) = w;
+  measurement(5) = h;
 
+  Mat estimated = KF.correct(measurement);
 
-private:
-	cv::KalmanFilter KF;
-	cv::Mat_<float> measurement(6,1);
+  lastSeen = timeSteps;
+
+  history.push_back(measurement);
+}
+
+Rect Person::kalmanPredict() 
+{
+  Mat prediction = KF.predict();
+
+  cout << "prediction" << prediction << '\n';
+
+  Point2f topLeft(prediction.at<float>(0)-prediction.at<float>(4)/2,prediction.at<float>(1)+prediction.at<float>(5)/2);
+
+  Point2f bottomRight(prediction.at<float>(0)+prediction.at<float>(4)/2,prediction.at<float>(1)-prediction.at<float>(5)/2);
+
+  Rect kalmanRect(topLeft, bottomRight);
+
+  KF.statePre.copyTo(KF.statePost);
+  KF.errorCovPre.copyTo(KF.errorCovPost);
+
+  return kalmanRect;
 }

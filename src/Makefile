@@ -163,6 +163,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+person.o: person.cpp.o
+
+.PHONY : person.o
+
+# target to build an object file
+person.cpp.o:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/person.cpp.o
+.PHONY : person.cpp.o
+
+person.i: person.cpp.i
+
+.PHONY : person.i
+
+# target to preprocess a source file
+person.cpp.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/person.cpp.i
+.PHONY : person.cpp.i
+
+person.s: person.cpp.s
+
+.PHONY : person.s
+
+# target to generate assembly for a file
+person.cpp.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/person.cpp.s
+.PHONY : person.cpp.s
+
 singleTarget.o: singleTarget.cpp.o
 
 .PHONY : singleTarget.o
@@ -203,6 +230,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... person.o"
+	@echo "... person.i"
+	@echo "... person.s"
 	@echo "... singleTarget.o"
 	@echo "... singleTarget.i"
 	@echo "... singleTarget.s"

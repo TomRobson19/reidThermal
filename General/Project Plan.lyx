@@ -124,8 +124,15 @@ Research Question
 \end_layout
 
 \begin_layout Standard
-Can we develop an effective feature based person re-identification system
- in thermal space?
+\begin_inset Quotes eld
+\end_inset
+
+Which features of a human target are appropriate to facilitate re-identification
+ in thermal video?
+\begin_inset Quotes erd
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
