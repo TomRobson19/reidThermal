@@ -207,13 +207,6 @@ int main( int argc, char** argv )
             {
               for(int a=0; a<activeTargets.size(); a++)
               {
-                if(timeSteps-activeTargets[a].getLastSeen() > 100)//if hasn't been seen for long enough, make inactive
-                {
-                  inactiveTargets.push_back(activeTargets[a]);
-                  activeTargets.erase(activeTargets.begin()+a);
-                  break;
-                }
-
                 Point2f lastPosition = activeTargets[a].getLastPosition();
 
                 if(fabs(center.x-lastPosition.x)<20 and fabs(center.y-lastPosition.y)<20) 
@@ -225,16 +218,50 @@ int main( int argc, char** argv )
                   Rect p = activeTargets[a].kalmanPredict();
 
                   rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+                  allocated = 1;
+                  break;
+                }
+
+                if(timeSteps-activeTargets[a].getLastSeen() > 100 and allocated == 0)//if hasn't been seen for long enough, make inactive
+                {
+                  inactiveTargets.push_back(activeTargets[a]);
+                  activeTargets.erase(activeTargets.begin()+a);
                 }
               }
-
+            }
+            if(allocated == 0)
+            {
               for(int b=0; b<inactiveTargets.size(); b++)
               {
+                Point2f lastPosition = inactiveTargets[b].getLastPosition();
 
-              }
-            }        
+                if(fabs(center.x-lastPosition.x)<20 and fabs(center.y-lastPosition.y)<20) 
+                //if close enough to last postion,it is that person
+                //will change this when features are implemented
+                {
+                  inactiveTargets[b].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+
+                  Rect p = inactiveTargets[b].kalmanPredict();
+
+                  rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+                  activeTargets.push_back(inactiveTargets[b]);
+                  inactiveTargets.erase(inactiveTargets.begin()+b);
+
+                  allocated = 1;
+                  break;
+                }
+              } 
+            }
+            if(allocated == 0)
+            {
+              int identifier = activeTargets.size()+inactiveTargets.size();
+              Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+              activeTargets.push_back(person);
+              allocated = 1;
+            }
           }
-
           rectangle(img, r, Scalar(0,0,255), 2, 8, 0);
         }
       }
