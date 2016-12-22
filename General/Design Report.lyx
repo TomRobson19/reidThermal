@@ -99,11 +99,12 @@ Context/Background
 
 \begin_layout Abstract
 Although use of thermal imagery currently poses significant advantages for
- 24/7 day/night surveillance in terms of the visibility of human, animal
- and vehicle targets under all environmental conditions, a key limitation
- is the lack of colour detail suitable for many current approaches to the
- problem of cross-camera person re-identification (i.e.
- the camera-to-camera tracking of pedestrian targets).
+ 24/7 surveillance in terms of the visibility of human, animal and vehicle
+ targets under all environmental conditions, a key limitation is the lack
+ of colour.
+ Many current approaches to the problem of cross-camera person re-identification
+, or the camera-to-camera tracking of pedestrian targets) rely on colour
+ features.
  Cross-camera person re-identification is a key research problem within
  the domain of visual surveillance and a key challenge for the future deployment
  of thermal sensing as an autonomous sensor technology.
@@ -159,9 +160,43 @@ Method
 \end_layout
 
 \begin_layout Abstract
+This system will be implemented in C++ using the OpenCV library.
+ The first stage is real time person detection, which is done using MoG
+ Background Subtraction, HoG person detection and a 6 dimensional Kalman
+ filter per person, to store position, velocity and bounding box dimensions.
+ From here, each of these people when first identified have some of their
+ features stored.
+ The basic features used will be height of the person, the histogram of
+ thermal intensity and the thermal correlogram.
+ 
+\color red
+From here, more advanced features will be implemented.
+ 
+\end_layout
+
+\begin_layout Abstract
 
 \series bold
 Proposed Solution 
+\end_layout
+
+\begin_layout Abstract
+The solution will take in video feeds from multiple cameras, and concurrently
+ run the person detection and re-identification on these.
+ All of these will shared the same set of previously identifies targets,
+ to facilitate the identification of targets previously seen by different
+ cameras.
+ All previous positions for each person will be recorded and we will be
+ able to estimate the pattern of movement for each target across the entire
+ area covered by the cameras.
+\end_layout
+
+\begin_layout Abstract
+
+\series bold
+Keywords: 
+\series default
+Computer Vision, Re-Identification, Person Tracking, Features, Thermal Imagery
 \end_layout
 
 \begin_layout Standard
@@ -220,13 +255,6 @@ This section briefly introduces the project, the research question you are
  Do not change the font sizes or line spacing in order to put in more text.
 \end_layout
 
-\begin_layout Standard
-Note that the whole report, including the references, should not be longer
- than 12 pages in length (there is no penalty for short papers if the required
- content is included).
- There should be at least 5 referenced papers.
-\end_layout
-
 \begin_layout Section
 Design
 \end_layout
@@ -242,6 +270,235 @@ This section should be up to 8 pages in length.
  The rest of this section shows the formats of subsections as well as some
  general formatting information.
  You should also consult the Word template.
+\end_layout
+
+\begin_layout Standard
+MAKE TABLE OF FUNCTIONAL REQUIREMENTS
+\end_layout
+
+\begin_layout Standard
+IMAGES OF ALL TECHNIQUES, MATHS WHERE NECESSARY
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identifier
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Be able to track a human target in thermal video.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR1.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Perform effective background subtraction.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR1.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Perform person detection based on foreground objects identified in FR1.1.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR1.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Be able to track distinct targets and predict their next position using
+ a Kalman Filter.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Be able to Re-Identify people based on features.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Functional Requirements
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
