@@ -17,7 +17,6 @@ using namespace std;
 using namespace ml;
 
 #include "person.hpp"
-//#include "person.cpp"
 
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
 #define SVM_TO_USE "classifiers/peopleir_lap.svm"
@@ -59,10 +58,10 @@ int main( int argc, char** argv )
 
     namedWindow(windowName, 1);
 
-    createTrackbar("width", windowName, &width, 700);
-    createTrackbar("height", windowName, &height, 700);
-    createTrackbar("1 / learning", windowName, &learning, 5000);
-    createTrackbar("padding n%", windowName, &padding, 100);
+    // createTrackbar("width", windowName, &width, 700);
+    // createTrackbar("height", windowName, &height, 700);
+    // createTrackbar("1 / learning", windowName, &learning, 5000);
+    // createTrackbar("padding n%", windowName, &padding, 100);
 
     // create background / foreground Mixture of Gaussian (MoG) model
 
@@ -197,19 +196,32 @@ int main( int argc, char** argv )
 
             int allocated = 0;
 
-            if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target
+            if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
             {
               Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
+
+              person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+              
+              Rect p = person.kalmanPredict();
+
+              rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+              char str[200];
+              sprintf(str,"Person %d",person.getIdentifier());
+
+              putText(img, str, center, FONT_HERSHEY_SIMPLEX,0.5,(0,0,0));
+
               activeTargets.push_back(person);
               allocated = 1;
             }
-            else
+            
+            if(allocated == 0) //check if it is similar enough to a currently active target
             {
               for(int a=0; a<activeTargets.size(); a++)
               {
                 Point2f lastPosition = activeTargets[a].getLastPosition();
 
-                if(fabs(center.x-lastPosition.x)<20 and fabs(center.y-lastPosition.y)<20) 
+                if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
                 //if close enough to last postion,it is that person
                 //will change this when features are implemented
                 {
@@ -218,6 +230,11 @@ int main( int argc, char** argv )
                   Rect p = activeTargets[a].kalmanPredict();
 
                   rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+                  char str[200];
+                  sprintf(str,"Person %d",activeTargets[a].getIdentifier());
+
+                  putText(img, str, center, FONT_HERSHEY_SIMPLEX,0.5,(0,0,0));
 
                   allocated = 1;
                   break;
@@ -230,13 +247,14 @@ int main( int argc, char** argv )
                 }
               }
             }
-            if(allocated == 0)
+
+            if(allocated == 0) //now check if it is similar to an inactive target
             {
               for(int b=0; b<inactiveTargets.size(); b++)
               {
                 Point2f lastPosition = inactiveTargets[b].getLastPosition();
 
-                if(fabs(center.x-lastPosition.x)<20 and fabs(center.y-lastPosition.y)<20) 
+                if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
                 //if close enough to last postion,it is that person
                 //will change this when features are implemented
                 {
@@ -246,6 +264,11 @@ int main( int argc, char** argv )
 
                   rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
+                  char str[200];
+                  sprintf(str,"Person %d",inactiveTargets[b].getIdentifier());
+
+                  putText(img, str, center, FONT_HERSHEY_SIMPLEX,0.5,(0,0,0));
+
                   activeTargets.push_back(inactiveTargets[b]);
                   inactiveTargets.erase(inactiveTargets.begin()+b);
 
@@ -254,10 +277,22 @@ int main( int argc, char** argv )
                 }
               } 
             }
-            if(allocated == 0)
+            if(allocated == 0) //if not close enough to any existing targets, create a new target
             {
               int identifier = activeTargets.size()+inactiveTargets.size();
               Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+
+              person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+              
+              Rect p = person.kalmanPredict();
+
+              rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+              char str[200];
+              sprintf(str,"Person %d",person.getIdentifier());
+
+              putText(img, str, center, FONT_HERSHEY_SIMPLEX,0.5,(0,0,0));
+
               activeTargets.push_back(person);
               allocated = 1;
             }

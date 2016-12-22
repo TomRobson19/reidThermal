@@ -127,8 +127,6 @@ Rect Person::kalmanPredict()
 {
   Mat prediction = KF.predict();
 
-  cout << "prediction" << prediction << '\n';
-
   Point2f topLeft(prediction.at<float>(0)-prediction.at<float>(4)/2,prediction.at<float>(1)+prediction.at<float>(5)/2);
 
   Point2f bottomRight(prediction.at<float>(0)+prediction.at<float>(4)/2,prediction.at<float>(1)-prediction.at<float>(5)/2);
