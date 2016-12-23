@@ -834,11 +834,13 @@ key "opencv_library"
  has been used to allow us to use stable, well tested code, giving confidence
  in the results obtained while enabling us to focus on the research and
  implementation of the features, which is the main purpose of this project.
+ This library provides all of the the image processing and machine learning
+ techniques to facilitate the first state of this project.
  The implementation will be developed in C++ as it is the most suitable
  for the performance requirements and has a well supported implementation
  of OpenCV functions.
  A text editor will be used for code development and the CMake build tool
- will be used for deployment.
+ will be used for building and deployment of the system.
 \end_layout
 
 \begin_layout Subsection
