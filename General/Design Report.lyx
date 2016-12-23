@@ -83,12 +83,23 @@
 Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery
 \end_layout
 
-\begin_layout Title
-Design Report 
+\begin_layout Standard
+\noindent
+\align center
+Tom Robson
 \end_layout
 
-\begin_layout Author
-Tom Robson
+\begin_layout Standard
+\noindent
+\align center
+Submitted as part of the degree of MEng Computer Science to the 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+Board of Examiners in the School of Engineering and Computing Sciences,
+ Durham University
 \end_layout
 
 \begin_layout Abstract
@@ -103,7 +114,7 @@ Although use of thermal imagery currently poses significant advantages for
  targets under all environmental conditions, a key limitation is the lack
  of colour.
  Many current approaches to the problem of cross-camera person re-identification
-, or the camera-to-camera tracking of pedestrian targets) rely on colour
+, or the camera-to-camera tracking of pedestrian targets rely on colour
  features.
  Cross-camera person re-identification is a key research problem within
  the domain of visual surveillance and a key challenge for the future deployment
@@ -250,38 +261,112 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-This section briefly introduces the project, the research question you are
- addressing.
- Do not change the font sizes or line spacing in order to put in more text.
+A fundamental task for a distributed multi-camera surveillance system is
+ to associate people across different camera views at different locations
+ and times 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+.
+ This is referred to as the Person Re-Identification problem 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+ and is an interesting and important problem within the field of computer
+ vision, with many different approaches being taken to try and perform this
+ process efficiently and reliably, mainly revolving around the use of features
+ or attributes of a target person 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+From the previous work that we have studied, we can see that a substantial
+ amount of research that has been done on Person Re-Identification, but
+ much of this relies on the colour spectrum, with attributes of the form
+ “red shirt” 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne"
+
+\end_inset
+
+.
+ However, in the modern world, thermal imagery is often used for 24/7 surveillan
+ce when all environmental conditions are possible.
+ Therefore, it is important that an effective Re-Identification system is
+ developed to utilise this area of surveillance.
+ Whilst thermal imagery has many advantages, it is not able to identify
+ colour, making attributes that rely on colour useless.
+ Therefore, alternative features are required to faciliate Re-Identification.
+ Recently there has been an increase in the amount of research into thermal
+ tracking, and some focus on Re-Identification, although mainly in robotics,
+ rather than in a distributed camera network, as discussed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Konigs2013"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ciric2013"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The intent of this project is to expand upon this existing research and
+ answer the question 
+\series bold
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\series default
+Which features of a human target are appropriate to facilitate re-identification
+ in thermal video?
+\series bold
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Section
 Design
 \end_layout
 
-\begin_layout Standard
-This section presents the proposed solutions of the problems in detail.
- The design details should all be placed in this section.
- You may create a number of subsections, each focusing on one issue.
+\begin_layout Subsection
+Requirements
 \end_layout
 
 \begin_layout Standard
-This section should be up to 8 pages in length.
- The rest of this section shows the formats of subsections as well as some
- general formatting information.
- You should also consult the Word template.
-\end_layout
-
-\begin_layout Standard
-MAKE TABLE OF FUNCTIONAL REQUIREMENTS
-\end_layout
-
-\begin_layout Standard
-IMAGES OF ALL TECHNIQUES, MATHS WHERE NECESSARY
+Here we list all of the Functional and Non-Functional Requirements of the
+ proposed system, presented in two tables.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float table
+placement H
 wide false
 sideways false
 status open
@@ -499,6 +584,281 @@ Functional Requirements
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identifier
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NFR1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Non-Functional Requirements
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Implementation
+\end_layout
+
+\begin_layout Subsubsection
+Code Structure
+\end_layout
+
+\begin_layout Standard
+The implementation will begin by opening each video file, or camera, and
+ running the Target Detection code on these.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Tools Used
+\end_layout
+
+\begin_layout Standard
+Many of the computer vision techniques that will be described in the next
+ section are complex to implement.
+ Therefore, the OpenCV library 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "opencv_library"
+
+\end_inset
+
+ has been used to allow us to use stable, well tested code, giving confidence
+ in the results obtained while enabling us to focus on the research and
+ implementation of the features, which is the main purpose of this project.
+ The implementation will be developed in C++ as it is the most suitable
+ for the performance requirements and has a well supported implementation
+ of OpenCV functions.
+ A text editor will be used for code development and the CMake build tool
+ will be used for deployment.
+\end_layout
+
+\begin_layout Subsection
+Real Time Target Detection
+\end_layout
+
+\begin_layout Subsubsection
+Background Subtraction
+\end_layout
+
+\begin_layout Subsubsection
+Person Identification
+\end_layout
+
+\begin_layout Subsubsection
+Person Tracking and Position Prediction
+\end_layout
+
+\begin_layout Subsection
+Features
 \end_layout
 
 \begin_layout Standard

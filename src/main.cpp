@@ -209,7 +209,7 @@ int main( int argc, char** argv )
               char str[200];
               sprintf(str,"Person %d",person.getIdentifier());
 
-              putText(img, str, center, FONT_HERSHEY_SIMPLEX,0.5,(0,0,0));
+              putText(img, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
               activeTargets.push_back(person);
               allocated = 1;
@@ -234,7 +234,7 @@ int main( int argc, char** argv )
                   char str[200];
                   sprintf(str,"Person %d",activeTargets[a].getIdentifier());
 
-                  putText(img, str, center, FONT_HERSHEY_SIMPLEX,0.5,(0,0,0));
+                  putText(img, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
                   allocated = 1;
                   break;
@@ -267,7 +267,7 @@ int main( int argc, char** argv )
                   char str[200];
                   sprintf(str,"Person %d",inactiveTargets[b].getIdentifier());
 
-                  putText(img, str, center, FONT_HERSHEY_SIMPLEX,0.5,(0,0,0));
+                  putText(img, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
                   activeTargets.push_back(inactiveTargets[b]);
                   inactiveTargets.erase(inactiveTargets.begin()+b);
@@ -291,7 +291,7 @@ int main( int argc, char** argv )
               char str[200];
               sprintf(str,"Person %d",person.getIdentifier());
 
-              putText(img, str, center, FONT_HERSHEY_SIMPLEX,0.5,(0,0,0));
+              putText(img, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
               activeTargets.push_back(person);
               allocated = 1;
