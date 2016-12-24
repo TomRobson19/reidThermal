@@ -88,17 +88,11 @@ Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery
 Tom Robson - hzwr87
 \end_layout
 
-\begin_layout Standard
+\begin_layout Date
 \noindent
-\align center
-Submitted as part of the degree of MEng Computer Science to the 
-\end_layout
-
-\begin_layout Standard
-\noindent
-\align center
-Board of Examiners in the School of Engineering and Computing Sciences,
- Durham University
+Submitted as part of the degree of MEng Computer Science to the Board of
+ Examiners in the School of Engineering and Computing Sciences, Durham Universit
+y
 \end_layout
 
 \begin_layout Abstract
@@ -368,11 +362,11 @@ Here we list all of the Functional and Non-Functional Requirements of the
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="9" columns="2">
+<lyxtabular version="3" rows="11" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -491,7 +485,7 @@ FR2
 \begin_inset Text
 
 \begin_layout Plain Layout
-Be able to Re-Identify people based on features.
+Be able to Re-Identify people based on basic features.
 \end_layout
 
 \end_inset
@@ -502,7 +496,7 @@ Be able to Re-Identify people based on features.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+FR2.1
 \end_layout
 
 \end_inset
@@ -511,7 +505,8 @@ Be able to Re-Identify people based on features.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+Be able to determine the height of a person and compare this to identified
+ targets.
 \end_layout
 
 \end_inset
@@ -522,7 +517,7 @@ Be able to Re-Identify people based on features.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+FR2.2
 \end_layout
 
 \end_inset
@@ -531,7 +526,51 @@ Be able to Re-Identify people based on features.
 \begin_inset Text
 
 \begin_layout Plain Layout
+Be able to build up a histogram of thermal intensities of a target and compare
+ to identified targets.
+ 
+\end_layout
 
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR2.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Be able to build up a correlogram of thermal intensities of a target and
+ compare to identified targets.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Be able to Re-Identify people based on advanced features.
 \end_layout
 
 \end_inset
@@ -542,7 +581,7 @@ Be able to Re-Identify people based on features.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+FR3.1
 \end_layout
 
 \end_inset
@@ -551,7 +590,7 @@ Be able to Re-Identify people based on features.
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+MORE WHEN DECIDED ON ADVANCED FEATURES
 \end_layout
 
 \end_inset
@@ -576,10 +615,6 @@ Functional Requirements
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -590,11 +625,11 @@ Functional Requirements
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="9" columns="2">
+<lyxtabular version="3" rows="4" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -632,7 +667,7 @@ NFR1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+The system shall run in as close as possible to real-time.
 \end_layout
 
 \end_inset
@@ -643,7 +678,7 @@ NFR1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+NFR2
 \end_layout
 
 \end_inset
@@ -652,107 +687,8 @@ NFR1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+The system must be able to run on multiple cameras, or video files, simultaneous
+ly.
 \end_layout
 
 \end_inset
@@ -763,7 +699,7 @@ NFR1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+NFR3
 \end_layout
 
 \end_inset
@@ -772,7 +708,7 @@ NFR1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+The code must be well documented, understandable and efficient
 \end_layout
 
 \end_inset
@@ -847,6 +783,10 @@ key "opencv_library"
  of OpenCV functions.
  A text editor will be used for code development and CMake will be used
  for building and deployment of the system.
+\end_layout
+
+\begin_layout Subsubsection
+Development Process
 \end_layout
 
 \begin_layout Subsection
@@ -1018,6 +958,10 @@ Person Detection Results
 
 \begin_layout Subsubsection
 Person Tracking and Position Prediction
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Subsection
