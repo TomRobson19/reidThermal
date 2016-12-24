@@ -83,10 +83,9 @@
 Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery
 \end_layout
 
-\begin_layout Standard
+\begin_layout Author
 \noindent
-\align center
-Tom Robson
+Tom Robson - hzwr87
 \end_layout
 
 \begin_layout Standard
@@ -173,7 +172,7 @@ Method
 \begin_layout Abstract
 This system will be implemented in C++ using the OpenCV library.
  The first stage is real time person detection, which is done using MoG
- Background Subtraction, HoG person detection and a 6 dimensional Kalman
+ Background Subtraction, HOG person detection and a 6 dimensional Kalman
  filter per person, to store position, velocity and bounding box dimensions.
  From here, each of these people when first identified have some of their
  features stored.
@@ -369,7 +368,7 @@ Here we list all of the Functional and Non-Functional Requirements of the
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -813,7 +812,14 @@ Code Structure
 
 \begin_layout Standard
 The implementation will begin by opening each video file, or camera, and
- running the Target Detection code on these.
+ concurrently running the Target Detection code on these.
+ When this identifies a target, it compares it to the other targets that
+ have been seen previously, and if it is deemed to be sufficiently similar
+ to a previous target, then this target is re-identified, else it creates
+ a new target.
+ Each of these has an associated Kalman Feature position estimated and a
+ set of features, and these are used to facilitate the comparison between
+ targets.
  
 \end_layout
 
@@ -835,24 +841,179 @@ key "opencv_library"
  in the results obtained while enabling us to focus on the research and
  implementation of the features, which is the main purpose of this project.
  This library provides all of the the image processing and machine learning
- techniques to facilitate the first state of this project.
+ techniques to facilitate the first stage of this project.
  The implementation will be developed in C++ as it is the most suitable
  for the performance requirements and has a well supported implementation
  of OpenCV functions.
- A text editor will be used for code development and the CMake build tool
- will be used for building and deployment of the system.
+ A text editor will be used for code development and CMake will be used
+ for building and deployment of the system.
 \end_layout
 
 \begin_layout Subsection
 Real Time Target Detection
 \end_layout
 
+\begin_layout Standard
+Before we can start concerning ourselves with feature based person Re-Identifica
+tion, we must be able to identify whether a person is present in the image
+ at all.
+ This requires several stages, background subtraction, person identification
+ and person tracking with position prediction.
+\end_layout
+
 \begin_layout Subsubsection
 Background Subtraction
 \end_layout
 
+\begin_layout Standard
+The first stage of this process is background subtraction.
+ We use the Mixture of Gaussians (MoG) technique to facilitate this.
+ This technique works by building up a background model, modeling each of
+ the pixels by multiple Gaussians.
+ Using a Gaussian over the last N frames, where N is a parameter specifying
+ the rate at which the background model is updated, is far more memory efficient
+ than storing all of the pixel values across the entire video capture.
+ During each new frame, a Gaussian for each pixel is evaluated using a simple
+ heuristic to determine which is most likely to correspond to the background
+ model.
+ Pixels that do not match with these background Gaussians are classified
+ as foreground.
+ Once these foreground pixels are identified, erosion and dilation are used
+ to clean up these results.
+ From here, we use contour detection to find the connected components, and
+ draw bounding boxes around these contours.
+ Figure 1 below shows the background model, the foreground target identified
+ and extracted and the bounding box associated with this target, taken from
+ one frame of an example video used for testing.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Mog
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MoG Background Subtraction
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsubsection
 Person Identification
+\end_layout
+
+\begin_layout Standard
+Having identified the foreground objects, we must now determine whether
+ they are people.
+ This implementation has two options for this, the first of these is using
+ Histogram of Oriented Gradients (HOG).
+ This method works by performing edge detection on the bounding box identified
+ by the background subtraction, and calculating the gradient and magnitude
+ of each of these edges.
+ From here cell histograms are computed, with each of the histogram entries
+ filled by gradient magnitudes.
+ These histograms are then used to create overlapping block histograms of
+ the adjacent cells.
+ These block histograms are then combined to give a HOG descriptor, a high
+ dimensional vector.
+ This HOG descriptor is then passed to a pre-trained Machine Learning algorithm,
+ in this case a Support Vector Machine (SVM).
+ If this comes up with a positive identification, then it is classified
+ as a person.
+ 
+\end_layout
+
+\begin_layout Standard
+An alternative to HOG is the use of a Haar Cascade detector.
+ This method works by combining successively more complex classifiers in
+ a cascade structure.
+ This focuses the attention of the detector on the promising reasons of
+ the image.
+ It is trained on a set of very simple features, which are much faster to
+ evaluate than the HOG descriptors.
+ The final classification is done using a combination of these classifiers
+ in a cascade structure, beginning with those less accurate but faster classifie
+rs to discard clearly negative areas.
+ 
+\end_layout
+
+\begin_layout Standard
+The reason for the inclusion of both methods here is that there is a trade
+ off between them.
+ HOG is a slightly more accurate identifier, but it is slow, even within
+ the confines of the bounding box identified.
+ The Haar Cascade is much faster, but gets a slightly inferior classification
+ rate.
+ For this reason, the option exists to change between the two systems, depending
+ on whether speed or accuracy is important.
+ The output of both systems looks much the same, and is displayed in Figure
+ 2.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Hog
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Person Detection Results
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -865,7 +1026,7 @@ Features
 
 \begin_layout Standard
 \begin_inset Note Note
-status open
+status collapsed
 
 \begin_layout Plain Layout
 Main Text
