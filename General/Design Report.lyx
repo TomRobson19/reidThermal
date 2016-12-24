@@ -961,11 +961,64 @@ Person Tracking and Position Prediction
 \end_layout
 
 \begin_layout Standard
+From here, we need to track each identified person.
+ This is done by creating a person object for each newly identified target,
+ each with an associated Kalman Filter.
+ A Kalman Filter is a commonly used position estimator in such tracking
+ problems.
+ The one used here is 6-dimensional, storing the coordinates of the centre
+ of the target, its velocity in each direction and the width and height
+ of the associated bounding box.
+ This is updated each time the target is detected and calculates a predicted
+ position for the next timestep.
+ With this associated with each person object, we know where each person
+ is positioned within The distributed camera network.
+ This can inform us as to which person any identified target is likely to
+ be, due to their most recent position, and can speed up the computation
+ time involved in the comparison.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Kalman
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Kalman Filter Results
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
 \begin_layout Subsection
-Features
+Features for Re=Identification
 \end_layout
 
 \begin_layout Standard
