@@ -362,7 +362,7 @@ Here we list all of the Functional and Non-Functional Requirements of the
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -625,7 +625,7 @@ Functional Requirements
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
@@ -914,6 +914,10 @@ The reason for the inclusion of both methods here is that there is a trade
  rate.
  For this reason, the option exists to change between the two systems, depending
  on whether speed or accuracy is important.
+ A real world example of this trade off would be in a surveillance system,
+ if the operator is looking to Re-Identify people from live video input
+ they would use the Haar Cascade, but if they waned to Re-Identify people
+ from pre-recorded video footage, they would use HOG.
  The output of both systems looks much the same, and is displayed in Figure
  2.
 \end_layout
@@ -956,7 +960,7 @@ Person Detection Results
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Person Tracking and Position Prediction
 \end_layout
 
