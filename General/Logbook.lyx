@@ -715,5 +715,16 @@ Added text to each Kalman Classification - colour doesn't seem to be working.
  
 \end_layout
 
+\begin_layout Itemize
+Now working mainly on Design Report, done sections for the code I have implement
+ed.
+\end_layout
+
+\begin_layout Itemize
+Implementation targets for the holidays are done, maybe experiment with
+ creating template for features and multi-threading for multiple cameras/video
+ files
+\end_layout
+
 \end_body
 \end_document
