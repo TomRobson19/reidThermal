@@ -8,7 +8,7 @@
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
-\language english
+\language british
 \language_package default
 \inputencoding auto
 \fontencoding global
@@ -85,7 +85,7 @@ Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery
 
 \begin_layout Author
 \noindent
-Tom Robson - hzwr87
+Thomas Robson - hzwr87 
 \end_layout
 
 \begin_layout Date
@@ -112,15 +112,7 @@ Although use of thermal imagery currently poses significant advantages for
  Cross-camera person re-identification is a key research problem within
  the domain of visual surveillance and a key challenge for the future deployment
  of thermal sensing as an autonomous sensor technology.
- This project aims to investigate the development and transferability of
- current state of the art techniques in the domain of cross-camera person
- re-identification and related work in pedestrian tracking to a multiple
- camera network comprising of far infrared (thermal) cameras.
- This project would make use of existing all-weather thermal camera sensing
- units currently used on an existing research programme within the Durham
- research team (from which time-synchronised imagery can already be obtained)
- It would build and support upon a range of existing thermal image detection,
- tracking and classification approaches within the Durham team.
+ 
 \end_layout
 
 \begin_layout Abstract
@@ -133,28 +125,18 @@ Aims
 The aim of this project is to develop a system that would build upon and
  extend the range of existing thermal image detection, tracking and classificati
 on approaches being carried out by the Durham University research team.
-\end_layout
-
-\begin_layout Abstract
-The first step for this would be to draw upon existing work to be able to
- detect a person within thermal video imagery in real time, distinguish
+ The first step for this would be to draw upon existing work to be able
+ to detect a person within thermal video imagery in real time, distinguish
  a person from other objects and track a person moving through a scene in
  real time.
- 
-\end_layout
-
-\begin_layout Abstract
-We would then need to implement 2-3 state of the art features/attributes
- from the literature studied.
+ We would then implement 2-3 features/attributes from the literature studied.
  We would then carry out a first pass or initial framework for re-identification
  using these features/attributes.
  The system must be able to re-identify 5+ people within a test video sequence
  in real time using multiple cameras.
-\end_layout
-
-\begin_layout Abstract
-This would then be extended by implementing 2 more state of the art features/att
-ributes and extending the re-identification ability to 10+ people.
+ This would then be extended by implementing 2 more advanced state of the
+ art features/attributes and extending the re-identification ability to
+ 10+ people.
 \end_layout
 
 \begin_layout Abstract
@@ -286,6 +268,24 @@ key "Layne"
 \end_layout
 
 \begin_layout Standard
+There are many potential applications for this technology, but the most
+ important in the modern world would be to support human intelligence organisati
+ons.
+ The surveillance data that a system like this can provide would be critical
+ for crime-prevention, forensic analysis, and counter-terrorism activities
+ in both civilian and governmental agencies alike.
+ While this is of course widely used by human operators, they have to be
+ trained, which offsets the utility of this approach with training and staffing
+ costs.
+ The implementation of an automated Re-Identification system is therefore
+ of great interest, as it would be very useful in supporting these human
+ operators achieve better results more efficiently.
+ This would be particularly important in thermal space, as many of the features
+ that we propose to use are complex and mathematically grounded, making
+ them difficult for a human analyst to observe.
+\end_layout
+
+\begin_layout Standard
 From the previous work that we have studied, we can see that a substantial
  amount of research that has been done on Person Re-Identification, but
  much of this relies on the colour spectrum, with attributes of the form
@@ -342,6 +342,79 @@ Which features of a human target are appropriate to facilitate re-identification
 
 .
  
+\end_layout
+
+\begin_layout Subsection
+Aims of the Project
+\end_layout
+
+\begin_layout Standard
+The aim of this project is to investigate the above research question by
+ developing a system that can detect a person within thermal video imagery
+ in real time, distinguish this person from other objects in the scene and
+ track this person moving through a scene in real time.
+ We would then implement 2-3 features/attributes from the literature studied,
+ and use these to carry out a first pass or initial framework for Re-Identificat
+ion.
+ At this stage, the system must be able to Re-Identify at least 5 people
+ within a test video sequence in real time using multiple cameras.
+ This would then be extended by implementing 2 more advanced state of the
+ art features/attributes and extending the re-identification ability to
+ at least 10 people.
+\end_layout
+
+\begin_layout Subsection
+Deliverables
+\end_layout
+
+\begin_layout Subsubsection
+Basic Deliverables
+\end_layout
+
+\begin_layout Enumerate
+Ability to detect a person within thermal video imagery in real time.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Ability to distinguish a person from other objects.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Ability to track a person moving through a scene in real time.
+\end_layout
+
+\begin_layout Subsubsection
+Intermediate Deliverables
+\end_layout
+
+\begin_layout Enumerate
+Implement 2-3 state of the art features/attributes for re-identification.
+\end_layout
+
+\begin_layout Enumerate
+First pass/Initial framework for re-identification using these features/attribut
+es.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Ability to re-identify at least people within a test video sequence in real
+ time using multiple cameras.
+\end_layout
+
+\begin_layout Subsubsection
+Advanced Deliverables
+\end_layout
+
+\begin_layout Enumerate
+Extend this by implementing 2 more state of the art features/attributes.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Extend the re-identification ability to at least 10 people.
 \end_layout
 
 \begin_layout Section
@@ -424,7 +497,7 @@ FR1.1
 \begin_inset Text
 
 \begin_layout Plain Layout
-Perform effective background subtraction.
+Perform effective background subtraction and foreground target identification.
 \end_layout
 
 \end_inset
@@ -789,6 +862,17 @@ key "opencv_library"
 Development Process
 \end_layout
 
+\begin_layout Standard
+For the development of this system, agile development methods have been
+ applied to this single person project.
+ The weekly meetings held with the supervisor have functioned as stand-up
+ meetings would in a group based agile development process, while scrum
+ methodologies have been applied to development of individual components
+ of the system, functioning as sprints.
+ This has proven to be an effective way of organising the development of
+ this system.
+\end_layout
+
 \begin_layout Subsection
 Real Time Target Detection
 \end_layout
@@ -806,10 +890,10 @@ Background Subtraction
 \end_layout
 
 \begin_layout Standard
-The first stage of this process is background subtraction.
+The first stage of this process is background subtraction, addressing FR1.1.
  We use the Mixture of Gaussians (MoG) technique to facilitate this.
- This technique works by building up a background model, modeling each of
- the pixels by multiple Gaussians.
+ This technique works by building up a background model, modelling each
+ of the pixels by multiple Gaussians.
  Using a Gaussian over the last N frames, where N is a parameter specifying
  the rate at which the background model is updated, is far more memory efficient
  than storing all of the pixel values across the entire video capture.
@@ -872,7 +956,7 @@ Person Identification
 
 \begin_layout Standard
 Having identified the foreground objects, we must now determine whether
- they are people.
+ they are people, addressing FR1.2.
  This implementation has two options for this, the first of these is using
  Histogram of Oriented Gradients (HOG).
  This method works by performing edge detection on the bounding box identified
@@ -913,8 +997,9 @@ The reason for the inclusion of both methods here is that there is a trade
  The Haar Cascade is much faster, but gets a slightly inferior classification
  rate.
  For this reason, the option exists to change between the two systems, depending
- on whether speed or accuracy is important.
- A real world example of this trade off would be in a surveillance system,
+ on whether speed or accuracy is important, or how much emphasis is put
+ on NFR1.
+ A real world example of this trade-off would be in a surveillance system,
  if the operator is looking to Re-Identify people from live video input
  they would use the Haar Cascade, but if they waned to Re-Identify people
  from pre-recorded video footage, they would use HOG.
@@ -965,7 +1050,7 @@ Person Tracking and Position Prediction
 \end_layout
 
 \begin_layout Standard
-From here, we need to track each identified person.
+From here, we need to track each identified person, and address FR1.3.
  This is done by creating a person object for each newly identified target,
  each with an associated Kalman Filter.
  A Kalman Filter is a commonly used position estimator in such tracking
@@ -1022,7 +1107,19 @@ Kalman Filter Results
 \end_layout
 
 \begin_layout Subsection
-Features for Re=Identification
+Features for Re-Identification
+\end_layout
+
+\begin_layout Subsubsection
+Height
+\end_layout
+
+\begin_layout Subsubsection
+Histogram of Thermal Intensities
+\end_layout
+
+\begin_layout Subsubsection
+Thermal Correlogram
 \end_layout
 
 \begin_layout Standard
@@ -1182,7 +1279,6 @@ citeyear{futher}
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-btprint "btPrintAll"
 bibfiles "library"
 options "bibtotoc,default"
 

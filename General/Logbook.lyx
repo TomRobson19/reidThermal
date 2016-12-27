@@ -641,7 +641,7 @@ Overall Code Layout (files - main.cpp, person.cpp, moghog.cpp, associated header
 
 \begin_deeper
 \begin_layout Itemize
-Multiple cameras (video files as command line args)
+Multiple cameras (video files as command line args for this implementation)
 \end_layout
 
 \begin_layout Itemize
@@ -724,6 +724,50 @@ ed.
 Implementation targets for the holidays are done, maybe experiment with
  creating template for features and multi-threading for multiple cameras/video
  files
+\end_layout
+
+\begin_layout Itemize
+NEED TO ASK TOBY IF I NEED TO REFERENCE HIS SLIDES WHEN I DESCRIBE TECHNIQUES
+\end_layout
+
+\begin_layout Section*
+Week 11
+\end_layout
+
+\begin_layout Section*
+Week 12
+\end_layout
+
+\begin_layout Section*
+Week 13
+\end_layout
+
+\begin_layout Section*
+Week 14
+\end_layout
+
+\begin_layout Section*
+Week 15
+\end_layout
+
+\begin_layout Section*
+Week 16
+\end_layout
+
+\begin_layout Section*
+Week 17
+\end_layout
+
+\begin_layout Section*
+Week 18
+\end_layout
+
+\begin_layout Section*
+Week 19
+\end_layout
+
+\begin_layout Section*
+Week 20
 \end_layout
 
 \end_body
