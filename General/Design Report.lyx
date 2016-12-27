@@ -106,10 +106,10 @@ Although use of thermal imagery currently poses significant advantages for
  24/7 surveillance in terms of the visibility of human, animal and vehicle
  targets under all environmental conditions, a key limitation is the lack
  of colour.
- Many current approaches to the problem of cross-camera person re-identification
+ Many current approaches to the problem of cross-camera person Re-Identification
 , or the camera-to-camera tracking of pedestrian targets rely on colour
  features.
- Cross-camera person re-identification is a key research problem within
+ Cross-camera person Re-Identification is a key research problem within
  the domain of visual surveillance and a key challenge for the future deployment
  of thermal sensing as an autonomous sensor technology.
  
@@ -130,12 +130,12 @@ on approaches being carried out by the Durham University research team.
  a person from other objects and track a person moving through a scene in
  real time.
  We would then implement 2-3 features/attributes from the literature studied.
- We would then carry out a first pass or initial framework for re-identification
+ We would then carry out a first pass or initial framework for Re-Identification
  using these features/attributes.
  The system must be able to re-identify 5+ people within a test video sequence
  in real time using multiple cameras.
  This would then be extended by implementing 2 more advanced state of the
- art features/attributes and extending the re-identification ability to
+ art features/attributes and extending the Re-Identification ability to
  10+ people.
 \end_layout
 
@@ -168,7 +168,7 @@ Proposed Solution
 
 \begin_layout Abstract
 The solution will take in video feeds from multiple cameras, and concurrently
- run the person detection and re-identification on these.
+ run the person detection and Re-Identification on these.
  All of these will shared the same set of previously identifies targets,
  to facilitate the identification of targets previously seen by different
  cameras.
@@ -178,11 +178,19 @@ The solution will take in video feeds from multiple cameras, and concurrently
 \end_layout
 
 \begin_layout Abstract
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
 
 \series bold
 Keywords: 
 \series default
-Computer Vision, Re-Identification, Person Tracking, Features, Thermal Imagery
+Computer Vision, Re-Identification, Person Tracking, Features, Attributes,
+ Thermal Imagery
 \end_layout
 
 \begin_layout Standard
@@ -333,7 +341,7 @@ The intent of this project is to expand upon this existing research and
 
 
 \series default
-Which features of a human target are appropriate to facilitate re-identification
+Which features of a human target are appropriate to facilitate Re-Identification
  in thermal video?
 \series bold
 
@@ -359,7 +367,7 @@ ion.
  At this stage, the system must be able to Re-Identify at least 5 people
  within a test video sequence in real time using multiple cameras.
  This would then be extended by implementing 2 more advanced state of the
- art features/attributes and extending the re-identification ability to
+ art features/attributes and extending the Re-Identification ability to
  at least 10 people.
 \end_layout
 
@@ -390,11 +398,11 @@ Intermediate Deliverables
 \end_layout
 
 \begin_layout Enumerate
-Implement 2-3 state of the art features/attributes for re-identification.
+Implement 2-3 state of the art features/attributes for Re-Identification.
 \end_layout
 
 \begin_layout Enumerate
-First pass/Initial framework for re-identification using these features/attribut
+First pass/Initial framework for Re-Identification using these features/attribut
 es.
  
 \end_layout
@@ -414,7 +422,7 @@ Extend this by implementing 2 more state of the art features/attributes.
 \end_layout
 
 \begin_layout Enumerate
-Extend the re-identification ability to at least 10 people.
+Extend the Re-Identification ability to at least 10 people.
 \end_layout
 
 \begin_layout Section
@@ -427,7 +435,7 @@ Requirements
 
 \begin_layout Standard
 Here we list all of the Functional and Non-Functional Requirements of the
- proposed system, presented in two tables.
+ proposed system, presented in two tables below.
 \end_layout
 
 \begin_layout Standard
@@ -821,12 +829,12 @@ Code Structure
 
 \begin_layout Standard
 The implementation will begin by opening each video file, or camera, and
- concurrently running the Target Detection code on these.
- When this identifies a target, it compares it to the other targets that
- have been seen previously, and if it is deemed to be sufficiently similar
- to a previous target, then this target is re-identified, else it creates
- a new target.
- Each of these has an associated Kalman Feature position estimated and a
+ concurrently running the real time target detection code on these.
+ When this code identifies a target, it compares it to the other targets
+ that have been seen previously, and if it is deemed to be sufficiently
+ similar to a previous target, then this target is re-identified, else it
+ creates a new target.
+ Each of these has an associated Kalman Feature position estimator and a
  set of features, and these are used to facilitate the comparison between
  targets.
  
@@ -1050,7 +1058,8 @@ Person Tracking and Position Prediction
 \end_layout
 
 \begin_layout Standard
-From here, we need to track each identified person, and address FR1.3.
+Once the target has been identified as a person, we need to track each identifie
+d person, and address FR1.3.
  This is done by creating a person object for each newly identified target,
  each with an associated Kalman Filter.
  A Kalman Filter is a commonly used position estimator in such tracking
