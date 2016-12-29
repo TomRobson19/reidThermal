@@ -34,8 +34,6 @@ int main( int argc, char** argv )
   VideoCapture cap;     // capture object
 
   const string windowName = "Live Image"; // window name
-  //const string windowNameF = "Foreground"; // window name
-  //const string windowNameB = "Background"; // window name
 
   bool keepProcessing = true;	// loop control flag
   unsigned char  key;			// user input
@@ -55,16 +53,9 @@ int main( int argc, char** argv )
   ( argc != 2 && (cap.open(0) == true)))
   {
     // create window object (use flag=0 to allow resize, 1 to auto fix size)
-
     namedWindow(windowName, 1);
 
-    // createTrackbar("width", windowName, &width, 700);
-    // createTrackbar("height", windowName, &height, 700);
-    // createTrackbar("1 / learning", windowName, &learning, 5000);
-    // createTrackbar("padding n%", windowName, &padding, 100);
-
     // create background / foreground Mixture of Gaussian (MoG) model
-
     Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25,false);
 
     HOGDescriptor hog;

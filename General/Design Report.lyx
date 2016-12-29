@@ -863,7 +863,8 @@ key "opencv_library"
  for the performance requirements and has a well supported implementation
  of OpenCV functions.
  A text editor will be used for code development and CMake will be used
- for building and deployment of the system.
+ for building and deployment of the system, while GitHub has been used for
+ backups and version control.
 \end_layout
 
 \begin_layout Subsubsection
@@ -902,9 +903,10 @@ The first stage of this process is background subtraction, addressing FR1.1.
  We use the Mixture of Gaussians (MoG) technique to facilitate this.
  This technique works by building up a background model, modelling each
  of the pixels by multiple Gaussians.
- Using a Gaussian over the last N frames, where N is a parameter specifying
- the rate at which the background model is updated, is far more memory efficient
- than storing all of the pixel values across the entire video capture.
+ Using a Gaussian over the last N frames, where N is given by a parameter
+ specifying the rate at which the background model is updated, is far more
+ memory efficient than storing all of the pixel values across the entire
+ video capture.
  During each new frame, a Gaussian for each pixel is evaluated using a simple
  heuristic to determine which is most likely to correspond to the background
  model.
@@ -1053,7 +1055,7 @@ Person Detection Results
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Person Tracking and Position Prediction
 \end_layout
 
@@ -1063,17 +1065,19 @@ d person, and address FR1.3.
  This is done by creating a person object for each newly identified target,
  each with an associated Kalman Filter.
  A Kalman Filter is a commonly used position estimator in such tracking
- problems.
+ problems, and is important because it makes use of current information
+ about a target to reduce the search space required in subsequent frames.
  The one used here is 6-dimensional, storing the coordinates of the centre
  of the target, its velocity in each direction and the width and height
  of the associated bounding box.
  This is updated each time the target is detected and calculates a predicted
  position for the next timestep.
- With this associated with each person object, we know where each person
- is positioned within The distributed camera network.
+ With such a Kalman Filter associated with each person object, we know where
+ each person is positioned within the distributed camera network.
  This can inform us as to which person any identified target is likely to
  be, due to their most recent position, and can speed up the computation
- time involved in the comparison.
+ time involved in the comparison, as we know people cannot be in two places
+ at once.
  
 \end_layout
 
