@@ -19,6 +19,11 @@ using namespace ml;
 #include "person.hpp"
 #include "moghog.hpp"
 
+
+'''
+Need to ensure that these target vectors are threadsafe if Im going to handle the 
+different cameras with multithreading, as there may be access conflicts
+'''
 std::vector<Person> activeTargets;
 std::vector<Person> inactiveTargets;
 std::vector<string> videos;
