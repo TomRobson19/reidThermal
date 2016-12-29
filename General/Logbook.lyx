@@ -730,6 +730,13 @@ Implementation targets for the holidays are done, maybe experiment with
 NEED TO ASK TOBY IF I NEED TO REFERENCE HIS SLIDES WHEN I DESCRIBE TECHNIQUES
 \end_layout
 
+\begin_layout Itemize
+Current understanding is that I will need to use multi-threading to enable
+ the use of multiple 'cameras', which may lead to access conflicts in my
+ vectors of targets, check this when I come to it.
+ 
+\end_layout
+
 \begin_layout Section*
 Week 11
 \end_layout
