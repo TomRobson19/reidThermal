@@ -1070,8 +1070,8 @@ d person, and address FR1.3.
  The one used here is 6-dimensional, storing the coordinates of the centre
  of the target, its velocity in each direction and the width and height
  of the associated bounding box.
- This is updated each time the target is detected and calculates a predicted
- position for the next timestep.
+ This is updated each time the target is detected and the implementation
+ then calculates a predicted position for the target in the next timestep.
  With such a Kalman Filter associated with each person object, we know where
  each person is positioned within the distributed camera network.
  This can inform us as to which person any identified target is likely to
@@ -1127,8 +1127,29 @@ Features for Re-Identification
 Height
 \end_layout
 
+\begin_layout Standard
+
+\end_layout
+
 \begin_layout Subsubsection
 Histogram of Thermal Intensities
+\end_layout
+
+\begin_layout Standard
+The next feature that will be used is the histogram of thermal intensities.
+ This will be done by first using edge detection methods to get just the
+ pixels that represent the target from within the Kalman bounding box.
+ From here, the intensity of each pixel that makes up the target will be
+ recorded, and a histogram will be constructed of all pixels within certain
+ bounds.
+ 
+\series bold
+PICK BOUNDS!! 
+\series default
+Each time a comparison is made, it will build up a histogram for the new
+ target, and if it is sufficiently close to an existing target, then this
+ feature will be satisfied.
+ 
 \end_layout
 
 \begin_layout Subsubsection
