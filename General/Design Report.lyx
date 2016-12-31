@@ -377,10 +377,26 @@ key "Huang,Zhang2015"
 
 , which suggest the use of a colour correlogram.
  This method gives an idea of spatial correlation of colours, using a table
- indexed by color pairs, where the k-th entry for <i, j> specifies the probabili
-ty of finding a pixel of colour j at a distance k from a pixel of colour
- i in the image.
- We will apply a similar principle to thermal intensity values
+ indexed by colour pairs, where the k-th entry for <i, j> specifies the
+ probability of finding a pixel of colour j at a distance k from a pixel
+ of colour i in the image.
+ We will apply a similar principle to thermal intensity values in this project.
+ 
+\series bold
+NOW TALK ABOUT HEIGHT AND ADVANCED FEATURES.
+\end_layout
+
+\begin_layout Standard
+When considering a network or multiple cameras, it is important to consider
+ the layout, or topology of these cameras.
+ This enables us to take more meaning from the data that the system will
+ give us, and determine estimated paths that the targets follow when they
+ are out of view of the cameras.
+ When the camera system that we will use is set up, we will note down coordinate
+s of each camera's position, and overlay these on an area map.
+ From here, once the system has tracked some people and recorder some data,
+ we will plot the movements of each target on this map.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -392,9 +408,8 @@ The aim of this project is to investigate the above research question by
  developing a system that can detect a person within thermal video imagery
  in real time, distinguish this person from other objects in the scene and
  track this person moving through a scene in real time.
- We would then implement 2-3 features/attributes from the literature studied,
- and use these to carry out a first pass or initial framework for Re-Identificat
-ion.
+ We would then implement 2-3 features/attributes, and use these to carry
+ out a first pass or initial framework for Re-Identification.
  At this stage, the system must be able to Re-Identify at least 5 people
  within a test video sequence in real time using multiple cameras.
  This would then be extended by implementing 2 more advanced state of the
@@ -487,7 +502,7 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-Identifier
+Requirement Number
 \end_layout
 
 \end_inset
@@ -750,7 +765,7 @@ status collapsed
 \begin_inset Text
 
 \begin_layout Plain Layout
-Identifier
+Requirement Number
 \end_layout
 
 \end_inset
@@ -958,7 +973,7 @@ The first stage of this process is background subtraction, addressing FR1.1.
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -978,7 +993,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-MoG Background Subtraction
+MoG Background Subtraction Output
 \end_layout
 
 \end_inset
@@ -1045,7 +1060,9 @@ The reason for the inclusion of both methods here is that there is a trade
  they would use the Haar Cascade, but if they waned to Re-Identify people
  from pre-recorded video footage, they would use HOG.
  The output of both systems looks much the same, and is displayed in Figure
- 2.
+ 2, where the red box represents the search area given by the background
+ subtractor with additional padding, and the green box represents the identified
+ human target from HOG or Haar Cascade.
 \end_layout
 
 \begin_layout Standard
@@ -1053,7 +1070,7 @@ The reason for the inclusion of both methods here is that there is a trade
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
@@ -1073,7 +1090,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Person Detection Results
+Person Detection Output
 \end_layout
 
 \end_inset
@@ -1109,6 +1126,12 @@ d person, and address FR1.3.
  be, due to their most recent position, and can speed up the computation
  time involved in the comparison, as we know people cannot be in two places
  at once.
+ Figure 3 shows the output of this, with the red box showing the area identified
+ as a foreground target, and the blue box is the predicted position of the
+ target in the next frame.
+ The green box from the person identification phase is omitted here to reduce
+ the clutter in the image, but the process is still being performed to give
+ us the measurement of the target's position in each frame.
  
 \end_layout
 
@@ -1117,14 +1140,14 @@ d person, and address FR1.3.
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Kalman
-	scale 60
+	scale 70
 
 \end_inset
 
@@ -1137,7 +1160,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Kalman Filter Results
+Kalman Filter Output
 \end_layout
 
 \end_inset

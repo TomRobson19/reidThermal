@@ -103,7 +103,7 @@ Point2f kalmanCorrect(float x, float y, int timeSteps, float w, float h)
 
   Mat estimated = KF.correct(measurement);
 
-  cout << "estimated" << estimated << '\n';
+  cout << "corrected" << estimated << '\n';
 
   Point2f statePt(estimated.at<float>(0),estimated.at<float>(1));
 

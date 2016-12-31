@@ -734,6 +734,18 @@ Current understanding is that I will need to use multi-threading to enable
  
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+FOR DESIGN REPORT, REFERENCE ORIGINAL PAPERS BEHIND OPENCV FUNCTIONS
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ENSURE EACH FIGURE IS EXPLAINED IN DETAIL
+\end_layout
+
 \begin_layout Section*
 Week 11
 \end_layout
