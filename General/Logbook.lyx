@@ -9,7 +9,7 @@
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
-\language english
+\language british
 \language_package default
 \inputencoding auto
 \fontencoding global
@@ -414,17 +414,7 @@ Remember the last time counter where target was spotted, if too big then
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
-NEED TO UPDATE MENDELEY, REMOVE STUFF NOT USED AT ALL, UPDATE WITH CORRECT
- PUBLICATIONS, DATES ETC
-\end_layout
-
-\begin_layout Itemize
 Design Report
-\series bold
- - Toby is willing to read drafts, off from 21st to 4th.
- Could Skpye.
 \end_layout
 
 \begin_deeper
@@ -682,6 +672,13 @@ Now created person.cpp and person.hpp, working on main.cpp
 
 \begin_layout Itemize
 Use contours to calculate features.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Toby is willing to read drafts, off from 21st to 4th.
+ Could Skype.
 \end_layout
 
 \begin_layout Section*

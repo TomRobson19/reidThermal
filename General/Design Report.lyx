@@ -12,11 +12,11 @@
 \language_package default
 \inputencoding auto
 \fontencoding global
-\font_roman default
+\font_roman times
 \font_sans default
 \font_typewriter default
 \font_math auto
-\font_default_family default
+\font_default_family rmdefault
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
@@ -264,7 +264,7 @@ key "Gong2014"
  and is an interesting and important problem within the field of computer
  vision, with many different approaches being taken to try and perform this
  process efficiently and reliably, mainly revolving around the use of features
- or attributes of a target person 
+ or attributes of a person 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Layne"
@@ -272,6 +272,8 @@ key "Layne"
 \end_inset
 
 .
+ This has been researched widely in colour space, but there has been very
+ little research done on solving this problem in thermal space.
  
 \end_layout
 
@@ -282,12 +284,12 @@ ons.
  The surveillance data that a system like this can provide would be critical
  for crime-prevention, forensic analysis, and counter-terrorism activities
  in both civilian and governmental agencies alike.
- While this is of course widely used by human operators, they have to be
+ While this is widely used by human operators, these operators have to be
  trained, which offsets the utility of this approach with training and staffing
  costs.
  The implementation of an automated Re-Identification system is therefore
  of great interest, as it would be very useful in supporting these human
- operators achieve better results more efficiently.
+ operators and enabling them to achieve better results more efficiently.
  This would be particularly important in thermal space, as many of the features
  that we propose to use are complex and mathematically grounded, making
  them difficult for a human analyst to observe.
@@ -311,7 +313,7 @@ ce when all environmental conditions are possible.
  developed to utilise this area of surveillance.
  Whilst thermal imagery has many advantages, it is not able to identify
  colour, making attributes that rely on colour useless.
- Therefore, alternative features are required to faciliate Re-Identification.
+ Therefore, alternative features are required to facilitate Re-Identification.
  Recently there has been an increase in the amount of research into thermal
  tracking, and some focus on Re-Identification, although mainly in robotics,
  rather than in a distributed camera network, as discussed in 
@@ -350,6 +352,35 @@ Which features of a human target are appropriate to facilitate Re-Identification
 
 .
  
+\series default
+The challenges associated with answering this question are mostly due to
+ the increased complexity of the features required in thermal space, as
+ we do not have simple colour features available to us.
+ Such features, as described in more detail in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne"
+
+\end_inset
+
+, have many applications from clothes colour to hair and skin colour.
+ In thermal, we cannot use such simple features, so must think in a more
+ complex way.
+ The closest we can get to colour in thermal is intensity, so a histogram
+ of these intensities per target will be a key feature for us to use.
+ we also draw inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Huang,Zhang2015"
+
+\end_inset
+
+, which suggest the use of a colour correlogram.
+ This method gives an idea of spatial correlation of colours, using a table
+ indexed by color pairs, where the k-th entry for <i, j> specifies the probabili
+ty of finding a pixel of colour j at a distance k from a pixel of colour
+ i in the image.
+ We will apply a similar principle to thermal intensity values
 \end_layout
 
 \begin_layout Subsection
@@ -934,7 +965,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Mog
-	scale 75
+	scale 60
 
 \end_inset
 
@@ -1125,10 +1156,6 @@ Features for Re-Identification
 
 \begin_layout Subsubsection
 Height
-\end_layout
-
-\begin_layout Standard
-
 \end_layout
 
 \begin_layout Subsubsection
