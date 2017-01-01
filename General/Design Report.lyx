@@ -869,6 +869,11 @@ Non-Functional Requirements
 Implementation
 \end_layout
 
+\begin_layout Standard
+Here we give details of the structure of the implementation, the tools used
+ in its development and the process employed.
+\end_layout
+
 \begin_layout Subsubsection
 Code Structure
 \end_layout
@@ -946,7 +951,15 @@ Background Subtraction
 
 \begin_layout Standard
 The first stage of this process is background subtraction, addressing FR1.1.
- We use the Mixture of Gaussians (MoG) technique to facilitate this.
+ We use the Mixture of Gaussians (MoG) technique to facilitate this, taking
+ inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Zivkovic2004,Zivkovic"
+
+\end_inset
+
+.
  This technique works by building up a background model, modelling each
  of the pixels by multiple Gaussians.
  Using a Gaussian over the last N frames, where N is given by a parameter
@@ -1015,7 +1028,14 @@ Person Identification
 Having identified the foreground objects, we must now determine whether
  they are people, addressing FR1.2.
  This implementation has two options for this, the first of these is using
- Histogram of Oriented Gradients (HOG).
+ Histogram of Oriented Gradients (HOG), discussed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dalal"
+
+\end_inset
+
+.
  This method works by performing edge detection on the bounding box identified
  by the background subtraction, and calculating the gradient and magnitude
  of each of these edges.
@@ -1033,7 +1053,15 @@ Having identified the foreground objects, we must now determine whether
 \end_layout
 
 \begin_layout Standard
-An alternative to HOG is the use of a Haar Cascade detector.
+An alternative to HOG is the use of a Haar Cascade detector, proposed in
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RainerLienhartandJochenMaydt2002,Viola"
+
+\end_inset
+
+.
  This method works by combining successively more complex classifiers in
  a cascade structure.
  This focuses the attention of the detector on the promising reasons of
@@ -1112,7 +1140,14 @@ Person Tracking and Position Prediction
 Once the target has been identified as a person, we need to track each identifie
 d person, and address FR1.3.
  This is done by creating a person object for each newly identified target,
- each with an associated Kalman Filter.
+ each with an associated Kalman Filter, explained in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bishop"
+
+\end_inset
+
+.
  A Kalman Filter is a commonly used position estimator in such tracking
  problems, and is important because it makes use of current information
  about a target to reduce the search space required in subsequent frames.
@@ -1122,7 +1157,16 @@ d person, and address FR1.3.
  This is updated each time the target is detected and the implementation
  then calculates a predicted position for the target in the next frame of
  the video.
- With such a Kalman Filter associated with each person object, we know where
+ This prediction is based on a transition matrix, which in this implementation
+ keeps the velocity and bounding box dimensions the same as in the current
+ state, and changes the position in both x and y by adding the current velocity,
+ as this is how much its position should change in the next position if
+ the velocity doesn't change.
+ 
+\end_layout
+
+\begin_layout Standard
+With such a Kalman Filter associated with each person object, we know where
  each person is positioned within the distributed camera network.
  This can inform us as to which person any identified target is likely to
  be, due to their most recent position, and can speed up the computation
@@ -1177,6 +1221,11 @@ Kalman Filter Output
 
 \begin_layout Subsection
 Features for Re-Identification
+\end_layout
+
+\begin_layout Standard
+To properly associate and compare person objects, we must now look at the
+ thermal features of each person.
 \end_layout
 
 \begin_layout Subsubsection
