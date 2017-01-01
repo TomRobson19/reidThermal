@@ -19,7 +19,7 @@ using namespace ml;
 //#include "person.hpp"
 
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
-#define SVM_TO_USE "classifiers/peopleir_lap.svm"
+//#define SVM_TO_USE "classifiers/peopleir_lap.svm"
 
 cv::KalmanFilter KF;
 cv::Mat_<float> measurement(6,1); 

@@ -368,7 +368,7 @@ key "Layne"
  complex way.
  The closest we can get to colour in thermal is intensity, so a histogram
  of these intensities per target will be a key feature for us to use.
- we also draw inspiration from 
+ We also draw inspiration from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Huang,Zhang2015"
@@ -962,9 +962,10 @@ The first stage of this process is background subtraction, addressing FR1.1.
  to clean up these results.
  From here, we use contour detection to find the connected components, and
  draw bounding boxes around these contours.
- Figure 1 below shows the background model, the foreground target identified
- and extracted and the bounding box associated with this target, taken from
- one frame of an example video used for testing.
+ Figure 1 below shows the background model that the system has built up,
+ the foreground of the image, the target identified and the bounding box
+ associated with this target, taken from one frame of an example video used
+ for testing.
  
 \end_layout
 
@@ -973,7 +974,7 @@ The first stage of this process is background subtraction, addressing FR1.1.
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -1070,7 +1071,7 @@ The reason for the inclusion of both methods here is that there is a trade
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -1119,7 +1120,8 @@ d person, and address FR1.3.
  of the target, its velocity in each direction and the width and height
  of the associated bounding box.
  This is updated each time the target is detected and the implementation
- then calculates a predicted position for the target in the next timestep.
+ then calculates a predicted position for the target in the next frame of
+ the video.
  With such a Kalman Filter associated with each person object, we know where
  each person is positioned within the distributed camera network.
  This can inform us as to which person any identified target is likely to
@@ -1140,7 +1142,7 @@ d person, and address FR1.3.
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -1204,6 +1206,23 @@ Each time a comparison is made, it will build up a histogram for the new
 
 \begin_layout Subsubsection
 Thermal Correlogram
+\end_layout
+
+\begin_layout Standard
+For this feature, we draw inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Huang,Zhang2015"
+
+\end_inset
+
+, which suggest the use of a colour correlogram.
+ This method gives an idea of spatial correlation of colours, using a table
+ indexed by colour pairs, where the k-th entry for <i, j> specifies the
+ probability of finding a pixel of colour j at a distance k from a pixel
+ of colour i in the image.
+ We will apply a similar principle to thermal intensity values in this project.
+ 
 \end_layout
 
 \begin_layout Standard
