@@ -109,9 +109,9 @@ Although use of thermal imagery currently poses significant advantages for
  Many current approaches to the problem of cross-camera person Re-Identification
 , or the camera-to-camera tracking of pedestrian targets rely on colour
  features.
- Cross-camera person Re-Identification is a key research problem within
- the domain of visual surveillance and a key challenge for the future deployment
- of thermal sensing as an autonomous sensor technology.
+ Person Re-Identification across multiple cameras is a key research problem
+ within the domain of visual surveillance and a key challenge for the future
+ deployment of thermal sensing as an autonomous sensor technology.
  
 \end_layout
 
@@ -129,14 +129,13 @@ on approaches being carried out by the Durham University research team.
  to detect a person within thermal video imagery in real time, distinguish
  a person from other objects and track a person moving through a scene in
  real time.
- We would then implement 2-3 features/attributes from the literature studied.
- We would then carry out a first pass or initial framework for Re-Identification
- using these features/attributes.
+ We would then implement features/attributes from the literature studied
+ and carry out a first pass or initial framework for Re-Identification using
+ these features/attributes.
  The system must be able to re-identify 5+ people within a test video sequence
  in real time using multiple cameras.
- This would then be extended by implementing 2 more advanced state of the
- art features/attributes and extending the Re-Identification ability to
- 10+ people.
+ This would then be extended by implementing some more advanced features/attribu
+tes and extending the Re-Identification ability to 10+ people.
 \end_layout
 
 \begin_layout Abstract
@@ -189,8 +188,8 @@ The solution will take in video feeds from multiple cameras, and concurrently
 \series bold
 Keywords: 
 \series default
-Computer Vision, Re-Identification, Person Tracking, Features, Attributes,
- Thermal Imagery
+Computer Vision, Person, Re-Identification, Person Tracking, Features, Attribute
+s, Thermal Imagery
 \end_layout
 
 \begin_layout Standard
@@ -388,7 +387,8 @@ NOW TALK ABOUT HEIGHT AND ADVANCED FEATURES.
 
 \begin_layout Standard
 When considering a network or multiple cameras, it is important to consider
- the layout, or topology of these cameras.
+ the layout, or topology of these cameras, to gain a proper insight into
+ the movements of our human targets.
  This enables us to take more meaning from the data that the system will
  give us, and determine estimated paths that the targets follow when they
  are out of view of the cameras.
