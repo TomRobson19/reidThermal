@@ -107,7 +107,7 @@ Although use of thermal imagery currently poses significant advantages for
  targets under all environmental conditions, a key limitation is the lack
  of colour.
  Many current approaches to the problem of cross-camera person Re-Identification
-, or the camera-to-camera tracking of pedestrian targets rely on colour
+, or the camera-to-camera tracking of pedestrian targets, rely on colour
  features.
  Person Re-Identification across multiple cameras is a key research problem
  within the domain of visual surveillance and a key challenge for the future
@@ -124,11 +124,10 @@ Aims
 \begin_layout Abstract
 The aim of this project is to develop a system that would build upon and
  extend the range of existing thermal image detection, tracking and classificati
-on approaches being carried out by the Durham University research team.
- The first step for this would be to draw upon existing work to be able
- to detect a person within thermal video imagery in real time, distinguish
- a person from other objects and track a person moving through a scene in
- real time.
+on approaches.
+ The first step for this would be to be able to detect a person within thermal
+ video in real time, distinguish a person from other objects and track a
+ person moving through a scene in real time.
  We would then implement features/attributes from the literature studied
  and carry out a first pass or initial framework for Re-Identification using
  these features/attributes.
@@ -145,10 +144,10 @@ Method
 \end_layout
 
 \begin_layout Abstract
-This system will be implemented in C++ using the OpenCV library.
- The first stage is real time person detection, which is done using MoG
- Background Subtraction, HOG person detection and a 6 dimensional Kalman
- filter per person, to store position, velocity and bounding box dimensions.
+The first stage is real time person detection, which is done using MoG Backgroun
+d Subtraction, HOG person detection and a 6 dimensional Kalman filter per
+ person to facilitate tracking a person and store their position, velocity
+ and bounding box dimensions.
  From here, each of these people when first identified have some of their
  features stored.
  The basic features used will be height of the person, the histogram of
@@ -166,14 +165,18 @@ Proposed Solution
 \end_layout
 
 \begin_layout Abstract
-The solution will take in video feeds from multiple cameras, and concurrently
- run the person detection and Re-Identification on these.
- All of these will shared the same set of previously identifies targets,
- to facilitate the identification of targets previously seen by different
- cameras.
+This system will be implemented in C++ using the widely used OpenCV computer
+ vision library.
+ The solution will take in video feeds from multiple cameras, or pre-recorded
+ video files, and concurrently run the person detection and Re-Identification
+ on these.
+ All of these will operate on the same set of previously identified targets,
+ grouped into active and inactive targets, to facilitate the identification
+ of targets previously seen by different cameras.
  All previous positions for each person will be recorded and we will be
  able to estimate the pattern of movement for each target across the entire
- area covered by the cameras.
+ area covered by the cameras by considering to topology of our network of
+ cameras.
 \end_layout
 
 \begin_layout Abstract
@@ -189,7 +192,7 @@ The solution will take in video feeds from multiple cameras, and concurrently
 Keywords: 
 \series default
 Computer Vision, Person, Re-Identification, Person Tracking, Features, Attribute
-s, Thermal Imagery
+s, Thermal Imagery, Thermal Video
 \end_layout
 
 \begin_layout Standard
@@ -386,7 +389,7 @@ NOW TALK ABOUT HEIGHT AND ADVANCED FEATURES.
 \end_layout
 
 \begin_layout Standard
-When considering a network or multiple cameras, it is important to consider
+When considering a network of multiple cameras, it is important to consider
  the layout, or topology of these cameras, to gain a proper insight into
  the movements of our human targets.
  This enables us to take more meaning from the data that the system will
@@ -966,13 +969,17 @@ key "Zivkovic2004,Zivkovic"
  specifying the rate at which the background model is updated, is far more
  memory efficient than storing all of the pixel values across the entire
  video capture.
- During each new frame, a Gaussian for each pixel is evaluated using a simple
- heuristic to determine which is most likely to correspond to the background
- model.
+ 
+\end_layout
+
+\begin_layout Standard
+As the code runs through the video, during each new frame, a Gaussian for
+ each pixel is evaluated using a simple heuristic to determine which is
+ most likely to correspond to the background model.
  Pixels that do not match with these background Gaussians are classified
- as foreground.
- Once these foreground pixels are identified, erosion and dilation are used
- to clean up these results.
+ as foreground elements, and added to a new image in the code.
+ Once these foreground pixels are identified and built into a foreground
+ mask, erosion and dilation are used to clean up these results.
  From here, we use contour detection to find the connected components, and
  draw bounding boxes around these contours.
  Figure 1 below shows the background model that the system has built up,
@@ -1151,9 +1158,13 @@ key "Bishop"
  A Kalman Filter is a commonly used position estimator in such tracking
  problems, and is important because it makes use of current information
  about a target to reduce the search space required in subsequent frames.
- The one used here is 6-dimensional, storing the coordinates of the centre
- of the target, its velocity in each direction and the width and height
- of the associated bounding box.
+ 
+\end_layout
+
+\begin_layout Standard
+The Kalman Filter that has been implemented here is 6-dimensional, storing
+ the coordinates of the centre of the target, its velocity in each direction
+ and the width and height of the associated bounding box.
  This is updated each time the target is detected and the implementation
  then calculates a predicted position for the target in the next frame of
  the video.
@@ -1230,6 +1241,12 @@ To properly associate and compare person objects, we must now look at the
 
 \begin_layout Subsubsection
 Height
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Perhaps ratio of width of detection vs height??? 
 \end_layout
 
 \begin_layout Subsubsection

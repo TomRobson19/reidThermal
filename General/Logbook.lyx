@@ -737,13 +737,18 @@ Current understanding is that I will need to use multi-threading to enable
 \begin_layout Itemize
 
 \series bold
-FOR DESIGN REPORT, REFERENCE ORIGINAL PAPERS BEHIND OPENCV FUNCTIONS
+FOR DESIGN REPORT, REFERENCE ORIGINAL PAPERS BEHIND OPENCV FUNCTIONS - done
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
 ENSURE EACH FIGURE IS EXPLAINED IN DETAIL
+\end_layout
+
+\begin_layout Itemize
+Idea of using ratio of width vs height of bounding box as a feature, possibly
+ instead of height???
 \end_layout
 
 \begin_layout Section*
