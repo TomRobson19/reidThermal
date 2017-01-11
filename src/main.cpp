@@ -211,10 +211,6 @@ int main( int argc, char** argv )
               {
                 Point2f lastPosition = activeTargets[a].getLastPosition();
 
-                cout << activeTargets[a].getIdentifier() << '\n';
-
-                cout << "x diff " << fabs(center.x-lastPosition.x) << ", y diff " << fabs(center.y-lastPosition.y) << '\n';
-
                 if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
                 //if close enough to last postion,it is that person
                 //will change this when features are implemented
@@ -291,13 +287,6 @@ int main( int argc, char** argv )
               allocated = 1;
             }
           }
-          cout << "Number of active targets = " << activeTargets.size() << '\n';
-
-          for (int i=0; i<activeTargets.size(); i++)
-          {
-            cout << activeTargets[i].getIdentifier() << " position " << activeTargets[i].getLastPosition() << '\n';
-          }
-
           rectangle(img, r, Scalar(0,0,255), 2, 8, 0);
         }
       }
