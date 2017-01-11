@@ -17,12 +17,6 @@ using namespace std;
 using namespace ml;
 
 #include "person.hpp"
- 
-int personIdentifier;
-vector<cv::Mat_<float> > history;
-int lastSeen;
-cv::KalmanFilter KF;
-cv::Mat_<float> measurement(6,1);
 
 Person::Person(int identifier, float x, float y, int timeSteps, float w, float h)
 {

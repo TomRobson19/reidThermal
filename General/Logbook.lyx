@@ -751,6 +751,12 @@ Idea of using ratio of width vs height of bounding box as a feature, possibly
  instead of height???
 \end_layout
 
+\begin_layout Itemize
+
+\series bold
+Adding new targets is overwriting all previous targets.
+\end_layout
+
 \begin_layout Section*
 Week 11
 \end_layout

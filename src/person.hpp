@@ -21,6 +21,12 @@ using namespace ml;
  
 class Person
 {
+private: 
+	int personIdentifier;
+	vector<cv::Mat_<float> > history;
+	int lastSeen;
+	cv::KalmanFilter KF;
+	cv::Mat_<float> measurement = cv::Mat_<float>(6,1);
 public:
 	Person(int identifier, float x, float y, int timeSteps, float w, float h);
 

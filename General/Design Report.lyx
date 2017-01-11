@@ -1246,7 +1246,10 @@ Height
 \begin_layout Standard
 
 \series bold
-Perhaps ratio of width of detection vs height??? 
+Perhaps ratio of width of detection vs height??? Otherwise, don't know how
+ to get height from single camera position as bounding box size is dictated
+ by a percentage multiplication.
+ (look at photogrammetry)
 \end_layout
 
 \begin_layout Subsubsection
