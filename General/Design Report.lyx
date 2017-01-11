@@ -395,10 +395,12 @@ When considering a network of multiple cameras, it is important to consider
  This enables us to take more meaning from the data that the system will
  give us, and determine estimated paths that the targets follow when they
  are out of view of the cameras.
- When the camera system that we will use is set up, we will note down coordinate
-s of each camera's position, and overlay these on an area map.
- From here, once the system has tracked some people and recorder some data,
+ When the camera system that we will use is set up, we will record the coordinat
+es of each camera's position, and overlay these on a map of the area.
+ From here, once the system has tracked some people and recorded some data,
  we will plot the movements of each target on this map.
+ This seems to us to be a sensible way of effectively visualising the data
+ that our system generates.
  
 \end_layout
 
@@ -882,8 +884,8 @@ Code Structure
 \end_layout
 
 \begin_layout Standard
-The implementation will begin by opening each video file, or camera, and
- concurrently running the real time target detection code on these.
+The implementation will begin by opening each video file, or live camera,
+ and concurrently running the real time target detection code on these.
  When this code identifies a target, it compares it to the other targets
  that have been seen previously, and if it is deemed to be sufficiently
  similar to a previous target, then this target is re-identified, else it
