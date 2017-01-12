@@ -752,9 +752,27 @@ Idea of using ratio of width vs height of bounding box as a feature, possibly
 \end_layout
 
 \begin_layout Itemize
+Adding new targets was overwriting all previous targets, this has now been
+ fixed
+\end_layout
+
+\begin_layout Itemize
 
 \series bold
-Adding new targets is overwriting all previous targets.
+Perhaps something based on the optic flow inside the bounding box from several
+ frames (captures gait characteristics).
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Look into Histogram of Flow (HOF)
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Saliency may be an interesting feature, look at paper on Toby's email
 \end_layout
 
 \begin_layout Section*

@@ -150,12 +150,20 @@ d Subtraction, HOG person detection and a 6 dimensional Kalman filter per
  and bounding box dimensions.
  From here, each of these people when first identified have some of their
  features stored.
- The basic features used will be height of the person, the histogram of
- thermal intensity and the thermal correlogram.
+ The basic features used will be the ratio of height to width of the bounding
+ box of the target, the histogram of thermal intensity and the thermal correlogr
+am of the target.
+
+\color black
+ From here, more advanced features will be implemented.
+ Currently, we are planning to implement
+\series bold
+\color inherit
  
-\color red
-From here, more advanced features will be implemented.
- 
+\series default
+a feature based on optic flow inside the bounding box from several frames
+ in order to capture gait characteristics, Histogram of Flow and Saliency
+ of the target.
 \end_layout
 
 \begin_layout Abstract
@@ -498,7 +506,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="2">
+<lyxtabular version="3" rows="13" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -637,8 +645,8 @@ FR2.1
 \begin_inset Text
 
 \begin_layout Plain Layout
-Be able to determine the height of a person and compare this to identified
- targets.
+Be able to determine the ratio of height to width of a person and compare
+ this to identified targets.
 \end_layout
 
 \end_inset
@@ -709,7 +717,7 @@ Be able to Re-Identify people based on advanced features.
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -718,11 +726,52 @@ FR3.1
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Utilise optic flow inside the bounding box from several frames in order
+ to capture gait characteristics
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR3.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Histogram of Flow
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR3.3
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-MORE WHEN DECIDED ON ADVANCED FEATURES
+Saliency of Target
 \end_layout
 
 \end_inset
@@ -1148,8 +1197,8 @@ Person Tracking and Position Prediction
 \begin_layout Standard
 Once the target has been identified as a person, we need to track each identifie
 d person, and address FR1.3.
- This is done by creating a person object for each newly identified target,
- each with an associated Kalman Filter, explained in 
+ This is done by creating a new person object for each newly identified
+ target, each with an associated Kalman Filter, explained in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Bishop"
@@ -1237,21 +1286,21 @@ Features for Re-Identification
 \end_layout
 
 \begin_layout Standard
-To properly associate and compare person objects, we must now look at the
- thermal features of each person.
+To properly associate and compare person objects, we must now consider the
+ features of each person.
 \end_layout
 
 \begin_layout Subsubsection
-Height
+Height to Width Ratio of Target
 \end_layout
 
 \begin_layout Standard
-
-\series bold
-Perhaps ratio of width of detection vs height??? Otherwise, don't know how
- to get height from single camera position as bounding box size is dictated
- by a percentage multiplication.
- (look at photogrammetry)
+The first feature we will consider is the ratio of the height of the target
+ to the width of the target.
+ This is the best indication of the size of the target that we can use,
+ as the single viewpoint of this camera system means we cannot determine
+ the actual height and width of the target.
+ 
 \end_layout
 
 \begin_layout Subsubsection
