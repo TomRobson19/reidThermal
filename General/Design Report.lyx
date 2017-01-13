@@ -204,45 +204,6 @@ s, Thermal Imagery, Thermal Video
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Abstract
-These instructions give you guidelines for preparing the design paper.
- DO NOT change any settings, such as margins and font sizes.
- Just use this as a template and modify the contents into your design paper.
- Do not cite references in the abstract.
-\end_layout
-
-\begin_layout Abstract
-The abstract must be a Structured Abstract with the headings 
-\series bold
-Context/Background
-\series default
-, 
-\series bold
-Aims
-\series default
-, 
-\series bold
-Method
-\series default
-, and 
-\series bold
-Proposed Solution
-\series default
-.
- This section should not be no longer than a page, and having no more than
- two or three sentences under each heading is advised.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset Newpage newpage
 \end_inset
 
@@ -376,8 +337,12 @@ key "Layne"
 , have many applications from clothes colour to hair and skin colour.
  In thermal, we cannot use such simple features, so must think in a more
  complex way.
- The closest we can get to colour in thermal is intensity, so a histogram
- of these intensities per target will be a key feature for us to use.
+\end_layout
+
+\begin_layout Standard
+The closest we can get to colour in thermal is the intensity of each pixel,
+ so a histogram of these intensities per target will be a key feature for
+ us to use.
  We also draw inspiration from 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -393,7 +358,7 @@ key "Huang,Zhang2015"
  We will apply a similar principle to thermal intensity values in this project.
  
 \series bold
-NOW TALK ABOUT HEIGHT AND ADVANCED FEATURES.
+NOW TALK ABOUT RATIO AND ADVANCED FEATURES.
 \end_layout
 
 \begin_layout Standard
@@ -1004,7 +969,8 @@ Background Subtraction
 \end_layout
 
 \begin_layout Standard
-The first stage of this process is background subtraction, addressing FR1.1.
+The first stage of this process is background subtraction from the static
+ camera viewpoint, addressing FR1.1.
  We use the Mixture of Gaussians (MoG) technique to facilitate this, taking
  inspiration from 
 \begin_inset CommandInset citation
@@ -1014,19 +980,21 @@ key "Zivkovic2004,Zivkovic"
 \end_inset
 
 .
- This technique works by building up a background model, modelling each
- of the pixels by multiple Gaussians.
+ This technique works by 'learning' a background model, modelling each of
+ the pixels by multiple Gaussians.
  Using a Gaussian over the last N frames, where N is given by a parameter
  specifying the rate at which the background model is updated, is far more
  memory efficient than storing all of the pixel values across the entire
  video capture.
- 
+ This update rate is determined by the trade off between being fast enough
+ to absorb objects that have become stationary into the background, and
+ being slow enough to allow the detection of slow moving objects.
 \end_layout
 
 \begin_layout Standard
-As the code runs through the video, during each new frame, a Gaussian for
- each pixel is evaluated using a simple heuristic to determine which is
- most likely to correspond to the background model.
+As the program runs through the video, during each new frame, a Gaussian
+ for each pixel is evaluated using a simple heuristic to determine which
+ is most likely to correspond to the background model.
  Pixels that do not match with these background Gaussians are classified
  as foreground elements, and added to a new image in the code.
  Once these foreground pixels are identified and built into a foreground
@@ -1288,6 +1256,9 @@ Features for Re-Identification
 \begin_layout Standard
 To properly associate and compare person objects, we must now consider the
  features of each person.
+ These have not been implemented at this stage of the development progress,
+ so will be discussed from a theoretical and hypothetical point of view.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -1301,6 +1272,8 @@ The first feature we will consider is the ratio of the height of the target
  as the single viewpoint of this camera system means we cannot determine
  the actual height and width of the target.
  
+\series bold
+DO I DO THIS WITH BOUNDING BOX OR EDGE DETECTION FOR ACTUAL PERSON??
 \end_layout
 
 \begin_layout Subsubsection
@@ -1343,160 +1316,6 @@ key "Huang,Zhang2015"
  of colour i in the image.
  We will apply a similar principle to thermal intensity values in this project.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-Main Text
-\end_layout
-
-\begin_layout Plain Layout
-The font used for the main text should be Times New Roman (Times) and the
- font size should be 12.
- The first line of all paragraphs should be indented by 0.25in, except for
- the first paragraph of each section, subsection, subsubsection etc.
- (the paragraph immediately after the header) where no indentation is needed.
-\end_layout
-
-\begin_layout Plain Layout
-Figures and Tables
-\end_layout
-
-\begin_layout Plain Layout
-In general, figures and tables should not appear before they are cited.
- Place figure captions below the figures; place table titles above the tables.
- If your figure has two parts, for example, include the labels 
-\begin_inset Quotes eld
-\end_inset
-
-(a)
-\begin_inset Quotes erd
-\end_inset
-
- and 
-\begin_inset Quotes eld
-\end_inset
-
-(b)
-\begin_inset Quotes erd
-\end_inset
-
- as part of the artwork.
- Please verify that figures and tables you mention in the text actually
- exist.
- make sure that all tables and figures are numbered as shown in Table
-\end_layout
-
-\begin_layout Plain Layout
-References
-\end_layout
-
-\begin_layout Plain Layout
-The list of cited references should appear at the end of the report, ordered
- alphabetically by the surnames of the first authors.
- The default style for references cited in the main text is the Harvard
- (author, date) format.
- When citing a section in a book, please give the relevant page numbers,
- as in 
-\begin_inset CommandInset citation
-LatexCommand cite
-after "p293"
-key "budgen"
-
-\end_inset
-
-.
- When citing, where there are either one or two authors, use the names,
- but if there are more than two, give the first one and use 
-\begin_inset Quotes eld
-\end_inset
-
-et al.
-\begin_inset Quotes erd
-\end_inset
-
- as in , except where this would be ambiguous, in which case use all author
- names.
-\end_layout
-
-\begin_layout Plain Layout
-You need to give all authors' names in each reference.
- Do not use 
-\begin_inset Quotes eld
-\end_inset
-
-et al.
-\begin_inset Quotes erd
-\end_inset
-
- unless there are more than five authors.
- Papers that have not been published should be cited as 
-\begin_inset Quotes eld
-\end_inset
-
-unpublished
-\begin_inset Quotes erd
-\end_inset
-
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "euther"
-
-\end_inset
-
-.
- Papers that have been submitted or accepted for publication should be cited
- as 
-\begin_inset Quotes eld
-\end_inset
-
-submitted for publication
-\begin_inset Quotes erd
-\end_inset
-
- as in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "futher"
-
-\end_inset
-
- .
- You can also cite using just the year when the author's name appears in
- the text, as in 
-\begin_inset Quotes eld
-\end_inset
-
-but according to Futher 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-citeyear{futher}
-\end_layout
-
-\end_inset
-
-, we …
-\begin_inset Quotes erd
-\end_inset
-
-.
- Where an authors has more than one publication in a year, add `a', `b'
- etc.
- after the year.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
