@@ -674,13 +674,6 @@ Now created person.cpp and person.hpp, working on main.cpp
 Use contours to calculate features.
 \end_layout
 
-\begin_layout Itemize
-
-\series bold
-Toby is willing to read drafts, off from 21st to 4th.
- Could Skype.
-\end_layout
-
 \begin_layout Section*
 Christmas Holidays
 \end_layout
@@ -754,6 +747,14 @@ Idea of using ratio of width vs height of bounding box as a feature, possibly
 \begin_layout Itemize
 Adding new targets was overwriting all previous targets, this has now been
  fixed
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+ENSURE PRESENTATION IS PITCHED AT SLIGHTLY LOWER LEVEL 
+\series default
+(feedback from BAE)
 \end_layout
 
 \begin_layout Itemize

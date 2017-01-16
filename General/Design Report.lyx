@@ -161,9 +161,10 @@ am of the target.
 \color inherit
  
 \series default
-a feature based on optic flow inside the bounding box from several frames
- in order to capture gait characteristics, Histogram of Flow and Saliency
- of the target.
+a feature based on
+\color red
+ optic flow inside the bounding box from several frames in order to capture
+ gait characteristics, Histogram of Flow and Saliency of the target.
 \end_layout
 
 \begin_layout Abstract
@@ -327,7 +328,7 @@ Which features of a human target are appropriate to facilitate Re-Identification
 The challenges associated with answering this question are mostly due to
  the increased complexity of the features required in thermal space, as
  we do not have simple colour features available to us.
- Such features, as described in more detail in 
+ Such colour features, as described in more detail in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Layne"
@@ -340,9 +341,19 @@ key "Layne"
 \end_layout
 
 \begin_layout Standard
-The closest we can get to colour in thermal is the intensity of each pixel,
- so a histogram of these intensities per target will be a key feature for
- us to use.
+The most basic feature of a human target that we can use is their size.
+ As we are using a single, fixed viewpoint for each camera, we cannot get
+ an accurate measure for width or height due to our inability to determine
+ how far away a target is from the camera.
+ Therefore, the best measure of this that we can use is the ratio of the
+ height of a person to the width to determine a relative size.
+ 
+\end_layout
+
+\begin_layout Standard
+From here, the closest we can get to a colour value per pixel in thermal
+ is the intensity of each pixel, so a histogram of these intensities per
+ target will be a key feature for us to use.
  We also draw inspiration from 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -356,9 +367,12 @@ key "Huang,Zhang2015"
  probability of finding a pixel of colour j at a distance k from a pixel
  of colour i in the image.
  We will apply a similar principle to thermal intensity values in this project.
- 
+\end_layout
+
+\begin_layout Standard
+
 \series bold
-NOW TALK ABOUT RATIO AND ADVANCED FEATURES.
+NOW TALK ABOUT ADVANCED FEATURES.
 \end_layout
 
 \begin_layout Standard
@@ -953,7 +967,7 @@ For the development of this system, agile development methods have been
 \end_layout
 
 \begin_layout Subsection
-Real Time Target Detection
+Real Time Person Detection
 \end_layout
 
 \begin_layout Standard
@@ -1190,8 +1204,8 @@ The Kalman Filter that has been implemented here is 6-dimensional, storing
  This prediction is based on a transition matrix, which in this implementation
  keeps the velocity and bounding box dimensions the same as in the current
  state, and changes the position in both x and y by adding the current velocity,
- as this is how much its position should change in the next position if
- the velocity doesn't change.
+ as this is how much its position should change in the next frame if the
+ velocity remains constant.
  
 \end_layout
 
@@ -1199,9 +1213,8 @@ The Kalman Filter that has been implemented here is 6-dimensional, storing
 With such a Kalman Filter associated with each person object, we know where
  each person is positioned within the distributed camera network.
  This can inform us as to which person any identified target is likely to
- be, due to their most recent position, and can speed up the computation
- time involved in the comparison, as we know people cannot be in two places
- at once.
+ be, due to their most recent position, and can speed up the comparison,
+ as we know people cannot be in two places at once.
  Figure 3 shows the output of this, with the red box showing the area identified
  as a foreground target, and the blue box is the predicted position of the
  target in the next frame.
@@ -1258,22 +1271,54 @@ To properly associate and compare person objects, we must now consider the
  features of each person.
  These have not been implemented at this stage of the development progress,
  so will be discussed from a theoretical and hypothetical point of view.
+ The system will compare each person found by the real time person detection
+ code to each of the people already stored in the system, and score their
+ similarity based on a combination of the features described below.
  
 \end_layout
 
 \begin_layout Subsubsection
-Height to Width Ratio of Target
+Size of the Target
 \end_layout
 
 \begin_layout Standard
-The first feature we will consider is the ratio of the height of the target
- to the width of the target.
+The first feature we will consider is the size of the target, expressed
+ by the ratio of the height of the target to the width of the target.
  This is the best indication of the size of the target that we can use,
  as the single viewpoint of this camera system means we cannot determine
- the actual height and width of the target.
+ a true measurement of the height or width of the target.
+ Due to the similarities of the shapes of most people, this feature is of
+ limited use, however it is simple to implement and will aid in identifying
+ certain 
+\color black
+outliers
+\color inherit
+ in our target set.
  
+\end_layout
+
+\begin_layout Standard
+One obstacle to the effectiveness of this feature is the orientation of
+ the target, as the front profile and side profile of a person are considerably
+ different.
+ This seems like a major flaw, but using the velocity measurements in each
+ direction stored in the Kalman filter, we will be able to determine the
+ direction of travel of a person, and thus whether an observation of this
+ person is a side profile or a front/back profile.
+ We could then store two values of this ratio per person, one for a front/back
+ profile and one for a side profile, and compare each new target to these
+ profiles based on the Kalman velocity.
+ This does present a problem however.
+ For example, if a sideways moving person is identified, and there is no
+ pre-existing side profile measurement for an existing target, then we discount
+ this feature and use others.
+\end_layout
+
+\begin_layout Standard
+
 \series bold
-DO I DO THIS WITH BOUNDING BOX OR EDGE DETECTION FOR ACTUAL PERSON??
+DO I DO THIS WITH BOUNDING BOX OR EDGE DETECTION FOR ACTUAL PERSON?? - ask
+ in next meeting
 \end_layout
 
 \begin_layout Subsubsection
@@ -1287,13 +1332,22 @@ The next feature that will be used is the histogram of thermal intensities.
  From here, the intensity of each pixel that makes up the target will be
  recorded, and a histogram will be constructed of all pixels within certain
  bounds.
- 
+
 \series bold
-PICK BOUNDS!! 
+ 
 \series default
 Each time a comparison is made, it will build up a histogram for the new
  target, and if it is sufficiently close to an existing target, then this
  feature will be satisfied.
+ This is a useful feature as it can give a fair impression of clothing,
+ as if one target is wearing a T-Shirt, for example, there will be more
+ high intensity pixels than will be present for a target wearing a long
+ sleeved shirt or jacket.
+ As discussed for the previous feature, the direction of motion will be
+ important for this feature, as the thermal profile of the front of a target
+ will be different from the side or back.
+ This will be addressed using the velocity measurements in the Kalman Filter
+ as before.
  
 \end_layout
 
@@ -1314,8 +1368,21 @@ key "Huang,Zhang2015"
  indexed by colour pairs, where the k-th entry for <i, j> specifies the
  probability of finding a pixel of colour j at a distance k from a pixel
  of colour i in the image.
- We will apply a similar principle to thermal intensity values in this project.
+ We will apply a similar principle to thermal intensity values in this project,
+ in a manner that will expand upon the histogram discussed above.
  
+\end_layout
+
+\begin_layout Subsubsection
+Placeholder1
+\end_layout
+
+\begin_layout Subsubsection
+Placeholder2
+\end_layout
+
+\begin_layout Subsubsection
+Placeholder3
 \end_layout
 
 \begin_layout Standard
