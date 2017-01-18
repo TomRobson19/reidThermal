@@ -164,7 +164,7 @@ am of the target.
 a feature based on
 \color red
  optic flow inside the bounding box from several frames in order to capture
- gait characteristics, Histogram of Flow and Saliency of the target.
+ gait characteristics (Histogram of Flow).
 \end_layout
 
 \begin_layout Abstract
@@ -485,7 +485,7 @@ status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="13" columns="2">
+<lyxtabular version="3" rows="11" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -696,7 +696,7 @@ Be able to Re-Identify people based on advanced features.
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -705,52 +705,12 @@ FR3.1
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Utilise optic flow inside the bounding box from several frames in order
- to capture gait characteristics
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-FR3.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Histogram of Flow
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-FR3.3
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-Saliency of Target
+Utilise optic flow inside the bounding box from several frames in order
+ to capture gait characteristics (Histogram of Flow)
 \end_layout
 
 \end_inset
@@ -1278,47 +1238,7 @@ To properly associate and compare person objects, we must now consider the
 \end_layout
 
 \begin_layout Subsubsection
-Size of the Target
-\end_layout
-
-\begin_layout Standard
-The first feature we will consider is the size of the target, expressed
- by the ratio of the height of the target to the width of the target.
- This is the best indication of the size of the target that we can use,
- as the single viewpoint of this camera system means we cannot determine
- a true measurement of the height or width of the target.
- Due to the similarities of the shapes of most people, this feature is of
- limited use, however it is simple to implement and will aid in identifying
- certain 
-\color black
-outliers
-\color inherit
- in our target set.
- 
-\end_layout
-
-\begin_layout Standard
-One obstacle to the effectiveness of this feature is the orientation of
- the target, as the front profile and side profile of a person are considerably
- different.
- This seems like a major flaw, but using the velocity measurements in each
- direction stored in the Kalman filter, we will be able to determine the
- direction of travel of a person, and thus whether an observation of this
- person is a side profile or a front/back profile.
- We could then store two values of this ratio per person, one for a front/back
- profile and one for a side profile, and compare each new target to these
- profiles based on the Kalman velocity.
- This does present a problem however.
- For example, if a sideways moving person is identified, and there is no
- pre-existing side profile measurement for an existing target, then we discount
- this feature and use others.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-DO I DO THIS WITH BOUNDING BOX OR EDGE DETECTION FOR ACTUAL PERSON?? - ask
- in next meeting
+Hue Moments
 \end_layout
 
 \begin_layout Subsubsection
@@ -1374,15 +1294,11 @@ key "Huang,Zhang2015"
 \end_layout
 
 \begin_layout Subsubsection
-Placeholder1
+Histogram of Flow
 \end_layout
 
 \begin_layout Subsubsection
-Placeholder2
-\end_layout
-
-\begin_layout Subsubsection
-Placeholder3
+Histogram of Oriented Gradients
 \end_layout
 
 \begin_layout Standard

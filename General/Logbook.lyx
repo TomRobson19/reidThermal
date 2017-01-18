@@ -780,6 +780,56 @@ Saliency may be an interesting feature, look at paper on Toby's email
 Week 11
 \end_layout
 
+\begin_layout Itemize
+Look at replacing ratio with 7 hue moments (from book, page 148-149, read
+ from p143)
+\end_layout
+
+\begin_layout Itemize
+New feature - get actual HoG vector and compare these (this is advanced)
+\end_layout
+
+\begin_layout Itemize
+Results will end up being comparison of features on their own and combinations
+ of them
+\end_layout
+
+\begin_layout Itemize
+Another possible, downscale image, take the first n coefficients from cosine
+ transform 
+\end_layout
+
+\begin_layout Itemize
+Full feature list - hue moments, hist of intensities, correlogram, hist
+ of flow, HoG vector
+\end_layout
+
+\begin_layout Itemize
+Build up features using covariance matrix
+\end_layout
+
+\begin_layout Itemize
+Compare using euclidean distance of vectors
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Add flow charts/UML diagrams to DR
+\end_layout
+
+\begin_layout Itemize
+System architectue, Data flow, maintenance
+\end_layout
+
+\begin_layout Itemize
+Look through SE notes
+\end_layout
+
+\begin_layout Itemize
+DR can be very vague about features
+\end_layout
+
 \begin_layout Section*
 Week 12
 \end_layout
