@@ -341,19 +341,9 @@ key "Layne"
 \end_layout
 
 \begin_layout Standard
-The most basic feature of a human target that we can use is their size.
- As we are using a single, fixed viewpoint for each camera, we cannot get
- an accurate measure for width or height due to our inability to determine
- how far away a target is from the camera.
- Therefore, the best measure of this that we can use is the ratio of the
- height of a person to the width to determine a relative size.
- 
-\end_layout
-
-\begin_layout Standard
-From here, the closest we can get to a colour value per pixel in thermal
- is the intensity of each pixel, so a histogram of these intensities per
- target will be a key feature for us to use.
+The closest we can get to a colour value per pixel in thermal is the intensity
+ of each pixel, so a histogram of these intensities per target will be a
+ key feature for us to use.
  We also draw inspiration from 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -372,7 +362,7 @@ key "Huang,Zhang2015"
 \begin_layout Standard
 
 \series bold
-NOW TALK ABOUT ADVANCED FEATURES.
+NOW TALK ABOUT ADVANCED FEATURES AND HU MOMENTS.
 \end_layout
 
 \begin_layout Standard
@@ -896,16 +886,55 @@ Code Structure
 \end_layout
 
 \begin_layout Standard
-The implementation will begin by opening each video file, or live camera,
- and concurrently running the real time target detection code on these.
- When this code identifies a target, it compares it to the other targets
- that have been seen previously, and if it is deemed to be sufficiently
- similar to a previous target, then this target is re-identified, else it
- creates a new target.
- Each of these has an associated Kalman Feature position estimator and a
- set of features, and these are used to facilitate the comparison between
- targets.
- 
+The implementation will begin by opening each video file, or live camera
+ feed, and concurrently running the real time target detection code on these.
+ When this code identifies a person, it compares it to the other people
+ that have been seen previously, and if they are deemed to be sufficiently
+ similar to on of these people, then they are re-identified, else it creates
+ a new person object.
+ Each of these person objects has an associated Kalman Feature position
+ estimator and a set of features, and these are used to facilitate the compariso
+n between targets, and are updated each time the target is successfully
+ identified.
+ This continues frame by frame until the video file or camera feed ends.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Downloads/Project Activity Diagram.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Structure of Code
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -963,7 +992,7 @@ tion, we must be able to identify whether a person is present in the image
 \end_layout
 
 \begin_layout Subsubsection
-Background Subtraction
+Background Subtraction - FR1.1
 \end_layout
 
 \begin_layout Standard
@@ -999,7 +1028,7 @@ As the program runs through the video, during each new frame, a Gaussian
  mask, erosion and dilation are used to clean up these results.
  From here, we use contour detection to find the connected components, and
  draw bounding boxes around these contours.
- Figure 1 below shows the background model that the system has built up,
+ Figure 2 below shows the background model that the system has built up,
  the foreground of the image, the target identified and the bounding box
  associated with this target, taken from one frame of an example video used
  for testing.
@@ -1045,7 +1074,7 @@ MoG Background Subtraction Output
 \end_layout
 
 \begin_layout Subsubsection
-Person Identification
+Person Identification - FR1.2
 \end_layout
 
 \begin_layout Standard
@@ -1113,7 +1142,7 @@ The reason for the inclusion of both methods here is that there is a trade
  they would use the Haar Cascade, but if they waned to Re-Identify people
  from pre-recorded video footage, they would use HOG.
  The output of both systems looks much the same, and is displayed in Figure
- 2, where the red box represents the search area given by the background
+ 3, where the red box represents the search area given by the background
  subtractor with additional padding, and the green box represents the identified
  human target from HOG or Haar Cascade.
 \end_layout
@@ -1157,7 +1186,7 @@ Person Detection Output
 \end_layout
 
 \begin_layout Subsubsection
-Person Tracking and Position Prediction
+Person Tracking and Position Prediction - FR1.3
 \end_layout
 
 \begin_layout Standard
@@ -1199,7 +1228,7 @@ With such a Kalman Filter associated with each person object, we know where
  This can inform us as to which person any identified target is likely to
  be, due to their most recent position, and can speed up the comparison,
  as we know people cannot be in two places at once.
- Figure 3 shows the output of this, with the red box showing the area identified
+ Figure 4 shows the output of this, with the red box showing the area identified
  as a foreground target, and the blue box is the predicted position of the
  target in the next frame.
  The green box from the person identification phase is omitted here to reduce
@@ -1264,11 +1293,19 @@ To properly associate and compare person objects, we must now consider the
 \end_layout
 
 \begin_layout Subsubsection
-Hue Moments
+Hu Moments - FR2.1
+\end_layout
+
+\begin_layout Standard
+This feature is the means by which we will measure the distribution of shape
+ in this system.
+ This will enable us to re-identify targets based on their physical size
+ and shape.
+ 
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Thermal Intensities
+Histogram of Thermal Intensities - FR2.2
 \end_layout
 
 \begin_layout Standard
@@ -1292,7 +1329,7 @@ Each time a comparison is made, it will build up a histogram for the new
 \end_layout
 
 \begin_layout Subsubsection
-Thermal Correlogram
+Thermal Correlogram - FR2.3
 \end_layout
 
 \begin_layout Standard
@@ -1314,11 +1351,16 @@ key "Huang,Zhang2015"
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Flow
+Histogram of Flow - FR3.1
+\end_layout
+
+\begin_layout Standard
+The purpose of this feature is to capture the movements of the target within
+ the bounding box, and store this in the form of a Histogram.
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Oriented Gradients
+Histogram of Oriented Gradients - FR3.2
 \end_layout
 
 \begin_layout Standard
