@@ -481,7 +481,7 @@ Here we list all of the Functional and Non-Functional Requirements of the
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -767,7 +767,7 @@ Functional Requirements
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -1257,7 +1257,9 @@ To properly associate and compare person objects, we must now consider the
  so will be discussed from a theoretical and hypothetical point of view.
  The system will compare each person found by the real time person detection
  code to each of the people already stored in the system, and score their
- similarity based on a combination of the features described below.
+ similarity based one or a combination of the features described below.
+ These features will be stored as vectors, and compared to the features
+ of existing targets using Euclidean distances.
  
 \end_layout
 
@@ -1287,12 +1289,6 @@ Each time a comparison is made, it will build up a histogram for the new
  as if one target is wearing a T-Shirt, for example, there will be more
  high intensity pixels than will be present for a target wearing a long
  sleeved shirt or jacket.
- As discussed for the previous feature, the direction of motion will be
- important for this feature, as the thermal profile of the front of a target
- will be different from the side or back.
- This will be addressed using the velocity measurements in the Kalman Filter
- as before.
- 
 \end_layout
 
 \begin_layout Subsubsection
@@ -1323,6 +1319,18 @@ Histogram of Flow
 
 \begin_layout Subsubsection
 Histogram of Oriented Gradients
+\end_layout
+
+\begin_layout Standard
+We have already discussed the process of Histogram of Oriented Gradients
+ (HOG) in the Person Identification section of this document.
+ There, the OpenCV function compares the HOG descriptor to a pre-trained
+ support vector machine to determine if the target is within acceptable
+ bounds of being a person.
+ Here, we use the same feature vector, but instead of passing this to the
+ support vector machine, we will save this vector for each target, and use
+ this as a feature of comparison for re-identification.
+ 
 \end_layout
 
 \begin_layout Standard
