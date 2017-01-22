@@ -144,15 +144,15 @@ Method
 \end_layout
 
 \begin_layout Abstract
-The first stage is real time person detection, which is done using MoG Backgroun
-d Subtraction, HOG person detection and a 6 dimensional Kalman filter per
- person to facilitate tracking a person and store their position, velocity
- and bounding box dimensions.
+The first stage is real time person detection, which is done using Mixture
+ of Gaussians Background Subtraction, Histogram of Oriented Gradients or
+ Haar Cascade person detection and a 6 dimensional Kalman filter per person
+ to facilitate tracking a person and store their position, velocity and
+ bounding box dimensions.
  From here, each of these people when first identified have some of their
  features stored.
- The basic features used will be the ratio of height to width of the bounding
- box of the target, the histogram of thermal intensity and the thermal correlogr
-am of the target.
+ The basic features used will be hu moments, the histogram of thermal intensity
+ and the thermal correlogram of the target.
 
 \color black
  From here, more advanced features will be implemented.
@@ -163,8 +163,14 @@ am of the target.
 \series default
 a feature based on
 \color red
- optic flow inside the bounding box from several frames in order to capture
- gait characteristics (Histogram of Flow).
+ 
+\color black
+optic flow inside the bounding box from several frames in order to capture
+ gait characteristics, expressed as a Histogram of Flow.
+ We will also implement Histogram of Oriented Gradients again, and store
+ this as a feature instead of using it to determine the characteristics
+ of a person.
+ 
 \end_layout
 
 \begin_layout Abstract
@@ -917,6 +923,8 @@ status collapsed
 \end_layout
 
 \begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
@@ -1283,7 +1291,7 @@ Features for Re-Identification
 To properly associate and compare person objects, we must now consider the
  features of each person.
  These have not been implemented at this stage of the development progress,
- so will be discussed from a theoretical and hypothetical point of view.
+ so will be discussed briefly from a hypothetical point of view.
  The system will compare each person found by the real time person detection
  code to each of the people already stored in the system, and score their
  similarity based one or a combination of the features described below.
@@ -1300,7 +1308,7 @@ Hu Moments - FR2.1
 This feature is the means by which we will measure the distribution of shape
  in this system.
  This will enable us to re-identify targets based on their physical size
- and shape.
+ and shape, using features that are position, scale and rotation invariant.
  
 \end_layout
 
