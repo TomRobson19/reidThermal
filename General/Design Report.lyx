@@ -170,7 +170,6 @@ optic flow inside the bounding box from several frames in order to capture
  We will also implement Histogram of Oriented Gradients again, and store
  this as a feature instead of using it to determine the characteristics
  of a person.
- 
 \end_layout
 
 \begin_layout Abstract
@@ -347,6 +346,23 @@ key "Layne"
 \end_layout
 
 \begin_layout Standard
+The first thing that we shall consider is a measure of the size of the target
+ person.
+ Due to the single viewpoint of the camera, we need a measure of size that
+ is position, scale and rotation invariant.
+ For this purpose, we will use moments, or Hu Moments in particular, taking
+ inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "FlusserSukZitova2009,Dawson-Howe2014"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
 The closest we can get to a colour value per pixel in thermal is the intensity
  of each pixel, so a histogram of these intensities per target will be a
  key feature for us to use.
@@ -366,9 +382,16 @@ key "Huang,Zhang2015"
 \end_layout
 
 \begin_layout Standard
-
-\series bold
-NOW TALK ABOUT ADVANCED FEATURES AND HU MOMENTS.
+From here, we must consider more complex features.
+ The first of these that we will consider is a Histogram of Flow, which
+ will be the method by which we 
+\color black
+interpret the optic flow inside the bounding box from several frames in
+ order to capture the gait characteristics of the person.
+ We will also use the Histogram of Oriented Gradients (HOG) again, this
+ time as a feature for Re-Identification, by storing the full HOG descriptor
+ as a feature vector.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -894,10 +917,11 @@ Code Structure
 \begin_layout Standard
 The implementation will begin by opening each video file, or live camera
  feed, and concurrently running the real time target detection code on these.
- When this code identifies a person, it compares it to the other people
- that have been seen previously, and if they are deemed to be sufficiently
- similar to on of these people, then they are re-identified, else it creates
- a new person object.
+ Each time this code identifies a person, it compares the features of this
+ person to those of the other people that have been seen previously, and
+ if they are deemed to be sufficiently similar to one of these people, then
+ they are re-identified as the same person, else the system creates a new
+ person object.
  Each of these person objects has an associated Kalman Feature position
  estimator and a set of features, and these are used to facilitate the compariso
 n between targets, and are updated each time the target is successfully
@@ -1309,6 +1333,15 @@ This feature is the means by which we will measure the distribution of shape
  in this system.
  This will enable us to re-identify targets based on their physical size
  and shape, using features that are position, scale and rotation invariant.
+ The method for doing this is included in the OpenCV library, and we will
+ take inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "FlusserSukZitova2009,Dawson-Howe2014"
+
+\end_inset
+
+ for its implementation.
  
 \end_layout
 
