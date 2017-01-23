@@ -146,13 +146,13 @@ Method
 \begin_layout Abstract
 The first stage is real time person detection, which is done using Mixture
  of Gaussians Background Subtraction, Histogram of Oriented Gradients or
- Haar Cascade person detection and a 6 dimensional Kalman filter per person
+ Haar Cascade Person Detection and a 6 dimensional Kalman filter per person
  to facilitate tracking a person and store their position, velocity and
  bounding box dimensions.
  From here, each of these people when first identified have some of their
  features stored.
- The basic features used will be hu moments, the histogram of thermal intensity
- and the thermal correlogram of the target.
+ The basic features used will be Hu Moments, the Histogram of Thermal Intensity
+ and the Thermal Correlogram of the target.
 
 \color black
  From here, more advanced features will be implemented.
@@ -184,9 +184,9 @@ This system will be implemented in C++ using the widely used OpenCV computer
  The solution will take in video feeds from multiple cameras, or pre-recorded
  video files, and concurrently run the person detection and Re-Identification
  on these.
- All of these will operate on the same set of previously identified targets,
- grouped into active and inactive targets, to facilitate the identification
- of targets previously seen by different cameras.
+ All of these will have access to the same set of previously identified
+ targets, grouped into active and inactive targets, to facilitate the identifica
+tion of targets previously seen by different cameras.
  All previous positions for each person will be recorded and we will be
  able to estimate the pattern of movement for each target across the entire
  area covered by the cameras by considering to topology of our network of
@@ -261,9 +261,9 @@ ons.
  The surveillance data that a system like this can provide would be critical
  for crime-prevention, forensic analysis, and counter-terrorism activities
  in both civilian and governmental agencies alike.
- While this is widely used by human operators, these operators have to be
- trained, which offsets the utility of this approach with training and staffing
- costs.
+ While this is currently widely used by human operators, these operators
+ have to be trained, which offsets the utility of this approach with training
+ and staffing costs.
  The implementation of an automated Re-Identification system is therefore
  of great interest, as it would be very useful in supporting these human
  operators and enabling them to achieve better results more efficiently.
@@ -346,8 +346,8 @@ key "Layne"
 \end_layout
 
 \begin_layout Standard
-The first thing that we shall consider is a measure of the size of the target
- person.
+The first thing that we shall consider as a feature is a measure of the
+ size of the target person.
  Due to the single viewpoint of the camera, we need a measure of size that
  is position, scale and rotation invariant.
  For this purpose, we will use moments, or Hu Moments in particular, taking
