@@ -800,8 +800,8 @@ Another possible, downscale image, take the first n coefficients from cosine
 \end_layout
 
 \begin_layout Itemize
-Full feature list - hue moments, hist of intensities, correlogram, hist
- of flow, HoG vector
+Full feature list - hu moments, hist of intensities, correlogram, hist of
+ flow, HoG vector
 \end_layout
 
 \begin_layout Itemize
@@ -832,6 +832,51 @@ DR can be very vague about features
 
 \begin_layout Section*
 Week 12
+\end_layout
+
+\begin_layout Itemize
+Figure in intro of different vies of same person from videos.
+\end_layout
+
+\begin_layout Itemize
+Any maths/variables in italics (math mode)
+\end_layout
+
+\begin_layout Itemize
+In development, Deliverables are major sprints, minor sprints are towards
+ meetings 
+\end_layout
+
+\begin_layout Itemize
+Industry standard data formats for cameras
+\end_layout
+
+\begin_layout Itemize
+Design summary at the end - 'functional and non functional reqs are met
+ through.......'
+\end_layout
+
+\begin_layout Itemize
+Simple flow diagram (pipeline architecture), camera in, person detection
+ subsystem, tracking subsystem, re-id subsystem 
+\end_layout
+
+\begin_layout Itemize
+Put this ^^ above UML diagram, and put dotted boxes around each area that
+ describes a subsystem.
+ 
+\end_layout
+
+\begin_layout Itemize
+Another column in reqs table - design reference
+\end_layout
+
+\begin_layout Itemize
+Shrink references to make fit into page limit if required.
+\end_layout
+
+\begin_layout Itemize
+Use OpenShot to edit videos, export maximum quality, h264, DVD quality etc.
 \end_layout
 
 \begin_layout Section*
