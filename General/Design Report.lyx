@@ -3,9 +3,6 @@
 \begin_document
 \begin_header
 \textclass article
-\begin_preamble
-\date{}
-\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language british
@@ -48,9 +45,9 @@
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
-\suppress_date false
+\suppress_date true
 \justification true
-\use_refstyle 1
+\use_refstyle 0
 \index Index
 \shortcut idx
 \color #008000
@@ -205,8 +202,8 @@ tion of targets previously seen by different cameras.
 \series bold
 Keywords: 
 \series default
-Computer Vision, Person, Re-Identification, Person Tracking, Features, Attribute
-s, Thermal Imagery, Thermal Video
+Computer Vision, Person Re-Identification, Person Tracking, Features, Attributes
+, Thermal Imagery, Thermal Video
 \end_layout
 
 \begin_layout Standard
@@ -344,11 +341,193 @@ key "Layne"
 , have many applications from clothes colour to hair and skin colour.
  In thermal, we cannot use such simple features, so must think in a more
  complex way.
+ The figure below shows five different views of the same person.
+ The features we use must be able to recognise that all of these are the
+ same person.
+ 
 \end_layout
 
 \begin_layout Standard
-The first thing that we shall consider as a feature is a measure of the
- size of the target person.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from running20140319.webm.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from running20140319.webm - 2.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from running20140319.webm - 3.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from walking20140319.webm.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from walking20140319.webm - 1.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Example of Thermal Views
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first thing that we shall consider as a feature to solve the Re-Identificati
+on problem is a measure of the size of the target person.
  Due to the single viewpoint of the camera, we need a measure of size that
  is position, scale and rotation invariant.
  For this purpose, we will use moments, or Hu Moments in particular, taking
@@ -1326,7 +1505,7 @@ Here we give details of the structure of the implementation, the tools used
 \end_layout
 
 \begin_layout Subsubsection
-Code Structure
+Implementation Structure
 \end_layout
 
 \begin_layout Standard
@@ -1355,8 +1534,46 @@ status collapsed
 \noindent
 \align center
 \begin_inset Graphics
-	filename /home/tom/Downloads/Project Activity Diagram.png
+	filename Subsystems.png
 	scale 25
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pipeline Diagram of the System
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Project Activity Diagram2.png
+	scale 70
 
 \end_inset
 
@@ -1486,7 +1703,7 @@ As the program runs through the video, during each new frame, a Gaussian
  mask, erosion and dilation are used to clean up these results.
  From here, we use contour detection to find the connected components, and
  draw bounding boxes around these contours.
- Figure 2 below shows the background model that the system has built up,
+ Figure 4 below shows the background model that the system has built up,
  the foreground of the image, the target identified and the bounding box
  associated with this target, taken from one frame of an example video used
  for testing.
@@ -1600,7 +1817,7 @@ The reason for the inclusion of both methods here is that there is a trade
  they would use the Haar Cascade, but if they waned to Re-Identify people
  from pre-recorded video footage, they would use HOG.
  The output of both systems looks much the same, and is displayed in Figure
- 3, where the red box represents the search area given by the background
+ 5, where the red box represents the search area given by the background
  subtractor with additional padding, and the green box represents the identified
  human target from HOG or Haar Cascade.
 \end_layout
@@ -1686,7 +1903,7 @@ With such a Kalman Filter associated with each person object, we know where
  This can inform us as to which person any identified target is likely to
  be, due to their most recent position, and can speed up the comparison,
  as we know people cannot be in two places at once.
- Figure 4 shows the output of this, with the red box showing the area identified
+ Figure 6 shows the output of this, with the red box showing the area identified
  as a foreground target, and the blue box is the predicted position of the
  target in the next frame.
  The green box from the person identification phase is omitted here to reduce
@@ -1747,7 +1964,45 @@ To properly associate and compare person objects, we must now consider the
  similarity based one or a combination of the features described below.
  These features will be stored as vectors, and compared to the feature vectors
  of existing targets using Euclidean distances.
+ The results of this will be displayed by the system during execution as
+ shown in figure 7 below.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot 2017-01-25 14:54:50.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Presentation of Identified Person
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -1767,7 +2022,7 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
 
 \end_inset
 
- for its implementation.
+ for its implementation in our system.
  
 \end_layout
 
@@ -1830,8 +2085,8 @@ key "Huang,Zhang2015"
 \end_inset
 
  in the image.
- We will apply a similar principle to thermal intensity values in this project,
- in a manner that will expand upon the histogram discussed above.
+ We will apply a similar principle in our implementation, replacing the
+ colour values by thermal intensity values.
  
 \end_layout
 
@@ -1842,6 +2097,10 @@ Histogram of Flow - FR3.1
 \begin_layout Standard
 The purpose of this feature is to capture the movements of the target within
  the bounding box, and store this in the form of a Histogram.
+ The moving object is detected and located from the flow field using a Gaussian
+ model.
+ Afterwards, the feature vector for each target is built up using the establishe
+d histogram using optical flow features
 \end_layout
 
 \begin_layout Subsubsection
@@ -1850,7 +2109,7 @@ Histogram of Oriented Gradients - FR3.2
 
 \begin_layout Standard
 We have already discussed the process of Histogram of Oriented Gradients
- (HOG) in the Person Identification section of this document.
+ (HOG) in section 2.3.2 of this document.
  There, the OpenCV function compares the HOG descriptor to a pre-trained
  support vector machine to determine if the target is within acceptable
  bounds of being a person.
@@ -1862,6 +2121,17 @@ We have already discussed the process of Histogram of Oriented Gradients
 
 \begin_layout Section
 Design Summary
+\end_layout
+
+\begin_layout Standard
+To conclude, in this document we have proposed a design for a person Re-Identifi
+cation system in thermal imagery, consisting of a Person Detection Subsystem,
+ a Person Tracking Subsystem and a Re-Identification Subsystem.
+ This entire implementation will follow the architecture shown by figure
+ 3 in section 2.2.1, and we use the design points discussed in sections 2.3
+ and 2.4 to meet all of the functional requirements discussed in section
+ 2.1.
+ 
 \end_layout
 
 \begin_layout Standard
