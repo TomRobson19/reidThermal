@@ -3,6 +3,18 @@
 \begin_document
 \begin_header
 \textclass article
+\begin_preamble
+\usepackage{apalike}
+\bibliographystyle{apalike}
+
+\usepackage{durhampaper}
+
+
+\title{Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery}
+\student{T.A. Robson}
+\supervisor{T.P. Breckon}
+\degree{MEng Computer Science}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language british
@@ -22,13 +34,13 @@
 \graphics default
 \default_output_format default
 \output_sync 0
-\bibtex_command default
+\bibtex_command bibtex
 \index_command default
 \paperfontsize default
 \spacing single
 \use_hyperref false
 \papersize default
-\use_geometry true
+\use_geometry false
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -41,7 +53,7 @@
 \use_package undertilde 1
 \cite_engine basic
 \cite_engine_type default
-\biblio_style plain
+\biblio_style agsm
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -61,8 +73,8 @@
 \footskip 1cm
 \secnumdepth 3
 \tocdepth 3
-\paragraph_separation skip
-\defskip bigskip
+\paragraph_separation indent
+\paragraph_indentation default
 \quotes_language english
 \papercolumns 1
 \papersides 1
@@ -76,20 +88,22 @@
 
 \begin_body
 
-\begin_layout Title
-Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
 \end_layout
 
-\begin_layout Author
-\noindent
-Thomas Robson - hzwr87 
-\end_layout
+\end_inset
 
-\begin_layout Date
-\noindent
-Submitted as part of the degree of MEng Computer Science to the Board of
- Examiners in the School of Engineering and Computing Sciences, Durham Universit
-y
+
 \end_layout
 
 \begin_layout Abstract
@@ -630,6 +644,11 @@ The aim of this project is to investigate the above research question by
 Deliverables
 \end_layout
 
+\begin_layout Standard
+Here we list the deliverables that will result from this project.
+ 
+\end_layout
+
 \begin_layout Subsubsection
 Basic Deliverables
 \end_layout
@@ -848,7 +867,7 @@ Person Detection
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.3.1-3
+Section C
 \end_layout
 
 \end_inset
@@ -897,7 +916,7 @@ Person Detection
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.3.1
+Section C1
 \end_layout
 
 \end_inset
@@ -946,7 +965,7 @@ Person Detection
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.3.2
+Section C2
 \end_layout
 
 \end_inset
@@ -996,7 +1015,7 @@ Tracking
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.3.3
+Section C3
 \end_layout
 
 \end_inset
@@ -1045,7 +1064,7 @@ Re-Identification
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.4.1-3
+Section D
 \end_layout
 
 \end_inset
@@ -1095,7 +1114,7 @@ Re-Identification
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.4.1
+Section D1
 \end_layout
 
 \end_inset
@@ -1146,7 +1165,7 @@ Re-Identification
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.4.2
+Section D2
 \end_layout
 
 \end_inset
@@ -1197,7 +1216,7 @@ Re-Identification
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.4.3
+Section D3
 \end_layout
 
 \end_inset
@@ -1246,7 +1265,7 @@ Re-Identification
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.4.4-5
+Section D4-5
 \end_layout
 
 \end_inset
@@ -1296,7 +1315,7 @@ Re-Identification
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.4.4
+Section D4
 \end_layout
 
 \end_inset
@@ -1345,7 +1364,7 @@ Re-Identification
 \begin_inset Text
 
 \begin_layout Plain Layout
-Section 2.4.5
+Section D5
 \end_layout
 
 \end_inset
@@ -2013,7 +2032,8 @@ Hu Moments - FR2.1
 This feature is the means by which we will measure the distribution of shape
  in this system.
  This will enable us to re-identify targets based on their physical size
- and shape, using features that are position, scale and rotation invariant.
+ and shape, using a vector of size 7 that are position, scale and rotation
+ invariant.
  The method for doing this is included in the OpenCV library, and we will
  take inspiration from 
 \begin_inset CommandInset citation
@@ -2099,8 +2119,11 @@ The purpose of this feature is to capture the movements of the target within
  the bounding box, and store this in the form of a Histogram.
  The moving object is detected and located from the flow field using a Gaussian
  model.
- Afterwards, the feature vector for each target is built up using the establishe
-d histogram using optical flow features
+ Afterwards, the feature vector for each target is built up using optical
+ flow features.
+ Unlike other features, this cannot be measured over a single frame, but
+ must instead be calculated over the course of multiple frames.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -2109,13 +2132,14 @@ Histogram of Oriented Gradients - FR3.2
 
 \begin_layout Standard
 We have already discussed the process of Histogram of Oriented Gradients
- (HOG) in section 2.3.2 of this document.
- There, the OpenCV function compares the HOG descriptor to a pre-trained
- support vector machine to determine if the target is within acceptable
- bounds of being a person.
+ (HOG) in section C2 of the design section of this document.
+ When being used for that purpose, the OpenCV function compares the HOG
+ descriptor to a pre-trained support vector machine to determine if the
+ target is within acceptable bounds of being a person.
  Here, we use the same feature vector, but instead of passing this to the
- support vector machine, we will save this vector for each target, and use
- this as a feature of comparison for re-identification.
+ support vector machine for classification as a human or not, we will save
+ this vector for each target, and use this as a feature of comparison for
+ re-identification.
  
 \end_layout
 
@@ -2128,9 +2152,9 @@ To conclude, in this document we have proposed a design for a person Re-Identifi
 cation system in thermal imagery, consisting of a Person Detection Subsystem,
  a Person Tracking Subsystem and a Re-Identification Subsystem.
  This entire implementation will follow the architecture shown by figure
- 3 in section 2.2.1, and we use the design points discussed in sections 2.3
- and 2.4 to meet all of the functional requirements discussed in section
- 2.1.
+ 3 in section 2.2.1, and we use the design points discussed in sections 2C
+ and 2D to meet all of the functional requirements discussed in section
+ 2A, following processes described in 2B.
  
 \end_layout
 
@@ -2138,7 +2162,7 @@ cation system in thermal imagery, consisting of a Person Detection Subsystem,
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "library"
-options "bibtotoc,ieeetr"
+options "bibtotoc,plain"
 
 \end_inset
 
