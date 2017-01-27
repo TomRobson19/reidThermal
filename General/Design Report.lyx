@@ -1546,6 +1546,9 @@ The implementation will begin by opening each video file, or live camera
 n between targets, and are updated each time the target is successfully
  identified.
  This continues frame by frame until the video file or camera feed ends.
+ The subsystems are shown in the figure below, as well as a flow chart for
+ the process followed by the implementation.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1669,8 +1672,8 @@ For the development of this system, agile development methods have been
  of the system, with the implementation of each requirement functioning
  as major sprints, and the periods between each meeting functioning as minor
  sprints.
- This has proven to be an effective way of organising the development of
- this system.
+ Thus far, this method has proven to be an effective way of organising the
+ development of this system.
 \end_layout
 
 \begin_layout Subsection
@@ -1723,8 +1726,9 @@ key "Zivkovic2004,Zivkovic"
 As the program runs through the video, during each new frame, a Gaussian
  for each pixel is evaluated using a simple heuristic to determine which
  is most likely to correspond to the background model.
- Pixels that do not match with these background Gaussians are classified
- as foreground elements, and added to a new image in the code.
+ Pixels that do not match closely enough with these background Gaussians
+ are classified as foreground elements, and added to a new image in the
+ code.
  Once these foreground pixels are identified and built into a foreground
  mask, erosion and dilation are used to clean up these results.
  From here, we use contour detection to find the connected components, and
@@ -2182,10 +2186,10 @@ cation system in thermal imagery, consisting of a Person Detection Subsystem
  to facilitate knowledge of each person's most recent location at any time
  and a Re-Identification Subsystem to determine if a person has been seen
  before.
- This entire implementation will follow the architecture shown by figure
- 3 in section 2.2.1, and we use the design points discussed in sections 2C
- and 2D to meet all of the functional requirements discussed in section
- 2A, following processes described in 2B.
+ This entire implementation will follow the architecture shown in the flow
+ charts above, and we use the design points discussed in sections 2C and
+ 2D to meet all of the functional requirements discussed in section 2A,
+ following processes described in 2B.
  
 \end_layout
 
