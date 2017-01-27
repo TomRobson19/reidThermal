@@ -645,57 +645,69 @@ Deliverables
 \end_layout
 
 \begin_layout Standard
+\paragraph_spacing single
 Here we list the deliverables that will result from this project.
  
 \end_layout
 
 \begin_layout Subsubsection
+\paragraph_spacing single
 Basic Deliverables
 \end_layout
 
 \begin_layout Enumerate
+\paragraph_spacing single
 Ability to detect a person within thermal video imagery in real time.
  
 \end_layout
 
 \begin_layout Enumerate
+\paragraph_spacing single
 Ability to distinguish a person from other objects.
  
 \end_layout
 
 \begin_layout Enumerate
+\paragraph_spacing single
 Ability to track a person moving through a scene in real time.
 \end_layout
 
 \begin_layout Subsubsection
+\paragraph_spacing single
 Intermediate Deliverables
 \end_layout
 
 \begin_layout Enumerate
+\paragraph_spacing single
 Implement 2-3 state of the art features/attributes for Re-Identification.
 \end_layout
 
 \begin_layout Enumerate
+\paragraph_spacing single
 First pass/Initial framework for Re-Identification using these features/attribut
 es.
  
 \end_layout
 
 \begin_layout Enumerate
+\paragraph_spacing single
 Ability to re-identify at least people within a test video sequence in real
  time using multiple cameras.
 \end_layout
 
 \begin_layout Subsubsection
+\paragraph_spacing single
 Advanced Deliverables
 \end_layout
 
 \begin_layout Enumerate
+\paragraph_spacing single
 Extend this by implementing 2 more state of the art features/attributes.
  
 \end_layout
 
 \begin_layout Enumerate
+\paragraph_spacing single
 Extend the Re-Identification ability to at least 10 people.
 \end_layout
 
@@ -727,9 +739,9 @@ status collapsed
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="middle" width="2cm">
 <column alignment="center" valignment="top" width="1.5cm">
-<column alignment="center" valignment="top" width="4cm">
-<column alignment="center" valignment="middle" width="3cm">
-<column alignment="center" valignment="middle" width="3cm">
+<column alignment="center" valignment="top" width="5cm">
+<column alignment="center" valignment="middle" width="2cm">
+<column alignment="center" valignment="middle" width="2cm">
 <row>
 <cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -947,7 +959,7 @@ Section C1
 \begin_layout Plain Layout
 \noindent
 \align center
-Perform person detection based on foreground objects identified in FR1.1.
+Perform person detection based on identified foreground objects.
 \end_layout
 
 \end_inset
@@ -1095,8 +1107,7 @@ Section D
 \begin_layout Plain Layout
 \noindent
 \align center
-Be able to determine the ratio of height to width of a person and compare
- this to identified targets.
+Be able to determine the ratio of height to width of a person.
 \end_layout
 
 \end_inset
@@ -1145,9 +1156,7 @@ Section D1
 \begin_layout Plain Layout
 \noindent
 \align center
-Be able to build up a histogram of thermal intensities of a target and compare
- to identified targets.
- 
+Be able to build up a histogram of thermal intensities of a person.
 \end_layout
 
 \end_inset
@@ -1196,9 +1205,7 @@ Section D2
 \begin_layout Plain Layout
 \noindent
 \align center
-Be able to build up a correlogram of thermal intensities of a target and
- compare to identified targets.
- 
+Be able to build up a correlogram of thermal intensities of a person.
 \end_layout
 
 \end_inset
@@ -1296,8 +1303,7 @@ Section D4-5
 \begin_layout Plain Layout
 \noindent
 \align center
-Utilise optic flow inside the bounding box from several frames in order
- to capture gait characteristics
+Utilise optic flow in order to capture gait characteristics
 \end_layout
 
 \end_inset
@@ -1408,7 +1414,7 @@ status collapsed
 <lyxtabular version="3" rows="4" columns="2">
 <features rotate="0" tabularvalignment="middle">
 <column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="11cm">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1439,7 +1445,7 @@ NFR1
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1459,7 +1465,7 @@ NFR2
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1554,7 +1560,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename Subsystems.png
-	scale 25
+	scale 30
 
 \end_inset
 
@@ -1655,7 +1661,8 @@ Development Process
 
 \begin_layout Standard
 For the development of this system, agile development methods have been
- applied to this single person project.
+ applied to this single person project, as it is primarily a research based
+ project and there is potential for some of the design points to change.
  The weekly meetings held with the supervisor have functioned as stand-up
  meetings would in a group based agile development process, while scrum
  methodologies have been applied to development of individual components
@@ -1853,7 +1860,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Hog
-	scale 60
+	scale 75
 
 \end_inset
 
@@ -1943,7 +1950,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Kalman
-	scale 70
+	scale 75
 
 \end_inset
 
@@ -2000,7 +2007,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Screenshot 2017-01-25 14:54:50.png
-	scale 40
+	scale 50
 
 \end_inset
 
@@ -2029,13 +2036,17 @@ Hu Moments - FR2.1
 \end_layout
 
 \begin_layout Standard
-This feature is the means by which we will measure the distribution of shape
- in this system.
- This will enable us to re-identify targets based on their physical size
- and shape, using a vector of size 7 that are position, scale and rotation
- invariant.
- The method for doing this is included in the OpenCV library, and we will
- take inspiration from 
+This feature will enable us to describe, characterise, and quantify the
+ shape of a target in a manner that is position, scale and rotation invariant.
+ The method for doing this is included in the OpenCV library, inspired by
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hu1962"
+
+\end_inset
+
+, and we will take inspiration from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "FlusserSukZitova2009,Dawson-Howe2014"
@@ -2043,7 +2054,8 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
 \end_inset
 
  for its implementation in our system.
- 
+ We will detect the contours of our target, and then use these to extract
+ a feature vector to represent the shape of the object.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2117,6 +2129,15 @@ Histogram of Flow - FR3.1
 \begin_layout Standard
 The purpose of this feature is to capture the movements of the target within
  the bounding box, and store this in the form of a Histogram.
+ This uses Optical flow, which is the distribution of apparent velocities
+ of movement of brightness patterns in an image 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "HornSchunck1981"
+
+\end_inset
+
+.
  The moving object is detected and located from the flow field using a Gaussian
  model.
  Afterwards, the feature vector for each target is built up using optical
@@ -2133,9 +2154,16 @@ Histogram of Oriented Gradients - FR3.2
 \begin_layout Standard
 We have already discussed the process of Histogram of Oriented Gradients
  (HOG) in section C2 of the design section of this document.
- When being used for that purpose, the OpenCV function compares the HOG
- descriptor to a pre-trained support vector machine to determine if the
- target is within acceptable bounds of being a person.
+ When being used for that purpose, the OpenCV function implementing the
+ work of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dalal"
+
+\end_inset
+
+ compares the HOG descriptor to a pre-trained support vector machine to
+ determine if the target is within acceptable bounds of being a person.
  Here, we use the same feature vector, but instead of passing this to the
  support vector machine for classification as a human or not, we will save
  this vector for each target, and use this as a feature of comparison for
@@ -2149,8 +2177,11 @@ Design Summary
 
 \begin_layout Standard
 To conclude, in this document we have proposed a design for a person Re-Identifi
-cation system in thermal imagery, consisting of a Person Detection Subsystem,
- a Person Tracking Subsystem and a Re-Identification Subsystem.
+cation system in thermal imagery, consisting of a Person Detection Subsystem
+ to determine if a foreground target is a person, a Person Tracking Subsystem
+ to facilitate knowledge of each person's most recent location at any time
+ and a Re-Identification Subsystem to determine if a person has been seen
+ before.
  This entire implementation will follow the architecture shown by figure
  3 in section 2.2.1, and we use the design points discussed in sections 2C
  and 2D to meet all of the functional requirements discussed in section
