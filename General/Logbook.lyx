@@ -891,6 +891,55 @@ Use OpenShot to edit videos, export maximum quality, h264, DVD quality etc.
 Week 13
 \end_layout
 
+\begin_layout Itemize
+Add different viewpoint on slide 2 (climbing)
+\end_layout
+
+\begin_layout Itemize
+Reference all images in slides - surname et al., year
+\end_layout
+
+\begin_layout Itemize
+For Toby's slides, cite Breckon, 2015/2016 depending what year I took the
+ slides from
+\end_layout
+
+\begin_layout Itemize
+Can use subsystem diagram after solution slide, have multiple viewpoints
+ going in (pics from slide 2) and have them joined up on other side
+\end_layout
+
+\begin_layout Itemize
+Crop out lena from hu moments slide and replace with one of the thermal
+ pictures.
+\end_layout
+
+\begin_layout Itemize
+Toby has python scripts for histograms from last year on github - get screenshot
+ from this
+\end_layout
+
+\begin_layout Itemize
+Put one of my thermal images on each slide, be liberal with arrows
+\end_layout
+
+\begin_layout Itemize
+Fine even if its just in the corner
+\end_layout
+
+\begin_layout Itemize
+Put in conclusion slide to reinforce message
+\end_layout
+
+\begin_layout Itemize
+For multiple cameras, will use mutexes to prevent read-write conflicts
+\end_layout
+
+\begin_layout Itemize
+OpenCV has a HOG descriptor class, can call compute on an image to get back
+ vector
+\end_layout
+
 \begin_layout Section*
 Week 14
 \end_layout
