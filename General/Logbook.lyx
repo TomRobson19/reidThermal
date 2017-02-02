@@ -940,6 +940,10 @@ OpenCV has a HOG descriptor class, can call compute on an image to get back
  vector
 \end_layout
 
+\begin_layout Itemize
+Finished preparing presentation, it's on google slides
+\end_layout
+
 \begin_layout Section*
 Week 14
 \end_layout
