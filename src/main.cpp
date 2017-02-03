@@ -141,8 +141,15 @@ int main( int argc, char** argv )
           vector<Rect> found, found_filtered;
 
           Mat roi = img(r);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          MatND hist;
+          int histSize = 256;    // bin size
+          float range[] = { 0, 255 };
+          const float *ranges[] = { range };
 
-          int method = 1; //0 for Hog, 1 for cascade
+          //calcHist( &roi, 1, 0, Mat(), hist, 1, &histSize, ranges, true, false );
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          int method = 0; //0 for Hog, 1 for cascade
 
           if (method == 0)
           {
@@ -183,6 +190,8 @@ int main( int argc, char** argv )
             //rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
+
+
 
             int allocated = 0;
 
