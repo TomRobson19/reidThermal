@@ -141,6 +141,7 @@ int main( int argc, char** argv )
           vector<Rect> found, found_filtered;
 
           Mat roi = img(r);
+          
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           MatND hist;
           int histSize = 256;    // bin size
@@ -149,6 +150,7 @@ int main( int argc, char** argv )
 
           //calcHist( &roi, 1, 0, Mat(), hist, 1, &histSize, ranges, true, false );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
           int method = 0; //0 for Hog, 1 for cascade
 
           if (method == 0)
