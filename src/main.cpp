@@ -143,15 +143,15 @@ int main( int argc, char** argv )
           Mat roi = img(r);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          // MatND hist;
-          // int histSize = 256;    // bin size
-          // float range[] = { 0, 255 };
-          // const float *ranges[] = { range };
+          MatND hist;
+          int histSize = 256;    // bin size
+          float range[] = { 0, 255 };
+          const float *ranges[] = { range };
 
-          // calcHist( &roi, 1, 0, Mat(), hist, 1, &histSize, ranges, true, false );
+          //calcHist( &roi, 1, 0, Mat(), hist, 1, &histSize, ranges, true, false );
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-          int method = 0; //0 for Hog, 1 for cascade
+          int method = 1; //0 for Hog, 1 for cascade
 
           if (method == 0)
           {
