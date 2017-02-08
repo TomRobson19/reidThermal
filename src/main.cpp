@@ -123,6 +123,22 @@ int main( int argc, char** argv )
       {
         Rect r = boundingRect(contours[idx]);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        Moments contourMoments;
+        double huMoments[7];
+
+        contourMoments = moments(contours[idx]);
+
+        HuMoments(contourMoments, huMoments); 
+
+        // for (int i=0; i<7; i++)
+        // {
+        //   cout << huMoments[i] << endl;
+        // }
+        // cout << endl;
+        // cout << endl;
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         // adjust bounding rectangle to be padding% larger
         // around the object
 
@@ -147,8 +163,14 @@ int main( int argc, char** argv )
           int histSize = 256;    // bin size
           float range[] = { 0, 255 };
           const float *ranges[] = { range };
+          int channels[] = {0, 1};
 
-          //calcHist( &roi, 1, 0, Mat(), hist, 1, &histSize, ranges, true, false );
+          calcHist(&roi, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
+
+          // cout << hist << endl;
+          // cout << endl;
+          // cout << endl;
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
           int method = 1; //0 for Hog, 1 for cascade
