@@ -948,6 +948,31 @@ Finished preparing presentation, it's on google slides
 Week 14
 \end_layout
 
+\begin_layout Itemize
+Get GPS positions of cameras
+\end_layout
+
+\begin_layout Itemize
+Put GPS trackers on people - research phone app that records GPS position
+\end_layout
+
+\begin_layout Itemize
+Evaluation point of challenge with extra camera on roof
+\end_layout
+
+\begin_layout Itemize
+Compare each single feature, only move onto combinations if we have time
+\end_layout
+
+\begin_layout Itemize
+Fully implement HuMoments, hist of intensities and HOG for next time.
+\end_layout
+
+\begin_layout Itemize
+Next meeting discuss how the comparison will work, be ready for this stage.
+ 
+\end_layout
+
 \begin_layout Section*
 Week 15
 \end_layout

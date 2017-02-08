@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named singleTarget
-
-# Build rule for target.
-singleTarget: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 singleTarget
-.PHONY : singleTarget
-
-# fast build rule for target.
-singleTarget/fast:
-	$(MAKE) -f CMakeFiles/singleTarget.dir/build.make CMakeFiles/singleTarget.dir/build
-.PHONY : singleTarget/fast
-
-#=============================================================================
 # Target rules for targets named main
 
 # Build rule for target.
@@ -190,33 +177,6 @@ person.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/person.cpp.s
 .PHONY : person.cpp.s
 
-singleTarget.o: singleTarget.cpp.o
-
-.PHONY : singleTarget.o
-
-# target to build an object file
-singleTarget.cpp.o:
-	$(MAKE) -f CMakeFiles/singleTarget.dir/build.make CMakeFiles/singleTarget.dir/singleTarget.cpp.o
-.PHONY : singleTarget.cpp.o
-
-singleTarget.i: singleTarget.cpp.i
-
-.PHONY : singleTarget.i
-
-# target to preprocess a source file
-singleTarget.cpp.i:
-	$(MAKE) -f CMakeFiles/singleTarget.dir/build.make CMakeFiles/singleTarget.dir/singleTarget.cpp.i
-.PHONY : singleTarget.cpp.i
-
-singleTarget.s: singleTarget.cpp.s
-
-.PHONY : singleTarget.s
-
-# target to generate assembly for a file
-singleTarget.cpp.s:
-	$(MAKE) -f CMakeFiles/singleTarget.dir/build.make CMakeFiles/singleTarget.dir/singleTarget.cpp.s
-.PHONY : singleTarget.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -224,7 +184,6 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... singleTarget"
 	@echo "... edit_cache"
 	@echo "... main"
 	@echo "... main.o"
@@ -233,9 +192,6 @@ help:
 	@echo "... person.o"
 	@echo "... person.i"
 	@echo "... person.s"
-	@echo "... singleTarget.o"
-	@echo "... singleTarget.i"
-	@echo "... singleTarget.s"
 .PHONY : help
 
 

@@ -27,6 +27,12 @@ private:
 	int lastSeen;
 	cv::KalmanFilter KF;
 	cv::Mat_<float> measurement = cv::Mat_<float>(6,1);
+
+	//features
+	double huMoments[7];
+	MatND hist;
+
+
 public:
 	Person(int identifier, float x, float y, int timeSteps, float w, float h);
 
@@ -43,6 +49,8 @@ public:
 	void kalmanCorrect(float x, float y, int timeSteps, float w, float h);
 
 	Rect kalmanPredict();
+
+	void updateFeatures();
 };
  
 #endif

@@ -124,12 +124,12 @@ int main( int argc, char** argv )
         Rect r = boundingRect(contours[idx]);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        Moments contourMoments;
-        double huMoments[7];
+        // Moments contourMoments;
+        // double huMoments[7];
 
-        contourMoments = moments(contours[idx]);
+        // contourMoments = moments(contours[idx]);
 
-        HuMoments(contourMoments, huMoments); 
+        // HuMoments(contourMoments, huMoments); 
 
         // for (int i=0; i<7; i++)
         // {
@@ -157,21 +157,6 @@ int main( int argc, char** argv )
           vector<Rect> found, found_filtered;
 
           Mat roi = img(r);
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          MatND hist;
-          int histSize = 256;    // bin size
-          float range[] = { 0, 255 };
-          const float *ranges[] = { range };
-          int channels[] = {0, 1};
-
-          calcHist(&roi, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
-
-          // cout << hist << endl;
-          // cout << endl;
-          // cout << endl;
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
           int method = 1; //0 for Hog, 1 for cascade
 
@@ -215,8 +200,41 @@ int main( int argc, char** argv )
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+            Mat regionOfInterest = img(rec);
 
+            MatND hist;
+            int histSize = 256;    // bin size
+            float range[] = { 0, 255 };
+            const float *ranges[] = { range };
+            int channels[] = {0, 1};
 
+            calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
+
+            // cout << hist << endl;
+            // cout << endl;
+            // cout << endl;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+            vector<vector<Point> > contoursHu;
+            vector<Vec4i> hierarchyHu;
+
+            findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+
+            Moments contourMoments;
+            double huMoments[7];
+
+            contourMoments = moments(contoursHu[0]);
+
+            HuMoments(contourMoments, huMoments); 
+
+            // for (int i=0; i<7; i++)
+            // {
+            //   cout << huMoments[i] << endl;
+            // }
+            // cout << endl;
+            // cout << endl;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+            
             int allocated = 0;
 
             if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
