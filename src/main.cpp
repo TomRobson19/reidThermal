@@ -123,22 +123,6 @@ int main( int argc, char** argv )
       {
         Rect r = boundingRect(contours[idx]);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Moments contourMoments;
-        // double huMoments[7];
-
-        // contourMoments = moments(contours[idx]);
-
-        // HuMoments(contourMoments, huMoments); 
-
-        // for (int i=0; i<7; i++)
-        // {
-        //   cout << huMoments[i] << endl;
-        // }
-        // cout << endl;
-        // cout << endl;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         // adjust bounding rectangle to be padding% larger
         // around the object
 
@@ -200,7 +184,7 @@ int main( int argc, char** argv )
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////Histogram
             Mat regionOfInterest = img(rec);
 
             MatND hist;
@@ -214,9 +198,12 @@ int main( int argc, char** argv )
             // cout << hist << endl;
             // cout << endl;
             // cout << endl;
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////HuMoments
             vector<vector<Point> > contoursHu;
             vector<Vec4i> hierarchyHu;
+
+            //need to convert to grayscale before calling findContours
+            cvtColor(regionOfInterest, regionOfInterest, CV_BGR2GRAY);
 
             findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
@@ -233,6 +220,16 @@ int main( int argc, char** argv )
             // }
             // cout << endl;
             // cout << endl;
+/////////////////////////////////////////////////////////////////////////////////////////////////////HOGDescriptor
+
+              HOGDescriptor descriptor( Size(32,16), Size(8,8), Size(4,4), Size(4,4), 9);
+
+              vector<float> descriptorsValues;
+
+              vector<Point> locations;
+
+              descriptor.compute( regionOfInterest, descriptorsValues, Size(0,0), Size(0,0), locations);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
             
             int allocated = 0;
