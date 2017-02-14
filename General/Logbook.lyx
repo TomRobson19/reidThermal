@@ -977,6 +977,19 @@ Next meeting discuss how the comparison will work, be ready for this stage.
 Week 15
 \end_layout
 
+\begin_layout Itemize
+HuMoments, hist of intensities and HOG are implemented
+\end_layout
+
+\begin_layout Itemize
+Decided against using a different file for returning reasons
+\end_layout
+
+\begin_layout Itemize
+Need to implement comparison now, and work out a way to test if my implementatio
+n is correct
+\end_layout
+
 \begin_layout Section*
 Week 16
 \end_layout
