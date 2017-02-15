@@ -66,13 +66,16 @@ int main( int argc, char** argv )
 
 	  while (keepProcessing)
     {
+      int64 timeStart = getTickCount();
 		  // if capture object in use (i.e. video/camera)
 		  // get image from capture object
 
 		  if (cap.isOpened()) 
       {
 			  cap >> img;
-        cap >> outputImage;
+        outputImage = img.clone();
+        cvtColor(img, img, CV_BGR2GRAY);
+
 			  if(img.empty())
         {
   				if (argc == 2)
@@ -110,8 +113,8 @@ int main( int argc, char** argv )
 
       // extract portion of img using foreground mask (colour bit)
 
-      fg = Scalar::all(0);
-      img.copyTo(fg, fg_msk);
+      // fg = Scalar::all(0);
+      // img.copyTo(fg, fg_msk);
 
       // get connected components from the foreground
 
@@ -188,33 +191,51 @@ int main( int argc, char** argv )
 /////////////////////////////////////////////////////////////////////////////////////////////////////Histogram
             Mat regionOfInterest = img(rec);
 
-            //need to convert to grayscale before calling findContours
-            cvtColor(regionOfInterest, regionOfInterest, CV_BGR2GRAY);
+            // Mat regionOfInterestForeground = fg_msk(rec);
+
+            // bitwise_and(regionOfInterest, regionOfInterestForeground, regionOfInterest);
 
             imshow("roi",regionOfInterest);
 
             MatND hist;
-            int histSize = 256;    // bin size - need to determine which pixel threshold to use
+            int histSize = 16;    // bin size - need to determine which pixel threshold to use
             float range[] = { 0, 255 };
             const float *ranges[] = { range };
             int channels[] = {0, 1};
 
             calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
 
+            normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
+
             // cout << hist << endl;
             // cout << endl;
             // cout << endl;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////HuMoments
+            
             vector<vector<Point> > contoursHu;
             vector<Vec4i> hierarchyHu;
 
             findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
+            double largestSize;
+            int largestContour;
+
+            for( int i = 0; i< contoursHu.size(); i++ )
+            {
+              double size = contoursHu[i].size();
+
+              if(size>largestSize)
+              {
+                largestSize=size;
+                largestContour=i;
+              }
+            }
+
             Moments contourMoments;
             double huMoments[7];
 
-            contourMoments = moments(contoursHu[0]);
+            contourMoments = moments(contoursHu[largestContour]);
 
             HuMoments(contourMoments, huMoments);
 
@@ -227,13 +248,17 @@ int main( int argc, char** argv )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////HOGDescriptor
 
+            //copy regionOfInterest and resize to 64x32 (same size as in compute call)
+
+            Mat resized = regionOfInterest.clone();
+
             HOGDescriptor descriptor;
 
             vector<float> descriptorsValues;
 
             vector<Point> locations;
 
-            descriptor.compute( regionOfInterest, descriptorsValues, Size(32,32), Size(0,0), locations);
+            descriptor.compute( regionOfInterest, descriptorsValues, Size(64,32), Size(0,0), locations);
 
             //cout << descriptor << endl;  //doesn't work
             //cout << descriptorsValues << endl;  //doesn't work
@@ -352,7 +377,12 @@ int main( int argc, char** argv )
 		  // display image in window
 		  imshow(windowName, outputImage);
 
-		  key = waitKey(EVENT_LOOP_DELAY);
+       
+      key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY -
+                        (((getTickCount() - timeStart) / getTickFrequency()) * 1000)));
+
+
+		  //key = waitKey(EVENT_LOOP_DELAY);
 
 		  if (key == 'x')
       {
