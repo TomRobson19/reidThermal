@@ -188,7 +188,7 @@ int main( int argc, char** argv )
             Mat regionOfInterest = img(rec);
 
             MatND hist;
-            int histSize = 256;    // bin size
+            int histSize = 256;    // bin size - need to determine which pixel threshold to use
             float range[] = { 0, 255 };
             const float *ranges[] = { range };
             int channels[] = {0, 1};
@@ -198,6 +198,7 @@ int main( int argc, char** argv )
             // cout << hist << endl;
             // cout << endl;
             // cout << endl;
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////HuMoments
             vector<vector<Point> > contoursHu;
             vector<Vec4i> hierarchyHu;
@@ -212,7 +213,7 @@ int main( int argc, char** argv )
 
             contourMoments = moments(contoursHu[0]);
 
-            HuMoments(contourMoments, huMoments); 
+            HuMoments(contourMoments, huMoments);
 
             // for (int i=0; i<7; i++)
             // {
@@ -220,15 +221,22 @@ int main( int argc, char** argv )
             // }
             // cout << endl;
             // cout << endl;
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////HOGDescriptor
 
-              HOGDescriptor descriptor( Size(32,16), Size(8,8), Size(4,4), Size(4,4), 9);
+              HOGDescriptor descriptor;
 
               vector<float> descriptorsValues;
 
               vector<Point> locations;
 
-              descriptor.compute( regionOfInterest, descriptorsValues, Size(0,0), Size(0,0), locations);
+              descriptor.compute( regionOfInterest, descriptorsValues, Size(32,32), Size(0,0), locations);
+
+              //cout << descriptor << endl;  //doesn't work
+              //cout << descriptorsValues << endl;  //doesn't work
+              cout << locations << endl;  //this is empty
+              //cout << endl;
+              //cout << endl;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
             
