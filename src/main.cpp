@@ -29,7 +29,7 @@ std::vector<Person> inactiveTargets;
 int main( int argc, char** argv )
 {
 
-  Mat img, fg, fg_msk, bg;	// image objects
+  Mat img, outputImage, fg, fg_msk, bg;	// image objects
   VideoCapture cap;     // capture object
 
   const string windowName = "Live Image"; // window name
@@ -72,6 +72,7 @@ int main( int argc, char** argv )
 		  if (cap.isOpened()) 
       {
 			  cap >> img;
+        cap >> outputImage;
 			  if(img.empty())
         {
   				if (argc == 2)
@@ -187,6 +188,11 @@ int main( int argc, char** argv )
 /////////////////////////////////////////////////////////////////////////////////////////////////////Histogram
             Mat regionOfInterest = img(rec);
 
+            //need to convert to grayscale before calling findContours
+            cvtColor(regionOfInterest, regionOfInterest, CV_BGR2GRAY);
+
+            imshow("roi",regionOfInterest);
+
             MatND hist;
             int histSize = 256;    // bin size - need to determine which pixel threshold to use
             float range[] = { 0, 255 };
@@ -202,9 +208,6 @@ int main( int argc, char** argv )
 /////////////////////////////////////////////////////////////////////////////////////////////////////HuMoments
             vector<vector<Point> > contoursHu;
             vector<Vec4i> hierarchyHu;
-
-            //need to convert to grayscale before calling findContours
-            cvtColor(regionOfInterest, regionOfInterest, CV_BGR2GRAY);
 
             findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
@@ -224,19 +227,19 @@ int main( int argc, char** argv )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////HOGDescriptor
 
-              HOGDescriptor descriptor;
+            HOGDescriptor descriptor;
 
-              vector<float> descriptorsValues;
+            vector<float> descriptorsValues;
 
-              vector<Point> locations;
+            vector<Point> locations;
 
-              descriptor.compute( regionOfInterest, descriptorsValues, Size(32,32), Size(0,0), locations);
+            descriptor.compute( regionOfInterest, descriptorsValues, Size(32,32), Size(0,0), locations);
 
-              //cout << descriptor << endl;  //doesn't work
-              //cout << descriptorsValues << endl;  //doesn't work
-              cout << locations << endl;  //this is empty
-              //cout << endl;
-              //cout << endl;
+            //cout << descriptor << endl;  //doesn't work
+            //cout << descriptorsValues << endl;  //doesn't work
+            //cout << locations << endl;  //this is empty
+            //cout << endl;
+            //cout << endl;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
             
@@ -250,12 +253,12 @@ int main( int argc, char** argv )
               
               Rect p = person.kalmanPredict();
 
-              rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+              rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
               char str[200];
               sprintf(str,"Person %d",person.getIdentifier());
 
-              putText(img, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+              putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
               activeTargets.push_back(person);
               allocated = 1;
@@ -275,12 +278,12 @@ int main( int argc, char** argv )
 
                   Rect p = activeTargets[a].kalmanPredict();
 
-                  rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+                  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
                   char str[200];
                   sprintf(str,"Person %d",activeTargets[a].getIdentifier());
 
-                  putText(img, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+                  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
                   allocated = 1;
                   break;
@@ -308,12 +311,12 @@ int main( int argc, char** argv )
 
                   Rect p = inactiveTargets[b].kalmanPredict();
 
-                  rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+                  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
                   char str[200];
                   sprintf(str,"Person %d",inactiveTargets[b].getIdentifier());
 
-                  putText(img, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+                  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
                   activeTargets.push_back(inactiveTargets[b]);
                   inactiveTargets.erase(inactiveTargets.begin()+b);
@@ -332,22 +335,22 @@ int main( int argc, char** argv )
               
               Rect p = person.kalmanPredict();
 
-              rectangle(img, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+              rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
               char str[200];
               sprintf(str,"Person %d",person.getIdentifier());
 
-              putText(img, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+              putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
               activeTargets.push_back(person);
               allocated = 1;
             }
           }
-          rectangle(img, r, Scalar(0,0,255), 2, 8, 0);
+          rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
         }
       }
 		  // display image in window
-		  imshow(windowName, img);
+		  imshow(windowName, outputImage);
 
 		  key = waitKey(EVENT_LOOP_DELAY);
 
