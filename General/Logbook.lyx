@@ -990,6 +990,15 @@ Need to implement comparison now, and work out a way to test if my implementatio
 n is correct
 \end_layout
 
+\begin_layout Itemize
+HOG doesn't seem to be working
+\end_layout
+
+\begin_layout Itemize
+Made new capture object to draw text and rectangles on to stop them appearing
+ in the ROI, has made the code really fast now...
+\end_layout
+
 \begin_layout Section*
 Week 16
 \end_layout
