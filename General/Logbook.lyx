@@ -997,6 +997,23 @@ HOG doesn't seem to be working
 \begin_layout Itemize
 Made new capture object to draw text and rectangles on to stop them appearing
  in the ROI, has made the code really fast now...
+ - FIXED THIS NOW
+\end_layout
+
+\begin_layout Itemize
+Histogram - need to normalise
+\end_layout
+
+\begin_layout Itemize
+Hu - make sure I use largest contour
+\end_layout
+
+\begin_layout Itemize
+Toby has sent code to help with hist
+\end_layout
+
+\begin_layout Itemize
+Look at lecture on eigenfaces, works in a similar way to mine
 \end_layout
 
 \begin_layout Section*
