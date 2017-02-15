@@ -1001,11 +1001,11 @@ Made new capture object to draw text and rectangles on to stop them appearing
 \end_layout
 
 \begin_layout Itemize
-Histogram - need to normalise
+Histogram - need to normalise - done
 \end_layout
 
 \begin_layout Itemize
-Hu - make sure I use largest contour
+Hu - make sure I use largest contour - done, didn't seem to change results
 \end_layout
 
 \begin_layout Itemize

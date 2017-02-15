@@ -29,7 +29,7 @@ std::vector<Person> inactiveTargets;
 int main( int argc, char** argv )
 {
 
-  Mat img, outputImage, fg, fg_msk, bg;	// image objects
+  Mat img, outputImage, fg_msk, bg;	// image objects
   VideoCapture cap;     // capture object
 
   const string windowName = "Live Image"; // window name
@@ -73,10 +73,8 @@ int main( int argc, char** argv )
 		  if (cap.isOpened()) 
       {
 			  cap >> img;
-        outputImage = img.clone();
-        cvtColor(img, img, CV_BGR2GRAY);
-
-			  if(img.empty())
+        
+        if(img.empty())
         {
   				if (argc == 2)
           {
@@ -88,7 +86,9 @@ int main( int argc, char** argv )
   				}
   				exit(0);
 			  }
+        outputImage = img.clone();
 
+        cvtColor(img, img, CV_BGR2GRAY);
 		  }
       else
       {
@@ -99,7 +99,7 @@ int main( int argc, char** argv )
 
 		  // update background model and get background/foreground
 
-		  MoG->apply(img, fg_msk, (double) (1.0 / learning));
+		  MoG->apply(img, fg_msk, (double)(1.0/learning));
 		  MoG->getBackgroundImage(bg);
 
       // perform erosion - removes boundaries of foreground object
@@ -112,9 +112,6 @@ int main( int argc, char** argv )
       erode(fg_msk, fg_msk, Mat(),Point(),1);
 
       // extract portion of img using foreground mask (colour bit)
-
-      // fg = Scalar::all(0);
-      // img.copyTo(fg, fg_msk);
 
       // get connected components from the foreground
 
@@ -184,7 +181,7 @@ int main( int argc, char** argv )
             rec.width = rec.width*0.8;
             rec.y += rec.height*0.1;
             rec.height = rec.height*0.8;
-            //rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+            // rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
@@ -213,7 +210,7 @@ int main( int argc, char** argv )
             // cout << endl;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////HuMoments
-            
+
             vector<vector<Point> > contoursHu;
             vector<Vec4i> hierarchyHu;
 
@@ -222,7 +219,7 @@ int main( int argc, char** argv )
             double largestSize;
             int largestContour;
 
-            for( int i = 0; i< contoursHu.size(); i++ )
+            for(int i = 0; i< contoursHu.size(); i++)
             {
               double size = contoursHu[i].size();
 
@@ -380,10 +377,7 @@ int main( int argc, char** argv )
 
        
       key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY -
-                        (((getTickCount() - timeStart) / getTickFrequency()) * 1000)));
-
-
-		  //key = waitKey(EVENT_LOOP_DELAY);
+                        (((getTickCount() - timeStart) / getTickFrequency())*1000)));
 
 		  if (key == 'x')
       {
