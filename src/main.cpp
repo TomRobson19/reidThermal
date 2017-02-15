@@ -189,6 +189,7 @@ int main( int argc, char** argv )
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////Histogram
+            
             Mat regionOfInterest = img(rec);
 
             // Mat regionOfInterestForeground = fg_msk(rec);
@@ -199,8 +200,8 @@ int main( int argc, char** argv )
 
             MatND hist;
             int histSize = 16;    // bin size - need to determine which pixel threshold to use
-            float range[] = { 0, 255 };
-            const float *ranges[] = { range };
+            float range[] = {0,255};
+            const float *ranges[] = {range};
             int channels[] = {0, 1};
 
             calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
