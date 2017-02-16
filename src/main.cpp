@@ -379,9 +379,7 @@ int main( int argc, char** argv )
 		  // display image in window
 		  imshow(windowName, outputImage);
 
-       
-      key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY -
-                        (((getTickCount() - timeStart) / getTickFrequency())*1000)));
+      key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
 
       // key = waitKey(EVENT_LOOP_DELAY);
 
