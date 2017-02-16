@@ -1017,7 +1017,7 @@ Look at lecture on eigenfaces, works in a similar way to mine
 \end_layout
 
 \begin_layout Itemize
-HOG now works, need to resize image though
+HOG now works, need to resize image though - currently giving me errors
 \end_layout
 
 \begin_layout Section*
