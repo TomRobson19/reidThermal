@@ -1009,11 +1009,15 @@ Hu - make sure I use largest contour - done, didn't seem to change results
 \end_layout
 
 \begin_layout Itemize
-Toby has sent code to help with hist
+Toby has sent code to help with hog
 \end_layout
 
 \begin_layout Itemize
 Look at lecture on eigenfaces, works in a similar way to mine
+\end_layout
+
+\begin_layout Itemize
+HOG now works, need to resize image though
 \end_layout
 
 \begin_layout Section*

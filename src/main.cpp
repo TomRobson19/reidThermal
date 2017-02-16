@@ -250,19 +250,23 @@ int main( int argc, char** argv )
 
             Mat resized = regionOfInterest.clone();
 
-            HOGDescriptor descriptor;
+            // Mat resized;
+
+            // resize(copy, resized, Size(64,32), CV_INTER_AREA);
+
+            cv::HOGDescriptor descriptor;
 
             vector<float> descriptorsValues;
 
-            vector<Point> locations;
+            descriptor.compute(resized, descriptorsValues);
 
-            descriptor.compute( regionOfInterest, descriptorsValues, Size(64,32), Size(0,0), locations);
+            // for (int i=0; i<descriptorsValues.size(); i++)
+            // {
+            //   cout << descriptorsValues[i] << endl;
+            // }
 
-            //cout << descriptor << endl;  //doesn't work
-            //cout << descriptorsValues << endl;  //doesn't work
-            //cout << locations << endl;  //this is empty
-            //cout << endl;
-            //cout << endl;
+            // cout << endl;
+            // cout << endl;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
             
@@ -378,6 +382,8 @@ int main( int argc, char** argv )
        
       key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY -
                         (((getTickCount() - timeStart) / getTickFrequency())*1000)));
+
+      // key = waitKey(EVENT_LOOP_DELAY);
 
 		  if (key == 'x')
       {
