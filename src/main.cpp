@@ -250,11 +250,15 @@ int main( int argc, char** argv )
 
             //copy regionOfInterest and resize to 64x32 (same size as in compute call)
 
-            Mat resized = regionOfInterest.clone();
+            Mat clone = regionOfInterest.clone();
 
-            // Mat resized;
+            //cout << clone.size() << endl;
 
-            // resize(copy, resized, Size(64,32), CV_INTER_AREA);
+            Mat resized;
+
+            resize(clone, resized, Size(50,100), CV_INTER_LINEAR);
+
+            imshow("resized",resized);
 
             cv::HOGDescriptor descriptor;
 

@@ -1028,6 +1028,11 @@ Week 16
 Removed background from ROI, so now just focuses on target
 \end_layout
 
+\begin_layout Itemize
+Re-sizing done with 100x200 image, doesn't work with small values like 32x64
+ for some reason
+\end_layout
+
 \begin_layout Section*
 Week 17
 \end_layout
