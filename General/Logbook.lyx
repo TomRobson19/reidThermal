@@ -1024,6 +1024,10 @@ HOG now works, need to resize image though - currently giving me errors
 Week 16
 \end_layout
 
+\begin_layout Itemize
+Removed background from ROI, so now just focuses on target
+\end_layout
+
 \begin_layout Section*
 Week 17
 \end_layout
