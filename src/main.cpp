@@ -187,11 +187,13 @@ int main( int argc, char** argv )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////Histogram
             
-            Mat regionOfInterest = img(rec);
+            Mat regionOfInterest;
 
-            // Mat regionOfInterestForeground = fg_msk(rec);
+            Mat regionOfInterestOriginal = img(rec);
 
-            // bitwise_and(regionOfInterest, regionOfInterestForeground, regionOfInterest);
+            Mat regionOfInterestForeground = fg_msk(rec);
+
+            bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
 
             imshow("roi",regionOfInterest);
 
