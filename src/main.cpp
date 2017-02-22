@@ -248,15 +248,13 @@ int main( int argc, char** argv )
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////HOGDescriptor
 
-            //copy regionOfInterest and resize to 64x32 (same size as in compute call)
+            //copy regionOfInterest and resize to 64x128 (same size as in compute call)
 
             Mat clone = regionOfInterest.clone();
 
-            //cout << clone.size() << endl;
-
             Mat resized;
 
-            resize(clone, resized, Size(50,100), CV_INTER_LINEAR);
+            resize(clone, resized, Size(64,128), CV_INTER_LINEAR);
 
             imshow("resized",resized);
 
