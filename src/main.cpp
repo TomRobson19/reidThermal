@@ -195,8 +195,6 @@ int main( int argc, char** argv )
 
             bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
 
-            imshow("roi",regionOfInterest);
-
             MatND hist;
             int histSize = 16;    // bin size - need to determine which pixel threshold to use
             float range[] = {0,255};
