@@ -252,7 +252,7 @@ int main( int argc, char** argv )
 
             Mat resized;
 
-            resize(clone, resized, Size(64,128), CV_INTER_LINEAR);
+            resize(clone, resized, Size(64,128), CV_INTER_CUBIC);
 
             imshow("resized",resized);
 
