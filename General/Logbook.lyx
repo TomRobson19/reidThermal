@@ -1033,6 +1033,31 @@ Re-sizing done with 100x200 image, doesn't work with small values like 32x64
  for some reason.
 \end_layout
 
+\begin_layout Itemize
+Store array of last n (10) features per target
+\end_layout
+
+\begin_layout Itemize
+Look at eigenfaces lecture
+\end_layout
+
+\begin_layout Itemize
+Need to calculate covariance matrix first, then mahalanobis distance
+\end_layout
+
+\begin_layout Itemize
+Command line parameter for which feature to use
+\end_layout
+
+\begin_layout Itemize
+Look at C++ advanced buffers to just keep 
+\end_layout
+
+\begin_layout Itemize
+3-4 pages lit review, extract most of design report (take out deliverables/SE
+ stuff), rest are results
+\end_layout
+
 \begin_layout Section*
 Week 17
 \end_layout
