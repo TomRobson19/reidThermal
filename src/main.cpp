@@ -28,6 +28,7 @@ std::vector<Person> inactiveTargets;
 
 int main( int argc, char** argv )
 {
+  int feature_to_use = atoi(argv[argc-1]);
 
   Mat img, outputImage, fg_msk, bg;	// image objects
   VideoCapture cap;     // capture object
@@ -48,8 +49,8 @@ int main( int argc, char** argv )
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
 
-  if(( argc == 2 && (cap.open(argv[1]) == true )) ||
-  ( argc != 2 && (cap.open(0) == true)))
+  if(( argc == 3 && (cap.open(argv[1]) == true )) ||
+  ( argc != 3 && (cap.open(0) == true)))
   {
     // create window object (use flag=0 to allow resize, 1 to auto fix size)
     namedWindow(windowName, 1);
