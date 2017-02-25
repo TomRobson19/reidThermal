@@ -28,7 +28,7 @@ std::vector<Person> inactiveTargets;
 
 int main( int argc, char** argv )
 {
-  int feature_to_use = atoi(argv[argc-1]);
+  int feature_to_use = atoi(argv[argc-1]); // 1 - Hu, 2 - Histogram of Intensities, 3 - HOG
 
   Mat img, outputImage, fg_msk, bg;	// image objects
   VideoCapture cap;     // capture object
@@ -187,90 +187,89 @@ int main( int argc, char** argv )
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////Histogram
-            
-            Mat regionOfInterest;
-
-            Mat regionOfInterestOriginal = img(rec);
+            Mat regionOfInterest = img(rec);
 
             Mat regionOfInterestForeground = fg_msk(rec);
 
-            bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
-
-            MatND hist;
-            int histSize = 16;    // bin size - need to determine which pixel threshold to use
-            float range[] = {0,255};
-            const float *ranges[] = {range};
-            int channels[] = {0, 1};
-
-            calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
-
-            normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
-
-            // cout << hist << endl;
-            // cout << endl;
-            // cout << endl;
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////HuMoments
-
-            vector<vector<Point> > contoursHu;
-            vector<Vec4i> hierarchyHu;
-
-            findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
-
-            double largestSize;
-            int largestContour;
-
-            for(int i = 0; i< contoursHu.size(); i++)
+            if(feature_to_use == 1)
             {
-              double size = contoursHu[i].size();
+              vector<vector<Point> > contoursHu;
+              vector<Vec4i> hierarchyHu;
 
-              if(size>largestSize)
+              findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+
+              double largestSize;
+              int largestContour;
+
+              for(int i = 0; i< contoursHu.size(); i++)
               {
-                largestSize=size;
-                largestContour=i;
+                double size = contoursHu[i].size();
+
+                if(size>largestSize)
+                {
+                  largestSize=size;
+                  largestContour=i;
+                }
               }
+
+              Moments contourMoments;
+              double huMoments[7];
+
+              contourMoments = moments(contoursHu[largestContour]);
+
+              HuMoments(contourMoments, huMoments);
+
+              // for (int i=0; i<7; i++)
+              // {
+              //   cout << huMoments[i] << endl;
+              // }
+              // cout << endl;
+              // cout << endl;
             }
+            else if(feature_to_use == 2)
+            {
+              bitwise_and(regionOfInterest, regionOfInterestForeground, regionOfInterest);
 
-            Moments contourMoments;
-            double huMoments[7];
+              MatND hist;
+              int histSize = 16;    // bin size - need to determine which pixel threshold to use
+              float range[] = {0,255};
+              const float *ranges[] = {range};
+              int channels[] = {0, 1};
 
-            contourMoments = moments(contoursHu[largestContour]);
+              calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
 
-            HuMoments(contourMoments, huMoments);
+              normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
 
-            // for (int i=0; i<7; i++)
-            // {
-            //   cout << huMoments[i] << endl;
-            // }
-            // cout << endl;
-            // cout << endl;
+              // cout << hist << endl;
+              // cout << endl;
+              // cout << endl;
+            }
+            else if(feature_to_use == 3)
+            {
+              //copy regionOfInterest and resize to 64x128 (same size as in compute call)
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////HOGDescriptor
+              Mat clone = regionOfInterest.clone();
 
-            //copy regionOfInterest and resize to 64x128 (same size as in compute call)
+              Mat resized;
 
-            Mat clone = regionOfInterest.clone();
+              resize(clone, resized, Size(64,128), CV_INTER_CUBIC);
 
-            Mat resized;
+              imshow("resized",resized);
 
-            resize(clone, resized, Size(64,128), CV_INTER_CUBIC);
+              cv::HOGDescriptor descriptor;
 
-            imshow("resized",resized);
+              vector<float> descriptorsValues;
 
-            cv::HOGDescriptor descriptor;
+              descriptor.compute(resized, descriptorsValues);
 
-            vector<float> descriptorsValues;
+              // for (int i=0; i<descriptorsValues.size(); i++)
+              // {
+              //   cout << descriptorsValues[i] << endl;
+              // }
 
-            descriptor.compute(resized, descriptorsValues);
-
-            // for (int i=0; i<descriptorsValues.size(); i++)
-            // {
-            //   cout << descriptorsValues[i] << endl;
-            // }
-
-            // cout << endl;
-            // cout << endl;
-
+              // cout << endl;
+              // cout << endl;
+            }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
             
             int allocated = 0;
