@@ -77,7 +77,7 @@ int main( int argc, char** argv )
         
         if(img.empty())
         {
-  				if (argc == 2)
+  				if (argc == 3)
           {
   					std::cerr << "End of video file reached" << std::endl;
   				} 
@@ -186,10 +186,16 @@ int main( int argc, char** argv )
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////Histogram
-            Mat regionOfInterest = img(rec);
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+            Mat regionOfInterest;
+
+            Mat regionOfInterestOriginal = img(rec);
 
             Mat regionOfInterestForeground = fg_msk(rec);
+
+            bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
+
+            imshow("roi", regionOfInterest);
 
             if(feature_to_use == 1)
             {
@@ -228,8 +234,6 @@ int main( int argc, char** argv )
             }
             else if(feature_to_use == 2)
             {
-              bitwise_and(regionOfInterest, regionOfInterestForeground, regionOfInterest);
-
               MatND hist;
               int histSize = 16;    // bin size - need to determine which pixel threshold to use
               float range[] = {0,255};
@@ -254,8 +258,6 @@ int main( int argc, char** argv )
 
               resize(clone, resized, Size(64,128), CV_INTER_CUBIC);
 
-              imshow("resized",resized);
-
               cv::HOGDescriptor descriptor;
 
               vector<float> descriptorsValues;
@@ -266,7 +268,6 @@ int main( int argc, char** argv )
               // {
               //   cout << descriptorsValues[i] << endl;
               // }
-
               // cout << endl;
               // cout << endl;
             }
