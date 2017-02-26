@@ -28,7 +28,7 @@ std::vector<Person> inactiveTargets;
 
 int main( int argc, char** argv )
 {
-  int feature_to_use = atoi(argv[argc-1]); // 1 - Hu, 2 - Histogram of Intensities, 3 - HOG
+  int featureToUse = atoi(argv[argc-1]); // 1 - Hu, 2 - Histogram of Intensities, 3 - HOG
 
   Mat img, outputImage, fg_msk, bg;	// image objects
   VideoCapture cap;     // capture object
@@ -197,7 +197,7 @@ int main( int argc, char** argv )
 
             imshow("roi", regionOfInterest);
 
-            if(feature_to_use == 1)
+            if(featureToUse == 1)
             {
               vector<vector<Point> > contoursHu;
               vector<Vec4i> hierarchyHu;
@@ -232,7 +232,7 @@ int main( int argc, char** argv )
               // cout << endl;
               // cout << endl;
             }
-            else if(feature_to_use == 2)
+            else if(featureToUse == 2)
             {
               MatND hist;
               int histSize = 16;    // bin size - need to determine which pixel threshold to use
@@ -248,7 +248,7 @@ int main( int argc, char** argv )
               // cout << endl;
               // cout << endl;
             }
-            else if(feature_to_use == 3)
+            else if(featureToUse == 3)
             {
               //copy regionOfInterest and resize to 64x128 (same size as in compute call)
 
