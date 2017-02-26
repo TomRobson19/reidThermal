@@ -186,7 +186,6 @@ int main( int argc, char** argv )
 
             Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
             Mat regionOfInterest;
 
             Mat regionOfInterestOriginal = img(rec);
@@ -195,9 +194,15 @@ int main( int argc, char** argv )
 
             bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
 
+            Mat clone = regionOfInterest.clone();
+
+            //Mat resized;
+
+            resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
+
             imshow("roi", regionOfInterest);
 
-            if(featureToUse == 1)
+            if(featureToUse == 1) //HuMoments - outputs a double array 
             {
               vector<vector<Point> > contoursHu;
               vector<Vec4i> hierarchyHu;
@@ -232,9 +237,9 @@ int main( int argc, char** argv )
               // cout << endl;
               // cout << endl;
             }
-            else if(featureToUse == 2)
+            else if(featureToUse == 2) //Histogram of Intensities - outputs a Mat
             {
-              MatND hist;
+              Mat hist;
               int histSize = 16;    // bin size - need to determine which pixel threshold to use
               float range[] = {0,255};
               const float *ranges[] = {range};
@@ -248,21 +253,15 @@ int main( int argc, char** argv )
               // cout << endl;
               // cout << endl;
             }
-            else if(featureToUse == 3)
+            else if(featureToUse == 3) //HOG - outputs a vector<float>
             {
               //copy regionOfInterest and resize to 64x128 (same size as in compute call)
-
-              Mat clone = regionOfInterest.clone();
-
-              Mat resized;
-
-              resize(clone, resized, Size(64,128), CV_INTER_CUBIC);
 
               cv::HOGDescriptor descriptor;
 
               vector<float> descriptorsValues;
 
-              descriptor.compute(resized, descriptorsValues);
+              descriptor.compute(regionOfInterest, descriptorsValues);
 
               // for (int i=0; i<descriptorsValues.size(); i++)
               // {
@@ -271,7 +270,6 @@ int main( int argc, char** argv )
               // cout << endl;
               // cout << endl;
             }
-/////////////////////////////////////////////////////////////////////////////////////////////////////
             
             int allocated = 0;
 
