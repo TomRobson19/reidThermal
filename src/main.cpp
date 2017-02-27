@@ -26,7 +26,7 @@ int timeSteps = 0;
 std::vector<Person> activeTargets;
 std::vector<Person> inactiveTargets;                                         
 
-int main( int argc, char** argv )
+int main(int argc,char** argv)
 {
   int featureToUse = atoi(argv[argc-1]); // 1 - Hu, 2 - Histogram of Intensities, 3 - HOG
 
@@ -49,8 +49,8 @@ int main( int argc, char** argv )
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
 
-  if(( argc == 3 && (cap.open(argv[1]) == true )) ||
-  ( argc != 3 && (cap.open(0) == true)))
+  if((argc == 3 && (cap.open(argv[1]) == true)) ||
+  (argc != 3 && (cap.open(0) == true)))
   {
     // create window object (use flag=0 to allow resize, 1 to auto fix size)
     namedWindow(windowName, 1);
@@ -65,7 +65,7 @@ int main( int argc, char** argv )
 
     // start main loop
 
-	  while (keepProcessing)
+	  while(keepProcessing)
     {
       int64 timeStart = getTickCount();
 		  // if capture object in use (i.e. video/camera)
@@ -196,8 +196,6 @@ int main( int argc, char** argv )
 
             Mat clone = regionOfInterest.clone();
 
-            //Mat resized;
-
             resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
 
             imshow("roi", regionOfInterest);
@@ -224,11 +222,14 @@ int main( int argc, char** argv )
               }
 
               Moments contourMoments;
-              double huMoments[7];
+              //double huMoments[7];
+              vector<double> huMoments;
 
               contourMoments = moments(contoursHu[largestContour]);
 
               HuMoments(contourMoments, huMoments);
+
+              Mat feature(huMoments);
 
               // for (int i=0; i<7; i++)
               // {
@@ -249,6 +250,8 @@ int main( int argc, char** argv )
 
               normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
 
+              Mat feature = hist.clone();
+
               // cout << hist << endl;
               // cout << endl;
               // cout << endl;
@@ -262,6 +265,8 @@ int main( int argc, char** argv )
               vector<float> descriptorsValues;
 
               descriptor.compute(regionOfInterest, descriptorsValues);
+
+              Mat feature(descriptorsValues);
 
               // for (int i=0; i<descriptorsValues.size(); i++)
               // {
