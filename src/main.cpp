@@ -71,7 +71,7 @@ int main(int argc,char** argv)
 		  // if capture object in use (i.e. video/camera)
 		  // get image from capture object
 
-		  if (cap.isOpened()) 
+		  if (cap.isOpened())
       {
 			  cap >> img;
         
@@ -200,6 +200,8 @@ int main(int argc,char** argv)
 
             imshow("roi", regionOfInterest);
 
+            Mat feature;
+
             if(featureToUse == 1) //HuMoments - outputs a double array 
             {
               vector<vector<Point> > contoursHu;
@@ -210,14 +212,14 @@ int main(int argc,char** argv)
               double largestSize;
               int largestContour;
 
-              for(int i = 0; i< contoursHu.size(); i++)
+              for(int i = 0; i < contoursHu.size(); i++)
               {
                 double size = contoursHu[i].size();
 
-                if(size>largestSize)
+                if(size > largestSize)
                 {
-                  largestSize=size;
-                  largestContour=i;
+                  largestSize = size;
+                  largestContour = i;
                 }
               }
 
@@ -229,7 +231,9 @@ int main(int argc,char** argv)
 
               HuMoments(contourMoments, huMoments);
 
-              Mat feature(huMoments);
+              Mat huMomentsFeature(huMoments);
+
+              feature = huMomentsFeature.clone();
 
               // for (int i=0; i<7; i++)
               // {
@@ -238,6 +242,7 @@ int main(int argc,char** argv)
               // cout << endl;
               // cout << endl;
             }
+            
             else if(featureToUse == 2) //Histogram of Intensities - outputs a Mat
             {
               Mat hist;
@@ -250,12 +255,13 @@ int main(int argc,char** argv)
 
               normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
 
-              Mat feature = hist.clone();
+              feature = hist.clone();
 
               // cout << hist << endl;
               // cout << endl;
               // cout << endl;
             }
+
             else if(featureToUse == 3) //HOG - outputs a vector<float>
             {
               //copy regionOfInterest and resize to 64x128 (same size as in compute call)
@@ -266,7 +272,9 @@ int main(int argc,char** argv)
 
               descriptor.compute(regionOfInterest, descriptorsValues);
 
-              Mat feature(descriptorsValues);
+              Mat hogFeatureDescriptor(descriptorsValues);
+
+              feature = hogFeatureDescriptor.clone();
 
               // for (int i=0; i<descriptorsValues.size(); i++)
               // {
@@ -275,6 +283,8 @@ int main(int argc,char** argv)
               // cout << endl;
               // cout << endl;
             }
+
+            cout << feature << endl;
             
             int allocated = 0;
 
