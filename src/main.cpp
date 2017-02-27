@@ -209,12 +209,12 @@ int main(int argc,char** argv)
 
               findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
-              double largestSize;
+              double largestSize,size;
               int largestContour;
 
               for(int i = 0; i < contoursHu.size(); i++)
               {
-                double size = contoursHu[i].size();
+                size = contoursHu[i].size();
 
                 if(size > largestSize)
                 {
@@ -230,9 +230,7 @@ int main(int argc,char** argv)
 
               HuMoments(contourMoments, huMoments);
 
-              Mat huMomentsFeature(huMoments);
-
-              feature = huMomentsFeature.clone();
+              feature = Mat(huMoments);
             }
 
             else if(featureToUse == 2) //Histogram of Intensities
@@ -252,17 +250,13 @@ int main(int argc,char** argv)
 
             else if(featureToUse == 3) //HOG
             {
-              //copy regionOfInterest and resize to 64x128 (same size as in compute call)
-
               cv::HOGDescriptor descriptor;
 
               vector<float> descriptorsValues;
 
               descriptor.compute(regionOfInterest, descriptorsValues);
 
-              Mat hogFeatureDescriptor(descriptorsValues);
-
-              feature = hogFeatureDescriptor.clone();
+              feature = Mat(descriptorsValues);
             }
 
             cout << feature << endl;
