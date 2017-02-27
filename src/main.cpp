@@ -52,18 +52,18 @@ int main(int argc,char** argv)
   if((argc == 3 && (cap.open(argv[1]) == true)) ||
   (argc != 3 && (cap.open(0) == true)))
   {
-	// create window object (use flag=0 to allow resize, 1 to auto fix size)
-	namedWindow(windowName, 1);
+		// create window object (use flag=0 to allow resize, 1 to auto fix size)
+		namedWindow(windowName, 1);
 
-	// create background / foreground Mixture of Gaussian (MoG) model
-	Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25,false);
+		// create background / foreground Mixture of Gaussian (MoG) model
+		Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25,false);
 
-	HOGDescriptor hog;
-	hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
+		HOGDescriptor hog;
+		hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
 
-	CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
+		CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
-	// start main loop
+		// start main loop
 
 	  while(keepProcessing)
 		{
