@@ -261,7 +261,7 @@ int main(int argc,char** argv)
 
 						cout << feature << endl;
 
-						Ptr<NormalBayesClassifier> bayes = new NormalBayesClassifier();
+						Ptr<NormalBayesClassifier> bayes;
 						
 						int allocated = 0;
 
