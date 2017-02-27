@@ -202,7 +202,7 @@ int main(int argc,char** argv)
 
             Mat feature;
 
-            if(featureToUse == 1) //HuMoments - outputs a double array 
+            if(featureToUse == 1) //HuMoments
             {
               vector<vector<Point> > contoursHu;
               vector<Vec4i> hierarchyHu;
@@ -224,7 +224,6 @@ int main(int argc,char** argv)
               }
 
               Moments contourMoments;
-              //double huMoments[7];
               vector<double> huMoments;
 
               contourMoments = moments(contoursHu[largestContour]);
@@ -234,16 +233,9 @@ int main(int argc,char** argv)
               Mat huMomentsFeature(huMoments);
 
               feature = huMomentsFeature.clone();
-
-              // for (int i=0; i<7; i++)
-              // {
-              //   cout << huMoments[i] << endl;
-              // }
-              // cout << endl;
-              // cout << endl;
             }
-            
-            else if(featureToUse == 2) //Histogram of Intensities - outputs a Mat
+
+            else if(featureToUse == 2) //Histogram of Intensities
             {
               Mat hist;
               int histSize = 16;    // bin size - need to determine which pixel threshold to use
@@ -256,13 +248,9 @@ int main(int argc,char** argv)
               normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
 
               feature = hist.clone();
-
-              // cout << hist << endl;
-              // cout << endl;
-              // cout << endl;
             }
 
-            else if(featureToUse == 3) //HOG - outputs a vector<float>
+            else if(featureToUse == 3) //HOG
             {
               //copy regionOfInterest and resize to 64x128 (same size as in compute call)
 
@@ -275,13 +263,6 @@ int main(int argc,char** argv)
               Mat hogFeatureDescriptor(descriptorsValues);
 
               feature = hogFeatureDescriptor.clone();
-
-              // for (int i=0; i<descriptorsValues.size(); i++)
-              // {
-              //   cout << descriptorsValues[i] << endl;
-              // }
-              // cout << endl;
-              // cout << endl;
             }
 
             cout << feature << endl;
