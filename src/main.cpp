@@ -121,254 +121,254 @@ int main(int argc,char** argv)
 		  // iterate through all the top-level contours,
 		  // and get bounding rectangles for them (if larger than given value)
 
-	  for(int idx = 0; idx >=0; idx = hierarchy[idx][0])
-	  {
-			Rect r = boundingRect(contours[idx]);
+		  for(int idx = 0; idx >=0; idx = hierarchy[idx][0])
+		  {
+				Rect r = boundingRect(contours[idx]);
 
-			// adjust bounding rectangle to be padding% larger
-			// around the object
+				// adjust bounding rectangle to be padding% larger
+				// around the object
 
-			r.x = max(0, r.x - (int) (padding/100.0 * (double) r.width));
-			r.y = max(0, r.y - (int) (padding/100.0 * (double) r.height));
+				r.x = max(0, r.x - (int) (padding/100.0 * (double) r.width));
+				r.y = max(0, r.y - (int) (padding/100.0 * (double) r.height));
 
-			r.width = min(img.cols - 1, (r.width + 2 * (int) (padding/100.0 * (double) r.width)));
-			r.height = min(img.rows - 1, (r.height + 2 * (int) (padding/100.0 * (double) r.height)));
+				r.width = min(img.cols - 1, (r.width + 2 * (int) (padding/100.0 * (double) r.width)));
+				r.height = min(img.rows - 1, (r.height + 2 * (int) (padding/100.0 * (double) r.height)));
 
-			// draw rectangle if greater than width/height constraints and if
-			// also still inside image
+				// draw rectangle if greater than width/height constraints and if
+				// also still inside image
 
-			if ((r.width >= width) && (r.height >= height) &&
-				(r.x + r.width < img.cols) && (r.y + r.height < img.rows))
-			{
-			  vector<Rect> found, found_filtered;
+				if ((r.width >= width) && (r.height >= height) &&
+					(r.x + r.width < img.cols) && (r.y + r.height < img.rows))
+				{
+				  vector<Rect> found, found_filtered;
 
-			  Mat roi = img(r);
+				  Mat roi = img(r);
 
-			  int method = 1; //0 for Hog, 1 for cascade
+				  int method = 1; //0 for Hog, 1 for cascade
 
-			  if (method == 0)
-			  {
-				//changing last parameter helps deal with multiple rectangles per person
-					hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 5);
-			  }
-			  else 
-			  {
-					cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,32));
-			  }
-			  for(size_t i = 0; i < found.size(); i++ )
-			  {
-					Rect rec = found[i];
+				  if (method == 0)
+				  {
+					//changing last parameter helps deal with multiple rectangles per person
+						hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 5);
+				  }
+				  else 
+				  {
+						cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,32));
+				  }
+				  for(size_t i = 0; i < found.size(); i++ )
+				  {
+						Rect rec = found[i];
 
-					rec.x += r.x;
-					rec.y += r.y;
+						rec.x += r.x;
+						rec.y += r.y;
 
-					size_t j;
-					// Do not add small detections inside a bigger detection.
-					for ( j = 0; j < found.size(); j++ )
-					  if ( j != i && (rec & found[j]) == rec )
-						  break;
-
-					if ( j == found.size() )
-					  found_filtered.push_back(rec);
-			  }
-
-			  for (size_t i = 0; i < found_filtered.size(); i++)
-			  {
-					Rect rec = found_filtered[i];
-
-					// The HOG/Cascade detector returns slightly larger rectangles than the real objects,
-					// so we slightly shrink the rectangles to get a nicer output.
-					rec.x += rec.width*0.1;
-					rec.width = rec.width*0.8;
-					rec.y += rec.height*0.1;
-					rec.height = rec.height*0.8;
-					// rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
-
-					Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
-
-					Mat regionOfInterest;
-
-					Mat regionOfInterestOriginal = img(rec);
-
-					Mat regionOfInterestForeground = fg_msk(rec);
-
-					bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
-
-					Mat clone = regionOfInterest.clone();
-
-					resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
-
-					imshow("roi", regionOfInterest);
-
-					Mat feature;
-
-					if(featureToUse == 1) //HuMoments
-					{
-					  vector<vector<Point> > contoursHu;
-					  vector<Vec4i> hierarchyHu;
-
-					  findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
-
-					  double largestSize,size;
-					  int largestContour;
-
-					  for(int i = 0; i < contoursHu.size(); i++)
-					  {
-							size = contoursHu[i].size();
-
-							if(size > largestSize)
-							{
-							  largestSize = size;
-							  largestContour = i;
-							}
-					  }
-
-					  Moments contourMoments;
-					  vector<double> huMoments;
-
-					  contourMoments = moments(contoursHu[largestContour]);
-
-					  HuMoments(contourMoments, huMoments);
-
-					  feature = Mat(huMoments);
-					}
-
-					else if(featureToUse == 2) //HistogramOfIntensities
-					{
-					  Mat hist;
-					  int histSize = 16;    // bin size - need to determine which pixel threshold to use
-					  float range[] = {0,255};
-					  const float *ranges[] = {range};
-					  int channels[] = {0, 1};
-
-					  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
-
-					  normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
-
-					  feature = hist.clone();
-					}
-
-					else if(featureToUse == 3) //HOG
-					{
-					  cv::HOGDescriptor descriptor;
-
-					  vector<float> descriptorsValues;
-
-					  descriptor.compute(regionOfInterest, descriptorsValues);
-
-					  feature = Mat(descriptorsValues);
-					}
-
-					cout << feature << endl;
-
-					//Ptr<NormalBayesClassifier> bayes = new NormalBayesClassifier();
-					
-					int allocated = 0;
-
-					if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
-					{
-					  Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
-
-					  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-					  
-					  Rect p = person.kalmanPredict();
-
-					  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
-
-					  char str[200];
-					  sprintf(str,"Person %d",person.getIdentifier());
-
-					  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-
-					  activeTargets.push_back(person);
-					  allocated = 1;
-					}
-					
-					if(allocated == 0) //check if it is similar enough to a currently active target
-					{
-					  for(int a=0; a<activeTargets.size(); a++)
-					  {
-							Point2f lastPosition = activeTargets[a].getLastPosition();
-
-							if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
-							//if close enough to last postion,it is that person
-							//will change this when features are implemented
-							{
-							  activeTargets[a].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-
-							  Rect p = activeTargets[a].kalmanPredict();
-
-							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
-
-							  char str[200];
-							  sprintf(str,"Person %d",activeTargets[a].getIdentifier());
-
-							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-
-							  allocated = 1;
+						size_t j;
+						// Do not add small detections inside a bigger detection.
+						for ( j = 0; j < found.size(); j++ )
+						  if ( j != i && (rec & found[j]) == rec )
 							  break;
-							}
 
-							if(timeSteps-activeTargets[a].getLastSeen() > 100 and allocated == 0)//if hasn't been seen for long enough, make inactive
-							{
-							  inactiveTargets.push_back(activeTargets[a]);
-							  activeTargets.erase(activeTargets.begin()+a);
-							}
-					  }
-					}
+						if ( j == found.size() )
+						  found_filtered.push_back(rec);
+				  }
 
-					if(allocated == 0) //now check if it is similar to an inactive target
-					{
-					  for(int b=0; b<inactiveTargets.size(); b++)
-					  {                
-							Point2f lastPosition = inactiveTargets[b].getLastPosition();
+				  for (size_t i = 0; i < found_filtered.size(); i++)
+				  {
+						Rect rec = found_filtered[i];
 
-							if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
-							//if close enough to last postion,it is that person
-							//will change this when features are implemented
-							{
-							  inactiveTargets[b].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+						// The HOG/Cascade detector returns slightly larger rectangles than the real objects,
+						// so we slightly shrink the rectangles to get a nicer output.
+						rec.x += rec.width*0.1;
+						rec.width = rec.width*0.8;
+						rec.y += rec.height*0.1;
+						rec.height = rec.height*0.8;
+						// rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
-							  Rect p = inactiveTargets[b].kalmanPredict();
+						Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
-							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+						Mat regionOfInterest;
 
-							  char str[200];
-							  sprintf(str,"Person %d",inactiveTargets[b].getIdentifier());
+						Mat regionOfInterestOriginal = img(rec);
 
-							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+						Mat regionOfInterestForeground = fg_msk(rec);
 
-							  activeTargets.push_back(inactiveTargets[b]);
-							  inactiveTargets.erase(inactiveTargets.begin()+b);
+						bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
 
-							  allocated = 1;
-							  break;
-							}
-					  } 
-					}
-					if(allocated == 0) //if not close enough to any existing targets, create a new target
-					{
-					  int identifier = activeTargets.size()+inactiveTargets.size();
-					  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+						Mat clone = regionOfInterest.clone();
 
-					  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-					  
-					  Rect p = person.kalmanPredict();
+						resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
 
-					  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+						imshow("roi", regionOfInterest);
 
-					  char str[200];
-					  sprintf(str,"Person %d",person.getIdentifier());
+						Mat feature;
 
-					  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+						if(featureToUse == 1) //HuMoments
+						{
+						  vector<vector<Point> > contoursHu;
+						  vector<Vec4i> hierarchyHu;
 
-					  activeTargets.push_back(person);
-					  allocated = 1;
-					}
-			  }
-			  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
-			}
-	  }
+						  findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+
+						  double largestSize,size;
+						  int largestContour;
+
+						  for(int i = 0; i < contoursHu.size(); i++)
+						  {
+								size = contoursHu[i].size();
+
+								if(size > largestSize)
+								{
+								  largestSize = size;
+								  largestContour = i;
+								}
+						  }
+
+						  Moments contourMoments;
+						  vector<double> huMoments;
+
+						  contourMoments = moments(contoursHu[largestContour]);
+
+						  HuMoments(contourMoments, huMoments);
+
+						  feature = Mat(huMoments);
+						}
+
+						else if(featureToUse == 2) //HistogramOfIntensities
+						{
+						  Mat hist;
+						  int histSize = 16;    // bin size - need to determine which pixel threshold to use
+						  float range[] = {0,255};
+						  const float *ranges[] = {range};
+						  int channels[] = {0, 1};
+
+						  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
+
+						  normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
+
+						  feature = hist.clone();
+						}
+
+						else if(featureToUse == 3) //HOG
+						{
+						  cv::HOGDescriptor descriptor;
+
+						  vector<float> descriptorsValues;
+
+						  descriptor.compute(regionOfInterest, descriptorsValues);
+
+						  feature = Mat(descriptorsValues);
+						}
+
+						cout << feature << endl;
+
+						Ptr<NormalBayesClassifier> bayes = new NormalBayesClassifier();
+						
+						int allocated = 0;
+
+						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
+						{
+						  Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
+
+						  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+						  
+						  Rect p = person.kalmanPredict();
+
+						  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+						  char str[200];
+						  sprintf(str,"Person %d",person.getIdentifier());
+
+						  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+
+						  activeTargets.push_back(person);
+						  allocated = 1;
+						}
+						
+						if(allocated == 0) //check if it is similar enough to a currently active target
+						{
+						  for(int a=0; a<activeTargets.size(); a++)
+						  {
+								Point2f lastPosition = activeTargets[a].getLastPosition();
+
+								if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
+								//if close enough to last postion,it is that person
+								//will change this when features are implemented
+								{
+								  activeTargets[a].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+
+								  Rect p = activeTargets[a].kalmanPredict();
+
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+								  char str[200];
+								  sprintf(str,"Person %d",activeTargets[a].getIdentifier());
+
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+
+								  allocated = 1;
+								  break;
+								}
+
+								if(timeSteps-activeTargets[a].getLastSeen() > 100 and allocated == 0)//if hasn't been seen for long enough, make inactive
+								{
+								  inactiveTargets.push_back(activeTargets[a]);
+								  activeTargets.erase(activeTargets.begin()+a);
+								}
+						  }
+						}
+
+						if(allocated == 0) //now check if it is similar to an inactive target
+						{
+						  for(int b=0; b<inactiveTargets.size(); b++)
+						  {                
+								Point2f lastPosition = inactiveTargets[b].getLastPosition();
+
+								if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
+								//if close enough to last postion,it is that person
+								//will change this when features are implemented
+								{
+								  inactiveTargets[b].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+
+								  Rect p = inactiveTargets[b].kalmanPredict();
+
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+								  char str[200];
+								  sprintf(str,"Person %d",inactiveTargets[b].getIdentifier());
+
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+
+								  activeTargets.push_back(inactiveTargets[b]);
+								  inactiveTargets.erase(inactiveTargets.begin()+b);
+
+								  allocated = 1;
+								  break;
+								}
+						  } 
+						}
+						if(allocated == 0) //if not close enough to any existing targets, create a new target
+						{
+						  int identifier = activeTargets.size()+inactiveTargets.size();
+						  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+
+						  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+						  
+						  Rect p = person.kalmanPredict();
+
+						  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+						  char str[200];
+						  sprintf(str,"Person %d",person.getIdentifier());
+
+						  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+
+						  activeTargets.push_back(person);
+						  allocated = 1;
+						}
+				  }
+				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
+				}
+		  }
 		  // display image in window
 		  imshow(windowName, outputImage);
 
@@ -376,13 +376,12 @@ int main(int argc,char** argv)
 
 	  // key = waitKey(EVENT_LOOP_DELAY);
 
-		  if (key == 'x')
-	  {
+	  if (key == 'x')
+  	{
 			// if user presses "x" then exit
-			std::cout << "Keyboard exit requested : exiting now - bye!"
-					  << std::endl;
+			std::cout << "Keyboard exit requested : exiting now - bye!" << std::endl;
 			keepProcessing = false;
-		  }
+	  }
 	  timeSteps += 1;
 	  }
 
