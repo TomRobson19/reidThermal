@@ -237,8 +237,6 @@ int main(int argc,char** argv)
 						  hu.assign(huMoments,huMoments+7);
 
               feature = Mat(hu);
-
-              cout << feature << endl;
 						}
 						else if(featureToUse == 2) //HistogramOfIntensities
 						{
