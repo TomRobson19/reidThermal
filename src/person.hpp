@@ -28,10 +28,7 @@ private:
 	cv::KalmanFilter KF;
 	cv::Mat_<float> measurement = cv::Mat_<float>(6,1);
 
-	//features
-	double huMoments[7];
-	MatND hist;
-
+	vector<Mat> allFeatures;
 
 public:
 	Person(int identifier, float x, float y, int timeSteps, float w, float h);
@@ -50,7 +47,7 @@ public:
 
 	Rect kalmanPredict();
 
-	void updateFeatures();
+	void updateFeatures(Mat newFeature);
 };
  
 #endif

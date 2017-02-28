@@ -18,39 +18,31 @@ using namespace ml;
 
 #include "person.hpp"
 
-Person::Person(int identifier, float x, float y, int timeSteps, float w, float h)
-{
+Person::Person(int identifier, float x, float y, int timeSteps, float w, float h) {
 	setIdentifier(identifier);
 	initKalman(x,y,timeSteps,w,h);
 }
 
-void Person::setIdentifier(int identifier) 
-{
+void Person::setIdentifier(int identifier) {
 	personIdentifier = identifier;
 }
 
-int Person::getIdentifier() 
-{
+int Person::getIdentifier() {
 	return personIdentifier;
 }
 
-int Person::getLastSeen()
-{
+int Person::getLastSeen() {
 	return lastSeen;
 }
 
-Point2f Person::getLastPosition()
-{
+Point2f Person::getLastPosition() {
 	float currentX = measurement(0);
 	float currentY = measurement(1);
-
 	Point2f position = Point2f(currentX,currentY);
-
 	return position;
 }
 
-void Person::initKalman(float x, float y, int timeSteps, float w, float h)
-{
+void Person::initKalman(float x, float y, int timeSteps, float w, float h) {
   KF.init(6, 6, 0);  //position(x,y) velocity(x,y) rectangle(h,w)
 
   measurement(0) = x;
@@ -91,8 +83,7 @@ void Person::initKalman(float x, float y, int timeSteps, float w, float h)
   lastSeen = timeSteps;
 }
 
-void Person::kalmanCorrect(float x, float y, int timeSteps, float w, float h)
-{
+void Person::kalmanCorrect(float x, float y, int timeSteps, float w, float h) {
   float currentX = measurement(0);
   float currentY = measurement(1);
 
@@ -117,8 +108,7 @@ void Person::kalmanCorrect(float x, float y, int timeSteps, float w, float h)
   history.push_back(measurement);
 }
 
-Rect Person::kalmanPredict() 
-{
+Rect Person::kalmanPredict() {
   Mat prediction = KF.predict();
 
   Point2f topLeft(prediction.at<float>(0)-prediction.at<float>(4)/2,prediction.at<float>(1)+prediction.at<float>(5)/2);
@@ -131,4 +121,8 @@ Rect Person::kalmanPredict()
   KF.errorCovPre.copyTo(KF.errorCovPost);
 
   return kalmanRect;
+}
+
+void Person::updateFeatures(Mat newFeature) {
+  allFeatures.push_back(newFeature);
 }
