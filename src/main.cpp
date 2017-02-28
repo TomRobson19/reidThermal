@@ -200,6 +200,11 @@ int main(int argc,char** argv)
 
 						imshow("roi", regionOfInterest);
 
+						double huMoments[7];
+						vector<double> hu(7);
+						Mat hist;
+						vector<float> descriptorsValues;
+
 						Mat feature;
 
 						if(featureToUse == 1) //HuMoments
@@ -224,18 +229,19 @@ int main(int argc,char** argv)
 						  }
 
 						  Moments contourMoments;
-						  vector<double> huMoments;
 
 						  contourMoments = moments(contoursHu[largestContour]);
 
 						  HuMoments(contourMoments, huMoments);
 
-						  feature = Mat(huMoments);
-						}
+						  hu.assign(huMoments,huMoments+7);
 
+              feature = Mat(hu);
+
+              cout << feature << endl;
+						}
 						else if(featureToUse == 2) //HistogramOfIntensities
 						{
-						  Mat hist;
 						  int histSize = 16;    // bin size - need to determine which pixel threshold to use
 						  float range[] = {0,255};
 						  const float *ranges[] = {range};
@@ -252,17 +258,18 @@ int main(int argc,char** argv)
 						{
 						  cv::HOGDescriptor descriptor;
 
-						  vector<float> descriptorsValues;
-
 						  descriptor.compute(regionOfInterest, descriptorsValues);
 
 						  feature = Mat(descriptorsValues);
 						}
 
-						cout << feature << endl;
+						//cout << feature << endl;
 
+						//As this is a pointer, must use library functions with ->
 						Ptr<NormalBayesClassifier> bayes;
 						
+
+
 						int allocated = 0;
 
 						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
