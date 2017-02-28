@@ -260,16 +260,9 @@ int main(int argc,char** argv)
 
 						  feature = Mat(descriptorsValues);
 						}
-
 						//cout << feature << endl;
 
-						//As this is a pointer, must use library functions with ->
-						Ptr<NormalBayesClassifier> bayes;
-						
-
-
 						int allocated = 0;
-
 						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
 						{
 						  Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
@@ -277,6 +270,8 @@ int main(int argc,char** argv)
 						  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 						  
 						  Rect p = person.kalmanPredict();
+
+						  person.updateFeatures(feature);
 
 						  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
@@ -288,6 +283,12 @@ int main(int argc,char** argv)
 						  activeTargets.push_back(person);
 						  allocated = 1;
 						}
+
+						//As this is a pointer, must use library functions with ->
+						Ptr<NormalBayesClassifier> bayes;
+						//train this on all people's features, with identifiers as labels
+						//match with the closest if it is within a certain range, else make new target
+
 						
 						if(allocated == 0) //check if it is similar enough to a currently active target
 						{

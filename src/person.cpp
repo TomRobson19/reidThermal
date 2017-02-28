@@ -126,3 +126,7 @@ Rect Person::kalmanPredict() {
 void Person::updateFeatures(Mat newFeature) {
   allFeatures.push_back(newFeature);
 }
+
+vector<Mat> Person::getFeatures(){
+  return allFeatures;
+}

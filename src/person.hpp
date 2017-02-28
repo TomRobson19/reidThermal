@@ -48,6 +48,8 @@ public:
 	Rect kalmanPredict();
 
 	void updateFeatures(Mat newFeature);
+
+	vector<Mat> getFeatures();
 };
  
 #endif
