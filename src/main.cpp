@@ -48,7 +48,6 @@ int main(int argc,char** argv)
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
-
   if((argc == 3 && (cap.open(argv[1]) == true)) ||
   (argc != 3 && (cap.open(0) == true)))
   {
@@ -64,7 +63,6 @@ int main(int argc,char** argv)
 		CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
 		// start main loop
-
 	  while(keepProcessing)
 		{
 		  int64 timeStart = getTickCount();
@@ -99,23 +97,19 @@ int main(int argc,char** argv)
 		  }
 
 		  // update background model and get background/foreground
-
 		  MoG->apply(img, fg_msk, (double)(1.0/learning));
 		  MoG->getBackgroundImage(bg);
 
 		  // perform erosion - removes boundaries of foreground object
-
 		  erode(fg_msk, fg_msk, Mat(),Point(),1);
 
 		  // perform morphological closing
-
 		  dilate(fg_msk, fg_msk, Mat(),Point(),5);
 		  erode(fg_msk, fg_msk, Mat(),Point(),1);
 
 		  // extract portion of img using foreground mask (colour bit)
 
 		  // get connected components from the foreground
-
 		  findContours(fg_msk, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
 		  // iterate through all the top-level contours,
@@ -127,7 +121,6 @@ int main(int argc,char** argv)
 
 				// adjust bounding rectangle to be padding% larger
 				// around the object
-
 				r.x = max(0, r.x - (int) (padding/100.0 * (double) r.width));
 				r.y = max(0, r.y - (int) (padding/100.0 * (double) r.height));
 
@@ -136,7 +129,6 @@ int main(int argc,char** argv)
 
 				// draw rectangle if greater than width/height constraints and if
 				// also still inside image
-
 				if ((r.width >= width) && (r.height >= height) &&
 					(r.x + r.width < img.cols) && (r.y + r.height < img.rows))
 				{
@@ -171,7 +163,6 @@ int main(int argc,char** argv)
 						if ( j == found.size() )
 						  found_filtered.push_back(rec);
 				  }
-
 				  for (size_t i = 0; i < found_filtered.size(); i++)
 				  {
 						Rect rec = found_filtered[i];
@@ -283,12 +274,12 @@ int main(int argc,char** argv)
 						  activeTargets.push_back(person);
 						  allocated = 1;
 						}
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						//As this is a pointer, must use library functions with ->
 						Ptr<NormalBayesClassifier> bayes;
 						//train this on all people's features, with identifiers as labels
 						//match with the closest if it is within a certain range, else make new target
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						if(allocated == 0) //check if it is similar enough to a currently active target
 						{
@@ -380,8 +371,6 @@ int main(int argc,char** argv)
 
 	  key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
 
-	  // key = waitKey(EVENT_LOOP_DELAY);
-
 	  if (key == 'x')
   	{
 			// if user presses "x" then exit
@@ -398,4 +387,3 @@ int main(int argc,char** argv)
 	// not OK : main returns -1
 	return -1;
 }
-/******************************************************************************/
