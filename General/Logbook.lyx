@@ -1062,6 +1062,26 @@ For final paper, 3-4 pages lit review, extract most of design report (take
 Week 17
 \end_layout
 
+\begin_layout Itemize
+Made all features output as a Mat.
+ 
+\end_layout
+
+\begin_layout Itemize
+Store these Mats in vectors in each person object.
+\end_layout
+
+\begin_layout Itemize
+Did some experimentation with the HOG and Haar parameters and updated the
+ values of these.
+\end_layout
+
+\begin_layout Itemize
+Have some experiments in the final report to determine which is better in
+ certain situations.
+ 
+\end_layout
+
 \begin_layout Section*
 Week 18
 \end_layout
