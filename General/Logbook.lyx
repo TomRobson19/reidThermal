@@ -1082,6 +1082,11 @@ Have some experiments in the final report to determine which is better in
  
 \end_layout
 
+\begin_layout Itemize
+Check with Toby whether I should be using r or rec for the regionOfInterest.
+ 
+\end_layout
+
 \begin_layout Section*
 Week 18
 \end_layout

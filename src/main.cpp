@@ -48,8 +48,7 @@ int main(int argc,char** argv)
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
-  if((argc == 3 && (cap.open(argv[1]) == true)) ||
-  (argc != 3 && (cap.open(0) == true)))
+  if((argc == 3 && (cap.open(argv[1]) == true)) || (argc != 3 && (cap.open(0) == true)))
   {
 		// create window object (use flag=0 to allow resize, 1 to auto fix size)
 		namedWindow(windowName, 1);
@@ -129,8 +128,7 @@ int main(int argc,char** argv)
 
 				// draw rectangle if greater than width/height constraints and if
 				// also still inside image
-				if ((r.width >= width) && (r.height >= height) &&
-					(r.x + r.width < img.cols) && (r.y + r.height < img.rows))
+				if ((r.width >= width) && (r.height >= height) && (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
 				{
 				  vector<Rect> found, found_filtered;
 
@@ -157,11 +155,17 @@ int main(int argc,char** argv)
 						size_t j;
 						// Do not add small detections inside a bigger detection.
 						for ( j = 0; j < found.size(); j++ )
+						{
 						  if ( j != i && (rec & found[j]) == rec )
+						  {
 							  break;
+						  }
+						}
 
-						if ( j == found.size() )
+						if (j == found.size())
+						{
 						  found_filtered.push_back(rec);
+						}
 				  }
 				  for (size_t i = 0; i < found_filtered.size(); i++)
 				  {
@@ -180,8 +184,10 @@ int main(int argc,char** argv)
 						Mat regionOfInterest;
 
 						Mat regionOfInterestOriginal = img(rec);
+						//Mat regionOfInterestOriginal = img(r);
 
-						Mat regionOfInterestForeground = fg_msk(rec);
+						Mat regionOfInterestForeground  = fg_msk(rec);
+						//Mat regionOfInterestForeground = fg_msk(r);
 
 						bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
 
