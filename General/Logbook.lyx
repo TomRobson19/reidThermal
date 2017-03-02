@@ -1087,6 +1087,10 @@ Check with Toby whether I should be using r or rec for the regionOfInterest.
  
 \end_layout
 
+\begin_layout Itemize
+Do I need to store the values in the rows or columns of the mat?
+\end_layout
+
 \begin_layout Section*
 Week 18
 \end_layout
