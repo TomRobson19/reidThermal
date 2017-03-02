@@ -259,6 +259,8 @@ int main(int argc,char** argv)
 						}
 						//cout << feature << endl;
 
+						//cout << feature.rows << "    " << feature.cols << endl;
+
 						int allocated = 0;
 						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
 						{
