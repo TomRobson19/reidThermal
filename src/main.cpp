@@ -257,7 +257,10 @@ int main(int argc,char** argv)
 
 						  feature = Mat(descriptorsValues);
 						}
-						//cout << feature << endl;
+
+						feature = feature.t();
+
+						cout << feature << endl;
 
 						//cout << feature.rows << "    " << feature.cols << endl;
 
@@ -285,6 +288,7 @@ int main(int argc,char** argv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						//As this is a pointer, must use library functions with ->
 						Ptr<NormalBayesClassifier> bayes;
+
 						//train this on all people's features, with identifiers as labels
 						//match with the closest if it is within a certain range, else make new target
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

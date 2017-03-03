@@ -127,6 +127,6 @@ void Person::updateFeatures(Mat newFeature) {
   allFeatures.push_back(newFeature);
 }
 
-vector<Mat> Person::getFeatures(){
+Mat Person::getFeatures(){
   return allFeatures;
 }

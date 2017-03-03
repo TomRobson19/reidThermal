@@ -28,7 +28,7 @@ private:
 	cv::KalmanFilter KF;
 	cv::Mat_<float> measurement = cv::Mat_<float>(6,1);
 
-	vector<Mat> allFeatures;
+	Mat allFeatures;
 
 public:
 	Person(int identifier, float x, float y, int timeSteps, float w, float h);
@@ -49,7 +49,7 @@ public:
 
 	void updateFeatures(Mat newFeature);
 
-	vector<Mat> getFeatures();
+	Mat getFeatures();
 };
  
 #endif
