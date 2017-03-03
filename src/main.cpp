@@ -46,6 +46,8 @@ int main(int argc,char** argv)
   int learning = 1000;
   int padding = 40; 
 
+  bool firstTrainActive = false;
+
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
   if((argc == 3 && (cap.open(argv[1]) == true)) || (argc != 3 && (cap.open(0) == true)))
@@ -143,7 +145,7 @@ int main(int argc,char** argv)
 				  }
 				  else 
 				  {
-						cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,32));
+						cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,32));
 				  }
 				  for(size_t i = 0; i < found.size(); i++ )
 				  {
@@ -262,9 +264,11 @@ int main(int argc,char** argv)
 
 						feature.convertTo(feature, CV_32F);
 
-						//cout << feature << endl;
+						cout << feature << endl;
 
 						//cout << feature.rows << "    " << feature.cols << endl;
+
+						Ptr<NormalBayesClassifier> bayesActive;
 
 						int allocated = 0;
 						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
@@ -288,8 +292,31 @@ int main(int argc,char** argv)
 						  allocated = 1;
 						}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-						//As this is a pointer, must use library functions with ->
-						Ptr<NormalBayesClassifier> bayes;
+						
+
+
+						// for(int i = 0; i<activeTargets.size(); i++)
+						// {
+						// 	Ptr<TrainData> trainData;
+						// 	Mat responses;
+						// 	for(int j = 0; j<activeTargets[i].getFeatures().rows; j++)
+						// 	{
+						// 		responses.push_back(activeTargets[i].getIdentifier());
+						// 	}
+
+						// 	responses = responses.t();
+
+						// 	responses.convertTo(responses, CV_32F);
+
+						//  	trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
+
+					 	// 		//bayesActive->train(trainData, 1);
+
+						//  	// if(bayesActive->isTrained())
+						//  	// {
+						//  	// 	cout << "yes" << endl;
+						//  	// }
+						//  }
 
 						//train this on all people's features, with identifiers as labels
 						//match with the closest if it is within a certain range, else make new target
@@ -308,6 +335,8 @@ int main(int argc,char** argv)
 								  activeTargets[a].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
 								  Rect p = activeTargets[a].kalmanPredict();
+
+						  		activeTargets[a].updateFeatures(feature);
 
 								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
@@ -342,6 +371,8 @@ int main(int argc,char** argv)
 
 								  Rect p = inactiveTargets[b].kalmanPredict();
 
+ 						  		inactiveTargets[b].updateFeatures(feature);
+
 								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
 								  char str[200];
@@ -365,6 +396,8 @@ int main(int argc,char** argv)
 						  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 						  
 						  Rect p = person.kalmanPredict();
+
+				  		person.updateFeatures(feature);
 
 						  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
