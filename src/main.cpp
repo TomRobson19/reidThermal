@@ -264,7 +264,7 @@ int main(int argc,char** argv)
 
 						feature.convertTo(feature, CV_32F);
 
-						cout << feature << endl;
+						//cout << feature << endl;
 
 						//cout << feature.rows << "    " << feature.cols << endl;
 
@@ -292,8 +292,6 @@ int main(int argc,char** argv)
 						  allocated = 1;
 						}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-						
-
 
 						// for(int i = 0; i<activeTargets.size(); i++)
 						// {
@@ -308,7 +306,7 @@ int main(int argc,char** argv)
 
 						// 	responses.convertTo(responses, CV_32F);
 
-						//  	trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
+						//  trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
 
 					 	// 		//bayesActive->train(trainData, 1);
 
@@ -426,7 +424,6 @@ int main(int argc,char** argv)
 	  }
 	  timeSteps += 1;
 	  }
-
 	  // the camera will be deinitialized automatically in VideoCapture destructor
 	  // all OK : main returns 0
 	  return 0;
