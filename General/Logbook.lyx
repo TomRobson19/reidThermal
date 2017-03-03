@@ -1129,11 +1129,6 @@ Difficulty with finding new targets with this method, check ratio of most
 \end_layout
 
 \begin_layout Itemize
-Next steps: store features correctly (1 Mat per person, transpose what I
- currently have as feature)
-\end_layout
-
-\begin_layout Itemize
 Can use multIple train calls using update flag, pass in each person's mat
  and their identifier.
 \end_layout
