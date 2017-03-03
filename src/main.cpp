@@ -260,7 +260,9 @@ int main(int argc,char** argv)
 
 						feature = feature.t();
 
-						cout << feature << endl;
+						feature.convertTo(feature, CV_32F);
+
+						//cout << feature << endl;
 
 						//cout << feature.rows << "    " << feature.cols << endl;
 
