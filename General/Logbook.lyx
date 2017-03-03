@@ -1084,11 +1084,58 @@ Have some experiments in the final report to determine which is better in
 
 \begin_layout Itemize
 Check with Toby whether I should be using r or rec for the regionOfInterest.
- 
+ USE FOREGROUND OBJECT
 \end_layout
 
 \begin_layout Itemize
 Do I need to store the values in the rows or columns of the mat?
+\end_layout
+
+\begin_layout Itemize
+In the train call, set int flag as 1 (non-zero) to faciliate updates
+\end_layout
+
+\begin_layout Itemize
+feature needs to be each instance stored on a row of the mat
+\end_layout
+
+\begin_layout Itemize
+Try and get it to give me a distribution and pick the most likely active
+ 
+\end_layout
+
+\begin_layout Itemize
+Mat push_back adds a row
+\end_layout
+
+\begin_layout Itemize
+Talk a lot about the normal bayes classifier in the report - include the
+ formula.
+ 
+\end_layout
+
+\begin_layout Itemize
+Look for elegant solution to pop off top of matrix, until then just train
+ on all data per person.
+\end_layout
+
+\begin_layout Itemize
+Try push_back on transpose of existing matrix (may autotranspose)
+\end_layout
+
+\begin_layout Itemize
+Difficulty with finding new targets with this method, check ratio of most
+ likely to second most likely? 
+\end_layout
+
+\begin_layout Itemize
+Next steps: store features correctly (1 Mat per person, transpose what I
+ currently have as feature)
+\end_layout
+
+\begin_layout Itemize
+Can use multIple train calls using update flag, pass in each person's mat
+ and their identifier.
 \end_layout
 
 \begin_layout Section*
