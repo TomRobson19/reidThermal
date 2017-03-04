@@ -293,28 +293,31 @@ int main(int argc,char** argv)
 						}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-						// for(int i = 0; i<activeTargets.size(); i++)
-						// {
-						// 	Ptr<TrainData> trainData;
-						// 	Mat responses;
-						// 	for(int j = 0; j<activeTargets[i].getFeatures().rows; j++)
-						// 	{
-						// 		responses.push_back(activeTargets[i].getIdentifier());
-						// 	}
+						for(int i = 0; i<activeTargets.size(); i++)
+						{
+							Ptr<TrainData> trainData;
+							Mat responses;
+							for(int j = 0; j<activeTargets[i].getFeatures().rows; j++)
+							{
+								responses.push_back(activeTargets[i].getIdentifier());
+							}
 
-						// 	responses = responses.t();
+							responses = responses.t();
 
-						// 	responses.convertTo(responses, CV_32F);
+							responses.convertTo(responses, CV_32F);
 
-						//  trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
+							trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
 
-					 	// 		//bayesActive->train(trainData, 1);
+							// cout << activeTargets[i].getFeatures() << endl;
+							// cout << responses << endl;
 
-						//  	// if(bayesActive->isTrained())
-						//  	// {
-						//  	// 	cout << "yes" << endl;
-						//  	// }
-						//  }
+							// bayesActive->train(trainData, 1);
+
+						 	// if(bayesActive->isTrained())
+						 	// {
+						 	// 	cout << "yes" << endl;
+						 	// }
+						 }
 
 						//train this on all people's features, with identifiers as labels
 						//match with the closest if it is within a certain range, else make new target
