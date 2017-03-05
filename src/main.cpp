@@ -287,6 +287,7 @@ int main(int argc,char** argv)
 						  activeTargets.push_back(person);
 						  allocated = 1;
 						}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 						Ptr<NormalBayesClassifier> bayesActive;
@@ -307,11 +308,12 @@ int main(int argc,char** argv)
 							cout << activeTargets[i].getFeatures() << endl;
 							cout << responses << endl;
 
-							// bayesActive->train(activeTargets[i].getFeatures(), 0 ,responses);
+							// bayesActive->train(activeTargets[i].getFeatures(), ROW_SAMPLE ,responses);
 
-							trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
+							trainData->create(activeTargets[i].getFeatures(), ROW_SAMPLE ,responses);
 
-							//Mat test = trainData->getTestSamples();
+							//tried many functions from TrainData, all seg fault
+							// Mat test = trainData->getTestSamples();
 
 							// bayesActive->train(trainData, 1);
 
