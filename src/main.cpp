@@ -302,16 +302,14 @@ int main(int argc,char** argv)
 								responses.push_back(activeTargets[i].getIdentifier());
 							}
 
-							responses = responses.t();
-
 							responses.convertTo(responses, CV_32F);
 
 							trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
 
-							// cout << activeTargets[i].getFeatures() << endl;
-							// cout << responses << endl;
+							cout << activeTargets[i].getFeatures() << endl;
+							cout << responses << endl;
 
-							// bayesActive->train(trainData, 1);
+							// bayesActive->train(trainData, 0);
 
 						 	// if(bayesActive->isTrained())
 						 	// {
