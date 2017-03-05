@@ -266,10 +266,6 @@ int main(int argc,char** argv)
 
 						//cout << feature << endl;
 
-						//cout << feature.rows << "    " << feature.cols << endl;
-
-						Ptr<NormalBayesClassifier> bayesActive;
-
 						int allocated = 0;
 						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
 						{
@@ -293,23 +289,31 @@ int main(int argc,char** argv)
 						}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+						Ptr<NormalBayesClassifier> bayesActive;
+
+						bayesActive->create();
+
 						for(int i = 0; i<activeTargets.size(); i++)
 						{
 							Ptr<TrainData> trainData;
 							Mat responses;
 							for(int j = 0; j<activeTargets[i].getFeatures().rows; j++)
 							{
-								responses.push_back(activeTargets[i].getIdentifier());
+								responses.push_back((double) (activeTargets[i].getIdentifier()));
 							}
 
 							responses.convertTo(responses, CV_32F);
 
-							trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
-
 							cout << activeTargets[i].getFeatures() << endl;
 							cout << responses << endl;
 
-							// bayesActive->train(trainData, 0);
+							// bayesActive->train(activeTargets[i].getFeatures(), 0 ,responses);
+
+							trainData->create(activeTargets[i].getFeatures(), 0 ,responses);
+
+							//Mat test = trainData->getTestSamples();
+
+							// bayesActive->train(trainData, 1);
 
 						 	// if(bayesActive->isTrained())
 						 	// {
@@ -317,8 +321,6 @@ int main(int argc,char** argv)
 						 	// }
 						 }
 
-						//train this on all people's features, with identifiers as labels
-						//match with the closest if it is within a certain range, else make new target
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						if(allocated == 0) //check if it is similar enough to a currently active target
