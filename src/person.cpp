@@ -124,7 +124,15 @@ Rect Person::kalmanPredict() {
 }
 
 void Person::updateFeatures(Mat newFeature) {
-  allFeatures.push_back(newFeature);
+  if(allFeatures.rows < 10)
+  {
+    allFeatures.push_back(newFeature); 
+  }
+  else
+  {
+    allFeatures.push_back(newFeature); 
+    allFeatures(Range(1, allFeatures.rows), Range(0, allFeatures.cols)).copyTo(allFeatures);
+  }
 }
 
 Mat Person::getFeatures(){
