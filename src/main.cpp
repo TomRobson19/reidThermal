@@ -312,6 +312,9 @@ int main(int argc,char** argv)
 
 							trainData->create(activeTargets[i].getFeatures(), ROW_SAMPLE ,responses);
 
+							//tried this, didn't work
+							// trainData->create(activeTargets[i].getFeatures(), ROW_SAMPLE ,responses, Mat(),Mat(),Mat(),Mat());
+
 							//tried many functions from TrainData, all seg fault
 							// Mat test = trainData->getTestSamples();
 
