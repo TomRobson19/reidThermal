@@ -1137,6 +1137,20 @@ Can use multIple train calls using update flag, pass in each person's mat
 Week 18
 \end_layout
 
+\begin_layout Itemize
+Talked to Toby about failing Bayes
+\end_layout
+
+\begin_layout Itemize
+Best solution would be to read example code Toby sent, and try and use this.
+ 
+\end_layout
+
+\begin_layout Itemize
+Else I may have to find the 2.4 code and recompile/rename everything myself
+ as we know that works.
+\end_layout
+
 \begin_layout Section*
 Week 19
 \end_layout
