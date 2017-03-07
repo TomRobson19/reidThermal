@@ -1151,6 +1151,11 @@ Else I may have to find the 2.4 code and recompile/rename everything myself
  as we know that works.
 \end_layout
 
+\begin_layout Itemize
+Fortunately, now works without re-implementing OpenCV, now need to implement
+ prediction.
+\end_layout
+
 \begin_layout Section*
 Week 19
 \end_layout
