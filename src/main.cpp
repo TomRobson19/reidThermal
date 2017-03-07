@@ -293,8 +293,6 @@ int main(int argc,char** argv)
 						Ptr<NormalBayesClassifier> bayesActive;
 						Ptr<TrainData> trainData;
 
-						//bayesActive = NormalBayesClassifier::create();
-
 						Mat data;
 						Mat responses;
 
