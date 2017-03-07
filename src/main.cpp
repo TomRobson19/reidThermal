@@ -295,18 +295,22 @@ int main(int argc,char** argv)
 
 						Mat data;
 						Mat responses;
+						Mat probabilities;
 
 						for(int i = 0; i<activeTargets.size(); i++)
 						{
+							Mat tempData;
 							for(int j = 0; j<activeTargets[i].getFeatures().rows; j++)
 							{
-								data.push_back(activeTargets[i].getFeatures().row(j));
+								tempData.push_back(activeTargets[i].getFeatures().row(j));
 								responses.push_back((double) (activeTargets[i].getIdentifier()));
+								
 								if(activeTargets[i].getFeatures().rows>10)
 								{
-								  data(Range(1, data.rows), Range(0, data.cols)).copyTo(data);
+								  tempData(Range(1, tempData.rows), Range(0, tempData.cols)).copyTo(tempData);
 								}
 							}
+							data.push_back(tempData);
 						}
 
 						int nsamples_all = data.rows;
@@ -316,7 +320,6 @@ int main(int argc,char** argv)
 						Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
 				    Mat train_samples = sample_idx.colRange(0, nsamples_all);
 				    train_samples.setTo(Scalar::all(1));
-
 				    int nvars = data.cols;
 				    Mat var_type( nvars + 1, 1, CV_8U );
 				    var_type.setTo(Scalar::all(VAR_ORDERED));
@@ -327,11 +330,8 @@ int main(int argc,char** argv)
 						cout << data << endl;
 						cout << responses << endl;
 
-						trainData->create(data, ROW_SAMPLE ,responses);
-
 						bayesActive = NormalBayesClassifier::create();
     				bayesActive->train(trainData);
-
 						
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
@@ -362,7 +362,7 @@ int main(int argc,char** argv)
 								  break;
 								}
 
-								if(timeSteps-activeTargets[a].getLastSeen() > 100 and allocated == 0)//if hasn't been seen for long enough, make inactive
+								if(timeSteps-activeTargets[a].getLastSeen() > 1000 and allocated == 0)//if hasn't been seen for long enough, make inactive
 								{
 								  inactiveTargets.push_back(activeTargets[a]);
 								  activeTargets.erase(activeTargets.begin()+a);
