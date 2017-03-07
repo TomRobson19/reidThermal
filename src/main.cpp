@@ -24,22 +24,7 @@ using namespace ml;
 int timeSteps = 0;
 
 std::vector<Person> activeTargets;
-std::vector<Person> inactiveTargets;     
-
-Ptr<TrainData> prepare_train_data(Mat& data, Mat& responses, int ntrain_samples)
-{
-    Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
-    Mat train_samples = sample_idx.colRange(0, ntrain_samples);
-    train_samples.setTo(Scalar::all(1));
-
-    int nvars = data.cols;
-    Mat var_type( nvars + 1, 1, CV_8U );
-    var_type.setTo(Scalar::all(VAR_ORDERED));
-    var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
-
-    return TrainData::create(data, ROW_SAMPLE, responses,
-                             noArray(), sample_idx, noArray(), var_type);
-}                                    
+std::vector<Person> inactiveTargets;                                   
 
 int main(int argc,char** argv)
 {
@@ -330,7 +315,16 @@ int main(int argc,char** argv)
 
 						responses.convertTo(responses, CV_32F);
 
-						trainData = prepare_train_data(data, responses, nsamples_all);
+						Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
+				    Mat train_samples = sample_idx.colRange(0, nsamples_all);
+				    train_samples.setTo(Scalar::all(1));
+
+				    int nvars = data.cols;
+				    Mat var_type( nvars + 1, 1, CV_8U );
+				    var_type.setTo(Scalar::all(VAR_ORDERED));
+				    var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
+
+    				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
 						cout << data << endl;
 						cout << responses << endl;
