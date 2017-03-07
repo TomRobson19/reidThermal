@@ -24,7 +24,22 @@ using namespace ml;
 int timeSteps = 0;
 
 std::vector<Person> activeTargets;
-std::vector<Person> inactiveTargets;                                         
+std::vector<Person> inactiveTargets;     
+
+Ptr<TrainData> prepare_train_data(Mat& data, Mat& responses, int ntrain_samples)
+{
+    Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
+    Mat train_samples = sample_idx.colRange(0, ntrain_samples);
+    train_samples.setTo(Scalar::all(1));
+
+    int nvars = data.cols;
+    Mat var_type( nvars + 1, 1, CV_8U );
+    var_type.setTo(Scalar::all(VAR_ORDERED));
+    var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
+
+    return TrainData::create(data, ROW_SAMPLE, responses,
+                             noArray(), sample_idx, noArray(), var_type);
+}                                    
 
 int main(int argc,char** argv)
 {
@@ -291,41 +306,41 @@ int main(int argc,char** argv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 						Ptr<NormalBayesClassifier> bayesActive;
+						Ptr<TrainData> trainData;
 
-						bayesActive->create();
+						//bayesActive = NormalBayesClassifier::create();
+
+						Mat data;
+						Mat responses;
 
 						for(int i = 0; i<activeTargets.size(); i++)
 						{
-							Ptr<TrainData> trainData;
-							Mat responses;
 							for(int j = 0; j<activeTargets[i].getFeatures().rows; j++)
 							{
+								data.push_back(activeTargets[i].getFeatures().row(j));
 								responses.push_back((double) (activeTargets[i].getIdentifier()));
+								if(activeTargets[i].getFeatures().rows>10)
+								{
+								  data(Range(1, data.rows), Range(0, data.cols)).copyTo(data);
+								}
 							}
+						}
 
-							responses.convertTo(responses, CV_32F);
+						int nsamples_all = data.rows;
 
-							cout << activeTargets[i].getFeatures() << endl;
-							cout << responses << endl;
+						responses.convertTo(responses, CV_32F);
 
-							// bayesActive->train(activeTargets[i].getFeatures(), ROW_SAMPLE ,responses);
+						trainData = prepare_train_data(data, responses, nsamples_all);
 
-							trainData->create(activeTargets[i].getFeatures(), ROW_SAMPLE ,responses);
+						cout << data << endl;
+						cout << responses << endl;
 
-							//tried this, didn't work
-							// trainData->create(activeTargets[i].getFeatures(), ROW_SAMPLE ,responses, Mat(),Mat(),Mat(),Mat());
+						trainData->create(data, ROW_SAMPLE ,responses);
 
-							//tried many functions from TrainData, all seg fault
-							// Mat test = trainData->getTestSamples();
+						bayesActive = NormalBayesClassifier::create();
+    				bayesActive->train(trainData);
 
-							// bayesActive->train(trainData, 1);
-
-						 	// if(bayesActive->isTrained())
-						 	// {
-						 	// 	cout << "yes" << endl;
-						 	// }
-						 }
-
+						
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						if(allocated == 0) //check if it is similar enough to a currently active target
@@ -362,7 +377,6 @@ int main(int argc,char** argv)
 								}
 						  }
 						}
-
 						if(allocated == 0) //now check if it is similar to an inactive target
 						{
 						  for(int b=0; b<inactiveTargets.size(); b++)
@@ -439,3 +453,4 @@ int main(int argc,char** argv)
 	// not OK : main returns -1
 	return -1;
 }
+
