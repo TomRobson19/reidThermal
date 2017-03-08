@@ -264,7 +264,7 @@ int main(int argc,char** argv)
 
 						feature.convertTo(feature, CV_32F);
 
-						//cout << feature << endl;
+						cout << feature << endl;
 
 						int allocated = 0;
 						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
@@ -327,18 +327,22 @@ int main(int argc,char** argv)
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
-						// cout << data << endl;
-						// cout << responses << endl;
+						cout << data << endl;
+						cout << responses << endl;
 
 						bayesActive = NormalBayesClassifier::create();
     				bayesActive->train(trainData);
-						
-    				bayesActive->predictProb(feature,outputs,probabilities); 
+
+    				bayesActive->predictProb(feature,outputs,probabilities,1); 
 
     				cout << outputs << endl;
     				cout << probabilities << endl;
-						//float r = bayesActive->predict(feature);
-						//cout << r << endl;
+
+    				cout << "########################################################" << endl;
+    				//outputs gives same result as r
+
+						// float r = bayesActive->predict(feature);
+						// cout << r << endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						if(allocated == 0) //check if it is similar enough to a currently active target

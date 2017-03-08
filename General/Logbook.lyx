@@ -1129,7 +1129,7 @@ Difficulty with finding new targets with this method, check ratio of most
 \end_layout
 
 \begin_layout Itemize
-Can use multIple train calls using update flag, pass in each person's mat
+Can use multiple train calls using update flag, pass in each person's mat
  and their identifier.
 \end_layout
 
@@ -1154,6 +1154,15 @@ Else I may have to find the 2.4 code and recompile/rename everything myself
 \begin_layout Itemize
 Fortunately, now works without re-implementing OpenCV, now need to implement
  prediction.
+\end_layout
+
+\begin_layout Itemize
+Prediction implemented, but the probabilities are very weird.
+ 
+\end_layout
+
+\begin_layout Itemize
+Also, training the classifier with HOG takes so long that it crashes.
 \end_layout
 
 \begin_layout Section*
