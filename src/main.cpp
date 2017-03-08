@@ -289,12 +289,12 @@ int main(int argc,char** argv)
 						}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 						Ptr<NormalBayesClassifier> bayesActive;
 						Ptr<TrainData> trainData;
 
 						Mat data;
 						Mat responses;
+						Mat outputs;
 						Mat probabilities;
 
 						for(int i = 0; i<activeTargets.size(); i++)
@@ -333,7 +333,11 @@ int main(int argc,char** argv)
 						bayesActive = NormalBayesClassifier::create();
     				bayesActive->train(trainData);
 						
-						float r = bayesActive->predict(feature);
+    				bayesActive->predictProb(feature,outputs,probabilities); 
+
+    				cout << outputs << endl;
+    				cout << probabilities << endl;
+						//float r = bayesActive->predict(feature);
 						//cout << r << endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
