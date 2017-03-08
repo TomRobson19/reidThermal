@@ -264,7 +264,7 @@ int main(int argc,char** argv)
 
 						feature.convertTo(feature, CV_32F);
 
-						cout << feature << endl;
+						//cout << feature << endl;
 
 						int allocated = 0;
 						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
@@ -318,8 +318,11 @@ int main(int argc,char** argv)
 						responses.convertTo(responses, CV_32F);
 
 						Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
-				    Mat train_samples = sample_idx.colRange(0, nsamples_all);
-				    train_samples.setTo(Scalar::all(1));
+
+						// NOT NEEDED
+				    //Mat train_samples = sample_idx.colRange(0, nsamples_all);
+				    //train_samples.setTo(Scalar::all(1));
+				    
 				    int nvars = data.cols;
 				    Mat var_type( nvars + 1, 1, CV_8U );
 				    var_type.setTo(Scalar::all(VAR_ORDERED));
@@ -327,20 +330,24 @@ int main(int argc,char** argv)
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
-						cout << data << endl;
-						cout << responses << endl;
+    				//SEEMS TO BE WORKING FINE
+    				// cout << trainData->getSamples() << endl;
+    				// cout << trainData->getResponses() << endl;
+
+						// cout << data << endl;
+						// cout << responses << endl;
 
 						bayesActive = NormalBayesClassifier::create();
     				bayesActive->train(trainData);
 
     				bayesActive->predictProb(feature,outputs,probabilities,1); 
 
-    				cout << outputs << endl;
-    				cout << probabilities << endl;
+    				// cout << outputs << endl;
+    				// cout << probabilities << endl;
 
     				cout << "########################################################" << endl;
-    				//outputs gives same result as r
-
+    				
+    				//outputs from above gives same result as r from below
 						// float r = bayesActive->predict(feature);
 						// cout << r << endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
