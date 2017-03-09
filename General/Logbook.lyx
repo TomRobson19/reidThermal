@@ -1165,6 +1165,28 @@ Prediction implemented, but the probabilities are very weird.
 Also, training the classifier with HOG takes so long that it crashes.
 \end_layout
 
+\begin_layout Itemize
+Resize HOG classifier
+\end_layout
+
+\begin_layout Itemize
+Think about camera configurations
+\end_layout
+
+\begin_layout Itemize
+Download and run example that I have been using to check that the classifer
+ works - have done and seems sensible, doesn't add up to 1 though
+\end_layout
+
+\begin_layout Itemize
+When I have fewer than 10 frames for a target, maybe duplicate the most
+ recent reading until we get enough?
+\end_layout
+
+\begin_layout Itemize
+Look into updating my version of Opencv - maybe that's the issue??
+\end_layout
+
 \begin_layout Section*
 Week 19
 \end_layout
