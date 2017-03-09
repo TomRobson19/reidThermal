@@ -46,7 +46,7 @@ int main(int argc,char** argv)
   int learning = 1000;
   int padding = 40; 
 
-  bool firstTrainActive = false;
+  bool firstTrainActive = true;
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
@@ -253,7 +253,8 @@ int main(int argc,char** argv)
 
 						else if(featureToUse == 3) //HOG
 						{
-						  cv::HOGDescriptor descriptor;
+						  //play with these parameters to change HOG size 
+						  cv::HOGDescriptor descriptor(Size(64, 128), Size(16, 16), Size(16, 16), Size(16, 16), 9, -1, 0.2, true, 64);
 
 						  descriptor.compute(regionOfInterest, descriptorsValues);
 
@@ -315,6 +316,7 @@ int main(int argc,char** argv)
 
 						int nsamples_all = data.rows;
 
+						data.convertTo(data, CV_32F);
 						responses.convertTo(responses, CV_32F);
 
 						Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
@@ -324,6 +326,7 @@ int main(int argc,char** argv)
 				    //train_samples.setTo(Scalar::all(1));
 				    
 				    int nvars = data.cols;
+
 				    Mat var_type( nvars + 1, 1, CV_8U );
 				    var_type.setTo(Scalar::all(VAR_ORDERED));
 				    var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
@@ -338,18 +341,22 @@ int main(int argc,char** argv)
 						// cout << responses << endl;
 
 						bayesActive = NormalBayesClassifier::create();
-    				bayesActive->train(trainData);
+						// if(firstTrainActive)
+						// {
+						// 	bayesActive->train(trainData,0);
+						// 	firstTrainActive = false;
+						// }
 
-    				bayesActive->predictProb(feature,outputs,probabilities,1); 
+    				bayesActive->train(trainData,0);
 
-    				// cout << outputs << endl;
-    				// cout << probabilities << endl;
+    				bayesActive->predictProb(feature,outputs,probabilities); 
 
-    				cout << "########################################################" << endl;
+    				cout << outputs << endl;
+    				cout << probabilities << endl;
     				
     				//outputs from above gives same result as r from below
-						// float r = bayesActive->predict(feature);
-						// cout << r << endl;
+						float r = bayesActive->predict(feature);
+						cout << r << endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						if(allocated == 0) //check if it is similar enough to a currently active target
