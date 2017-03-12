@@ -105,7 +105,7 @@ static Ptr<TrainData> prepare_train_data(const Mat& data, const Mat& responses, 
     var_type.setTo(Scalar::all(VAR_ORDERED));
     var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
 
-    cout << sample_idx << var_type << endl;
+    //cout << sample_idx << var_type << endl;
 
     return TrainData::create(data, ROW_SAMPLE, responses,
                              noArray(), sample_idx, noArray(), var_type);
