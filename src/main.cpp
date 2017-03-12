@@ -320,10 +320,9 @@ int main(int argc,char** argv)
 						responses.convertTo(responses, CV_32F);
 
 						Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
-
 						//this populates sample_idx
-				    Mat train_samples = sample_idx.colRange(0, nsamples_all);
-				    train_samples.setTo(Scalar::all(1));
+				    sample_idx = sample_idx.colRange(0, nsamples_all);
+				    sample_idx.setTo(Scalar::all(1));
 				    
 				    int nvars = data.cols;
 
@@ -337,12 +336,8 @@ int main(int argc,char** argv)
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
-    				//SEEMS TO BE WORKING FINE
-    				// cout << trainData->getSamples() << endl;
-    				// cout << trainData->getResponses() << endl;
-
-						// cout << data << endl;
-						// cout << responses << endl;
+						cout << data << endl;
+						cout << responses << endl;
 
 						bayesActive = NormalBayesClassifier::create();
 						// if(firstTrainActive)

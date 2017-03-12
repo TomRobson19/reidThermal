@@ -1191,6 +1191,11 @@ Look into updating my version of Opencv - maybe that's the issue??
 Week 19
 \end_layout
 
+\begin_layout Itemize
+Now almost certain that the trainData is correct, it must be the classifier
+ that is wrong.
+\end_layout
+
 \begin_layout Section*
 Week 20
 \end_layout
