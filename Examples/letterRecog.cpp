@@ -94,8 +94,7 @@ static Ptr<T> load_classifier(const string& filename_to_load)
     return model;
 }
 
-static Ptr<TrainData>
-prepare_train_data(const Mat& data, const Mat& responses, int ntrain_samples)
+static Ptr<TrainData> prepare_train_data(const Mat& data, const Mat& responses, int ntrain_samples)
 {
     Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
     Mat train_samples = sample_idx.colRange(0, ntrain_samples);
@@ -105,6 +104,8 @@ prepare_train_data(const Mat& data, const Mat& responses, int ntrain_samples)
     Mat var_type( nvars + 1, 1, CV_8U );
     var_type.setTo(Scalar::all(VAR_ORDERED));
     var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
+
+    cout << sample_idx << var_type << endl;
 
     return TrainData::create(data, ROW_SAMPLE, responses,
                              noArray(), sample_idx, noArray(), var_type);
@@ -468,8 +469,8 @@ build_nbayes_classifier( const string& data_filename )
     model->train(tdata);
     cout << endl;
 
-    cout << tdata->getSamples() << endl;
-    cout << tdata->getResponses() << endl;
+    // cout << tdata->getSamples() << endl;
+    // cout << tdata->getResponses() << endl;
     Mat output,probabilities;
 
     model->predictProb(data.row(0),output,probabilities);

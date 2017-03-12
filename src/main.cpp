@@ -304,7 +304,7 @@ int main(int argc,char** argv)
 							for(int j = 0; j<activeTargets[i].getFeatures().rows; j++)
 							{
 								tempData.push_back(activeTargets[i].getFeatures().row(j));
-								responses.push_back((double) (activeTargets[i].getIdentifier()));
+								responses.push_back(activeTargets[i].getIdentifier());
 								
 								if(activeTargets[i].getFeatures().rows>10)
 								{
@@ -321,15 +321,19 @@ int main(int argc,char** argv)
 
 						Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
 
-						// NOT NEEDED
-				    //Mat train_samples = sample_idx.colRange(0, nsamples_all);
-				    //train_samples.setTo(Scalar::all(1));
+						//this populates sample_idx
+				    Mat train_samples = sample_idx.colRange(0, nsamples_all);
+				    train_samples.setTo(Scalar::all(1));
 				    
 				    int nvars = data.cols;
 
 				    Mat var_type( nvars + 1, 1, CV_8U );
 				    var_type.setTo(Scalar::all(VAR_ORDERED));
 				    var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
+
+				    // cout << "Rows" << data.rows << endl;
+
+				    // cout << sample_idx << endl << var_type << endl;
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
@@ -347,16 +351,17 @@ int main(int argc,char** argv)
 						// 	firstTrainActive = false;
 						// }
 
-    				bayesActive->train(trainData,0);
+    				bayesActive->train(trainData);
 
     				bayesActive->predictProb(feature,outputs,probabilities); 
 
     				cout << outputs << endl;
     				cout << probabilities << endl;
     				
+    				cout << "##################" << endl;
     				//outputs from above gives same result as r from below
-						float r = bayesActive->predict(feature);
-						cout << r << endl;
+						// float r = bayesActive->predict(feature);
+						// cout << r << endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						if(allocated == 0) //check if it is similar enough to a currently active target
