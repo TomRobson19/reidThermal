@@ -330,8 +330,6 @@ int main(int argc,char** argv)
 				    var_type.setTo(Scalar::all(VAR_ORDERED));
 				    var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
 
-				    // cout << "Rows" << data.rows << endl;
-
 				    // cout << sample_idx << endl << var_type << endl;
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
@@ -346,7 +344,7 @@ int main(int argc,char** argv)
 						// 	firstTrainActive = false;
 						// }
 
-    				bayesActive->train(trainData);
+    				bayesActive->train(trainData,0);
 
     				bayesActive->predictProb(feature,outputs,probabilities); 
 
