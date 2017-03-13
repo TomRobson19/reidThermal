@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include <stdio.h>
 
+#include <opencv2/ximgproc.hpp>
+
 using namespace cv;
 using namespace std;
 using namespace ml;
@@ -246,7 +248,7 @@ int main(int argc,char** argv)
 
 						  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
 
-						  normalize(hist, hist, 1, 0, NORM_L2, -1, Mat());
+						  //normalize(hist, hist, 1, 0, NORM_L1, -1, Mat());
 
 						  feature = hist.clone();
 						}
@@ -265,6 +267,7 @@ int main(int argc,char** argv)
 
 						feature.convertTo(feature, CV_32F);
 
+						normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
 						//cout << feature << endl;
 
 						int allocated = 0;
@@ -334,8 +337,8 @@ int main(int argc,char** argv)
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
-						cout << data << endl;
-						cout << responses << endl;
+						// cout << data << endl;
+						// cout << responses << endl;
 
 						bayesActive = NormalBayesClassifier::create();
 						// if(firstTrainActive)
@@ -347,6 +350,8 @@ int main(int argc,char** argv)
     				bayesActive->train(trainData,0);
 
     				bayesActive->predictProb(feature,outputs,probabilities); 
+
+    				normalize(probabilities, probabilities, 1, 0, NORM_L1, -1, Mat());
 
     				cout << outputs << endl;
     				cout << probabilities << endl;

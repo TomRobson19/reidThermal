@@ -1196,6 +1196,15 @@ Now almost certain that the trainData is correct, it must be the classifier
  that is wrong.
 \end_layout
 
+\begin_layout Itemize
+SUPER-PIXELS - Toby's email - Make sure to do and include in report
+\end_layout
+
+\begin_layout Itemize
+Normalised features and probabilities to make Bayes work - make sure I talk
+ about what it is actually calculating in report.
+\end_layout
+
 \begin_layout Section*
 Week 20
 \end_layout
