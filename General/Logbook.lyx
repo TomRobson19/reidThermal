@@ -1205,6 +1205,11 @@ Normalised features and probabilities to make Bayes work - make sure I talk
  about what it is actually calculating in report.
 \end_layout
 
+\begin_layout Itemize
+Now replace distance calculations with Bayes, make sure I have a special
+ case based on distance for if there is only 1 target in the system
+\end_layout
+
 \begin_layout Section*
 Week 20
 \end_layout
