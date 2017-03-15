@@ -644,6 +644,471 @@ The aim of this project is to investigate the above research question by
 Related Work
 \end_layout
 
+\begin_layout Subsection
+Overviews of topic
+\end_layout
+
+\begin_layout Standard
+When beginning to investigate this area, it is important that we first gain
+ an overall understanding of the field before narrowing our focus to person
+ re-identification in thermal imagery.
+ Many re-identification approaches rely upon accurate video tracking, and
+ therefore 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Maggio2011"
+
+\end_inset
+
+ was a good place to start to gain an understanding of the fundamentals
+ of tracking, feature extraction, target representation and the methods
+ that are commonly used to achieve this.
+ Moving on to re-identification specifically, the work in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+ is an good resource for this purpose, as it first gives an overview of
+ what re-identification is and why it is useful and challenging, and then
+ proceeds to give an high level overview of some of the techniques that
+ have been researched and implemented previously in order to find a reliable
+ and efficient method to solve the re-identification problem.
+ 
+\end_layout
+
+\begin_layout Standard
+The work in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne"
+
+\end_inset
+
+ expands on the information provided by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+ to focus on the gathering and use of attributes for re-identification,
+ emphasising the typical methods for attribute gathering and how to evaluate
+ the usefulness and relevance of the attributes.
+ This does not suggest any particular method, or carry out new research,
+ but instead acts as a good summary of the current state of the art when
+ it comes to gathering and using attributes.
+ Many of the attributes normally used are simple, appearance based attributes
+ such as gender, shirt colour, the presence of a coat or bag and hair colour.
+ However, to increase reliability some systems use more complex attributes,
+ such as movement path, scene position and posture.
+ Such attributes require more complicated algorithms with greater computational
+ complexity, but do lead to an increase in reliability.
+ 
+\end_layout
+
+\begin_layout Subsection
+Techniques for attribute collection 
+\end_layout
+
+\begin_layout Standard
+In much of the previous work that has been done on this topic, as discussed
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne"
+
+\end_inset
+
+, the system has to be ‘trained’ by human experts using location specific
+ training data to build an ontology of attributes and determine when a subject
+ matches these attributes.
+ This is referred to as a supervised learning system.
+ This leads to accurate re-identification, as the attributes are recognised
+ from the same distance, height and illumination to the targets as they
+ will be when the system operates independently.
+ However, this is an expensive and time consuming approach as it requires
+ the presence of a human expert at each site that the system is being deployed
+ in for a considerable length of time 
+\end_layout
+
+\begin_layout Standard
+The research presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne2014"
+
+\end_inset
+
+ details another possible method of attribute collection using the vast
+ amount of image data that can be found on social media sites on the Internet.
+ The system works by trawling through photos on social media and using metadata
+ to identify characteristics of the people in the images, which can then
+ be used as attribute within a re-identification system.
+ An advantage of this method is that the system does not need to be trained
+ on site specific training data wherever it is deployed, as this online
+ data can be applied anywhere.
+ The system must classify and filter down a huge amount of data though before
+ it can do any form of accurate detection or re-identification, as much
+ of the data can be of low quality, don’t provide sufficient information
+ in the metadata, or are inappropriate.
+ This extends the time and computational resources needed to initially train
+ the system, but removes the need for a human expert.
+ Once the training procedure is done the system will be able to perform
+ re-identification effectively in multiple locations.
+\end_layout
+
+\begin_layout Subsection
+Colour Systems 
+\end_layout
+
+\begin_layout Standard
+Re-identification in colour is a well-researched area, particularly in terms
+ of using attributes.
+ Many of these methods are discussed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+, and are fairly simple in nature and well known.
+ Here we consider an important part of the current state of the art research
+ is network layout and topology, and this is evidenced in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Martinel2016"
+
+\end_inset
+
+.
+ Here, the technique of Distance Vector Routing is employed to get an idea
+ of the relative locations of the cameras, enabling the system to prioritise
+ the people seen most recently by the closest camera, as these are most
+ likely to be correct.
+ This is done by first analysing the overlap between cameras, and then computing
+ distance vectors and probabilities of going from one camera to another,
+ reducing the time complexity of the re-identification process in the majority
+ of cases.
+ 
+\end_layout
+
+\begin_layout Standard
+The work in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Chu2014"
+
+\end_inset
+
+ is on a similar theme to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Martinel2016"
+
+\end_inset
+
+, but assumes a non-overlapping camera system.
+ Each camera has entry and exit zones from its field of view, and if a person
+ can get from one camera’s field of view to another they are directly connected.
+ The system can then create what is referred to as a camera link model,
+ using a temporal, spatial and appearance relation between the entry and
+ exit zones of the cameras.
+ These paths are obtained from training data, but the system itself learns
+ how to recognise people by attributes, and uses the training data to estimate
+ where they are most likely to have gone after leaving a camera’s field
+ of view.
+ 
+\end_layout
+
+\begin_layout Standard
+The authors of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "YiminWang2014"
+
+\end_inset
+
+ propose a different method for feature based identification, using a feature
+ projection matrix to project image features of one camera to the feature
+ space of another, to effectively eliminate the difference of feature distributi
+ons between the two cameras.
+ The feature projection matrix is obtained through supervised learning.
+ The proposed method aims to use a simple gradient descent algorithm to
+ accelerate and optimise the re-identification process by compensating for
+ the inconsistency of feature distributions captured by different cameras.
+ 
+\end_layout
+
+\begin_layout Standard
+The work in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Wu2012"
+
+\end_inset
+
+ emphasises the importance of making good use of all images and video frames
+ captured of a target.
+ The system proposed here creates a gallery of images of known individuals,
+ with more images increasing the accuracy of the system.
+ When a gallery exists for a target, this is referred to as multi-shot re-identi
+fication, and single-shot re-identification when only one image is available
+ in both the query and the gallery.
+ For multi-shot re-identification, the authors propose to use geometric
+ distance in another way by collaboratively approximating the query sets
+ using all galleries, a method known as Collaborative Sparse Approximation.
+ 
+\end_layout
+
+\begin_layout Subsection
+Thermal Systems 
+\end_layout
+
+\begin_layout Standard
+The work in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Padole2010"
+
+\end_inset
+
+ details a motion tracking system that uses only the thermal space.
+ Developing an effective and efficient method for this is becoming more
+ and more important as the uses of thermal imagery increase.
+ This system uses the Wigner Distribution, which includes both time and
+ frequency, to enable it to create an association between spatial and temporal
+ data.
+ This helps to alleviate one of the major problems, with tracking in thermal;
+ that temperature is not uniform across the body.
+ Using this in place of feature-based tracking reduces the complexity of
+ the system and therefore allows it to perform accurate tracking faster
+ in real time.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Coutts2014"
+
+\end_inset
+
+, another system based on the relationship between spatial and temporal
+ signatures in thermal is proposed, combining a human detection algorithm
+ with the real-time compressive tracking algorithm.
+ This algorithm uses bounding boxes, which surround an object to be tracked
+ in subsequent frames.
+ We can associate each bounding box with a set of features, both spatial
+ and temporal in nature, and rematch this box with the target in subsequent
+ frames.
+ This approach gives promising results, but requires further research.
+ 
+\end_layout
+
+\begin_layout Standard
+Thermal tracking and identification also has applications in robotics, as
+ stated in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ciric2013"
+
+\end_inset
+
+.
+ This is an additional challenge due to robot movement, so it will not have
+ a consistent view of the environment.
+ Therefore, thermal is useful to allow detection irrespective of the light
+ level.
+ This movement based consideration can be seen as relevant to our problem
+ of multiple cameras, as each of these will be trying to detect the same
+ target from a different position.
+ This paper also discusses the issue of overlapping signatures of multiple
+ people standing close together, and suggests the ‘fuzzy logic’ approach
+ to solving it, which uses mathematical functions to determine how strongly
+ an object is in the foreground or background.
+ This approach is shown to have good results.
+ 
+\end_layout
+
+\begin_layout Standard
+The work in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Konigs2013"
+
+\end_inset
+
+ agrees with 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ciric2013"
+
+\end_inset
+
+ in many respects, as it is also a person tracking and re-identification
+ system for robotics, based on movement through a changing environment.
+ The thermal imaging system filters out the background elements, and then
+ uses a set of heuristics to determine if a hot-spot is a person or not.
+ Experimentation shows that while it performs well in indoor environments,
+ it can sometimes be confused in outdoor environments with high levels of
+ clutter.
+ The paper concludes suggesting a combined system of colour and thermal
+ imaging.
+ 
+\end_layout
+
+\begin_layout Standard
+The authors of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kwak2015"
+
+\end_inset
+
+ present a novel algorithm for tracking in thermal space, using random ferns
+ learning to approximate the location of a person on a frame-by-frame basis.
+ This method uses background subtraction without the need for pre-trained
+ detectors, along with association based tracking, a fully automatic process
+ which associates humans with identified tracks based on motion and appearance
+ cues.
+ Thermal is used in this system in order to resolve any problems with the
+ illumination level.
+ This was shown to be an effective method of re-identification.
+ 
+\end_layout
+
+\begin_layout Subsection
+Multiple Source Systems
+\end_layout
+
+\begin_layout Standard
+The re-identification method proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Mogelmose2013"
+
+\end_inset
+
+ suggests using a mixture of colour, thermal and depth based imaging to
+ improve accuracy of re-identification.
+ The colour channel provides a colour histogram per body part, the depth
+ channel provides a skeletal outline, and the thermal channel provides local
+ structural information and difference from background.
+ Combining the three of these gives a tri-modal dataset of attributes.
+ The system must then determine if a person is new or if they have been
+ seen before.
+ Nearly all new persons were identified correctly as new, but some previously
+ seen were misidentified as new due to significant changes in one or more
+ of the spectra.
+ 
+\end_layout
+
+\begin_layout Subsection
+More Complex Attributes 
+\end_layout
+
+\begin_layout Standard
+Papers 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2015"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2013"
+
+\end_inset
+
+ propose the use of photogrammetric methods to accomplish 3D localisation
+ and tracking in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2013"
+
+\end_inset
+
+ and posture estimation in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2015"
+
+\end_inset
+
+.
+ One of the major problems that 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2013"
+
+\end_inset
+
+ addresses is that in thermal space, bringing a 3D environment down to a
+ 2D representation can lead to ambiguity due to overlapping thermal signatures.
+ This is where the photogrammetry comes in, determining the 3D position
+ using camera projection and target size.
+ A Kalman filter is then applied to track the 3D scene trajectories of the
+ targets.
+ The results of this investigation show that it is an effective improvement
+ to 3D localisation in thermal space.
+ The assumption of human height as a constant introduces a statistical error,
+ but this is small and is reliable in the majority of cases.
+ 
+\end_layout
+
+\begin_layout Standard
+However, an issue with the approach presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2013"
+
+\end_inset
+
+ is the assumption of posture, or that a person is always standing at full
+ height within a scene.
+ This would be a particularly problematic when tracking a non-cooperative
+ target who may deliberately vary their posture to avoid detection.
+ The work in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2015"
+
+\end_inset
+
+ presents a method to address this problem.
+ The posture of a target detected in a scene is estimated as a percentage
+ of full height based on the use of a Histogram of Oriented Gradient feature
+ descriptor, gathered from each detected target, and aided by Support Vector
+ Machine based machine learning regression.
+ Like 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2013"
+
+\end_inset
+
+, this system makes use of the key advantage of thermal imagery to facilitate
+ robust target localisation.
+ The effect of this work makes the system from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Kundegorski2013"
+
+\end_inset
+
+ more robust and enables it to function in situations where targets are
+ attempting to avoid detection.
+ 
+\end_layout
+
 \begin_layout Section
 Solution
 \end_layout
