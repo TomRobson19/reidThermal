@@ -1210,6 +1210,11 @@ Now replace distance calculations with Bayes, make sure I have a special
  case based on distance for if there is only 1 target in the system
 \end_layout
 
+\begin_layout Itemize
+Problems with weights of probabilities, new targets unlikely to be re-id'd
+ vs old targets.
+\end_layout
+
 \begin_layout Section*
 Week 20
 \end_layout
