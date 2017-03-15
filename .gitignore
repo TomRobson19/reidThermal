@@ -19,3 +19,7 @@ General/*
 !General/*.lyx
 !General/*.tex
 !General/.*.sty
+
+src/data/
+
+src/exampleVideos/
