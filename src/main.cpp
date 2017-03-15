@@ -256,7 +256,7 @@ int main(int argc,char** argv)
 						else if(featureToUse == 3) //HOG
 						{
 						  //play with these parameters to change HOG size 
-						  cv::HOGDescriptor descriptor(Size(64, 128), Size(16, 16), Size(16, 16), Size(16, 16), 9, -1, 0.2, true, 64);
+						  cv::HOGDescriptor descriptor(Size(64, 128), Size(16, 16), Size(16, 16), Size(16, 16), 4, -1, 0.2, true, 64);
 
 						  descriptor.compute(regionOfInterest, descriptorsValues);
 
@@ -337,8 +337,8 @@ int main(int argc,char** argv)
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
-						// cout << data << endl;
-						// cout << responses << endl;
+						cout << data << endl;
+						cout << responses << endl;
 
 						bayesActive = NormalBayesClassifier::create();
 						// if(firstTrainActive)
