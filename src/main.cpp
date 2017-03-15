@@ -351,7 +351,22 @@ int main(int argc,char** argv)
     				{
     					if(fabs(center.x-targets[0].getLastPosition().x)<100 and fabs(center.y-targets[0].getLastPosition().y)<100)
     					{
-							  Person person(1, center.x, center.y, timeSteps, rec.width, rec.height);
+    						targets[0].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+
+							  Rect p = targets[0].kalmanPredict();
+
+					  		targets[0].updateFeatures(feature);
+
+							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+							  char str[200];
+							  sprintf(str,"Person %d",targets[0].getIdentifier());
+
+							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+    					}
+    					else
+    					{
+    						Person person(1, center.x, center.y, timeSteps, rec.width, rec.height);
 
 							  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 							  
