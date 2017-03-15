@@ -25,8 +25,7 @@ using namespace ml;
 //enable velocity 
 int timeSteps = 0;
 
-std::vector<Person> activeTargets;
-std::vector<Person> inactiveTargets;                                   
+vector<Person> targets;
 
 int main(int argc,char** argv)
 {
@@ -47,8 +46,6 @@ int main(int argc,char** argv)
   int height = 100;
   int learning = 1000;
   int padding = 40; 
-
-  bool firstTrainActive = true;
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
@@ -268,13 +265,14 @@ int main(int argc,char** argv)
 						normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
 						//cout << feature << endl;
 
+						//classify first target
 						int allocated = 0;
-						if(activeTargets.size() == 0 and inactiveTargets.size() == 0) //if first target found
+						if(targets.size() == 0) //if first target found
 						{
 						  Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
 
 						  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-						  
+
 						  Rect p = person.kalmanPredict();
 
 						  person.updateFeatures(feature);
@@ -286,27 +284,27 @@ int main(int argc,char** argv)
 
 						  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
-						  activeTargets.push_back(person);
+						  targets.push_back(person);
 						  allocated = 1;
 						}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-						Ptr<NormalBayesClassifier> bayesActive;
+						Ptr<NormalBayesClassifier> bayes;
 						Ptr<TrainData> trainData;
 						Mat data;
 						Mat responses;
 						Mat outputs;
 						Mat probabilities;
 
-						for(int i = 0; i<activeTargets.size(); i++)
+						for(int i = 0; i<targets.size(); i++)
 						{
 							Mat tempData;
-							for(int j = 0; j<activeTargets[i].getFeatures().rows; j++)
+							for(int j = 0; j<targets[i].getFeatures().rows; j++)
 							{
-								tempData.push_back(activeTargets[i].getFeatures().row(j));
-								responses.push_back(activeTargets[i].getIdentifier());
+								tempData.push_back(targets[i].getFeatures().row(j));
+								responses.push_back(targets[i].getIdentifier());
 								
-								if(activeTargets[i].getFeatures().rows>10)
+								if(targets[i].getFeatures().rows>10)
 								{
 								  tempData(Range(1, tempData.rows), Range(0, tempData.cols)).copyTo(tempData);
 								}
@@ -332,105 +330,93 @@ int main(int argc,char** argv)
 						cout << data << endl;
 						cout << responses << endl;
 
-						bayesActive = NormalBayesClassifier::create();
+						bayes = NormalBayesClassifier::create();
 
-    				bayesActive->train(trainData,0);
+    				bayes->train(trainData,0);
 
-    				bayesActive->predictProb(feature,outputs,probabilities); 
+    				bayes->predictProb(feature,outputs,probabilities); 
 
     				normalize(probabilities, probabilities, 1, 0, NORM_L1, -1, Mat());
+
+    				vector<double> probs;
+    				probs.assign((float*)probabilities.datastart, (float*)probabilities.dataend);
 
     				cout << outputs << endl;
     				cout << probabilities << endl;
     				cout << "##################" << endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
-						if(allocated == 0) //check if it is similar enough to a currently active target
-						{
-						  for(int a=0; a<activeTargets.size(); a++)
-						  {
-								Point2f lastPosition = activeTargets[a].getLastPosition();
+						//special case to classify second target
+    				if(targets.size() == 1)
+    				{
+    					if(fabs(center.x-targets[0].getLastPosition().x)<100 and fabs(center.y-targets[0].getLastPosition().y)<100)
+    					{
+							  Person person(1, center.x, center.y, timeSteps, rec.width, rec.height);
 
-								if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
-								//if close enough to last postion,it is that person
-								//will change this when features are implemented
-								{
-								  activeTargets[a].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+							  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+							  
+							  Rect p = person.kalmanPredict();
 
-								  Rect p = activeTargets[a].kalmanPredict();
+					  		person.updateFeatures(feature);
 
-						  		activeTargets[a].updateFeatures(feature);
+							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+							  char str[200];
+							  sprintf(str,"Person %d",person.getIdentifier());
 
-								  char str[200];
-								  sprintf(str,"Person %d",activeTargets[a].getIdentifier());
+							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
-								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+							  targets.push_back(person);
+    					}
+    				}
+    				else
+    				{
+    					double greatestProbability = 0.0;
+    					int identifier = 0;
+    					for(int i = 0; i<probabilities.cols; i++)
+    					{
+    						if(probs[i] > greatestProbability)
+    						{
+    							greatestProbability = probs[i];
+    							identifier = i;
+    						}
+    					}
+    					if(greatestProbability > 0.7)
+    					{
+    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
-								  allocated = 1;
-								  break;
-								}
+							  Rect p = targets[identifier].kalmanPredict();
 
-								if(timeSteps-activeTargets[a].getLastSeen() > 1000 and allocated == 0)//if hasn't been seen for long enough, make inactive
-								{
-								  inactiveTargets.push_back(activeTargets[a]);
-								  activeTargets.erase(activeTargets.begin()+a);
-								}
-						  }
-						}
-						if(allocated == 0) //now check if it is similar to an inactive target
-						{
-						  for(int b=0; b<inactiveTargets.size(); b++)
-						  {                
-								Point2f lastPosition = inactiveTargets[b].getLastPosition();
+					  		targets[identifier].updateFeatures(feature);
 
-								if(fabs(center.x-lastPosition.x)<100 and fabs(center.y-lastPosition.y)<100) 
-								//if close enough to last postion,it is that person
-								//will change this when features are implemented
-								{
-								  inactiveTargets[b].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-								  Rect p = inactiveTargets[b].kalmanPredict();
+							  char str[200];
+							  sprintf(str,"Person %d",targets[identifier].getIdentifier());
 
- 						  		inactiveTargets[b].updateFeatures(feature);
+							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+    					}
+    					else
+    					{
+    						int identifier = targets.size();
+							  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
 
-								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+							  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+							  
+							  Rect p = person.kalmanPredict();
 
-								  char str[200];
-								  sprintf(str,"Person %d",inactiveTargets[b].getIdentifier());
+					  		person.updateFeatures(feature);
 
-								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-								  activeTargets.push_back(inactiveTargets[b]);
-								  inactiveTargets.erase(inactiveTargets.begin()+b);
+							  char str[200];
+							  sprintf(str,"Person %d",person.getIdentifier());
 
-								  allocated = 1;
-								  break;
-								}
-						  } 
-						}
-						if(allocated == 0) //if not close enough to any existing targets, create a new target
-						{
-						  int identifier = activeTargets.size()+inactiveTargets.size();
-						  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
-						  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-						  
-						  Rect p = person.kalmanPredict();
-
-				  		person.updateFeatures(feature);
-
-						  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
-
-						  char str[200];
-						  sprintf(str,"Person %d",person.getIdentifier());
-
-						  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-
-						  activeTargets.push_back(person);
-						  allocated = 1;
-						}
+							  targets.push_back(person);
+    					}
+    				}
 				  }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
