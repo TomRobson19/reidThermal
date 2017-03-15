@@ -1,0 +1,2139 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{apalike}
+\bibliographystyle{apalike}
+
+\usepackage{durhampaper}
+
+
+\title{Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery}
+\student{T.A. Robson}
+\supervisor{T.P. Breckon}
+\degree{MEng Computer Science}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style agsm
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\headheight 2cm
+\headsep 2cm
+\footskip 1cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+\lang english
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+maketitle
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+
+\series bold
+Context/Background
+\end_layout
+
+\begin_layout Abstract
+Although use of thermal imagery currently poses significant advantages for
+ 24/7 surveillance in terms of the visibility of human, animal and vehicle
+ targets under all environmental conditions, a key limitation is the lack
+ of colour.
+ Many current approaches to the problem of cross-camera person Re-Identification
+, or the camera-to-camera tracking of pedestrian targets, rely on colour
+ features.
+ Person Re-Identification across multiple cameras is a key research problem
+ within the domain of visual surveillance and a key challenge for the future
+ deployment of thermal sensing as an autonomous sensor technology.
+ 
+\end_layout
+
+\begin_layout Abstract
+
+\series bold
+Aims
+\end_layout
+
+\begin_layout Abstract
+The aim of this project is to develop a system that would build upon and
+ extend the range of existing thermal image detection, tracking and classificati
+on approaches.
+ The first step for this would be to be able to detect a person within thermal
+ video in real time, distinguish a person from other objects and track a
+ person moving through a scene in real time.
+ We would then implement features/attributes from the literature studied
+ and carry out a first pass or initial framework for Re-Identification using
+ these features/attributes.
+ The system must be able to re-identify 5+ people within a test video sequence
+ in real time using multiple cameras.
+ This would then be extended by implementing some more advanced features/attribu
+tes and extending the Re-Identification ability to 10+ people.
+\end_layout
+
+\begin_layout Abstract
+
+\series bold
+Method
+\end_layout
+
+\begin_layout Abstract
+The first stage is real time person detection, which is done using Mixture
+ of Gaussians Background Subtraction, Histogram of Oriented Gradients or
+ Haar Cascade Person Detection and a 6 dimensional Kalman filter per person
+ to facilitate tracking a person and store their position, velocity and
+ bounding box dimensions.
+ From here, each of these people when first identified have some of their
+ features stored.
+ The basic features used will be Hu Moments, the Histogram of Thermal Intensity
+ and the Thermal Correlogram of the target.
+
+\color black
+ From here, more advanced features will be implemented.
+ Currently, we are planning to implement
+\series bold
+\color inherit
+ 
+\series default
+a feature based on
+\color red
+ 
+\color black
+optic flow inside the bounding box from several frames in order to capture
+ gait characteristics, expressed as a Histogram of Flow.
+ We will also implement Histogram of Oriented Gradients again, and store
+ this as a feature instead of using it to determine the characteristics
+ of a person.
+\end_layout
+
+\begin_layout Abstract
+
+\series bold
+Proposed Solution 
+\end_layout
+
+\begin_layout Abstract
+This system will be implemented in C++ using the widely used OpenCV computer
+ vision library.
+ The solution will take in video feeds from multiple cameras, or pre-recorded
+ video files, and concurrently run the person detection and Re-Identification
+ on these.
+ All of these will have access to the same set of previously identified
+ targets, grouped into active and inactive targets, to facilitate the identifica
+tion of targets previously seen by different cameras.
+ All previous positions for each person will be recorded and we will be
+ able to estimate the pattern of movement for each target across the entire
+ area covered by the cameras by considering to topology of our network of
+ cameras.
+\end_layout
+
+\begin_layout Abstract
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Abstract
+
+\series bold
+Keywords: 
+\series default
+Computer Vision, Person Re-Identification, Person Tracking, Features, Attributes
+, Thermal Imagery, Thermal Video
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+A fundamental task for a distributed multi-camera surveillance system is
+ to associate people across different camera views at different locations
+ and times 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+.
+ This is referred to as the Person Re-Identification problem 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+ and is an interesting and important problem within the field of computer
+ vision, with many different approaches being taken to try and perform this
+ process efficiently and reliably, mainly revolving around the use of features
+ or attributes of a person 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne"
+
+\end_inset
+
+.
+ This has been researched widely in colour space, but there has been very
+ little research done on solving this problem in thermal space.
+ 
+\end_layout
+
+\begin_layout Standard
+There are many potential applications for this technology, but the most
+ important in the modern world would be to support human intelligence organisati
+ons.
+ The surveillance data that a system like this can provide would be critical
+ for crime-prevention, forensic analysis, and counter-terrorism activities
+ in both civilian and governmental agencies alike.
+ While this is currently widely used by human operators, these operators
+ have to be trained, which offsets the utility of this approach with training
+ and staffing costs.
+ The implementation of an automated Re-Identification system is therefore
+ of great interest, as it would be very useful in supporting these human
+ operators and enabling them to achieve better results more efficiently.
+ This would be particularly important in thermal space, as many of the features
+ that we propose to use are complex and mathematically grounded, making
+ them difficult for a human analyst to observe.
+\end_layout
+
+\begin_layout Standard
+From the previous work that we have studied, we can see that a substantial
+ amount of research that has been done on Person Re-Identification, but
+ much of this relies on the colour spectrum, with attributes of the form
+ “red shirt” 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne"
+
+\end_inset
+
+.
+ However, in the modern world, thermal imagery is often used for 24/7 surveillan
+ce when all environmental conditions are possible.
+ Therefore, it is important that an effective Re-Identification system is
+ developed to utilise this area of surveillance.
+ Whilst thermal imagery has many advantages, it is not able to identify
+ colour, making attributes that rely on colour useless.
+ Therefore, alternative features are required to facilitate Re-Identification.
+ Recently there has been an increase in the amount of research into thermal
+ tracking, and some focus on Re-Identification, although mainly in robotics,
+ rather than in a distributed camera network, as discussed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Konigs2013"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ciric2013"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The intent of this project is to expand upon this existing research and
+ answer the question 
+\series bold
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\series default
+Which features of a human target are appropriate to facilitate Re-Identification
+ in thermal video?
+\series bold
+
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\series default
+\emph default
+The challenges associated with answering this question are mostly due to
+ the increased complexity of the features required in thermal space, as
+ we do not have simple colour features available to us.
+ Such colour features, as described in more detail in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Layne"
+
+\end_inset
+
+, have many applications from clothes colour to hair and skin colour.
+ In thermal, we cannot use such simple features, so must think in a more
+ complex way.
+ The figure below shows five different views of the same person.
+ The features we use must be able to recognise that all of these are the
+ same person.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from running20140319.webm.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from running20140319.webm - 2.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from running20140319.webm - 3.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from walking20140319.webm.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot from walking20140319.webm - 1.png
+	scale 10
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Example of Thermal Views
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first thing that we shall consider as a feature to solve the Re-Identificati
+on problem is a measure of the size of the target person.
+ Due to the single viewpoint of the camera, we need a measure of size that
+ is position, scale and rotation invariant.
+ For this purpose, we will use moments, or Hu Moments in particular, taking
+ inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "FlusserSukZitova2009,Dawson-Howe2014"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The closest we can get to a colour value per pixel in thermal is the intensity
+ of each pixel, so a histogram of these intensities per target will be a
+ key feature for us to use.
+ We also draw inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Huang,Zhang2015"
+
+\end_inset
+
+, which suggest the use of a colour correlogram.
+ This method gives an idea of spatial correlation of colours, using a table
+ indexed by colour pairs, where the 
+\begin_inset Formula $k-th$
+\end_inset
+
+ entry for 
+\begin_inset Formula $<i,j>$
+\end_inset
+
+ specifies the probability of finding a pixel of colour 
+\begin_inset Formula $j$
+\end_inset
+
+ at a distance 
+\begin_inset Formula $k$
+\end_inset
+
+ from a pixel of colour 
+\begin_inset Formula $i$
+\end_inset
+
+ in the image.
+ We will apply a similar principle to thermal intensity values in this project.
+\end_layout
+
+\begin_layout Standard
+From here, we must consider more complex features.
+ The first of these that we will consider is a Histogram of Flow, which
+ will be the method by which we 
+\color black
+interpret the optic flow inside the bounding box from several frames in
+ order to capture the gait characteristics of the person.
+ We will also use the Histogram of Oriented Gradients (HOG) again, this
+ time as a feature for Re-Identification, by storing the full HOG descriptor
+ as a feature vector.
+ 
+\end_layout
+
+\begin_layout Standard
+When considering a network of multiple cameras, it is important to consider
+ the layout, or topology of these cameras, to gain a proper insight into
+ the movements of our human targets.
+ This enables us to take more meaning from the data that the system will
+ give us, and determine estimated paths that the targets follow when they
+ are out of view of the cameras.
+ When the camera system that we will use is set up, we will record the coordinat
+es of each camera's position, and overlay these on a map of the area.
+ From here, once the system has tracked some people and recorded some data,
+ we will plot the movements of each target on this map.
+ This seems to us to be a sensible way of effectively visualising the data
+ that our system generates.
+ 
+\end_layout
+
+\begin_layout Subsection
+Aims of the Project
+\end_layout
+
+\begin_layout Standard
+The aim of this project is to investigate the above research question by
+ developing a system that can detect a person within thermal video imagery
+ in real time, distinguish this person from other objects in the scene and
+ track this person moving through a scene in real time.
+ We would then implement 2-3 features/attributes, and use these to carry
+ out a first pass or initial framework for Re-Identification.
+ At this stage, the system must be able to Re-Identify at least 5 people
+ within a test video sequence in real time using multiple cameras.
+ This would then be extended by implementing 2 more advanced state of the
+ art features/attributes and extending the Re-Identification ability to
+ at least 10 people.
+\end_layout
+
+\begin_layout Section
+Related Work
+\end_layout
+
+\begin_layout Section
+Solution
+\end_layout
+
+\begin_layout Subsection
+Requirements
+\end_layout
+
+\begin_layout Standard
+Here we list all of the Functional and Non-Functional Requirements of the
+ proposed system, presented in two tables below.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="13" columns="5">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="middle" width="2cm">
+<column alignment="center" valignment="top" width="1.5cm">
+<column alignment="center" valignment="top" width="5cm">
+<column alignment="center" valignment="middle" width="2cm">
+<column alignment="center" valignment="middle" width="2cm">
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Requirement
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identifier
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" mroffset="12cm" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Design Reference
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Subsystem
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Be able to track a human target in thermal video.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Person Detection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section C
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Perform effective background subtraction and foreground target identification.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Person Detection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section C1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Perform person detection based on identified foreground objects.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Person Detection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section C2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Be able to track distinct targets and predict their next position using
+ a Kalman Filter.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tracking
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section C3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Be able to Re-Identify people based on basic features.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Re-Identification
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section D
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Be able to determine the ratio of height to width of a person.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Re-Identification
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section D1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Be able to build up a histogram of thermal intensities of a person.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Re-Identification
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section D2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Be able to build up a correlogram of thermal intensities of a person.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Re-Identification
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section D3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FR3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Be able to Re-Identify people based on advanced features.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Re-Identification
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section D4-5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Utilise optic flow in order to capture gait characteristics
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Re-Identification
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section D4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Utilise the Full Histogram of Oriented Gradient Descriptor
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Re-Identification
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Section D5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Functional Requirements
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="11cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Requirement Identifier
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NFR1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The system shall run in as close as possible to real-time.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NFR2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The system must be able to run on multiple cameras, or video files, simultaneous
+ly.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NFR3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The code must be well documented, understandable and efficient
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Non-Functional Requirements
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Implementation
+\end_layout
+
+\begin_layout Standard
+Here we give details of the structure of the implementation, the tools used
+ in its development and the process employed.
+\end_layout
+
+\begin_layout Subsubsection
+Implementation Structure
+\end_layout
+
+\begin_layout Standard
+The implementation will begin by opening each video file, or live camera
+ feed, and concurrently running the real time target detection code on these.
+ Each time this code identifies a person, it compares the features of this
+ person to those of the other people that have been seen previously, and
+ if they are deemed to be sufficiently similar to one of these people, then
+ they are re-identified as the same person, else the system creates a new
+ person object.
+ Each of these person objects has an associated Kalman Feature position
+ estimator and a set of features, and these are used to facilitate the compariso
+n between targets, and are updated each time the target is successfully
+ identified.
+ This continues frame by frame until the video file or camera feed ends.
+ The subsystems are shown in the figure below, as well as a flow chart for
+ the process followed by the implementation.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Subsystems.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Pipeline Diagram of the System
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Project Activity Diagram2.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Structure of Code
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Tools Used
+\end_layout
+
+\begin_layout Standard
+Many of the computer vision techniques that will be described in the next
+ section are complex to implement.
+ Therefore, the OpenCV library 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "opencv_library"
+
+\end_inset
+
+ has been used to allow us to use stable, well tested code, giving confidence
+ in the results obtained while enabling us to focus on the research and
+ implementation of the features, which is the main purpose of this project.
+ This library provides all of the the image processing and machine learning
+ techniques to facilitate the first stage of this project.
+ The implementation will be developed in C++ as it is the most suitable
+ for the performance requirements and has a well supported implementation
+ of OpenCV functions.
+ A text editor will be used for code development and CMake will be used
+ for building and deployment of the system, while GitHub has been used for
+ version control.
+\end_layout
+
+\begin_layout Subsubsection
+Development Process
+\end_layout
+
+\begin_layout Standard
+For the development of this system, agile development methods have been
+ applied to this single person project, as it is primarily a research based
+ project and there is potential for some of the design points to change.
+ The weekly meetings held with the supervisor have functioned as stand-up
+ meetings would in a group based agile development process, while scrum
+ methodologies have been applied to development of individual components
+ of the system, with the implementation of each requirement functioning
+ as major sprints, and the periods between each meeting functioning as minor
+ sprints.
+ Thus far, this method has proven to be an effective way of organising the
+ development of this system.
+\end_layout
+
+\begin_layout Subsection
+Real Time Person Detection
+\end_layout
+
+\begin_layout Standard
+Before we can start concerning ourselves with feature based person Re-Identifica
+tion, we must be able to identify whether a person is present in the image
+ at all.
+ This requires several stages, background subtraction, person identification
+ and person tracking with position prediction.
+\end_layout
+
+\begin_layout Subsubsection
+Background Subtraction - FR1.1
+\end_layout
+
+\begin_layout Standard
+The first stage of this process is background subtraction from the static
+ camera viewpoint, addressing FR1.1.
+ We use the Mixture of Gaussians (MoG) technique to facilitate this, taking
+ inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Zivkovic2004,Zivkovic"
+
+\end_inset
+
+.
+ This technique works by 'learning' a background model, modelling each of
+ the pixels by multiple Gaussians.
+ Using a Gaussian over the last 
+\begin_inset Formula $N$
+\end_inset
+
+ frames, where 
+\begin_inset Formula $N$
+\end_inset
+
+ is given by a parameter specifying the rate at which the background model
+ is updated, is far more memory efficient than storing all of the pixel
+ values across the entire video capture.
+ This update rate is determined by the trade off between being fast enough
+ to absorb objects that have become stationary into the background, and
+ being slow enough to allow the detection of slow moving objects.
+\end_layout
+
+\begin_layout Standard
+As the program runs through the video, during each new frame, a Gaussian
+ for each pixel is evaluated using a simple heuristic to determine which
+ is most likely to correspond to the background model.
+ Pixels that do not match closely enough with these background Gaussians
+ are classified as foreground elements, and added to a new image in the
+ code.
+ Once these foreground pixels are identified and built into a foreground
+ mask, erosion and dilation are used to clean up these results.
+ From here, we use contour detection to find the connected components, and
+ draw bounding boxes around these contours.
+ Figure 4 below shows the background model that the system has built up,
+ the foreground of the image, the target identified and the bounding box
+ associated with this target, taken from one frame of an example video used
+ for testing.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Mog
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MoG Background Subtraction Output
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Person Identification - FR1.2
+\end_layout
+
+\begin_layout Standard
+Having identified the foreground objects, we must now determine whether
+ they are people, addressing FR1.2.
+ This implementation has two options for this, the first of these is using
+ Histogram of Oriented Gradients (HOG), discussed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dalal"
+
+\end_inset
+
+.
+ This method works by performing edge detection on the bounding box identified
+ by the background subtraction, and calculating the gradient and magnitude
+ of each of these edges.
+ From here cell histograms are computed, with each of the histogram entries
+ filled by gradient magnitudes.
+ These histograms are then used to create overlapping block histograms of
+ the adjacent cells.
+ These block histograms are then combined to give a HOG descriptor, a high
+ dimensional vector.
+ This HOG descriptor is then passed to a pre-trained Machine Learning algorithm,
+ in this case a Support Vector Machine (SVM).
+ If this comes up with a positive identification, then it is classified
+ as a person.
+ 
+\end_layout
+
+\begin_layout Standard
+An alternative to HOG is the use of a Haar Cascade detector, proposed in
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "RainerLienhartandJochenMaydt2002,Viola"
+
+\end_inset
+
+.
+ This method works by combining successively more complex classifiers in
+ a cascade structure.
+ This focuses the attention of the detector on the promising reasons of
+ the image.
+ It is trained on a set of very simple features, which are much faster to
+ evaluate than the HOG descriptors.
+ The final classification is done using a combination of these classifiers
+ in a cascade structure, beginning with those less accurate but faster classifie
+rs to discard clearly negative areas.
+ 
+\end_layout
+
+\begin_layout Standard
+The reason for the inclusion of both methods here is that there is a trade
+ off between them.
+ HOG is a slightly more accurate identifier, but it is slow, even within
+ the confines of the bounding box identified.
+ The Haar Cascade is much faster, but gets a slightly inferior classification
+ rate.
+ For this reason, the option exists to change between the two systems, depending
+ on whether speed or accuracy is important, or how much emphasis is put
+ on NFR1.
+ A real world example of this trade-off would be in a surveillance system,
+ if the operator is looking to Re-Identify people from live video input
+ they would use the Haar Cascade, but if they waned to Re-Identify people
+ from pre-recorded video footage, they would use HOG.
+ The output of both systems looks much the same, and is displayed in Figure
+ 5, where the red box represents the search area given by the background
+ subtractor with additional padding, and the green box represents the identified
+ human target from HOG or Haar Cascade.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Hog
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Person Detection Output
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Person Tracking and Position Prediction - FR1.3
+\end_layout
+
+\begin_layout Standard
+Once the target has been identified as a person, we need to track each identifie
+d person, and address FR1.3.
+ This is done by creating a new person object for each newly identified
+ target, each with an associated Kalman Filter, explained in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bishop"
+
+\end_inset
+
+.
+ A Kalman Filter is a commonly used position estimator in such tracking
+ problems, and is important because it makes use of current information
+ about a target to reduce the search space required in subsequent frames.
+ 
+\end_layout
+
+\begin_layout Standard
+The Kalman Filter that has been implemented here is 6-dimensional, storing
+ the coordinates of the centre of the target, its velocity in each direction
+ and the width and height of the associated bounding box.
+ This is updated each time the target is detected and the implementation
+ then calculates a predicted position for the target in the next frame of
+ the video.
+ This prediction is based on a transition matrix, which in this implementation
+ keeps the velocity and bounding box dimensions the same as in the current
+ state, and changes the position in both x and y by adding the current velocity,
+ as this is how much its position should change in the next frame if the
+ velocity remains constant.
+ 
+\end_layout
+
+\begin_layout Standard
+With such a Kalman Filter associated with each person object, we know where
+ each person is positioned within the distributed camera network.
+ This can inform us as to which person any identified target is likely to
+ be, due to their most recent position, and can speed up the comparison,
+ as we know people cannot be in two places at once.
+ Figure 6 shows the output of this, with the red box showing the area identified
+ as a foreground target, and the blue box is the predicted position of the
+ target in the next frame.
+ The green box from the person identification phase is omitted here to reduce
+ the clutter in the image, but the process is still being performed to give
+ us the measurement of the target's position in each frame.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Kalman
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Kalman Filter Output
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Features for Re-Identification
+\end_layout
+
+\begin_layout Standard
+To properly associate and compare person objects, we must now consider the
+ features of each person.
+ These have not been implemented at this stage of the development progress,
+ so will be discussed briefly from a hypothetical point of view.
+ The system will compare each person found by the real time person detection
+ code to each of the people already stored in the system, and score their
+ similarity based one or a combination of the features described below.
+ These features will be stored as vectors, and compared to the feature vectors
+ of existing targets using Euclidean distances.
+ The results of this will be displayed by the system during execution as
+ shown in figure 7 below.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Screenshot 2017-01-25 14:54:50.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Presentation of Identified Person
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Hu Moments - FR2.1
+\end_layout
+
+\begin_layout Standard
+This feature will enable us to describe, characterise, and quantify the
+ shape of a target in a manner that is position, scale and rotation invariant.
+ The method for doing this is included in the OpenCV library, inspired by
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hu1962"
+
+\end_inset
+
+, and we will take inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "FlusserSukZitova2009,Dawson-Howe2014"
+
+\end_inset
+
+ for its implementation in our system.
+ We will detect the contours of our target, and then use these to extract
+ a feature vector to represent the shape of the object.
+\end_layout
+
+\begin_layout Subsubsection
+Histogram of Thermal Intensities - FR2.2
+\end_layout
+
+\begin_layout Standard
+The next feature that will be used is the histogram of thermal intensities.
+ This will be done by first using edge detection methods to get just the
+ pixels that represent the target from within the Kalman bounding box.
+ From here, the intensity of each pixel that makes up the target will be
+ recorded, and a histogram will be constructed of all pixels within certain
+ bounds.
+
+\series bold
+ 
+\series default
+Each time a comparison is made, it will build up a histogram for the new
+ target, and if it is sufficiently close to an existing target, then this
+ feature will be satisfied.
+ This is a useful feature as it can give a fair impression of clothing,
+ as if one target is wearing a T-Shirt, for example, there will be more
+ high intensity pixels than will be present for a target wearing a long
+ sleeved shirt or jacket.
+\end_layout
+
+\begin_layout Subsubsection
+Thermal Correlogram - FR2.3
+\end_layout
+
+\begin_layout Standard
+For this feature, we draw inspiration from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Huang,Zhang2015"
+
+\end_inset
+
+, which suggest the use of a colour correlogram.
+ This method gives an idea of spatial correlation of colours, using a table
+ indexed by colour pairs, where the 
+\begin_inset Formula $k-th$
+\end_inset
+
+ entry for 
+\begin_inset Formula $<i,j>$
+\end_inset
+
+ specifies the probability of finding a pixel of colour 
+\begin_inset Formula $j$
+\end_inset
+
+ at a distance
+\begin_inset Formula $k$
+\end_inset
+
+ from a pixel of colour 
+\begin_inset Formula $i$
+\end_inset
+
+ in the image.
+ We will apply a similar principle in our implementation, replacing the
+ colour values by thermal intensity values.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Histogram of Flow - FR3.1
+\end_layout
+
+\begin_layout Standard
+The purpose of this feature is to capture the movements of the target within
+ the bounding box, and store this in the form of a Histogram.
+ This uses Optical flow, which is the distribution of apparent velocities
+ of movement of brightness patterns in an image 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "HornSchunck1981"
+
+\end_inset
+
+.
+ The moving object is detected and located from the flow field using a Gaussian
+ model.
+ Afterwards, the feature vector for each target is built up using optical
+ flow features.
+ Unlike other features, this cannot be measured over a single frame, but
+ must instead be calculated over the course of multiple frames.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Histogram of Oriented Gradients - FR3.2
+\end_layout
+
+\begin_layout Standard
+We have already discussed the process of Histogram of Oriented Gradients
+ (HOG) in section C2 of the design section of this document.
+ When being used for that purpose, the OpenCV function implementing the
+ work of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dalal"
+
+\end_inset
+
+ compares the HOG descriptor to a pre-trained support vector machine to
+ determine if the target is within acceptable bounds of being a person.
+ Here, we use the same feature vector, but instead of passing this to the
+ support vector machine for classification as a human or not, we will save
+ this vector for each target, and use this as a feature of comparison for
+ re-identification.
+ 
+\end_layout
+
+\begin_layout Subsection
+Comparison Method - Bayesian Classifier
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout Section
+Evaluation
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "library"
+options "bibtotoc,plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
