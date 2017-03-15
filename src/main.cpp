@@ -248,8 +248,6 @@ int main(int argc,char** argv)
 
 						  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
 
-						  //normalize(hist, hist, 1, 0, NORM_L1, -1, Mat());
-
 						  feature = hist.clone();
 						}
 
@@ -295,7 +293,6 @@ int main(int argc,char** argv)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						Ptr<NormalBayesClassifier> bayesActive;
 						Ptr<TrainData> trainData;
-
 						Mat data;
 						Mat responses;
 						Mat outputs;
@@ -323,17 +320,12 @@ int main(int argc,char** argv)
 						responses.convertTo(responses, CV_32F);
 
 						Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
-						//this populates sample_idx
 				    sample_idx = sample_idx.colRange(0, nsamples_all);
 				    sample_idx.setTo(Scalar::all(1));
-				    
 				    int nvars = data.cols;
-
 				    Mat var_type( nvars + 1, 1, CV_8U );
 				    var_type.setTo(Scalar::all(VAR_ORDERED));
 				    var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
-
-				    // cout << sample_idx << endl << var_type << endl;
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
@@ -341,11 +333,6 @@ int main(int argc,char** argv)
 						cout << responses << endl;
 
 						bayesActive = NormalBayesClassifier::create();
-						// if(firstTrainActive)
-						// {
-						// 	bayesActive->train(trainData,0);
-						// 	firstTrainActive = false;
-						// }
 
     				bayesActive->train(trainData,0);
 
@@ -355,11 +342,7 @@ int main(int argc,char** argv)
 
     				cout << outputs << endl;
     				cout << probabilities << endl;
-    				
     				cout << "##################" << endl;
-    				//outputs from above gives same result as r from below
-						// float r = bayesActive->predict(feature);
-						// cout << r << endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						if(allocated == 0) //check if it is similar enough to a currently active target
@@ -449,6 +432,7 @@ int main(int argc,char** argv)
 						  allocated = 1;
 						}
 				  }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
 				}
 		  }
