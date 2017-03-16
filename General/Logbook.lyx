@@ -1230,6 +1230,8 @@ Implement Bayes myself (new classifier) - do more than last 10, code as
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 Store last n, calculate covariance matrix, and then get malanobis distance
  between the covariance matrix and the new feature vector captured.
  
