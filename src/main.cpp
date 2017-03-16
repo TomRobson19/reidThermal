@@ -31,7 +31,7 @@ int main(int argc,char** argv)
 {
   int featureToUse = atoi(argv[argc-1]); // 1 - Hu, 2 - Histogram of Intensities, 3 - HOG
 
-  Mat img, outputImage, fg_msk, bg;	// image objects
+  Mat img, outputImage, fg_msk;	// image objects
   VideoCapture cap;     // capture object
 
   const string windowName = "Live Image"; // window name
@@ -98,7 +98,6 @@ int main(int argc,char** argv)
 
 		  // update background model and get background/foreground
 		  MoG->apply(img, fg_msk, (double)(1.0/learning));
-		  MoG->getBackgroundImage(bg);
 
 		  // perform erosion - removes boundaries of foreground object
 		  erode(fg_msk, fg_msk, Mat(),Point(),1);
