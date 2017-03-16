@@ -1215,8 +1215,17 @@ Problems with weights of probabilities, new targets unlikely to be re-id'd
  vs old targets.
 \end_layout
 
+\begin_layout Itemize
+Try weighting probabilities with regard to distance away from existing target's
+ last positions
+\end_layout
+
+\begin_layout Itemize
+Keeps adding new targets when all the probabilities are 0.
+\end_layout
+
 \begin_layout Section*
-Week 20
+Easter Holidays
 \end_layout
 
 \end_body
