@@ -304,17 +304,17 @@ int main(int argc,char** argv)
 							  tempData(Range(1, tempData.rows), Range(0, tempData.cols)).copyTo(tempData);
 							}
 							//code to pad the array to size 10
-							else if(targets[i].getFeatures().rows<10)
-							{
-								int difference = 10-targets[i].getFeatures().rows;
-								while(difference > 0)
-								{
-									tempData.push_back(targets[i].getFeatures().row(targets[i].getFeatures().rows-1));
-									responses.push_back(targets[i].getIdentifier());
+							// else if(targets[i].getFeatures().rows<10)
+							// {
+							// 	int difference = 10-targets[i].getFeatures().rows;
+							// 	while(difference > 0)
+							// 	{
+							// 		tempData.push_back(targets[i].getFeatures().row(targets[i].getFeatures().rows-1));
+							// 		responses.push_back(targets[i].getIdentifier());
 
-									difference -= 1;
-								}
-							}
+							// 		difference -= 1;
+							// 	}
+							// }
 							data.push_back(tempData);
 						}
 

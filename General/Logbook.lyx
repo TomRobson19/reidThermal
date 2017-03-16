@@ -1224,8 +1224,68 @@ Try weighting probabilities with regard to distance away from existing target's
 Keeps adding new targets when all the probabilities are 0.
 \end_layout
 
+\begin_layout Itemize
+Implement Bayes myself (new classifier) - do more than last 10, code as
+ last n for now (100 is ~= 4s)
+\end_layout
+
+\begin_layout Itemize
+Store last n, calculate covariance matrix, and then get malanobis distance
+ between the covariance matrix and the new feature vector captured.
+ 
+\end_layout
+
+\begin_layout Itemize
+Normalise all the malanobis distance to get 'probabilities'
+\end_layout
+
+\begin_layout Itemize
+Superpixels should be logically anded with my foreground mask, need labels
+ array from seeds.cpp
+\end_layout
+
+\begin_layout Itemize
+May not need the distance work around I currently have, could just get the
+ current malanobis distance and see how large it is.
+ 
+\end_layout
+
+\begin_layout Itemize
+Use different parameters for the roof cameras
+\end_layout
+
+\begin_layout Itemize
+For results, write out classifications to a file and manually get count
+ of positive and negative classifications.
+ 
+\end_layout
+
 \begin_layout Section*
-Easter Holidays
+Easter Holidays - Implementation Workflow
+\end_layout
+
+\begin_layout Enumerate
+New Classifier as described above 
+\end_layout
+
+\begin_layout Enumerate
+Command Line Parser
+\end_layout
+
+\begin_layout Enumerate
+Superpixels
+\end_layout
+
+\begin_layout Enumerate
+Correlogram
+\end_layout
+
+\begin_layout Enumerate
+Flow
+\end_layout
+
+\begin_layout Enumerate
+Multiple Cameras
 \end_layout
 
 \end_body
