@@ -135,7 +135,7 @@ int main(int argc,char** argv)
 
 				  Mat roi = img(r);
 
-				  int method = 1; //0 for Hog, 1 for cascade
+				  int method = 0; //0 for Hog, 1 for cascade
 
 				  if (method == 0)
 				  {
@@ -144,7 +144,7 @@ int main(int argc,char** argv)
 				  }
 				  else 
 				  {
-						cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,32));
+						cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,32));
 				  }
 				  for(size_t i = 0; i < found.size(); i++ )
 				  {
@@ -225,7 +225,6 @@ int main(int argc,char** argv)
 								  largestContour = i;
 								}
 						  }
-
 						  Moments contourMoments;
 
 						  contourMoments = moments(contoursHu[largestContour]);
@@ -263,10 +262,9 @@ int main(int argc,char** argv)
 						feature.convertTo(feature, CV_32F);
 
 						normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
-						//cout << feature << endl;
+						cout << feature << endl;
 
 						//classify first target
-						int allocated = 0;
 						if(targets.size() == 0) //if first target found
 						{
 						  Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
@@ -285,9 +283,7 @@ int main(int argc,char** argv)
 						  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
 						  targets.push_back(person);
-						  allocated = 1;
 						}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						Ptr<NormalBayesClassifier> bayes;
 						Ptr<TrainData> trainData;
@@ -303,10 +299,21 @@ int main(int argc,char** argv)
 							{
 								tempData.push_back(targets[i].getFeatures().row(j));
 								responses.push_back(targets[i].getIdentifier());
-								
-								if(targets[i].getFeatures().rows>10)
+							}
+							if(targets[i].getFeatures().rows>10)
+							{
+							  tempData(Range(1, tempData.rows), Range(0, tempData.cols)).copyTo(tempData);
+							}
+							//code to pad the array to size 10
+							else if(targets[i].getFeatures().rows<10)
+							{
+								int difference = 10-targets[i].getFeatures().rows;
+								while(difference > 0)
 								{
-								  tempData(Range(1, tempData.rows), Range(0, tempData.cols)).copyTo(tempData);
+									tempData.push_back(targets[i].getFeatures().row(targets[i].getFeatures().rows-1));
+									responses.push_back(targets[i].getIdentifier());
+
+									difference -= 1;
 								}
 							}
 							data.push_back(tempData);
@@ -327,8 +334,8 @@ int main(int argc,char** argv)
 
     				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
 
-						cout << data << endl;
-						cout << responses << endl;
+						// cout << data << endl;
+						// cout << responses << endl;
 
 						bayes = NormalBayesClassifier::create();
 
@@ -338,12 +345,8 @@ int main(int argc,char** argv)
 
     				normalize(probabilities, probabilities, 1, 0, NORM_L1, -1, Mat());
 
-    				vector<double> probs;
-    				probs.assign((float*)probabilities.datastart, (float*)probabilities.dataend);
-
     				cout << outputs << endl;
     				cout << probabilities << endl;
-    				cout << "##################" << endl;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						//special case to classify second target
@@ -388,15 +391,15 @@ int main(int argc,char** argv)
     				{
     					double greatestProbability = 0.0;
     					int identifier = 0;
-    					for(int i = 0; i<probabilities.cols; i++)
-    					{
-    						if(probs[i] > greatestProbability)
-    						{
-    							greatestProbability = probs[i];
-    							identifier = i;
-    						}
-    					}
-    					if(greatestProbability > 0.7)
+
+    					double min, max;
+							Point min_loc, max_loc;
+							minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
+
+							greatestProbability = max;
+							identifier = max_loc.x;
+
+    					if(greatestProbability >= 0.7)
     					{
     						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
