@@ -1257,8 +1257,8 @@ Use different parameters for the roof cameras
 \end_layout
 
 \begin_layout Itemize
-For results, write out classifications to a file and manually get count
- of positive and negative classifications.
+For results, write out classifications to a file over a short period of
+ time and manually get count of positive and negative classifications.
  
 \end_layout
 
