@@ -134,7 +134,7 @@ int main(int argc,char** argv)
 
 				  Mat roi = img(r);
 
-				  int method = 0; //0 for Hog, 1 for cascade
+				  int method = 1; //0 for Hog, 1 for cascade
 
 				  if (method == 0)
 				  {
@@ -258,10 +258,10 @@ int main(int argc,char** argv)
 
 						feature = feature.t();
 
-						feature.convertTo(feature, CV_32F);
+						feature.convertTo(feature, CV_64F);
 
 						normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
-						cout << feature << endl;
+						cout << "New Feature" << endl << feature << endl;
 
 						//classify first target
 						if(targets.size() == 0) //if first target found
@@ -272,7 +272,7 @@ int main(int argc,char** argv)
 
 						  Rect p = person.kalmanPredict();
 
-						  person.updateFeatures(feature);
+						  //person.updateFeatures(feature);
 
 						  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
@@ -284,68 +284,47 @@ int main(int argc,char** argv)
 						  targets.push_back(person);
 						}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-						Ptr<NormalBayesClassifier> bayes;
-						Ptr<TrainData> trainData;
-						Mat data;
-						Mat responses;
-						Mat outputs;
-						Mat probabilities;
-
-						for(int i = 0; i<targets.size(); i++)
+						else
 						{
-							Mat tempData;
-							for(int j = 0; j<targets[i].getFeatures().rows; j++)
-							{
-								tempData.push_back(targets[i].getFeatures().row(j));
-								responses.push_back(targets[i].getIdentifier());
-							}
-							if(targets[i].getFeatures().rows>10)
-							{
-							  tempData(Range(1, tempData.rows), Range(0, tempData.cols)).copyTo(tempData);
-							}
-							//code to pad the array to size 10
-							// else if(targets[i].getFeatures().rows<10)
-							// {
-							// 	int difference = 10-targets[i].getFeatures().rows;
-							// 	while(difference > 0)
-							// 	{
-							// 		tempData.push_back(targets[i].getFeatures().row(targets[i].getFeatures().rows-1));
-							// 		responses.push_back(targets[i].getIdentifier());
+							vector<double> mDistances;
 
-							// 		difference -= 1;
-							// 	}
-							// }
-							data.push_back(tempData);
+							for(int i = 0; i<targets.size(); i++)
+							{
+								Mat covar, mean;
+								Mat data = targets[i].getFeatures();
+
+								
+								calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
+
+								cout << i << "data" << data << endl;
+
+								cout << i << "Covar" << endl << covar << endl << i << "mean" << endl << mean << endl;
+
+								if(targets[i].getFeatures().rows > 1)
+								{
+									Mat invCovar;
+
+									invert(covar,invCovar,DECOMP_SVD);
+
+									double mDistance = Mahalanobis(feature,mean,invCovar);
+
+									cout << "Mahalanobis Distance" << endl << mDistance << endl;
+
+									mDistances.push_back(mDistance);
+								}
+								else
+								{
+									double distance = norm(feature,mean,NORM_L1);
+
+									cout << "Norm Distance" << endl << distance << endl;
+
+									mDistances.push_back(distance); 
+								}
+							}
+
+							normalize(mDistances,mDistances,1,0,NORM_L1,-1,Mat());
 						}
-
-						int nsamples_all = data.rows;
-
-						data.convertTo(data, CV_32F);
-						responses.convertTo(responses, CV_32F);
-
-						Mat sample_idx = Mat::zeros( 1, data.rows, CV_8U );
-				    sample_idx = sample_idx.colRange(0, nsamples_all);
-				    sample_idx.setTo(Scalar::all(1));
-				    int nvars = data.cols;
-				    Mat var_type( nvars + 1, 1, CV_8U );
-				    var_type.setTo(Scalar::all(VAR_ORDERED));
-				    var_type.at<uchar>(nvars) = VAR_CATEGORICAL;
-
-    				trainData = TrainData::create(data, ROW_SAMPLE, responses, noArray(), sample_idx, noArray(), var_type);
-
-						// cout << data << endl;
-						// cout << responses << endl;
-
-						bayes = NormalBayesClassifier::create();
-
-    				bayes->train(trainData,0);
-
-    				bayes->predictProb(feature,outputs,probabilities); 
-
-    				normalize(probabilities, probabilities, 1, 0, NORM_L1, -1, Mat());
-
-    				cout << outputs << endl;
-    				cout << probabilities << endl;
+						
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
 						//special case to classify second target
@@ -391,14 +370,14 @@ int main(int argc,char** argv)
     					double greatestProbability = 0.0;
     					int identifier = 0;
 
-    					double min, max;
-							Point min_loc, max_loc;
-							minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
+    			// 		double min, max;
+							// Point min_loc, max_loc;
+							// minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
 
-							greatestProbability = max;
-							identifier = max_loc.x;
+							// greatestProbability = max;
+							// identifier = max_loc.x;
 
-    					if(greatestProbability >= 0.7)
+    					if(greatestProbability >= 0.0)
     					{
     						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
@@ -434,8 +413,8 @@ int main(int argc,char** argv)
 							  targets.push_back(person);
     					}
     				}
-				  }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				  }
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
 				}
 		  }
