@@ -1225,20 +1225,20 @@ Keeps adding new targets when all the probabilities are 0.
 \end_layout
 
 \begin_layout Itemize
-Implement Bayes myself (new classifier) - do more than last 10, code as
- last n for now (100 is ~= 4s)
+Implement new classifier - do more than last 10, code as last n for now
+ (100 is ~= 4s)
 \end_layout
 
 \begin_layout Itemize
 
 \series bold
-Store last n, calculate covariance matrix, and then get malanobis distance
+Store last n, calculate covariance matrix, and then get mahalanobis distance
  between the covariance matrix and the new feature vector captured.
  
 \end_layout
 
 \begin_layout Itemize
-Normalise all the malanobis distance to get 'probabilities'
+Normalise all the mahalanobis distance to get 'probabilities'
 \end_layout
 
 \begin_layout Itemize
@@ -1248,7 +1248,7 @@ Superpixels should be logically anded with my foreground mask, need labels
 
 \begin_layout Itemize
 May not need the distance work around I currently have, could just get the
- current malanobis distance and see how large it is.
+ current mahalanobis distance and see how large it is.
  
 \end_layout
 
@@ -1260,6 +1260,26 @@ Use different parameters for the roof cameras
 For results, write out classifications to a file over a short period of
  time and manually get count of positive and negative classifications.
  
+\end_layout
+
+\begin_layout Section*
+Easter Holidays - Notes
+\end_layout
+
+\begin_layout Itemize
+New classifier with mahalanobis distance now implemented and seems to work,
+ but needs 2 classifications per target to be meaningful, and can't just
+ pad it with the same again as will still give 0.
+\end_layout
+
+\begin_layout Itemize
+Need to find a way to either interpret raw mahalanobis distances for reID
+ or convert them to probabilities - got this to work as probabilities.
+\end_layout
+
+\begin_layout Itemize
+Definitely need 2 different vectors per person before passing to the mahalanobis
+ classifier.
 \end_layout
 
 \begin_layout Section*

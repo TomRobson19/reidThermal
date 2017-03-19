@@ -323,8 +323,26 @@ int main(int argc,char** argv)
 								// 	mDistances.push_back(distance); 
 								// }
 							}
+							//mDistances = mDistances.t();
+
+							Mat test = Mat(mDistances); 
+							cout << "Distances" << endl << test << endl;
+
+							double sum = 0.0;
+							for(int i = 0; i<mDistances.size(); i++)
+							{
+								sum += mDistances[i];
+							}
+							for(int i = 0; i<mDistances.size(); i++)
+							{
+								mDistances[i] = sum/mDistances[i];
+							}
 
 							normalize(mDistances,mDistances,1,0,NORM_L1,-1,Mat());
+
+							Mat probs = Mat(mDistances);
+
+							cout << "Probabilities" << endl << probs << endl;
 						}
 						
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
