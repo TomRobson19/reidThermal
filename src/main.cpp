@@ -296,30 +296,32 @@ int main(int argc,char** argv)
 								
 								calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
 
-								cout << i << "data" << data << endl;
+								cout << i << " data" << endl << data << endl;
 
-								cout << i << "Covar" << endl << covar << endl << i << "mean" << endl << mean << endl;
+								cout << i << " Covar" << endl << covar << endl;
 
-								if(targets[i].getFeatures().rows > 1)
-								{
+								cout << i << " mean" << endl << mean << endl;
+
+								//if(targets[i].getFeatures().rows > 0)
+								//{
 									Mat invCovar;
 
 									invert(covar,invCovar,DECOMP_SVD);
 
 									double mDistance = Mahalanobis(feature,mean,invCovar);
 
-									cout << "Mahalanobis Distance" << endl << mDistance << endl;
+									cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
 
 									mDistances.push_back(mDistance);
-								}
-								else
-								{
-									double distance = norm(feature,mean,NORM_L1);
+								//}
+								// else
+								// {
+								// 	double distance = norm(feature,mean,NORM_L1);
 
-									cout << "Norm Distance" << endl << distance << endl;
+								// 	cout << "Norm Distance" << endl << distance << endl;
 
-									mDistances.push_back(distance); 
-								}
+								// 	mDistances.push_back(distance); 
+								// }
 							}
 
 							normalize(mDistances,mDistances,1,0,NORM_L1,-1,Mat());
