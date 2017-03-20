@@ -407,7 +407,7 @@ int main(int argc,char** argv)
 								greatestProbability = max;
 								identifier = max_loc.y;
 
-								cout << greatestProbability << "at" << identifier << endl;
+								cout << greatestProbability << " at " << identifier << endl;
 
 	    					if(greatestProbability >= 0.5)
 	    					{
