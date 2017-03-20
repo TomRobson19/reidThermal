@@ -1279,7 +1279,7 @@ Need to find a way to either interpret raw mahalanobis distances for reID
 
 \begin_layout Itemize
 Definitely need 2 different vectors per person before passing to the mahalanobis
- classifier.
+ classifier - even for first target.
 \end_layout
 
 \begin_layout Itemize

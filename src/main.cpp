@@ -272,7 +272,7 @@ int main(int argc,char** argv)
 
 						  Rect p = person.kalmanPredict();
 
-						  //person.updateFeatures(feature);
+						  person.updateFeatures(feature);
 
 						  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
@@ -302,26 +302,15 @@ int main(int argc,char** argv)
 
 								cout << i << " mean" << endl << mean << endl;
 
-								//if(targets[i].getFeatures().rows > 0)
-								//{
-									Mat invCovar;
+								Mat invCovar;
 
-									invert(covar,invCovar,DECOMP_SVD);
+								invert(covar,invCovar,DECOMP_SVD);
 
-									double mDistance = Mahalanobis(feature,mean,invCovar);
+								double mDistance = Mahalanobis(feature,mean,invCovar);
 
-									cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
+								cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
 
-									mDistances.push_back(mDistance);
-								//}
-								// else
-								// {
-								// 	double distance = norm(feature,mean,NORM_L1);
-
-								// 	cout << "Norm Distance" << endl << distance << endl;
-
-								// 	mDistances.push_back(distance); 
-								// }
+								mDistances.push_back(mDistance);
 							}
 							//mDistances = mDistances.t();
 
@@ -343,96 +332,97 @@ int main(int argc,char** argv)
 							Mat probs = Mat(mDistances);
 
 							cout << "Probabilities" << endl << probs << endl;
-						}
+						
 						
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						
-						//special case to classify second target
-    				if(targets.size() == 1)
-    				{
-    					if(fabs(center.x-targets[0].getLastPosition().x)<100 and fabs(center.y-targets[0].getLastPosition().y)<100)
-    					{
-    						targets[0].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+							//special case to classify second target
+	    				if(targets.size() == 1)
+	    				{
+	    					if(fabs(center.x-targets[0].getLastPosition().x)<100 and fabs(center.y-targets[0].getLastPosition().y)<100)
+	    					{
+	    						targets[0].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
-							  Rect p = targets[0].kalmanPredict();
+								  Rect p = targets[0].kalmanPredict();
 
-					  		targets[0].updateFeatures(feature);
+						  		targets[0].updateFeatures(feature);
 
-							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-							  char str[200];
-							  sprintf(str,"Person %d",targets[0].getIdentifier());
+								  char str[200];
+								  sprintf(str,"Person %d",targets[0].getIdentifier());
 
-							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-    					}
-    					else
-    					{
-    						Person person(1, center.x, center.y, timeSteps, rec.width, rec.height);
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+	    					}
+	    					else
+	    					{
+	    						Person person(1, center.x, center.y, timeSteps, rec.width, rec.height);
 
-							  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-							  
-							  Rect p = person.kalmanPredict();
+								  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+								  
+								  Rect p = person.kalmanPredict();
 
-					  		person.updateFeatures(feature);
+						  		person.updateFeatures(feature);
 
-							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-							  char str[200];
-							  sprintf(str,"Person %d",person.getIdentifier());
+								  char str[200];
+								  sprintf(str,"Person %d",person.getIdentifier());
 
-							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
-							  targets.push_back(person);
-    					}
-    				}
-    				else
-    				{
-    					double greatestProbability = 0.0;
-    					int identifier = 0;
+								  targets.push_back(person);
+	    					}
+	    				}
+	    				else
+	    				{
+	    					double greatestProbability = 0.0;
+	    					int identifier = 0;
 
-    			// 		double min, max;
-							// Point min_loc, max_loc;
-							// minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
+	    			// 		double min, max;
+								// Point min_loc, max_loc;
+								// minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
 
-							// greatestProbability = max;
-							// identifier = max_loc.x;
+								// greatestProbability = max;
+								// identifier = max_loc.x;
 
-    					if(greatestProbability >= 0.0)
-    					{
-    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+	    					if(greatestProbability >= 0.0)
+	    					{
+	    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
-							  Rect p = targets[identifier].kalmanPredict();
+								  Rect p = targets[identifier].kalmanPredict();
 
-					  		targets[identifier].updateFeatures(feature);
+						  		targets[identifier].updateFeatures(feature);
 
-							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-							  char str[200];
-							  sprintf(str,"Person %d",targets[identifier].getIdentifier());
+								  char str[200];
+								  sprintf(str,"Person %d",targets[identifier].getIdentifier());
 
-							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-    					}
-    					else
-    					{
-    						int identifier = targets.size();
-							  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+	    					}
+	    					else
+	    					{
+	    						int identifier = targets.size();
+								  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
 
-							  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-							  
-							  Rect p = person.kalmanPredict();
+								  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+								  
+								  Rect p = person.kalmanPredict();
 
-					  		person.updateFeatures(feature);
+						  		person.updateFeatures(feature);
 
-							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-							  char str[200];
-							  sprintf(str,"Person %d",person.getIdentifier());
+								  char str[200];
+								  sprintf(str,"Person %d",person.getIdentifier());
 
-							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
-							  targets.push_back(person);
-    					}
-    				}
+								  targets.push_back(person);
+	    					}
+	    				}
+	    			}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				  }
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
