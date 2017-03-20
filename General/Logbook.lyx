@@ -1304,6 +1304,10 @@ Classifier now works, but still needs lots of experimentation.
 Considered just using the norm at all times, this needs more thought
 \end_layout
 
+\begin_layout Itemize
+Need to do multi camera before I know if the results make sense
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Implementation Workflow
 \end_layout
