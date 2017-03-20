@@ -304,11 +304,11 @@ int main(int argc,char** argv)
 								
 								calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
 
-								cout << i << " data" << endl << data << endl;
+								// cout << i << " data" << endl << data << endl;
 
-								cout << i << " Covar" << endl << covar << endl;
+								// cout << i << " Covar" << endl << covar << endl;
 
-								cout << i << " mean" << endl << mean << endl;
+								// cout << i << " mean" << endl << mean << endl;
 
 								double mDistance;
 
@@ -400,14 +400,16 @@ int main(int argc,char** argv)
 	    					double greatestProbability = 0.0;
 	    					int identifier = 0;
 
-	    			// 		double min, max;
-								// Point min_loc, max_loc;
-								// minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
+	    					double min, max;
+								Point min_loc, max_loc;
+								minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
 
-								// greatestProbability = max;
-								// identifier = max_loc.x;
+								greatestProbability = max;
+								identifier = max_loc.y;
 
-	    					if(greatestProbability >= 0.0)
+								cout << greatestProbability << "at" << identifier << endl;
+
+	    					if(greatestProbability >= 0.5)
 	    					{
 	    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 

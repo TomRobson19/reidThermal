@@ -1290,6 +1290,20 @@ Could go back to norm code but doesn't give comparable results to mahalanobis.
 If any target only has one feature stored, use norm for all targets
 \end_layout
 
+\begin_layout Itemize
+New problem - new targets - if feature is far from current ones it's prob
+ will be much higher for the highest/lowest value
+\end_layout
+
+\begin_layout Itemize
+Classifier now works, but still needs lots of experimentation.
+ 
+\end_layout
+
+\begin_layout Itemize
+Considered just using the norm at all times, this needs more thought
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Implementation Workflow
 \end_layout
