@@ -1286,6 +1286,10 @@ Definitely need 2 different vectors per person before passing to the mahalanobis
 Could go back to norm code but doesn't give comparable results to mahalanobis.
 \end_layout
 
+\begin_layout Itemize
+If any target only has one feature stored, use norm for all targets
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Implementation Workflow
 \end_layout

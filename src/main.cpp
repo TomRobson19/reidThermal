@@ -287,12 +287,20 @@ int main(int argc,char** argv)
 						else
 						{
 							vector<double> mDistances;
+							bool singleEntry = false;
+
+							for(int i = 0; i<targets.size(); i++)
+							{
+								if(targets[i].getFeatures().rows == 1)
+								{
+									singleEntry = true;
+								}
+							}
 
 							for(int i = 0; i<targets.size(); i++)
 							{
 								Mat covar, mean;
 								Mat data = targets[i].getFeatures();
-
 								
 								calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
 
@@ -302,13 +310,25 @@ int main(int argc,char** argv)
 
 								cout << i << " mean" << endl << mean << endl;
 
-								Mat invCovar;
+								double mDistance;
 
-								invert(covar,invCovar,DECOMP_SVD);
+								if(singleEntry == false)
+								{
+									Mat invCovar;
 
-								double mDistance = Mahalanobis(feature,mean,invCovar);
+									invert(covar,invCovar,DECOMP_SVD);
 
-								cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
+									mDistance = Mahalanobis(feature,mean,invCovar);
+
+									cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
+								}
+								else
+								{
+									mDistance = norm(feature,mean,NORM_L1);
+
+									cout << i << " Norm Distance" << endl << mDistance << endl;
+								}
+								
 
 								mDistances.push_back(mDistance);
 							}
@@ -329,9 +349,9 @@ int main(int argc,char** argv)
 
 							normalize(mDistances,mDistances,1,0,NORM_L1,-1,Mat());
 
-							Mat probs = Mat(mDistances);
+							Mat probabilities = Mat(mDistances);
 
-							cout << "Probabilities" << endl << probs << endl;
+							cout << "Probabilities" << endl << probabilities << endl;
 						
 						
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -374,6 +394,7 @@ int main(int argc,char** argv)
 								  targets.push_back(person);
 	    					}
 	    				}
+
 	    				else
 	    				{
 	    					double greatestProbability = 0.0;
