@@ -23,13 +23,11 @@ Run like this :
 using namespace cv;
 using namespace std;
 using namespace ml;
+using namespace cv::ximgproc;
 
 #include "person.hpp"
 
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
-
-//enable velocity 
-int timeSteps = 0;
 
 vector<Person> targets;
 
@@ -45,9 +43,12 @@ static const char* keys =
 
 int runOnSingleCamera(String file, int featureToUse, int classifier) 
 {
+	//enable velocity 
+	int timeSteps = 0;
+
   string windowName = file; // window name
 
-  Mat img, outputImage, fg_msk;	// image objects
+  Mat img, outputImage, foreground, foregroundTemp;	// image objects
   VideoCapture cap;
 
   bool keepProcessing = true;	// loop control flag
@@ -76,6 +77,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 
 		CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
+    Ptr<SuperpixelSEEDS> seeds;
+
 		// start main loop
 	  while(keepProcessing)
 		{
@@ -102,19 +105,45 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 		  }
 
 		  // update background model and get background/foreground
-		  MoG->apply(img, fg_msk, (double)(1.0/learning));
+		  MoG->apply(img, foreground, (double)(1.0/learning));
+
+/////////////////////////////////////////////////////////////////////////////////SUPERPIXELS
+
+		  // Still not sure which of these lines is needed
+
+		  // Mat seedMask;
+
+		  // int width = foregroundTemp.size().width;
+    	// int height = foregroundTemp.size().height;
+
+    	// seeds = createSuperpixelSEEDS(width, height, 1, 400, 4, 2, 5, false);
+
+    	// seeds->iterate(img, 4);
+
+    	// Mat labels;
+    	// seeds->getLabels(labels);
+
+	    // seeds->getLabelContourMask(seedMask, false);
+
+	    // seedMask.setTo(Scalar(255), seedMask);
+	    
+	    // bitwise_and(foreground, seedMask, foreground);
+
+	    // imshow("foreground", foreground);
+
+/////////////////////////////////////////////////////////////////////////////////
 
 		  // perform erosion - removes boundaries of foreground object
-		  erode(fg_msk, fg_msk, Mat(),Point(),1);
+		  erode(foreground, foreground, Mat(),Point(),1);
 
 		  // perform morphological closing
-		  dilate(fg_msk, fg_msk, Mat(),Point(),5);
-		  erode(fg_msk, fg_msk, Mat(),Point(),1);
+		  dilate(foreground, foreground, Mat(),Point(),5);
+		  erode(foreground, foreground, Mat(),Point(),1);
 
 		  // extract portion of img using foreground mask (colour bit)
 
 		  // get connected components from the foreground
-		  findContours(fg_msk, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+		  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
 		  // iterate through all the top-level contours,
 		  // and get bounding rectangles for them (if larger than given value)
@@ -190,8 +219,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 						Mat regionOfInterestOriginal = img(rec);
 						//Mat regionOfInterestOriginal = img(r);
 
-						Mat regionOfInterestForeground  = fg_msk(rec);
-						//Mat regionOfInterestForeground = fg_msk(r);
+						Mat regionOfInterestForeground  = foreground(rec);
+						//Mat regionOfInterestForeground = foreground(r);
 
 						bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
 
@@ -260,6 +289,14 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 						  feature = Mat(descriptorsValues);
 						}
 
+						else if(featureToUse == 4) //Correlogram
+						{
+
+						}
+						else if(featureToUse == 5) //Flow
+						{
+
+						}
 						feature = feature.t();
 
 						feature.convertTo(feature, CV_64F);
@@ -287,7 +324,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 
 						  targets.push_back(person);
 						}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 						else
 						{
 							vector<double> mDistances;
@@ -332,8 +368,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 
 									cout << i << " Norm Distance" << endl << mDistance << endl;
 								}
-								
-
 								mDistances.push_back(mDistance);
 							}
 							//mDistances = mDistances.t();
@@ -356,10 +390,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 							Mat probabilities = Mat(mDistances);
 
 							cout << "Probabilities" << endl << probabilities << endl;
-						
-						
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-						
+												
 							//special case to classify second target
 	    				if(targets.size() == 1)
 	    				{
