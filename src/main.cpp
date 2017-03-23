@@ -43,22 +43,6 @@ static const char* keys =
     "{c classifier| | HOG,Haar}"
     ;
 
-int main(int argc,char** argv)
-{
-	CommandLineParser cmd(argc,argv,keys);
-  if (cmd.has("help")) {
-      cmd.about("");
-      cmd.printMessage();
-      return 0;
-  }
-  String alphaFile = cmd.get<String>("alpha");
-  String betaFile = cmd.get<String>("beta");
-  String gammaFile = cmd.get<String>("gamma");
-  String deltaFile = cmd.get<String>("delta");
-  int featureToUse = cmd.get<int>("feature");
-  int classifier = cmd.get<int>("classifier");
-}
-
 int runOnSingleCamera(String file, int featureToUse, int classifier) 
 {
   string windowName = file; // window name
@@ -492,3 +476,25 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 	return -1;
 }
 
+int main(int argc,char** argv)
+{
+	CommandLineParser cmd(argc,argv,keys);
+  if (cmd.has("help")) {
+      cmd.about("");
+      cmd.printMessage();
+      return 0;
+  }
+  String alphaFile = cmd.get<String>("alpha");
+  String betaFile = cmd.get<String>("beta");
+  String gammaFile = cmd.get<String>("gamma");
+  String deltaFile = cmd.get<String>("delta");
+  int featureToUse = cmd.get<int>("feature");
+  int classifier = cmd.get<int>("classifier");
+
+  runOnSingleCamera(alphaFile, featureToUse, classifier);
+  runOnSingleCamera(betaFile, featureToUse, classifier);
+  runOnSingleCamera(gammaFile, featureToUse, classifier);
+  runOnSingleCamera(deltaFile, featureToUse, classifier);
+
+  return 0;
+}
