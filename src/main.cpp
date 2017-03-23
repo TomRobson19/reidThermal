@@ -1,3 +1,8 @@
+/*
+Run like this : 
+./main -a=data/Dataset1/alphaInput.webm -b=data/Dataset1/betaInput.webm -g=data/Dataset1/gammaInput.webm -d=data/Dataset1/deltaInput.webm -f=1 -c=1
+*/
+
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
@@ -27,12 +32,34 @@ int timeSteps = 0;
 
 vector<Person> targets;
 
+static const char* keys =
+    "{h help      | | help menu}"
+    "{a alpha     | | alpha file}"
+    "{b beta      | | beta file}"
+    "{g gamma     | | gamma file}"
+    "{d delta     | | delta file}"
+    "{f feature 	| | Hu,Hist,HOG}"
+    "{c classifier| | HOG,Haar}"
+    ;
+
 int main(int argc,char** argv)
 {
-  int featureToUse = atoi(argv[argc-1]); // 1 - Hu, 2 - Histogram of Intensities, 3 - HOG
+	CommandLineParser cmd(argc,argv,keys);
+  if (cmd.has("help")) {
+      cmd.about("");
+      cmd.printMessage();
+      return 0;
+  }
+  String alphaFile = cmd.get<String>("alpha");
+  String betaFile = cmd.get<String>("beta");
+  String gammaFile = cmd.get<String>("gamma");
+  String deltaFile = cmd.get<String>("delta");
+  int featureToUse = cmd.get<int>("feature");
+  int classifier = cmd.get<int>("classifier");
 
   Mat img, outputImage, fg_msk;	// image objects
-  VideoCapture cap;     // capture object
+  VideoCapture cap;
+  VideoCapture capAlpha,capBeta,capGamma,capDelta;     // capture object
 
   const string windowName = "Live Image"; // window name
 
@@ -49,7 +76,7 @@ int main(int argc,char** argv)
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
-  if((argc == 3 && (cap.open(argv[1]) == true)) || (argc != 3 && (cap.open(0) == true)))
+  if((cap.open(alphaFile) == true) && (cap.open(betaFile) == true) && (cap.open(gammaFile) == true) && (cap.open(deltaFile) == true))
   {
 		// create window object (use flag=0 to allow resize, 1 to auto fix size)
 		namedWindow(windowName, 1);
@@ -134,9 +161,7 @@ int main(int argc,char** argv)
 
 				  Mat roi = img(r);
 
-				  int method = 1; //0 for Hog, 1 for cascade
-
-				  if (method == 0)
+				  if (classifier == 0)
 				  {
 						//changing last parameter helps deal with multiple rectangles per person
 						hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 5);
@@ -145,6 +170,7 @@ int main(int argc,char** argv)
 				  {
 						cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,32));
 				  }
+				  
 				  for(size_t i = 0; i < found.size(); i++ )
 				  {
 						Rect rec = found[i];
