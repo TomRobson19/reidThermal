@@ -1,6 +1,7 @@
 /*
 Run like this : 
-./main -a=data/Dataset1/alphaInput.webm -b=data/Dataset1/betaInput.webm -g=data/Dataset1/gammaInput.webm -d=data/Dataset1/deltaInput.webm -f=1 -c=1
+./main -a=data/Dataset1/alphaInput.webm -b=data/Dataset1/betaInput.webm -g=data/Dataset1/gammaInput.webm 
+-d=data/Dataset1/deltaInput.webm -f=1 -c=1
 */
 
 #include <opencv2/core.hpp>
@@ -56,12 +57,14 @@ int main(int argc,char** argv)
   String deltaFile = cmd.get<String>("delta");
   int featureToUse = cmd.get<int>("feature");
   int classifier = cmd.get<int>("classifier");
+}
+
+int runOnSingleCamera(String file, int featureToUse, int classifier) 
+{
+  string windowName = file; // window name
 
   Mat img, outputImage, fg_msk;	// image objects
   VideoCapture cap;
-  VideoCapture capAlpha,capBeta,capGamma,capDelta;     // capture object
-
-  const string windowName = "Live Image"; // window name
 
   bool keepProcessing = true;	// loop control flag
   unsigned char  key;			// user input
@@ -76,7 +79,7 @@ int main(int argc,char** argv)
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
-  if((cap.open(alphaFile) == true) && (cap.open(betaFile) == true) && (cap.open(gammaFile) == true) && (cap.open(deltaFile) == true))
+  if((cap.open(file) == true))
   {
 		// create window object (use flag=0 to allow resize, 1 to auto fix size)
 		namedWindow(windowName, 1);
@@ -93,28 +96,19 @@ int main(int argc,char** argv)
 	  while(keepProcessing)
 		{
 		  int64 timeStart = getTickCount();
-			  // if capture object in use (i.e. video/camera)
-			  // get image from capture object
 
 			if (cap.isOpened())
 		  {
 				cap >> img;
 			
-			if(img.empty())
-			{
-				if (argc == 3)
-			  {
+				if(img.empty())
+				{
 					std::cerr << "End of video file reached" << std::endl;
-				} 
-			  else 
-			  {
-					std::cerr << "ERROR: cannot get next frame from camera" << std::endl;
+					exit(0);
 				}
-				exit(0);
-			}
-			outputImage = img.clone();
+				outputImage = img.clone();
 
-			cvtColor(img, img, CV_BGR2GRAY);
+				cvtColor(img, img, CV_BGR2GRAY);
 			}
 		  else
 		  {
@@ -170,7 +164,7 @@ int main(int argc,char** argv)
 				  {
 						cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,32));
 				  }
-				  
+
 				  for(size_t i = 0; i < found.size(); i++ )
 				  {
 						Rect rec = found[i];
