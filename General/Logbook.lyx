@@ -1305,7 +1305,16 @@ Considered just using the norm at all times, this needs more thought
 \end_layout
 
 \begin_layout Itemize
-Need to do multi camera before I know if the results make sense
+Need to do multi camera before I know if the results make sense.
+\end_layout
+
+\begin_layout Itemize
+Implemented my Command Line Parser.
+\end_layout
+
+\begin_layout Itemize
+Moved most of the code to a different function to enable multiple cameras.
+ 
 \end_layout
 
 \begin_layout Section*
@@ -1318,7 +1327,12 @@ New Classifier as described above - done for now, needs testing on multiple
 \end_layout
 
 \begin_layout Enumerate
-Command Line Parser
+Command Line Parser - done
+\end_layout
+
+\begin_layout Enumerate
+Multiple Cameras - moved most of the code to a different function, now need
+ to do multithreading.
 \end_layout
 
 \begin_layout Enumerate
@@ -1331,10 +1345,6 @@ Correlogram
 
 \begin_layout Enumerate
 Flow
-\end_layout
-
-\begin_layout Enumerate
-Multiple Cameras
 \end_layout
 
 \end_body
