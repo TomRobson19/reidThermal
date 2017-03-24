@@ -17,6 +17,7 @@ Run like this :
 #include <iostream>
 #include <stdexcept>
 #include <stdio.h>
+#include <thread>
 
 #include <opencv2/ximgproc.hpp>
 
@@ -111,51 +112,55 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 
 		  // Still not sure which of these lines is needed
 
-		  Mat seedMask, labels, result;
+		  // Mat seedMask, labels, result;
 
-		  result = img.clone();
+		  // result = img.clone();
 
-		  int width = img.size().width;
-    	int height = img.size().height;
+		  // int width = img.size().width;
+    // 	int height = img.size().height;
 
-    	seeds = createSuperpixelSEEDS(width, height, 1, 400, 4, 2, 5, false);
+    // 	seeds = createSuperpixelSEEDS(width, height, 1, 400, 4, 2, 5, false);
 
-    	seeds->iterate(img, 4);
+    // 	seeds->iterate(img, 4);
 
-    	seeds->getLabels(labels);
+    // 	seeds->getLabels(labels);
 
-	    seeds->getLabelContourMask(seedMask, false);
+	   //  seeds->getLabelContourMask(seedMask, false);
 
-	    result.setTo(Scalar(255), seedMask);
+	   //  result.setTo(Scalar(255), seedMask);
 
-	    // const int num_label_bits = 2;
-	    // &= bitwise and
-     //  labels &= (1 << num_label_bits) - 1;
-     //  labels *= 1 << (16 - num_label_bits);
-     //  imshow("test", labels);
+	   //  // const int num_label_bits = 2;
+	   //  // &= bitwise and
+    //  	// labels &= (1 << num_label_bits) - 1;
+    //  	// labels *= 1 << (16 - num_label_bits);
+    //  	// imshow("test", labels);
 	    
-	    //bitwise_and(foreground, seedMask, foreground);
+	   //  //bitwise_and(foreground, seedMask, foreground);
 
-	    imshow("result", result);
+	   //  imshow("result", result);
 
-	    for(int i = 0; i<seeds->getNumberOfSuperpixels(); i++)
-	    {
-	    	Mat maskPerSuperpixel = labels == i;
-	    }
+	   //  for(int i = 0; i<seeds->getNumberOfSuperpixels(); i++)
+	   //  {
+	   //  	Mat maskPerSuperpixel = labels == i;
+
+	   //  	Mat superpixel_in_img;
+    //     foreground.copyTo(superpixel_in_img, maskPerSuperpixel);
+
+	   //  }
 
 /////////////////////////////////////////////////////////////////////////////////
 
 		  // perform erosion - removes boundaries of foreground object
-		  erode(foreground, foreground, Mat(),Point(),1);
+		  // erode(foreground, foreground, Mat(),Point(),1);
 
 		  // perform morphological closing
-		  dilate(foreground, foreground, Mat(),Point(),5);
-		  erode(foreground, foreground, Mat(),Point(),1);
+		  // dilate(foreground, foreground, Mat(),Point(),5);
+		  // erode(foreground, foreground, Mat(),Point(),1);
 
 		  // extract portion of img using foreground mask (colour bit)
 
 		  // get connected components from the foreground
-		  findContours(result, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+		  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
 		  // iterate through all the top-level contours,
 		  // and get bounding rectangles for them (if larger than given value)
@@ -493,7 +498,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 	    					}
 	    				}
 	    			}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				  }
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
 				}
@@ -523,10 +527,11 @@ int main(int argc,char** argv)
 {
 	CommandLineParser cmd(argc,argv,keys);
   if (cmd.has("help")) {
-      cmd.about("");
-      cmd.printMessage();
-      return 0;
+    cmd.about("");
+    cmd.printMessage();
+    return 0;
   }
+
   String alphaFile = cmd.get<String>("alpha");
   String betaFile = cmd.get<String>("beta");
   String gammaFile = cmd.get<String>("gamma");
@@ -534,10 +539,23 @@ int main(int argc,char** argv)
   int featureToUse = cmd.get<int>("feature");
   int classifier = cmd.get<int>("classifier");
 
-  runOnSingleCamera(alphaFile, featureToUse, classifier);
-  runOnSingleCamera(betaFile, featureToUse, classifier);
-  runOnSingleCamera(gammaFile, featureToUse, classifier);
-  runOnSingleCamera(deltaFile, featureToUse, classifier);
+  runOnSingleCamera(alphaFile, featureToUse, classifier); 
+  runOnSingleCamera(betaFile, featureToUse, classifier); 
+  runOnSingleCamera(gammaFile, featureToUse, classifier); 
+  runOnSingleCamera(deltaFile, featureToUse, classifier); 
+
+  // std::thread t1(runOnSingleCamera, alphaFile, featureToUse, classifier);
+  // std::thread t2(runOnSingleCamera, betaFile, featureToUse, classifier);
+  // std::thread t3(runOnSingleCamera, gammaFile, featureToUse, classifier);
+  // std::thread t4(runOnSingleCamera, deltaFile, featureToUse, classifier);
+
+  // t1.join();
+  // t2.join();
+  // t3.join();
+  // t4.join();
+
+  // put this in cmake file for threading
+  // target_link_libraries(main -pthread)
 
   return 0;
 }
