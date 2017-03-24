@@ -1317,6 +1317,18 @@ Moved most of the code to a different function to enable multiple cameras.
  
 \end_layout
 
+\begin_layout Itemize
+Tried mutithreading - gave errors in linux drivers, given up for now
+\end_layout
+
+\begin_layout Itemize
+Lots of superpixel experimentation
+\end_layout
+
+\begin_layout Itemize
+Seg faults without morphology on for some reason.
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Implementation Workflow
 \end_layout
