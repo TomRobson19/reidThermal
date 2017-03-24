@@ -150,11 +150,11 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 /////////////////////////////////////////////////////////////////////////////////
 
 		  // perform erosion - removes boundaries of foreground object
-		  // erode(foreground, foreground, Mat(),Point(),1);
+		  erode(foreground, foreground, Mat(),Point(),1);
 
 		  // perform morphological closing
-		  // dilate(foreground, foreground, Mat(),Point(),5);
-		  // erode(foreground, foreground, Mat(),Point(),1);
+		  dilate(foreground, foreground, Mat(),Point(),5);
+		  erode(foreground, foreground, Mat(),Point(),1);
 
 		  // extract portion of img using foreground mask (colour bit)
 
