@@ -48,7 +48,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 
   string windowName = file; // window name
 
-  Mat img, outputImage, foreground, foregroundTemp;	// image objects
+  Mat img, outputImage, foreground;	// image objects
   VideoCapture cap;
 
   bool keepProcessing = true;	// loop control flag
@@ -111,25 +111,37 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 
 		  // Still not sure which of these lines is needed
 
-		  // Mat seedMask;
+		  Mat seedMask, labels, result;
 
-		  // int width = foregroundTemp.size().width;
-    	// int height = foregroundTemp.size().height;
+		  result = img.clone();
 
-    	// seeds = createSuperpixelSEEDS(width, height, 1, 400, 4, 2, 5, false);
+		  int width = img.size().width;
+    	int height = img.size().height;
 
-    	// seeds->iterate(img, 4);
+    	seeds = createSuperpixelSEEDS(width, height, 1, 400, 4, 2, 5, false);
 
-    	// Mat labels;
-    	// seeds->getLabels(labels);
+    	seeds->iterate(img, 4);
 
-	    // seeds->getLabelContourMask(seedMask, false);
+    	seeds->getLabels(labels);
 
-	    // seedMask.setTo(Scalar(255), seedMask);
+	    seeds->getLabelContourMask(seedMask, false);
+
+	    result.setTo(Scalar(255), seedMask);
+
+	    // const int num_label_bits = 2;
+	    // &= bitwise and
+     //  labels &= (1 << num_label_bits) - 1;
+     //  labels *= 1 << (16 - num_label_bits);
+     //  imshow("test", labels);
 	    
-	    // bitwise_and(foreground, seedMask, foreground);
+	    //bitwise_and(foreground, seedMask, foreground);
 
-	    // imshow("foreground", foreground);
+	    imshow("result", result);
+
+	    for(int i = 0; i<seeds->getNumberOfSuperpixels(); i++)
+	    {
+	    	Mat maskPerSuperpixel = labels == i;
+	    }
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -143,7 +155,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 		  // extract portion of img using foreground mask (colour bit)
 
 		  // get connected components from the foreground
-		  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+		  findContours(result, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
 		  // iterate through all the top-level contours,
 		  // and get bounding rectangles for them (if larger than given value)
