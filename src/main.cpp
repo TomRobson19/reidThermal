@@ -117,36 +117,35 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 		  // result = img.clone();
 
 		  // int width = img.size().width;
-    // 	int height = img.size().height;
+    	// int height = img.size().height;
 
-    // 	seeds = createSuperpixelSEEDS(width, height, 1, 400, 4, 2, 5, false);
+	    // seeds = createSuperpixelSEEDS(width, height, 1, 400, 4, 2, 5, false);
 
-    // 	seeds->iterate(img, 4);
+  	  // seeds->iterate(img, 4);
 
-    // 	seeds->getLabels(labels);
+    	// seeds->getLabels(labels);
 
-	   //  seeds->getLabelContourMask(seedMask, false);
+	   	// seeds->getLabelContourMask(seedMask, false);
 
-	   //  result.setTo(Scalar(255), seedMask);
+	   	// result.setTo(Scalar(255), seedMask);
 
-	   //  // const int num_label_bits = 2;
-	   //  // &= bitwise and
-    //  	// labels &= (1 << num_label_bits) - 1;
-    //  	// labels *= 1 << (16 - num_label_bits);
-    //  	// imshow("test", labels);
+	    // const int num_label_bits = 2;
+	    // &= bitwise and
+     	// labels &= (1 << num_label_bits) - 1;
+    	// labels *= 1 << (16 - num_label_bits);
+     	// imshow("test", labels);
 	    
-	   //  //bitwise_and(foreground, seedMask, foreground);
+	    // bitwise_and(foreground, seedMask, foreground);
 
-	   //  imshow("result", result);
+	   	// imshow("result", result);
 
-	   //  for(int i = 0; i<seeds->getNumberOfSuperpixels(); i++)
-	   //  {
-	   //  	Mat maskPerSuperpixel = labels == i;
+	   	// for(int i = 0; i<seeds->getNumberOfSuperpixels(); i++)
+	   	// {
+	   	// 	Mat maskPerSuperpixel = labels == i;
 
-	   //  	Mat superpixel_in_img;
-    //     foreground.copyTo(superpixel_in_img, maskPerSuperpixel);
-
-	   //  }
+	   	//  	Mat superpixel_in_img;
+    	//   foreground.copyTo(superpixel_in_img, maskPerSuperpixel);
+	   	// }
 
 /////////////////////////////////////////////////////////////////////////////////
 
