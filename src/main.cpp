@@ -312,13 +312,13 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 							printf("%d\n", maxDist);
 							Mat correlogram(16,16,CV_64FC(maxDist));
 
-							for(int i = 0; i<regionOfInterest.rows; i++)
-							{
-								for(int j = 0; j<regionOfInterest.cols; i++)
-								{
+							// for(int i = 0; i<regionOfInterest.rows; i++)
+							// {
+							// 	for(int j = 0; j<regionOfInterest.cols; i++)
+							// 	{
 									
-								}
-							}
+							// 	}
+							// }
 
 							//use norm to get the distance between 2 pixels, floor division??
 						}
