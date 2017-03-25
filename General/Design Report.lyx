@@ -691,8 +691,8 @@ es.
 
 \begin_layout Enumerate
 \paragraph_spacing single
-Ability to re-identify at least people within a test video sequence in real
- time using multiple cameras.
+Ability to re-identify at least 3 people within a test video sequence in
+ real time using multiple cameras.
 \end_layout
 
 \begin_layout Subsubsection
@@ -708,7 +708,7 @@ Extend this by implementing 2 more state of the art features/attributes.
 
 \begin_layout Enumerate
 \paragraph_spacing single
-Extend the Re-Identification ability to at least 10 people.
+Extend the Re-Identification ability to at least 6 people.
 \end_layout
 
 \begin_layout Section
