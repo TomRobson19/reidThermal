@@ -130,20 +130,16 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 	   	// result.setTo(Scalar(255), seedMask);
 
 	    // const int num_label_bits = 2;
-	    // &= bitwise and
      	// labels &= (1 << num_label_bits) - 1;
     	// labels *= 1 << (16 - num_label_bits);
      	// imshow("test", labels);
 	    
-	    // bitwise_and(foreground, seedMask, foreground);
-
 	   	// imshow("result", result);
 
 	   	// for(int i = 0; i<seeds->getNumberOfSuperpixels(); i++)
 	   	// {
-	   	// 	Mat maskPerSuperpixel = labels == i;
-
-	   	//  	Mat superpixel_in_img;
+	   	// 	 Mat maskPerSuperpixel = labels == i;
+	   	//   Mat superpixel_in_img;
     	//   foreground.copyTo(superpixel_in_img, maskPerSuperpixel);
 	   	// }
 
@@ -155,6 +151,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 		  // perform morphological closing
 		  dilate(foreground, foreground, Mat(),Point(),5);
 		  erode(foreground, foreground, Mat(),Point(),1);
+
+		  //imshow("foreground", foreground);
 
 		  // extract portion of img using foreground mask (colour bit)
 
@@ -307,7 +305,22 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 
 						else if(featureToUse == 4) //Correlogram
 						{
+							//16 bins each containing 16 intensity values
+							//Mat 16 x 16, each entry is an array of probailities of each value being found at distances of the index
+							int maxDist = floor(norm(Point(0,0)-Point(regionOfInterest.cols,regionOfInterest.rows)));
 
+							printf("%d\n", maxDist);
+							Mat correlogram(16,16,CV_64FC(maxDist));
+
+							for(int i = 0; i<regionOfInterest.rows; i++)
+							{
+								for(int j = 0; j<regionOfInterest.cols; i++)
+								{
+									
+								}
+							}
+
+							//use norm to get the distance between 2 pixels, floor division??
 						}
 						else if(featureToUse == 5) //Flow
 						{
