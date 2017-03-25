@@ -1329,6 +1329,30 @@ Lots of superpixel experimentation
 Seg faults without morphology on for some reason.
 \end_layout
 
+\begin_layout Itemize
+When greg has his arms crossed in the video, Haar doesn't classify him.
+\end_layout
+
+\begin_layout Section*
+Easter Holidays - Key Issues
+\end_layout
+
+\begin_layout Itemize
+Should HuMoments operate on the resized ROI or not?
+\end_layout
+
+\begin_layout Itemize
+Still need to establish best HOG parameters
+\end_layout
+
+\begin_layout Itemize
+Edit video files - doen now, took a few secs off beginning and synced up.
+\end_layout
+
+\begin_layout Itemize
+Cars in Dataset 3
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Implementation Workflow
 \end_layout
