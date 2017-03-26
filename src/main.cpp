@@ -317,8 +317,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 							
 							//Mat correlogram(16,16,CV_64FC(maxDist));
 							
-							Mat correlogram(16,16,CV_64F);
-							Mat occurances(16,16,CV_64F);
+							Mat correlogram(8,8,CV_64F);
+							Mat occurances(8,8,CV_8U);
 
 							int xIntensity, yIntensity;
 
@@ -326,15 +326,15 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 							{
 								for(int j = 0; j<regionOfInterest.cols; j++)
 								{
-									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/16);
+									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/32);
 
-									for(int k = 0; k<regionOfInterest.rows; k++)
+									for(int k = i; k<regionOfInterest.rows; k++)
 									{
 										for(int l = 0; l<regionOfInterest.cols; l++)
 										{
-											if(i != k && j != l)
+											if((k == i && l > j) || k > i)
 											{
-												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/16);
+												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
 
 												// cout << xIntensity << " -- " << k << "   " << l << "   " << regionOfInterest.at<unsigned char>(k,l) << "    " << yIntensity << endl;
 
@@ -343,8 +343,10 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 												// cout << "norm" <<(norm(Point(i,j)-Point(k,l))) << endl;
 											
 												correlogram.at<double>(xIntensity,yIntensity) += (norm(Point(i,j)-Point(k,l)));
+												correlogram.at<double>(yIntensity,xIntensity) += (norm(Point(i,j)-Point(k,l)));
 												
-												occurances.at<int>(xIntensity,yIntensity) += 1;
+												occurances.at<unsigned char>(xIntensity,yIntensity) += 1;
+												occurances.at<unsigned char>(yIntensity,xIntensity) += 1;
 											}
 										}
 									}
@@ -355,12 +357,11 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 							{
 								for(int j = 0; j<correlogram.cols; j++)
 								{
-									correlogram.at<double>(i,j) /= occurances.at<int>(xIntensity,yIntensity);
+									correlogram.at<double>(i,j) = occurances.at<unsigned char>(i,j);
 								}
 							}
 
 							feature = correlogram.reshape(1,1);
-
 						}
 						else if(featureToUse == 5) //Flow
 						{
