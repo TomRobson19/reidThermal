@@ -280,6 +280,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 						  hu.assign(huMoments,huMoments+7);
 
               feature = Mat(hu);
+              feature = feature.t();
 						}
 						else if(featureToUse == 2) //HistogramOfIntensities
 						{
@@ -291,6 +292,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 						  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
 
 						  feature = hist.clone();
+						  feature = feature.t();
 						}
 
 						else if(featureToUse == 3) //HOG
@@ -301,32 +303,69 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 						  descriptor.compute(regionOfInterest, descriptorsValues);
 
 						  feature = Mat(descriptorsValues);
+						  feature = feature.t();
 						}
 
 						else if(featureToUse == 4) //Correlogram
 						{
 							//16 bins each containing 16 intensity values
 							//Mat 16 x 16, each entry is an array of probailities of each value being found at distances of the index
-							int maxDist = floor(norm(Point(0,0)-Point(regionOfInterest.cols,regionOfInterest.rows)));
+							
+							//int maxDist = floor(norm(Point(0,0)-Point(regionOfInterest.cols,regionOfInterest.rows)));
 
-							printf("%d\n", maxDist);
-							Mat correlogram(16,16,CV_64FC(maxDist));
+							//printf("%d\n", maxDist);
+							
+							//Mat correlogram(16,16,CV_64FC(maxDist));
+							
+							Mat correlogram(16,16,CV_64F);
+							Mat occurances(16,16,CV_64F);
 
-							// for(int i = 0; i<regionOfInterest.rows; i++)
-							// {
-							// 	for(int j = 0; j<regionOfInterest.cols; i++)
-							// 	{
-									
-							// 	}
-							// }
+							int xIntensity, yIntensity;
 
-							//use norm to get the distance between 2 pixels, floor division??
+							for(int i = 0; i<regionOfInterest.rows; i++)
+							{
+								for(int j = 0; j<regionOfInterest.cols; j++)
+								{
+									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/16);
+
+									for(int k = 0; k<regionOfInterest.rows; k++)
+									{
+										for(int l = 0; l<regionOfInterest.cols; l++)
+										{
+											if(i != k && j != l)
+											{
+												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/16);
+
+												// cout << xIntensity << " -- " << k << "   " << l << "   " << regionOfInterest.at<unsigned char>(k,l) << "    " << yIntensity << endl;
+
+												// cout << correlogram.at<double>(xIntensity,yIntensity) << endl;
+
+												// cout << "norm" <<(norm(Point(i,j)-Point(k,l))) << endl;
+											
+												correlogram.at<double>(xIntensity,yIntensity) += (norm(Point(i,j)-Point(k,l)));
+												
+												occurances.at<int>(xIntensity,yIntensity) += 1;
+											}
+										}
+									}
+								}
+							}
+							//average it out
+							for(int i = 0; i<correlogram.rows; i++)
+							{
+								for(int j = 0; j<correlogram.cols; j++)
+								{
+									correlogram.at<double>(i,j) /= occurances.at<int>(xIntensity,yIntensity);
+								}
+							}
+
+							feature = correlogram.reshape(1,1);
+
 						}
 						else if(featureToUse == 5) //Flow
 						{
 
 						}
-						feature = feature.t();
 
 						feature.convertTo(feature, CV_64F);
 

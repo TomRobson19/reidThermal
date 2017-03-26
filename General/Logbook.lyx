@@ -1333,6 +1333,14 @@ Seg faults without morphology on for some reason.
 When greg has his arms crossed in the video, Haar doesn't classify him.
 \end_layout
 
+\begin_layout Itemize
+Edited videos in src folder, unedited in data folder out of repo.
+\end_layout
+
+\begin_layout Itemize
+Correlogram variant now works, very slow though.
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout
@@ -1346,11 +1354,25 @@ Still need to establish best HOG parameters
 \end_layout
 
 \begin_layout Itemize
-Edit video files - doen now, took a few secs off beginning and synced up.
+Edit video files - done now, took a few secs off beginning and synced up.
 \end_layout
 
 \begin_layout Itemize
 Cars in Dataset 3
+\end_layout
+
+\begin_layout Itemize
+Seg faults without morphology on for some reason.
+\end_layout
+
+\begin_layout Itemize
+When greg has his arms crossed in the video, Haar doesn't classify him.
+\end_layout
+
+\begin_layout Itemize
+Done a slightly different implementation of correlogram, getting the average
+ separation of pixel intensity ranges, then normalising.
+ 
 \end_layout
 
 \begin_layout Section*
@@ -1376,7 +1398,7 @@ Superpixels - begun experimenting with this
 \end_layout
 
 \begin_layout Enumerate
-Correlogram
+Correlogram - variant of.
 \end_layout
 
 \begin_layout Enumerate
