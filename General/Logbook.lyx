@@ -616,8 +616,6 @@ Implemented Person class ready for next step.
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
 Research Question 
 \begin_inset Quotes eld
 \end_inset
@@ -627,9 +625,7 @@ Which features of a human target are appropriate to facilitate re-identification
 \begin_inset Quotes erd
 \end_inset
 
- 
-\series default
-(needs rewording, Toby is happy with this)
+ (needs rewording, Toby is happy with this)
 \end_layout
 
 \begin_layout Itemize
@@ -736,14 +732,10 @@ Current understanding is that I will need to use multi-threading to enable
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
 FOR DESIGN REPORT, REFERENCE ORIGINAL PAPERS BEHIND OPENCV FUNCTIONS - done
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
 ENSURE EACH FIGURE IS EXPLAINED IN DETAIL
 \end_layout
 
@@ -758,29 +750,19 @@ Adding new targets was overwriting all previous targets, this has now been
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
-ENSURE PRESENTATION IS PITCHED AT SLIGHTLY LOWER LEVEL 
-\series default
-(feedback from BAE)
+ENSURE PRESENTATION IS PITCHED AT SLIGHTLY LOWER LEVEL (feedback from BAE)
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
 Perhaps something based on the optic flow inside the bounding box from several
  frames (captures gait characteristics).
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
 Look into Histogram of Flow (HOF)
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
 Saliency may be an interesting feature, look at paper on Toby's email
 \end_layout
 
@@ -821,8 +803,6 @@ Compare using euclidean distance of vectors
 \end_layout
 
 \begin_layout Itemize
-
-\series bold
 Add flow charts/UML diagrams to DR
 \end_layout
 
@@ -1379,33 +1359,41 @@ Done a slightly different implementation of correlogram, getting the average
  
 \end_layout
 
+\begin_layout Itemize
+Should I/how do I reference opencv documentation, or explanations of concepts
+ e.g.
+ flow
+\end_layout
+
 \begin_layout Section*
-Easter Holidays - Implementation Workflow
+Easter Holidays - Implementation Goals
 \end_layout
 
-\begin_layout Enumerate
+\begin_layout Itemize
 New Classifier as described above - done for now, needs testing on multiple
- cameras
+ cameras to work out the best solution for edge cases 
 \end_layout
 
-\begin_layout Enumerate
+\begin_layout Itemize
 Command Line Parser - done
 \end_layout
 
-\begin_layout Enumerate
+\begin_layout Itemize
 Multiple Cameras - moved most of the code to a different function, now need
- to do multithreading.
+ to do multithreading, if this is indeed the solution.
 \end_layout
 
-\begin_layout Enumerate
+\begin_layout Itemize
 Superpixels - begun experimenting with this
 \end_layout
 
-\begin_layout Enumerate
-Correlogram - variant of.
+\begin_layout Itemize
+Correlogram - variant of this implemented, seems only way to make it run
+ at a decent speed, mahalanobis distances look promising for this being
+ a good feature.
 \end_layout
 
-\begin_layout Enumerate
+\begin_layout Itemize
 Flow
 \end_layout
 
