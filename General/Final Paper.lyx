@@ -734,7 +734,7 @@ Extend the Re-Identification ability to at least 6 people.
 \end_layout
 
 \begin_layout Section
-Related Work
+Related Work - FILTER THIS FOR RELEVANCE AND ADD NEW STUFF
 \end_layout
 
 \begin_layout Subsection
@@ -1249,7 +1249,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename Subsystems.png
-	scale 30
+	scale 20
 
 \end_inset
 
@@ -1287,7 +1287,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename Project Activity Diagram2.png
-	scale 70
+	scale 40
 
 \end_inset
 
@@ -1300,7 +1300,7 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Structure of Code
+Process Followed by Implementation
 \end_layout
 
 \end_inset
