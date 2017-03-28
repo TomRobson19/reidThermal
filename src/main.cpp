@@ -179,7 +179,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 			  erode(foreground, foreground, Mat(),Point(),1);
 			}
 		  //imshow("foreground", foreground);
-		  
+
 		  // get connected components from the foreground
 		  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
@@ -331,16 +331,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 						}
 
 						else if(featureToUse == 4) //Correlogram
-						{
-							//16 bins each containing 16 intensity values
-							//Mat 16 x 16, each entry is an array of probailities of each value being found at distances of the index
-							
-							//int maxDist = floor(norm(Point(0,0)-Point(regionOfInterest.cols,regionOfInterest.rows)));
-
-							//printf("%d\n", maxDist);
-							
-							//Mat correlogram(16,16,CV_64FC(maxDist));
-							
+						{					
 							Mat correlogram(8,8,CV_64F);
 							Mat occurances(8,8,CV_8U);
 
@@ -359,12 +350,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 											if((k == i && l > j) || k > i)
 											{
 												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
-
-												// cout << xIntensity << " -- " << k << "   " << l << "   " << regionOfInterest.at<unsigned char>(k,l) << "    " << yIntensity << endl;
-
-												// cout << correlogram.at<double>(xIntensity,yIntensity) << endl;
-
-												// cout << "norm" <<(norm(Point(i,j)-Point(k,l))) << endl;
 											
 												correlogram.at<double>(xIntensity,yIntensity) += (norm(Point(i,j)-Point(k,l)));
 												correlogram.at<double>(yIntensity,xIntensity) += (norm(Point(i,j)-Point(k,l)));
@@ -463,8 +448,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 								}
 								mDistances.push_back(mDistance);
 							}
-							//mDistances = mDistances.t();
-
+							
 							Mat test = Mat(mDistances); 
 							cout << "Distances" << endl << test << endl;
 
