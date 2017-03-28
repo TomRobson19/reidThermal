@@ -1335,7 +1335,8 @@ works
 \begin_inset Quotes erd
 \end_inset
 
-, but isn't very good, done quite a lot of parameter experimentation.
+, but isn't very good, and doesn't work with contou extraction etc, no red
+ box drawn, done quite a lot of parameter experimentation.
 \end_layout
 
 \begin_layout Section*
