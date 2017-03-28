@@ -1389,7 +1389,7 @@ New Classifier as described above - done for now, needs testing on multiple
 \end_layout
 
 \begin_layout Itemize
-Command Line Parser - done
+Command Line Parser - DONE
 \end_layout
 
 \begin_layout Itemize
@@ -1404,7 +1404,7 @@ Superpixels - begun experimenting with this, works but isn't very good
 \begin_layout Itemize
 Correlogram - variant of this implemented, seems only way to make it run
  at a decent speed, mahalanobis distances look promising for this being
- a good feature.
+ a good feature - DONE FOR NOW
 \end_layout
 
 \begin_layout Itemize
