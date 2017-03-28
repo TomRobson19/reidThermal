@@ -1384,7 +1384,7 @@ Easter Holidays - Implementation Goals
 \end_layout
 
 \begin_layout Itemize
-New Classifier as described above - done for now, needs testing on multiple
+New Classifier as described above - DONE for now, needs testing on multiple
  cameras to work out the best solution for edge cases 
 \end_layout
 
@@ -1398,7 +1398,7 @@ Multiple Cameras - moved most of the code to a different function, now need
 \end_layout
 
 \begin_layout Itemize
-Superpixels - begun experimenting with this, works but isn't very good
+Superpixels - works but isn't very good, DONE plenty of parameter experiments
 \end_layout
 
 \begin_layout Itemize

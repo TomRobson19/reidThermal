@@ -33,16 +33,15 @@ using namespace cv::ximgproc;
 vector<Person> targets;
 
 static const char* keys =
-    "{h help      | | help menu}"
-    "{a alpha     | | alpha file}"
-    "{b beta      | | beta file}"
-    "{g gamma     | | gamma file}"
-    "{d delta     | | delta file}"
-    "{f feature 	| | Hu,Hist,HOG}"
-    "{c classifier| | HOG,Haar}"
-    ;
-
-int runOnSingleCamera(String file, int featureToUse, int classifier) 
+    ("{h help       | | help menu}"
+     "{a alpha      | | alpha file}"
+     "{b beta       | | beta file}"
+     "{g gamma      | | gamma file}"
+     "{d delta      | | delta file}"
+     "{f feature 	  | | 1 - Hu, 2 - Hist, 3 - HOG, 4 - Correlogram, 5 - Flow}"
+     "{c classifier | | 0 - HOG, 1 - Haar}");
+ 
+int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
 {
 	//enable velocity 
 	int timeSteps = 0;
@@ -448,7 +447,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 								}
 								mDistances.push_back(mDistance);
 							}
-							
+
 							Mat test = Mat(mDistances); 
 							cout << "Distances" << endl << test << endl;
 
@@ -586,8 +585,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 int main(int argc,char** argv)
 {
 	CommandLineParser cmd(argc,argv,keys);
-  if (cmd.has("help")) {
-    cmd.about("");
+  if (cmd.has("help")) 
+  {
     cmd.printMessage();
     return 0;
   }
