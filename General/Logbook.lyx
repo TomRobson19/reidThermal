@@ -1322,7 +1322,20 @@ Correlogram variant now works, very slow though.
 \end_layout
 
 \begin_layout Itemize
-Adjusting parameters, need balance between speed and efficiency
+Adjusting parameters, need balance between speed and efficiency - seem to
+ have found an acceptable compromise
+\end_layout
+
+\begin_layout Itemize
+Superpixels now 
+\begin_inset Quotes eld
+\end_inset
+
+works
+\begin_inset Quotes erd
+\end_inset
+
+, but isn't very good, done quite a lot of parameter experimentation.
 \end_layout
 
 \begin_layout Section*
@@ -1384,17 +1397,22 @@ Multiple Cameras - moved most of the code to a different function, now need
 \end_layout
 
 \begin_layout Itemize
-Superpixels - begun experimenting with this
+Superpixels - begun experimenting with this, works but isn't very good
 \end_layout
 
 \begin_layout Itemize
 Correlogram - variant of this implemented, seems only way to make it run
  at a decent speed, mahalanobis distances look promising for this being
- a good feature.
+ a good feature.
 \end_layout
 
 \begin_layout Itemize
 Flow
+\end_layout
+
+\begin_layout Itemize
+Experiment with HOG and Haar parameters to stop them recognising small parts
+ of people, maybe have different parameters from camera delta.
 \end_layout
 
 \end_body
