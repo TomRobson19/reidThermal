@@ -108,54 +108,78 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 		  // update background model and get background/foreground
 		  MoG->apply(img, foreground, (double)(1.0/learning));
 
+		  //imshow("old foreground", foreground);
+
 /////////////////////////////////////////////////////////////////////////////////SUPERPIXELS
+		  int useSuperpixels = 0;
+		  
+		  if(useSuperpixels == 1)
+			{
+			  Mat seedMask, labels, result;
 
-		  // Still not sure which of these lines is needed
+			  result = img.clone();
 
-		  // Mat seedMask, labels, result;
+			  int width = img.size().width;
+	    	int height = img.size().height;
 
-		  // result = img.clone();
+		    seeds = createSuperpixelSEEDS(width, height, 1, 2000, 10, 2, 5, true);
 
-		  // int width = img.size().width;
-    	// int height = img.size().height;
+	  	  seeds->iterate(img, 10);
 
-	    // seeds = createSuperpixelSEEDS(width, height, 1, 400, 4, 2, 5, false);
+	    	seeds->getLabels(labels);
 
-  	  // seeds->iterate(img, 4);
+	    	vector<int> counter(seeds->getNumberOfSuperpixels(),0);
+	    	vector<int> numberOfPixelsPerSuperpixel(seeds->getNumberOfSuperpixels(),0);
 
-    	// seeds->getLabels(labels);
+	    	vector<bool> useSuperpixel(seeds->getNumberOfSuperpixels(),false);
 
-	   	// seeds->getLabelContourMask(seedMask, false);
+	    	for(int i = 0; i<foreground.rows; i++)
+	    	{
+	    		for(int j = 0; j<foreground.cols; j++)
+	    		{
+	    			numberOfPixelsPerSuperpixel[labels.at<int>(i,j)] += 1;
+	    			if(foreground.at<unsigned char>(i,j)==255)
+	    			{
+	    				counter[labels.at<int>(i,j)] += 1;
+	    			}
+	    		}
+	    	}
 
-	   	// result.setTo(Scalar(255), seedMask);
+	    	for(int i = 0; i<counter.size(); i++)
+	    	{
+	    		if(counter[i]/numberOfPixelsPerSuperpixel[i] > 0.0001)
+	    		{
+	    			useSuperpixel[i] = true;
+	    		}
+	    	}
 
-	    // const int num_label_bits = 2;
-     	// labels &= (1 << num_label_bits) - 1;
-    	// labels *= 1 << (16 - num_label_bits);
-     	// imshow("test", labels);
-	    
-	   	// imshow("result", result);
-
-	   	// for(int i = 0; i<seeds->getNumberOfSuperpixels(); i++)
-	   	// {
-	   	// 	 Mat maskPerSuperpixel = labels == i;
-	   	//   Mat superpixel_in_img;
-    	//   foreground.copyTo(superpixel_in_img, maskPerSuperpixel);
-	   	// }
-
+	    	for(int i = 0; i<foreground.rows; i++)
+	    	{
+	    		for(int j = 0; j<foreground.cols; j++)
+	    		{
+	    			if(useSuperpixel[labels.at<int>(i,j)] == true)
+	    			{
+	    				foreground.at<unsigned char>(i,j) = 255;
+	    			}
+	    			else
+	    			{
+	    				foreground.at<unsigned char>(i,j) = 0;
+	    			}
+	    		}
+	    	}
+			}
 /////////////////////////////////////////////////////////////////////////////////
+			else
+			{
+			  // perform erosion - removes boundaries of foreground object
+			  erode(foreground, foreground, Mat(),Point(),1);
 
-		  // perform erosion - removes boundaries of foreground object
-		  erode(foreground, foreground, Mat(),Point(),1);
-
-		  // perform morphological closing
-		  dilate(foreground, foreground, Mat(),Point(),5);
-		  erode(foreground, foreground, Mat(),Point(),1);
-
+			  // perform morphological closing
+			  dilate(foreground, foreground, Mat(),Point(),5);
+			  erode(foreground, foreground, Mat(),Point(),1);
+			}
 		  //imshow("foreground", foreground);
-
-		  // extract portion of img using foreground mask (colour bit)
-
+		  
 		  // get connected components from the foreground
 		  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
@@ -180,7 +204,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier)
 				{
 				  vector<Rect> found, found_filtered;
 
-				  Mat roi = img(r);
+				  Mat roi = outputImage(r);
 
 				  if (classifier == 0)
 				  {
