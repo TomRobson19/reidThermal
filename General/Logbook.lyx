@@ -1353,6 +1353,11 @@ Can now keep track of what camera each person was last seen in.
 TRY MAKING 2ND PART HOG/HAAR PARAMETER LARGER THAN THE 1ST 
 \end_layout
 
+\begin_layout Itemize
+Multithreading works with the targets array local and no namedWindow or
+ imshow calls, still working on this
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout

@@ -31,13 +31,15 @@ using namespace cv::ximgproc;
 
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
 
-vector<Person> targets;
-
 static const char* keys =
     ("{h help       | | Help Menu}"
      "{d dataset    | | Dataset - 1, 2, 3}"
      "{f feature    | | 1 - Hu, 2 - Hist, 3 - HOG, 4 - Correlogram, 5 - Flow}"
      "{c classifier | | 1 - HOG, 2 - Haar}");
+
+std::mutex m;
+std::condition_variable cv;
+vector<Person> targets;
  
 int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
 {
@@ -649,7 +651,7 @@ int main(int argc,char** argv)
   t3.join();
   t4.join();
 
-  
+
   // put this in cmake file for threading
   // target_link_libraries(main -pthread)
 
