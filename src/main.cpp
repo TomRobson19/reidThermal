@@ -208,11 +208,25 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 				  if (classifier == 0)
 				  {
 						//changing last parameter helps deal with multiple rectangles per person
-						hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 5);
+						if (cameraID == 3)
+						{
+							hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 5);
+						}
+						else
+						{
+							hog.detectMultiScale(roi, found, 0, Size(8,8), Size(64,64), 1.05, 5);
+						}
 				  }
 				  else 
 				  {
-						cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,32));
+				  	if (cameraID == 3)
+				  	{
+				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,32));
+				  	}
+				  	else
+				  	{
+				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,64));
+				  	}
 				  }
 
 				  for(size_t i = 0; i < found.size(); i++ )
@@ -598,10 +612,10 @@ int main(int argc,char** argv)
   int featureToUse = cmd.get<int>("feature");
   int classifier = cmd.get<int>("classifier");
 
-  runOnSingleCamera(alphaFile, featureToUse, classifier); 
-  runOnSingleCamera(betaFile, featureToUse, classifier); 
-  runOnSingleCamera(gammaFile, featureToUse, classifier); 
-  runOnSingleCamera(deltaFile, featureToUse, classifier); 
+  runOnSingleCamera(alphaFile, featureToUse, classifier, 0); 
+  runOnSingleCamera(betaFile, featureToUse, classifier, 1); 
+  runOnSingleCamera(gammaFile, featureToUse, classifier, 2); 
+  runOnSingleCamera(deltaFile, featureToUse, classifier, 3); 
 
   // std::thread t1(runOnSingleCamera, alphaFile, featureToUse, classifier);
   // std::thread t2(runOnSingleCamera, betaFile, featureToUse, classifier);

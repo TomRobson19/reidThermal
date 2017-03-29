@@ -1339,6 +1339,12 @@ works
  box drawn, done quite a lot of parameter experimentation.
 \end_layout
 
+\begin_layout Itemize
+HOG and Haar parameters adjusted to accommodate roof camera, and make ground
+ camera not identify small parts of people.
+  
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout
@@ -1413,7 +1419,7 @@ Flow
 
 \begin_layout Itemize
 Experiment with HOG and Haar parameters to stop them recognising small parts
- of people, maybe have different parameters from camera delta.
+ of people, maybe have different parameters from camera delta - DONE
 \end_layout
 
 \end_body
