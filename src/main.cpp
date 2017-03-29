@@ -35,7 +35,7 @@ static const char* keys =
     ("{h help       | | Help Menu}"
      "{d dataset    | | Dataset - 1, 2, 3}"
      "{f feature    | | 1 - Hu, 2 - Hist, 3 - HOG, 4 - Correlogram, 5 - Flow}"
-     "{c classifier | | 0 - HOG, 1 - Haar}");
+     "{c classifier | | 1 - HOG, 2 - Haar}");
  
 int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
 {
@@ -201,7 +201,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 				  Mat roi = outputImage(r);
 
-				  if (classifier == 0)
+				  if (classifier == 1)
 				  {
 						//changing last parameter helps deal with multiple rectangles per person
 						if (cameraID == 3)
