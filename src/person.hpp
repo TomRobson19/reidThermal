@@ -23,6 +23,7 @@ class Person
 {
 private: 
 	int personIdentifier;
+	int currentCamera;
 	vector<cv::Mat_<float> > history;
 	int lastSeen;
 	cv::KalmanFilter KF;
@@ -40,6 +41,10 @@ public:
 	int getLastSeen();
 
 	Point2f getLastPosition();
+
+	void setCurrentCamera(int cameraID);
+
+	int getCurrentCamera();
 
 	void initKalman(float x, float y, int timeSteps, float w, float h);
 

@@ -1342,7 +1342,11 @@ works
 \begin_layout Itemize
 HOG and Haar parameters adjusted to accommodate roof camera, and make ground
  camera not identify small parts of people.
-  
+ 
+\end_layout
+
+\begin_layout Itemize
+Can now keep track of what camera each person was last seen in.
 \end_layout
 
 \begin_layout Section*

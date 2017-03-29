@@ -42,6 +42,16 @@ Point2f Person::getLastPosition() {
 	return position;
 }
 
+void Person::setCurrentCamera(int cameraID)
+{
+  currentCamera = cameraID;
+}
+
+int Person::getCurrentCamera()
+{
+  return currentCamera;
+}
+
 void Person::initKalman(float x, float y, int timeSteps, float w, float h) {
   KF.init(6, 6, 0);  //position(x,y) velocity(x,y) rectangle(h,w)
 

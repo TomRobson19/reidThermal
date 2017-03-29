@@ -406,6 +406,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						  person.updateFeatures(feature);
 
+						  person.setCurrentCamera(cameraID);
+
 						  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
 						  char str[200];
@@ -492,6 +494,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						  		targets[0].updateFeatures(feature);
 
+						  		targets[0].setCurrentCamera(cameraID);
+
 								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
 								  char str[200];
@@ -508,6 +512,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								  Rect p = person.kalmanPredict();
 
 						  		person.updateFeatures(feature);
+
+						  		person.setCurrentCamera(cameraID);
 
 								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
@@ -542,6 +548,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						  		targets[identifier].updateFeatures(feature);
 
+						  		targets[identifier].setCurrentCamera(cameraID);
+
 								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
 								  char str[200];
@@ -559,6 +567,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								  Rect p = person.kalmanPredict();
 
 						  		person.updateFeatures(feature);
+
+						  		person.setCurrentCamera(cameraID);
 
 								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
