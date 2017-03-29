@@ -1,7 +1,6 @@
 /*
 Run like this : 
-./main -a=data/Dataset1/alphaInput.webm -b=data/Dataset1/betaInput.webm -g=data/Dataset1/gammaInput.webm 
--d=data/Dataset1/deltaInput.webm -f=1 -c=1
+./main -d=1 -f=1 -c=1
 */
 
 #include <opencv2/core.hpp>
@@ -33,12 +32,9 @@ using namespace cv::ximgproc;
 vector<Person> targets;
 
 static const char* keys =
-    ("{h help       | | help menu}"
-     "{a alpha      | | alpha file}"
-     "{b beta       | | beta file}"
-     "{g gamma      | | gamma file}"
-     "{d delta      | | delta file}"
-     "{f feature 	  | | 1 - Hu, 2 - Hist, 3 - HOG, 4 - Correlogram, 5 - Flow}"
+    ("{h help       | | Help Menu}"
+     "{d dataset    | | Dataset - 1, 2, 3}"
+     "{f feature    | | 1 - Hu, 2 - Hist, 3 - HOG, 4 - Correlogram, 5 - Flow}"
      "{c classifier | | 0 - HOG, 1 - Haar}");
  
 int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
@@ -615,12 +611,16 @@ int main(int argc,char** argv)
     return 0;
   }
 
-  String alphaFile = cmd.get<String>("alpha");
-  String betaFile = cmd.get<String>("beta");
-  String gammaFile = cmd.get<String>("gamma");
-  String deltaFile = cmd.get<String>("delta");
+  int datasetToUse = cmd.get<int>("dataset");
   int featureToUse = cmd.get<int>("feature");
   int classifier = cmd.get<int>("classifier");
+
+  String directory = "data/Dataset" + to_string(datasetToUse);
+
+  String alphaFile = directory + "/alphaInput.webm";
+  String betaFile = directory + "/betaInput.webm";
+  String gammaFile = directory + "/gammaInput.webm";
+  String deltaFile = directory + "/deltaInput.webm";
 
   runOnSingleCamera(alphaFile, featureToUse, classifier, 0); 
   runOnSingleCamera(betaFile, featureToUse, classifier, 1); 
