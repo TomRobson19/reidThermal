@@ -23,3 +23,5 @@ General/*
 src/data/
 
 src/exampleVideos/
+
+src/Makefile

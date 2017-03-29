@@ -1335,8 +1335,8 @@ works
 \begin_inset Quotes erd
 \end_inset
 
-, but isn't very good, and doesn't work with contou extraction etc, no red
- box drawn, done quite a lot of parameter experimentation.
+, but isn't very good, and doesn't work with contour extraction etc, no
+ red box drawn, done quite a lot of parameter experimentation.
 \end_layout
 
 \begin_layout Itemize
@@ -1349,6 +1349,10 @@ HOG and Haar parameters adjusted to accommodate roof camera, and make ground
 Can now keep track of what camera each person was last seen in.
 \end_layout
 
+\begin_layout Itemize
+TRY MAKING 2ND PART HOG/HAAR PARAMETER LARGER THAN THE 1ST 
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout
@@ -1358,7 +1362,7 @@ Should HuMoments operate on the resized ROI or not?
 \end_layout
 
 \begin_layout Itemize
-Still need to establish best HOG parameters
+Still need to establish best HOG parameters for feature
 \end_layout
 
 \begin_layout Itemize
@@ -1387,6 +1391,15 @@ Done a slightly different implementation of correlogram, getting the average
 Should I/how do I reference opencv documentation, or explanations of concepts
  e.g.
  flow
+\end_layout
+
+\begin_layout Itemize
+HOG NOT WORKING WITH NEW PARAMETERS, MAYBE REMOVE, NOT REALLY BRINGING ANYTHING
+ EXTRA THAN HAAR
+\end_layout
+
+\begin_layout Itemize
+Multithreading giving a huge variety of GTK errors
 \end_layout
 
 \begin_layout Section*
