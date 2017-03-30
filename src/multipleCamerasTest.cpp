@@ -37,10 +37,9 @@ static const char* keys =
      "{f feature    | | 1 - Hu, 2 - Hist, 3 - HOG, 4 - Correlogram, 5 - Flow}"
      "{c classifier | | 1 - HOG, 2 - Haar}");
 
-std::mutex m;
-std::condition_variable cv;
 vector<Person> targets;
- 
+pthread_mutex_t myLock;
+
 int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
 {
 	//enable velocity 
@@ -393,7 +392,10 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						feature.convertTo(feature, CV_64F);
 
 						normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
-						cout << "New Feature" << endl << feature << endl;
+						cout << cameraID << " - New Feature" << endl << feature << endl;
+
+						//LOCK
+						pthread_mutex_lock(&myLock);
 
 						//classify first target
 						if(targets.size() == 0) //if first target found
@@ -581,6 +583,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 	    					}
 	    				}
 	    			}
+	    			//UNLOCK
+	    			pthread_mutex_unlock(&myLock);
 				  }
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
 				}
@@ -642,6 +646,12 @@ int main(int argc,char** argv)
   // runOnSingleCamera(gammaFile, featureToUse, classifier, 2); 
   // runOnSingleCamera(deltaFile, featureToUse, classifier, 3); 
 
+	if (pthread_mutex_init(&myLock, NULL) != 0)
+  {
+    printf("\n mutex init failed\n");
+    return 1;
+  }
+
   std::thread t1(runOnSingleCamera, alphaFile, featureToUse, classifier,0);
   std::thread t2(runOnSingleCamera, betaFile, featureToUse, classifier,1);
   std::thread t3(runOnSingleCamera, gammaFile, featureToUse, classifier,2);
@@ -650,7 +660,7 @@ int main(int argc,char** argv)
   t2.join();
   t3.join();
   t4.join();
-
+  pthread_mutex_destroy(&myLock);
 
   // put this in cmake file for threading
   // target_link_libraries(main -pthread)
