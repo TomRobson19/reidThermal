@@ -22,6 +22,8 @@ Run like this :
 
 #include <opencv2/ximgproc.hpp>
 
+#include <condition_variable>
+
 using namespace cv;
 using namespace std;
 using namespace ml;
@@ -42,6 +44,7 @@ pthread_mutex_t myLock;
 
 int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
 {
+	VideoWriter video(file+"results.avi",CV_FOURCC('M','J','P','G'),10, Size(640,480),true);
 	//enable velocity 
 	int timeSteps = 0;
 
@@ -591,6 +594,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 		  }
 		  // display image in window
 		  //imshow(windowName, outputImage);
+		  video.write(outputImage);
 
 	  key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
 
