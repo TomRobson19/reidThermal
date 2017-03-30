@@ -1358,6 +1358,10 @@ Multithreading works with the targets array local and no namedWindow or
  imshow calls, still working on this
 \end_layout
 
+\begin_layout Itemize
+Now multithreading works with global array
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout
