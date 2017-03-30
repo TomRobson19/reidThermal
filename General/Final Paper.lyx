@@ -250,7 +250,7 @@ Computer Vision, Person Re-Identification, Person Tracking, Features, Attributes
 \end_layout
 
 \begin_layout Section
-Introduction - TOO MUCH DETAIL ON FEATURES HERE
+Introduction
 \end_layout
 
 \begin_layout Standard
@@ -590,41 +590,19 @@ key "Huang,Zhang2015"
 \end_inset
 
 , which suggest the use of a colour correlogram.
- This method gives an idea of spatial correlation of colours, using a table
- indexed by colour pairs, where the 
-\begin_inset Formula $k-th$
-\end_inset
-
- entry for 
-\begin_inset Formula $<i,j>$
-\end_inset
-
- specifies the probability of finding a pixel of colour 
-\begin_inset Formula $j$
-\end_inset
-
- at a distance 
-\begin_inset Formula $k$
-\end_inset
-
- from a pixel of colour 
-\begin_inset Formula $i$
-\end_inset
-
- in the image.
- We will apply a similar principle to thermal intensity values in this project.
+ This method gives an idea of spatial correlation of colours, and we will
+ adapt it to get an idea of the spatial correlation of intensities.
+ 
 \end_layout
 
 \begin_layout Standard
 From here, we must consider more complex features.
  The first of these that we will consider is a Histogram of Flow, which
- will be the method by which we 
+ will be used to
 \color black
-interpret the optic flow inside the bounding box from several frames in
- order to capture the gait characteristics of the person.
- We will also use the Histogram of Oriented Gradients (HOG) again, this
- time as a feature for Re-Identification, by storing the full HOG descriptor
- as a feature vector.
+ capture the gait characteristics of the person.
+ We will also use the Histogram of Oriented Gradients (HOG) descriptor as
+ a feature for Re-Identification.
  
 \end_layout
 
@@ -655,11 +633,11 @@ The aim of this project is to investigate the above research question by
  track this person moving through a scene in real time.
  We would then implement 2-3 features/attributes, and use these to carry
  out a first pass or initial framework for Re-Identification.
- At this stage, the system must be able to Re-Identify at least 5 people
+ At this stage, the system must be able to Re-Identify at least 3 people
  within a test video sequence in real time using multiple cameras.
  This would then be extended by implementing 2 more advanced state of the
  art features/attributes and extending the Re-Identification ability to
- at least 10 people.
+ at least 6 people.
 \end_layout
 
 \begin_layout Subsection
@@ -679,7 +657,7 @@ Basic Deliverables
 
 \begin_layout Enumerate
 \paragraph_spacing single
-Ability to detect a person within thermal video imagery in real time.
+Ability to detect a moving object within thermal video imagery in real time.
  
 \end_layout
 
@@ -691,7 +669,7 @@ Ability to distinguish a person from other objects.
 
 \begin_layout Enumerate
 \paragraph_spacing single
-Ability to track a person moving through a scene in real time.
+Ability to track this person moving through a scene in real time.
 \end_layout
 
 \begin_layout Subsubsection
@@ -706,8 +684,7 @@ Implement 2-3 state of the art features/attributes for Re-Identification.
 
 \begin_layout Enumerate
 \paragraph_spacing single
-First pass/Initial framework for Re-Identification using these features/attribut
-es.
+Implement a Re-Identification framework using these features/attributes.
  
 \end_layout
 
