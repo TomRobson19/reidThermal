@@ -186,7 +186,7 @@ optic flow inside the bounding box from several frames in order to capture
 \begin_layout Abstract
 
 \series bold
-Proposed Solution - REMOVE THIS SECTION, PUT IN OTHER SECTION
+Proposed Solution - REMOVE THIS SECTION, PUT IN OTHER SECTIONS
 \end_layout
 
 \begin_layout Abstract
@@ -1334,7 +1334,7 @@ tion, we must be able to identify whether a person is present in the image
 \end_layout
 
 \begin_layout Subsubsection
-Background Subtraction - FR1.1
+Background Subtraction
 \end_layout
 
 \begin_layout Standard
@@ -1424,7 +1424,7 @@ MoG Background Subtraction Output
 \end_layout
 
 \begin_layout Subsubsection
-Person Identification - FR1.2
+Person Identification
 \end_layout
 
 \begin_layout Standard
@@ -1536,7 +1536,7 @@ Person Detection Output
 \end_layout
 
 \begin_layout Subsubsection
-Person Tracking and Position Prediction - FR1.3
+Person Tracking and Position Prediction
 \end_layout
 
 \begin_layout Standard
@@ -1681,7 +1681,7 @@ Presentation of Identified Person
 \end_layout
 
 \begin_layout Subsubsection
-Hu Moments - FR2.1
+Hu Moments
 \end_layout
 
 \begin_layout Standard
@@ -1708,7 +1708,7 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Thermal Intensities - FR2.2
+Histogram of Thermal Intensities
 \end_layout
 
 \begin_layout Standard
@@ -1732,7 +1732,7 @@ Each time a comparison is made, it will build up a histogram for the new
 \end_layout
 
 \begin_layout Subsubsection
-Thermal Correlogram - FR2.3
+Thermal Correlogram
 \end_layout
 
 \begin_layout Standard
@@ -1772,7 +1772,7 @@ key "Huang,Zhang2015"
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Flow - FR3.1
+Histogram of Flow
 \end_layout
 
 \begin_layout Standard
@@ -1797,7 +1797,7 @@ key "HornSchunck1981"
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Oriented Gradients - FR3.2
+Histogram of Oriented Gradients
 \end_layout
 
 \begin_layout Standard
