@@ -1435,8 +1435,8 @@ Command Line Parser - DONE
 \end_layout
 
 \begin_layout Itemize
-Multiple Cameras - moved most of the code to a different function, now need
- to do multithreading, if this is indeed the solution.
+Multiple Cameras - moved most of the code to a different function, multithreadin
+g works on outputting files, but not imshow
 \end_layout
 
 \begin_layout Itemize
