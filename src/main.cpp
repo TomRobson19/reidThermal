@@ -383,7 +383,10 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						}
 						else if(featureToUse == 5) //Flow
 						{
-
+							//this is going to require multiple frames, so need some way of storing previous frames
+							//Needs to be a Histogram of Flow 
+							//OpenCV has many flow functions, still don't know which one to use.
+							//Based on StackOverflow answers, think it will be PyrLK
 						}
 
 						feature.convertTo(feature, CV_64F);
