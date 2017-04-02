@@ -1615,8 +1615,11 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
 \end_inset
 
  for its implementation in our system.
- We will detect the contours of our target, and then use these to extract
- a feature vector to represent the shape of the object.
+ We will first detect the contours present in our region of interest, and
+ then use the largest of these to calculate Moments, and then using these
+ to calculate HuMoments.
+ This gives us a feature vector of length 7, which is normalised to give
+ us a feature vector to represent the shape of the object.
 \end_layout
 
 \begin_layout Subsubsection
