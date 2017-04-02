@@ -684,64 +684,6 @@ key "Gong2014"
 \end_layout
 
 \begin_layout Subsection
-Techniques for attribute collection 
-\end_layout
-
-\begin_layout Standard
-In much of the previous work that has been done on this topic, as discussed
- in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Gong2014"
-
-\end_inset
-
- and 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Layne"
-
-\end_inset
-
-, the system has to be ‘trained’ by human experts using location specific
- training data to build an ontology of attributes and determine when a subject
- matches these attributes.
- This is referred to as a supervised learning system.
- This leads to accurate re-identification, as the attributes are recognised
- from the same distance, height and illumination to the targets as they
- will be when the system operates independently.
- However, this is an expensive and time consuming approach as it requires
- the presence of a human expert at each site that the system is being deployed
- in for a considerable length of time 
-\end_layout
-
-\begin_layout Standard
-The research presented in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Layne2014"
-
-\end_inset
-
- details another possible method of attribute collection using the vast
- amount of image data that can be found on social media sites on the Internet.
- The system works by trawling through photos on social media and using metadata
- to identify characteristics of the people in the images, which can then
- be used as attribute within a re-identification system.
- An advantage of this method is that the system does not need to be trained
- on site specific training data wherever it is deployed, as this online
- data can be applied anywhere.
- The system must classify and filter down a huge amount of data though before
- it can do any form of accurate detection or re-identification, as much
- of the data can be of low quality, don’t provide sufficient information
- in the metadata, or are inappropriate.
- This extends the time and computational resources needed to initially train
- the system, but removes the need for a human expert.
- Once the training procedure is done the system will be able to perform
- re-identification effectively in multiple locations.
-\end_layout
-
-\begin_layout Subsection
 Colour Systems 
 \end_layout
 
@@ -1082,6 +1024,20 @@ key "Kundegorski2013"
  more robust and enables it to function in situations where targets are
  attempting to avoid detection.
  
+\end_layout
+
+\begin_layout Subsection
+Relation to this Project
+\end_layout
+
+\begin_layout Standard
+As can be seen from the prior work discussed above, the research that has
+ been put into Re-Identification in the past has been predominantly focussed
+ on colour, and the state of the art is moving away from the simpler features
+ such as shirt colour and towards more advanced features.
+ However, in thermal imagery the majority of the research presented here
+ is concerned with tracking a person or object, and not so much with Re-Identifi
+cation across multiple cameras.
 \end_layout
 
 \begin_layout Section
@@ -1637,9 +1593,8 @@ The next feature that will be used is the histogram of thermal intensities.
 \series bold
  
 \series default
-Each time a comparison is made, it will build up a histogram for the new
- target, and if it is sufficiently close to an existing target, then this
- feature will be satisfied.
+Each frame, it will build up a histogram for the new target, and if it is
+ sufficiently close to an existing target, then this feature will be satisfied.
  This is a useful feature as it can give a fair impression of clothing,
  as if one target is wearing a T-Shirt, for example, there will be more
  high intensity pixels than will be present for a target wearing a long
@@ -1707,7 +1662,7 @@ key "Huang,Zhang2015"
 
  in the image.
  We will apply a similar principle in our implementation, replacing the
- colour values by thermal intensity values.
+ colour values with thermal intensity values.
  Due to limitations of processing time, we will not store the probability
  at each distance value, but rather the average distance between intensity
  values.
@@ -1750,6 +1705,10 @@ Testing
 
 \begin_layout Section
 Results
+\end_layout
+
+\begin_layout Subsection
+The Datasets
 \end_layout
 
 \begin_layout Section
