@@ -384,22 +384,16 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									correlogram.at<double>(i,j) = occurances.at<unsigned char>(i,j);
 								}
 							}
-
 							feature = correlogram.reshape(1,1);
 						}
 						else if(featureToUse == 5) //Flow
 						{
 							//this is going to require multiple frames, so need some way of storing previous frames
-							//Needs to be a Histogram of Flow 
-							//OpenCV has many flow functions, still don't know which one to use.
+							//Needs to be a Histogram of Flow
+							//OpenCV has many flow functions, still don't know which one to use
 							//Based on StackOverflow answers, think it will be PyrLK
 
-							//vectors declared globally
-							//vector<Mat> previousROIs;
-							//vector<Point2f> centersOfROIs;
-
 							classify = false;
-
 							Mat opticalFlow;
 
 							if(previousROIs.size() == 0)
@@ -432,7 +426,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							}
 							cout << opticalFlow << endl;
 							//Outputs a large matrix of floating point +ve and -ve values
-
 						}
 						if(classify == true)
 						{
