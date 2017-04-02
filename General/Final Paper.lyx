@@ -119,7 +119,14 @@ Although use of thermal imagery currently poses significant advantages for
  of colour.
  Many current approaches to the problem of cross-camera person Re-Identification
 , or the camera-to-camera tracking of pedestrian targets, rely on colour
- features.
+ features
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Gong2014"
+
+\end_inset
+
+.
  Person Re-Identification across multiple cameras is a key research problem
  within the domain of visual surveillance and a key challenge for the future
  deployment of thermal sensing as an autonomous sensor technology.
@@ -155,53 +162,21 @@ Method
 \end_layout
 
 \begin_layout Abstract
-The first stage is real time person detection, which is done using Mixture
+This system will be implemented in C++ using the widely used OpenCV computer
+ vision library, and will be run simultaneously on multiple video files,
+ each being able to access the same array of previously identified targets.
+ The first stage is real time person detection, which is done using Mixture
  of Gaussians Background Subtraction, Histogram of Oriented Gradients or
  Haar Cascade Person Detection and a 6 dimensional Kalman filter per person
  to facilitate tracking a person and store their position, velocity and
  bounding box dimensions.
- From here, each of these people when first identified have some of their
- features stored.
- The basic features used will be Hu Moments, the Histogram of Thermal Intensity
- and the Thermal Correlogram of the target.
+ From here, each of these people will have some of their features stored.
+ The basic features used are Hu Moments, the Histogram of Thermal Intensity
+ and Histogram of Oriented Gradients of the target.
 
 \color black
- From here, more advanced features will be implemented.
- Currently, we are planning to implement
-\series bold
-\color inherit
- 
-\series default
-a feature based on
-\color red
- 
-\color black
-optic flow inside the bounding box from several frames in order to capture
- gait characteristics, expressed as a Histogram of Flow.
- We will also implement Histogram of Oriented Gradients again, and store
- this as a feature instead of using it to determine the characteristics
- of a person.
-\end_layout
-
-\begin_layout Abstract
-
-\series bold
-Proposed Solution - REMOVE THIS SECTION, PUT IN OTHER SECTIONS
-\end_layout
-
-\begin_layout Abstract
-This system will be implemented in C++ using the widely used OpenCV computer
- vision library.
- The solution will take in video feeds from multiple cameras, or pre-recorded
- video files, and concurrently run the person detection and Re-Identification
- on these.
- All of these will have access to the same set of previously identified
- targets, grouped into active and inactive targets, to facilitate the identifica
-tion of targets previously seen by different cameras.
- All previous positions for each person will be recorded and we will be
- able to estimate the pattern of movement for each target across the entire
- area covered by the cameras by considering to topology of our network of
- cameras.
+ From here, more advanced features are implemented, these are the Thermal
+ Correlogram and Histogram of Flow.
 \end_layout
 
 \begin_layout Abstract
@@ -238,8 +213,8 @@ placeholder
 \series bold
 Keywords: 
 \series default
-Computer Vision, Person Re-Identification, Person Tracking, Features, Attributes
-, Thermal Imagery, Thermal Video
+Computer Vision, Person Re-Identification, Re-ID, Person Tracking, Features,
+ Attributes, Thermal Imagery, Thermal Video
 \end_layout
 
 \begin_layout Standard
@@ -377,7 +352,7 @@ key "Layne"
 , have many applications from clothes colour to hair and skin colour.
  In thermal, we cannot use such simple features, so must think in a more
  complex way.
- The figure below shows five different views of the same person.
+ The Figure below shows five different views of the same person.
  The features we use must be able to recognise that all of these are the
  same person.
  
@@ -575,14 +550,17 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
 \end_inset
 
 .
- 
-\end_layout
-
-\begin_layout Standard
-The closest we can get to a colour value per pixel in thermal is the intensity
- of each pixel, so a histogram of these intensities per target will be a
+ The closest we can get to a colour value per pixel in thermal is the intensity
+ of each pixel, so a Histogram of these Intensities per target will be a
  key feature for us to use.
- We also draw inspiration from 
+ 
+\color black
+We will also use the Histogram of Oriented Gradients (HOG) descriptor as
+ a feature for Re-Identification.
+ 
+\color inherit
+From here, we must consider more complex features.
+ The first of these that we will consider draws inspiration from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Huang,Zhang2015"
@@ -592,17 +570,10 @@ key "Huang,Zhang2015"
 , which suggest the use of a colour correlogram.
  This method gives an idea of spatial correlation of colours, and we will
  adapt it to get an idea of the spatial correlation of intensities.
- 
-\end_layout
-
-\begin_layout Standard
-From here, we must consider more complex features.
- The first of these that we will consider is a Histogram of Flow, which
- will be used to
+ The other advance feature will be the Histogram of Flow, which will be
+ used to
 \color black
  capture the gait characteristics of the person.
- We will also use the Histogram of Oriented Gradients (HOG) descriptor as
- a feature for Re-Identification.
  
 \end_layout
 
@@ -623,7 +594,7 @@ es of each camera's position, and overlay these on a map of the area.
 \end_layout
 
 \begin_layout Subsection
-Aims of the Project
+Aims of the Project - make this longer and more detailed
 \end_layout
 
 \begin_layout Standard
@@ -631,8 +602,8 @@ The aim of this project is to investigate the above research question by
  developing a system that can detect a person within thermal video imagery
  in real time, distinguish this person from other objects in the scene and
  track this person moving through a scene in real time.
- We would then implement 2-3 features/attributes, and use these to carry
- out a first pass or initial framework for Re-Identification.
+ We would then implement 3 features/attributes, and use these to carry out
+ a first pass or initial framework for Re-Identification.
  At this stage, the system must be able to Re-Identify at least 3 people
  within a test video sequence in real time using multiple cameras.
  This would then be extended by implementing 2 more advanced state of the
@@ -641,73 +612,7 @@ The aim of this project is to investigate the above research question by
 \end_layout
 
 \begin_layout Subsection
-Deliverables - MORE DETAIL
-\end_layout
-
-\begin_layout Standard
-\paragraph_spacing single
-Here we list the deliverables that will result from this project.
- 
-\end_layout
-
-\begin_layout Subsubsection
-\paragraph_spacing single
-Basic Deliverables
-\end_layout
-
-\begin_layout Enumerate
-\paragraph_spacing single
-Ability to detect a moving object within thermal video imagery in real time.
- 
-\end_layout
-
-\begin_layout Enumerate
-\paragraph_spacing single
-Ability to distinguish a person from other objects.
- 
-\end_layout
-
-\begin_layout Enumerate
-\paragraph_spacing single
-Ability to track this person moving through a scene in real time.
-\end_layout
-
-\begin_layout Subsubsection
-\paragraph_spacing single
-Intermediate Deliverables
-\end_layout
-
-\begin_layout Enumerate
-\paragraph_spacing single
-Implement 2-3 state of the art features/attributes for Re-Identification.
-\end_layout
-
-\begin_layout Enumerate
-\paragraph_spacing single
-Implement a Re-Identification framework using these features/attributes.
- 
-\end_layout
-
-\begin_layout Enumerate
-\paragraph_spacing single
-Ability to re-identify at least 3 people within a test video sequence in
- real time using multiple cameras.
-\end_layout
-
-\begin_layout Subsubsection
-\paragraph_spacing single
-Advanced Deliverables
-\end_layout
-
-\begin_layout Enumerate
-\paragraph_spacing single
-Extend this by implementing 2 more state of the art features/attributes.
- 
-\end_layout
-
-\begin_layout Enumerate
-\paragraph_spacing single
-Extend the Re-Identification ability to at least 6 people.
+Achievements of the Project
 \end_layout
 
 \begin_layout Section
@@ -1209,8 +1114,8 @@ The implementation will begin by opening each video file, or live camera
 n between targets, and are updated each time the target is successfully
  identified.
  This continues frame by frame until the video file or camera feed ends.
- The subsystems are shown in the figure below, as well as a flow chart for
- the process followed by the implementation.
+ The subsystems are shown in the Figures below, as well as a flow chart
+ for the process followed by the implementation.
  
 \end_layout
 
@@ -1339,7 +1244,7 @@ Background Subtraction
 
 \begin_layout Standard
 The first stage of this process is background subtraction from the static
- camera viewpoint, addressing FR1.1.
+ camera viewpoint.
  We use the Mixture of Gaussians (MoG) technique to facilitate this, taking
  inspiration from 
 \begin_inset CommandInset citation
@@ -1378,7 +1283,7 @@ As the program runs through the video, during each new frame, a Gaussian
  mask, erosion and dilation are used to clean up these results.
  From here, we use contour detection to find the connected components, and
  draw bounding boxes around these contours.
- Figure 4 below shows the background model that the system has built up,
+ The Figure below shows the background model that the system has built up,
  the foreground of the image, the target identified and the bounding box
  associated with this target, taken from one frame of an example video used
  for testing.
@@ -1397,7 +1302,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Mog
-	scale 60
+	scale 40
 
 \end_inset
 
@@ -1423,13 +1328,20 @@ MoG Background Subtraction Output
 
 \end_layout
 
+\begin_layout Standard
+
+\series bold
+STUFF ABOUT SUPERPIXELS HERE, IF I USE IT, MAKE SURE I REFERENCE AND USE
+ FIGURES
+\end_layout
+
 \begin_layout Subsubsection
 Person Identification
 \end_layout
 
 \begin_layout Standard
 Having identified the foreground objects, we must now determine whether
- they are people, addressing FR1.2.
+ they are people.
  This implementation has two options for this, the first of these is using
  Histogram of Oriented Gradients (HOG), discussed in 
 \begin_inset CommandInset citation
@@ -1491,10 +1403,10 @@ The reason for the inclusion of both methods here is that there is a trade
  if the operator is looking to Re-Identify people from live video input
  they would use the Haar Cascade, but if they waned to Re-Identify people
  from pre-recorded video footage, they would use HOG.
- The output of both systems looks much the same, and is displayed in Figure
- 5, where the red box represents the search area given by the background
- subtractor with additional padding, and the green box represents the identified
- human target from HOG or Haar Cascade.
+ The output of both systems looks much the same, and is displayed in the
+ Figure below, where the red box represents the search area given by the
+ background subtractor with additional padding, and the green box represents
+ the identified human target from HOG or Haar Cascade.
 \end_layout
 
 \begin_layout Standard
@@ -1509,7 +1421,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Hog
-	scale 75
+	scale 50
 
 \end_inset
 
@@ -1541,7 +1453,7 @@ Person Tracking and Position Prediction
 
 \begin_layout Standard
 Once the target has been identified as a person, we need to track each identifie
-d person, and address FR1.3.
+d person.
  This is done by creating a new person object for each newly identified
  target, each with an associated Kalman Filter, explained in 
 \begin_inset CommandInset citation
@@ -1578,9 +1490,9 @@ With such a Kalman Filter associated with each person object, we know where
  This can inform us as to which person any identified target is likely to
  be, due to their most recent position, and can speed up the comparison,
  as we know people cannot be in two places at once.
- Figure 6 shows the output of this, with the red box showing the area identified
- as a foreground target, and the blue box is the predicted position of the
- target in the next frame.
+ The Figure below shows the output of this, with the red box showing the
+ area identified as a foreground target, and the blue box is the predicted
+ position of the target in the next frame.
  The green box from the person identification phase is omitted here to reduce
  the clutter in the image, but the process is still being performed to give
  us the measurement of the target's position in each frame.
@@ -1599,7 +1511,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Kalman
-	scale 75
+	scale 50
 
 \end_inset
 
@@ -1640,7 +1552,7 @@ To properly associate and compare person objects, we must now consider the
  These features will be stored as vectors, and compared to the feature vectors
  of existing targets using Euclidean distances.
  The results of this will be displayed by the system during execution as
- shown in figure 7 below.
+ shown the Figure below.
  
 \end_layout
 
@@ -1656,7 +1568,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Screenshot 2017-01-25 14:54:50.png
-	scale 50
+	scale 30
 
 \end_inset
 
@@ -1732,6 +1644,31 @@ Each time a comparison is made, it will build up a histogram for the new
 \end_layout
 
 \begin_layout Subsubsection
+Histogram of Oriented Gradients
+\end_layout
+
+\begin_layout Standard
+We have already discussed the process of Histogram of Oriented Gradients
+ (HOG) when describing Person Identification in the previous section of
+ this document.
+ When being used for that purpose, the OpenCV function implementing the
+ work of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dalal"
+
+\end_inset
+
+ compares the HOG descriptor to a pre-trained support vector machine to
+ determine if the target is within acceptable bounds of being a person.
+ Here, we use the same feature vector, but instead of passing this to the
+ support vector machine for classification as a human or not, we will save
+ this vector for each target, and use this as a feature of comparison for
+ re-identification.
+ 
+\end_layout
+
+\begin_layout Subsubsection
 Thermal Correlogram
 \end_layout
 
@@ -1768,7 +1705,11 @@ key "Huang,Zhang2015"
  in the image.
  We will apply a similar principle in our implementation, replacing the
  colour values by thermal intensity values.
- 
+ Due to limitations of processing time, we will not store the probability
+ at each distance value, but rather the average distance between intensity
+ values.
+ We adjust the number and size of the intensity bins to try and find the
+ best balance between Re-Identification accuracy and runtime.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1796,32 +1737,12 @@ key "HornSchunck1981"
  
 \end_layout
 
-\begin_layout Subsubsection
-Histogram of Oriented Gradients
-\end_layout
-
-\begin_layout Standard
-We have already discussed the process of Histogram of Oriented Gradients
- (HOG) in section C2 of the design section of this document.
- When being used for that purpose, the OpenCV function implementing the
- work of 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Dalal"
-
-\end_inset
-
- compares the HOG descriptor to a pre-trained support vector machine to
- determine if the target is within acceptable bounds of being a person.
- Here, we use the same feature vector, but instead of passing this to the
- support vector machine for classification as a human or not, we will save
- this vector for each target, and use this as a feature of comparison for
- re-identification.
- 
+\begin_layout Subsection
+Comparison Method
 \end_layout
 
 \begin_layout Subsection
-Comparison Method
+Testing
 \end_layout
 
 \begin_layout Section
