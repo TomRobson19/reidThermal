@@ -525,7 +525,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								//special case to classify second target
 		    				if(targets.size() == 1)
 		    				{
-		    					if(fabs(center.x-targets[0].getLastPosition().x)<100 and fabs(center.y-targets[0].getLastPosition().y)<100)
+		    					if(fabs(center.x-targets[0].getLastPosition().x)<100 and fabs(center.y-targets[0].getLastPosition().y)<100 and cameraID == targets[0].getCurrentCamera())
 		    					{
 		    						targets[0].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
