@@ -1425,6 +1425,10 @@ ASK TOBY FOR POSTER TEMPLATE
 Need to experiment with distance in pixels for classifier and flow feature
 \end_layout
 
+\begin_layout Itemize
+BIG PROBLEM IS THAT A FEW MISCLASSIFICATIONS RUIN THE CLASSIFIER
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Implementation Goals
 \end_layout
