@@ -1471,5 +1471,9 @@ Experiment with HOG and Haar parameters to stop them recognising small parts
  of people, maybe have different parameters from camera delta - DONE
 \end_layout
 
+\begin_layout Itemize
+FIX HOG AS A PERSON IDENTIFIER
+\end_layout
+
 \end_body
 \end_document
