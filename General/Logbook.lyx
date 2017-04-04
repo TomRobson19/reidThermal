@@ -1430,8 +1430,7 @@ BIG PROBLEM IS THAT A FEW MISCLASSIFICATIONS RUIN THE CLASSIFIER
 \end_layout
 
 \begin_layout Itemize
-Optical Flow now works, but very slow, try every 8 rows and cols as they
- do in the book
+Optical Flow implemented with every 8 rows and cols as they do in the book
 \end_layout
 
 \begin_layout Section*

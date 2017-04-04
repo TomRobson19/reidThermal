@@ -424,14 +424,23 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									centersOfROIs.push_back(center);
 								}
 							}
+
 							if(classify == true)
 							{
 								Mat temp;
-								transform(opticalFlow, temp, cv::Matx12f(1,1));
-								feature = temp.reshape(1,1);
+								Mat temp2;
+								for(int i = 8; i<regionOfInterest.rows; i+=8)
+								{
+									for(int j = 8; j< regionOfInterest.cols; j+=8)
+									{
+										temp.push_back(opticalFlow.at<Point2f>(i,j));
+									}
+								}
+								transform(temp, temp2, cv::Matx12f(1,1));
+								feature = temp2.reshape(1,1);
 							}
+							//Outputs a large matrix of floating point +ve and -ve values
 						}
-						
 						if(classify == true)
 						{
 							feature.convertTo(feature, CV_64F);
