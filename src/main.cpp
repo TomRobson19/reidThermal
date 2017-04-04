@@ -526,7 +526,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								}
 								for(int i = 0; i<mDistances.size(); i++)
 								{
-									mDistances[i] = mDistances[i]/sum;
+									mDistances[i] = sum/mDistances[i];
 								}
 
 								normalize(mDistances,mDistances,1,0,NORM_L1,-1,Mat());
