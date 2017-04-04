@@ -1544,8 +1544,8 @@ Hu Moments
 \end_layout
 
 \begin_layout Standard
-This feature will enable us to describe, characterise, and quantify the
- shape of a target in a manner that is position, scale and rotation invariant.
+This feature enables us to describe, characterise, and quantify the shape
+ of a target in a manner that is position, scale and rotation invariant.
  The method for doing this is included in the OpenCV library, inspired by
  
 \begin_inset CommandInset citation
@@ -1554,7 +1554,7 @@ key "Hu1962"
 
 \end_inset
 
-, and we will take inspiration from 
+, and we have taken inspiration from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "FlusserSukZitova2009,Dawson-Howe2014"
@@ -1562,9 +1562,9 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
 \end_inset
 
  for its implementation in our system.
- We will first detect the contours present in our region of interest, and
- then use the largest of these to calculate Moments, and then using these
- to calculate HuMoments.
+ When calculating this, we first detect the contours present in our region
+ of interest, use the largest of these contours to calculate Moments, and
+ then use these Moments to calculate HuMoments.
  This gives us a feature vector of length 7, which is normalised to give
  us a feature vector to represent the shape of the object.
 \end_layout
@@ -1574,18 +1574,17 @@ Histogram of Thermal Intensities
 \end_layout
 
 \begin_layout Standard
-The next feature that will be used is the histogram of thermal intensities.
- This will be done by first using edge detection methods to get just the
+The next feature that we have used is the histogram of thermal intensities.
+ This has been done by first using edge detection methods to get just the
  pixels that represent the target from within the Kalman bounding box.
- From here, the intensity of each pixel that makes up the target will be
- recorded, and a histogram will be constructed of all pixels within certain
- bounds.
+ From here, the intensity of each pixel that makes up the target is recorded,
+ and a histogram is constructed of all pixels within certain bounds.
 
 \series bold
  
 \series default
-Each frame, it will build up a histogram for the new target, and if it is
- sufficiently close to an existing target, then this feature will be satisfied.
+Each frame, it builds up a histogram for the new target, and if it is sufficient
+ly close to an existing target, then this feature will be satisfied.
  This is a useful feature as it can give a fair impression of clothing,
  as if one target is wearing a T-Shirt, for example, there will be more
  high intensity pixels than will be present for a target wearing a long
@@ -1611,9 +1610,9 @@ key "Dalal"
  compares the HOG descriptor to a pre-trained support vector machine to
  determine if the target is within acceptable bounds of being a person.
  Here, we use the same feature vector, but instead of passing this to the
- support vector machine for classification as a human or not, we will save
- this vector for each target, and use this as a feature of comparison for
- re-identification.
+ support vector machine for classification as a human or not, we save this
+ vector for each target, and use this as a feature of comparison for re-identifi
+cation.
  
 \end_layout
 
@@ -1657,8 +1656,8 @@ key "Huang,Zhang2015"
  Due to limitations of processing time, we will not store the probability
  at each distance value, but rather the average distance between intensity
  values.
- We adjust the number and size of the intensity bins to try and find the
- best balance between Re-Identification accuracy and runtime.
+ We have adjusted the number and size of the intensity bins to try and find
+ the best balance between Re-Identification accuracy and runtime.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1683,11 +1682,22 @@ key "HornSchunck1981"
  flow features.
  Unlike other features, this cannot be measured over a single frame, but
  must instead be calculated over the course of multiple frames.
- 
+ As mentioned when discussing the Correlogram, this feature vector is quite
+ large, and therefore takes a lot of processing time, making this not practical
+ in real time.
+ To mitigate this problem, 
 \end_layout
 
 \begin_layout Subsection
 Comparison Method
+\end_layout
+
+\begin_layout Standard
+The method that we have employed for comparing these features and facilitating
+ Re-Identification is primarily of our own design, and relies on several
+ recognised techniques for the comparison of feature vectors.
+ This method has several stages, the first of which being the special case
+ for the first target.
 \end_layout
 
 \begin_layout Subsection
