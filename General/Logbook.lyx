@@ -1431,6 +1431,7 @@ BIG PROBLEM IS THAT A FEW MISCLASSIFICATIONS RUIN THE CLASSIFIER
 
 \begin_layout Itemize
 Optical Flow implemented with every 8 rows and cols as they do in the book
+ - should it have negative values?
 \end_layout
 
 \begin_layout Section*
@@ -1462,7 +1463,7 @@ Correlogram - variant of this implemented, seems only way to make it run
 \end_layout
 
 \begin_layout Itemize
-Flow - begun implementing this
+Flow - DONE a variant of
 \end_layout
 
 \begin_layout Itemize

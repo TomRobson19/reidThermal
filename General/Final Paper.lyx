@@ -577,22 +577,6 @@ key "Huang,Zhang2015"
  
 \end_layout
 
-\begin_layout Standard
-When considering a network of multiple cameras, it is important to consider
- the layout, or topology of these cameras, to gain a proper insight into
- the movements of our human targets.
- This enables us to take more meaning from the data that the system will
- give us, and determine estimated paths that the targets follow when they
- are out of view of the cameras.
- When the camera system that we will use is set up, we will record the coordinat
-es of each camera's position, and overlay these on a map of the area.
- From here, once the system has tracked some people and recorded some data,
- we will plot the movements of each target on this map.
- This seems to us to be a sensible way of effectively visualising the data
- that our system generates.
- 
-\end_layout
-
 \begin_layout Subsection
 Aims of the Project - make this longer and more detailed
 \end_layout
@@ -1032,12 +1016,19 @@ Relation to this Project
 
 \begin_layout Standard
 As can be seen from the prior work discussed above, the research that has
- been put into Re-Identification in the past has been predominantly focussed
+ been put into Re-Identification in the past has been predominantly focused
  on colour, and the state of the art is moving away from the simpler features
  such as shirt colour and towards more advanced features.
  However, in thermal imagery the majority of the research presented here
- is concerned with tracking a person or object, and not so much with Re-Identifi
-cation across multiple cameras.
+ is concerned with tracking a person or object, and not with Re-Identification
+ across multiple cameras.
+ This is where this research project fits in, as we are tackling a problem
+ that does not seem to have been effectively solved, and using some features
+ that have rarely, if at all, been used for Re-Identification purposes.
+ As our interest is primarily centred on the features we are using, we will
+ implement fairly basic and well understood techniques for person tracking,
+ as will be discussed in the next section.
+ 
 \end_layout
 
 \begin_layout Section
@@ -1712,11 +1703,18 @@ The Dataset
 \end_layout
 
 \begin_layout Standard
+The data used to evaluate the features that have been implemented here was
+ gathered with four cameras on the site of Durham University's Computer
+ Science department, with the cameras and their fields of view being arranged
+ as they are in the Figure below.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center

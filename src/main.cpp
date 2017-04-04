@@ -439,7 +439,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								transform(temp, temp2, cv::Matx12f(1,1));
 								feature = temp2.reshape(1,1);
 							}
-							//Outputs a large matrix of floating point +ve and -ve values
 						}
 						if(classify == true)
 						{
