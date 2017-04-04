@@ -424,9 +424,14 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									centersOfROIs.push_back(center);
 								}
 							}
-							cout << opticalFlow << endl;
-							//Outputs a large matrix of floating point +ve and -ve values
+							if(classify == true)
+							{
+								Mat temp;
+								transform(opticalFlow, temp, cv::Matx12f(1,1));
+								feature = temp.reshape(1,1);
+							}
 						}
+						
 						if(classify == true)
 						{
 							feature.convertTo(feature, CV_64F);
