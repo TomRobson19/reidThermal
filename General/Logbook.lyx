@@ -1368,6 +1368,10 @@ Multithreaded code now outputs video to files, works nicely but would prefer
  
 \end_layout
 
+\begin_layout Itemize
+Had the division going the wrong way, fixed now.
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout
@@ -1432,6 +1436,12 @@ BIG PROBLEM IS THAT A FEW MISCLASSIFICATIONS RUIN THE CLASSIFIER
 \begin_layout Itemize
 Optical Flow implemented with every 8 rows and cols as they do in the book
  - should it have negative values?
+\end_layout
+
+\begin_layout Itemize
+Need to find some way of populating new targets quicker, so they don't get
+ overshadowed.
+ 
 \end_layout
 
 \begin_layout Section*
