@@ -1369,7 +1369,7 @@ Multithreaded code now outputs video to files, works nicely but would prefer
 \end_layout
 
 \begin_layout Itemize
-Had the division going the wrong way, fixed now.
+Multiple cameras stuff is now in the main file, just commented out.
 \end_layout
 
 \begin_layout Section*

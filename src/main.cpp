@@ -214,7 +214,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						if (cameraID == 3)
 						{
 							//this doesn't work
-							hog.detectMultiScale(roi, found, 0, Size(16,16), Size(32,32), 1.05, 5);
+							hog.detectMultiScale(roi, found, 0, Size(2,2), Size(16,16), 1.05, 5);
 						}
 						else
 						{
