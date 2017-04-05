@@ -210,11 +210,12 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						//changing last parameter helps deal with multiple rectangles per person
 						if (cameraID == 3)
 						{
-							hog.detectMultiScale(roi, found, 0, Size(8,8), Size(32,32), 1.05, 5);
+							//this doesn't work
+							hog.detectMultiScale(roi, found, 0, Size(16,16), Size(32,32), 1.05, 5);
 						}
 						else
 						{
-							hog.detectMultiScale(roi, found, 0, Size(8,8), Size(64,64), 1.05, 5);
+							hog.detectMultiScale(roi, found, 0, Size(16,16), Size(64,64), 1.05, 5);
 						}
 				  }
 				  else 

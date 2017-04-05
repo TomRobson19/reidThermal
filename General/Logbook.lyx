@@ -1482,7 +1482,7 @@ Experiment with HOG and Haar parameters to stop them recognising small parts
 \end_layout
 
 \begin_layout Itemize
-FIX HOG AS A PERSON IDENTIFIER
+FIX HOG AS A PERSON IDENTIFIER - STILL DOESN'T WORK ON ROOF CAMERA
 \end_layout
 
 \end_body
