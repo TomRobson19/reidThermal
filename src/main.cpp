@@ -17,6 +17,7 @@ Run like this :
 #include <stdexcept>
 #include <stdio.h>
 #include <thread>
+#include <X11/Xlib.h>
 
 #include <opencv2/ximgproc.hpp>
 
@@ -30,6 +31,7 @@ using namespace cv::ximgproc;
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
 
 vector<Person> targets;
+//pthread_mutex_t myLock;
 
 static const char* keys =
     ("{h help       | | Help Menu}"
@@ -39,7 +41,8 @@ static const char* keys =
  
 int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
 {
-	//enable velocity 
+	//VideoWriter video(file+"results.avi",CV_FOURCC('M','J','P','G'),10, Size(640,480),true);
+
 	int timeSteps = 0;
 
   string windowName = file; // window name
@@ -448,6 +451,9 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
 							cout << "New Feature" << endl << feature << endl;
 
+							//LOCK
+							//pthread_mutex_lock(&myLock);
+
 							//classify first target
 							if(targets.size() == 0) //if first target found
 							{
@@ -636,12 +642,15 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 		    				}
 		    			}
 		    		}
+		    		//UNLOCK
+	    			//pthread_mutex_unlock(&myLock);
 				  }
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
 				}
 		  }
 		  // display image in window
 		  imshow(windowName, outputImage);
+		  //video.write(outputImage);
 
 	  key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
 
@@ -663,6 +672,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 int main(int argc,char** argv)
 {
+	XInitThreads();
 	CommandLineParser cmd(argc,argv,keys);
   if (cmd.has("help")) 
   {
@@ -676,6 +686,17 @@ int main(int argc,char** argv)
 
   String directory = "data/Dataset" + to_string(datasetToUse);
 
+  //other option
+  // vector<String> filenames;
+
+  // glob(directory,filenames);
+
+  // #pragma omp parallel for
+  // for(size_t i = 0; i < filenames.size(); i++)
+  // {
+  //     runOnSingleCamera(filenames[i], featureToUse, classifier, i);
+  // }
+
   String alphaFile = directory + "/alphaInput.webm";
   String betaFile = directory + "/betaInput.webm";
   String gammaFile = directory + "/gammaInput.webm";
@@ -686,18 +707,23 @@ int main(int argc,char** argv)
   runOnSingleCamera(gammaFile, featureToUse, classifier, 2); 
   runOnSingleCamera(deltaFile, featureToUse, classifier, 3); 
 
-  // std::thread t1(runOnSingleCamera, alphaFile, featureToUse, classifier);
-  // std::thread t2(runOnSingleCamera, betaFile, featureToUse, classifier);
-  // std::thread t3(runOnSingleCamera, gammaFile, featureToUse, classifier);
-  // std::thread t4(runOnSingleCamera, deltaFile, featureToUse, classifier);
+  //use this to run multithreaded - need to remove all imshow and named window calls, and uncomment all lock stuff and videowriter
 
+  // if (pthread_mutex_init(&myLock, NULL) != 0)
+  // {
+  //   printf("\n mutex init failed\n");
+  //   return 1;
+  // }
+
+  // std::thread t1(runOnSingleCamera, alphaFile, featureToUse, classifier,0);
+  // std::thread t2(runOnSingleCamera, betaFile, featureToUse, classifier,1);
+  // std::thread t3(runOnSingleCamera, gammaFile, featureToUse, classifier,2);
+  // std::thread t4(runOnSingleCamera, deltaFile, featureToUse, classifier,3);
   // t1.join();
   // t2.join();
   // t3.join();
   // t4.join();
-
-  // put this in cmake file for threading
-  // target_link_libraries(main -pthread)
+  // pthread_mutex_destroy(&myLock);
 
   return 0;
 }
