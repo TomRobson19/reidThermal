@@ -497,9 +497,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
 
 									// cout << i << " data" << endl << data << endl;
-
 									// cout << i << " Covar" << endl << covar << endl;
-
 									// cout << i << " mean" << endl << mean << endl;
 
 									double mDistance;
