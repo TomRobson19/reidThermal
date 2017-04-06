@@ -1372,6 +1372,10 @@ Multithreaded code now outputs video to files, works nicely but would prefer
 Multiple cameras stuff is now in the main file, just commented out.
 \end_layout
 
+\begin_layout Itemize
+Roof camera now works with HOG, just slow and less good
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout
@@ -1479,10 +1483,6 @@ Flow - DONE a variant of
 \begin_layout Itemize
 Experiment with HOG and Haar parameters to stop them recognising small parts
  of people, maybe have different parameters from camera delta - DONE
-\end_layout
-
-\begin_layout Itemize
-FIX HOG AS A PERSON IDENTIFIER - STILL DOESN'T WORK ON ROOF CAMERA
 \end_layout
 
 \end_body
