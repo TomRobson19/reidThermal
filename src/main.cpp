@@ -449,7 +449,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							feature.convertTo(feature, CV_64F);
 
 							normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
-							cout << "New Feature" << endl << feature << endl;
+							//cout << "New Feature" << endl << feature << endl;
 
 							//LOCK
 							//pthread_mutex_lock(&myLock);
@@ -510,13 +510,14 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 										mDistance = Mahalanobis(feature,mean,invCovar);
 
-										cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
+										//cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
 									}
 									else
 									{
 										mDistance = norm(feature,mean,NORM_L1);
 
-										cout << i << " Norm Distance" << endl << mDistance << endl;
+										//cout << i << " Norm Distance" << endl << mDistance << endl;
+										cout << "norm" << endl;
 									}
 									mDistances.push_back(mDistance);
 								}
@@ -538,7 +539,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 								Mat probabilities = Mat(mDistances);
 
-								cout << "Probabilities" << endl << probabilities << endl;
+								//cout << "Probabilities" << endl << probabilities << endl;
 													
 								//special case to classify second target
 		    				if(targets.size() == 1)
@@ -596,9 +597,9 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									greatestProbability = max;
 									identifier = max_loc.y;
 
-									cout << greatestProbability << " at " << identifier << endl;
+									//cout << greatestProbability << " at " << identifier << endl;
 
-									cout << (1.2/targets.size()) << endl;
+									//cout << (1.2/targets.size()) << endl;
 
 									//change this value
 		    					if(greatestProbability >= (1.2/targets.size()))
