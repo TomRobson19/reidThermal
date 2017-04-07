@@ -511,19 +511,20 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 										mDistance = Mahalanobis(feature,mean,invCovar);
 
 										//cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
+										cout << mDistance << endl;
 									}
 									else
 									{
 										mDistance = norm(feature,mean,NORM_L1);
 
 										//cout << i << " Norm Distance" << endl << mDistance << endl;
-										cout << "norm" << endl;
+										//cout << "norm" << endl;
 									}
 									mDistances.push_back(mDistance);
 								}
 
 								Mat test = Mat(mDistances); 
-								cout << "Distances" << endl << test << endl;
+								//cout << "Distances" << endl << test << endl;
 
 								double sum = 0.0;
 								for(int i = 0; i<mDistances.size(); i++)
