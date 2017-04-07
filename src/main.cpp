@@ -598,8 +598,10 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 									cout << greatestProbability << " at " << identifier << endl;
 
+									cout << (1.2/targets.size()) << endl;
+
 									//change this value
-		    					if(greatestProbability >= (1.1/targets.size()))
+		    					if(greatestProbability >= (1.2/targets.size()))
 		    					{
 		    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
