@@ -492,7 +492,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								for(int i = 0; i<targets.size(); i++)
 								{
 									Mat covar, mean;
-									Mat data = targets[i].getFeatures();
+									Mat data = targets[0].getFeatures();
 									
 									calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
 
@@ -511,7 +511,18 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 										mDistance = Mahalanobis(feature,mean,invCovar);
 
 										//cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
-										cout << mDistance << endl;
+										if(i==0)
+										{
+											cout << mDistance << endl;
+											if(mDistance > 1000)
+											{
+												cout << feature << endl;
+												cout << regionOfInterest << endl; 
+												imshow("error", regionOfInterest);
+											}
+										}
+										
+										
 									}
 									else
 									{
@@ -565,83 +576,84 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 		    					}
 		    					else
 		    					{
-		    						Person person(1, center.x, center.y, timeSteps, rec.width, rec.height);
+		    						cout << "////////////////////////////////" << endl;
+		    					 	Person person(1, center.x, center.y, timeSteps, rec.width, rec.height);
 
-									  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+									  // person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 									  
-									  Rect p = person.kalmanPredict();
+									  // Rect p = person.kalmanPredict();
 
-							  		person.updateFeatures(feature);
+							  		// person.updateFeatures(feature);
 
-							  		person.setCurrentCamera(cameraID);
+							  		// person.setCurrentCamera(cameraID);
 
-									  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+									  // rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-									  char str[200];
-									  sprintf(str,"Person %d",person.getIdentifier());
+									  // char str[200];
+									  // sprintf(str,"Person %d",person.getIdentifier());
 
-									  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+									  // putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
-									  targets.push_back(person);
+									   targets.push_back(person);
 		    					}
 		    				}
 
 		    				else
 		    				{
-		    					double greatestProbability = 0.0;
-		    					int identifier = 0;
+		    			// 		double greatestProbability = 0.0;
+		    			// 		int identifier = 0;
 
-		    					double min, max;
-									Point min_loc, max_loc;
-									minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
+		    			// 		double min, max;
+									// Point min_loc, max_loc;
+									// minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
 
-									greatestProbability = max;
-									identifier = max_loc.y;
+									// greatestProbability = max;
+									// identifier = max_loc.y;
 
-									//cout << greatestProbability << " at " << identifier << endl;
+									// //cout << greatestProbability << " at " << identifier << endl;
 
-									//cout << (1.2/targets.size()) << endl;
+									// //cout << (1.2/targets.size()) << endl;
 
-									//change this value
-		    					if(greatestProbability >= (1.2/targets.size()))
-		    					{
-		    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+									// //change this value
+		    			// 		if(greatestProbability >= (1.2/targets.size()))
+		    			// 		{
+		    			// 			targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
-									  Rect p = targets[identifier].kalmanPredict();
+									//   Rect p = targets[identifier].kalmanPredict();
 
-							  		targets[identifier].updateFeatures(feature);
+							  // 		targets[identifier].updateFeatures(feature);
 
-							  		targets[identifier].setCurrentCamera(cameraID);
+							  // 		targets[identifier].setCurrentCamera(cameraID);
 
-									  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+									//   rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-									  char str[200];
-									  sprintf(str,"Person %d",targets[identifier].getIdentifier());
+									//   char str[200];
+									//   sprintf(str,"Person %d",targets[identifier].getIdentifier());
 
-									  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-		    					}
-		    					else
-		    					{
-		    						int identifier = targets.size();
-									  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+									//   putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+		    			// 		}
+		    			// 		else
+		    			// 		{
+		    			// 			int identifier = targets.size();
+									//   Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
 
-									  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+									//   person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 									  
-									  Rect p = person.kalmanPredict();
+									//   Rect p = person.kalmanPredict();
 
-							  		person.updateFeatures(feature);
+							  // 		person.updateFeatures(feature);
 
-							  		person.setCurrentCamera(cameraID);
+							  // 		person.setCurrentCamera(cameraID);
 
-									  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+									//   rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-									  char str[200];
-									  sprintf(str,"Person %d",person.getIdentifier());
+									//   char str[200];
+									//   sprintf(str,"Person %d",person.getIdentifier());
 
-									  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+									//   putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
-									  targets.push_back(person);
-		    					}
+									//   targets.push_back(person);
+		    			// 		}
 		    				}
 		    			}
 		    		}
