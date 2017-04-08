@@ -1376,6 +1376,21 @@ Multiple cameras stuff is now in the main file, just commented out.
 Roof camera now works with HOG, just slow and less good
 \end_layout
 
+\begin_layout Itemize
+Made speadsheet with feature comparison, need to find and fix weird anomalies
+ and make features better.
+\end_layout
+
+\begin_layout Itemize
+Hist and Flow currently seem to be good.
+ 
+\end_layout
+
+\begin_layout Itemize
+Correlogram and HOG aren't very distinguishing, and are very slow currently.
+ 
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout
