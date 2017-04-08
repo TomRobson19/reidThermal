@@ -351,6 +351,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						else if(featureToUse == 4) //Correlogram
 						{					
+							Mat distanceSum(8,8,CV_64F);
 							Mat correlogram(8,8,CV_64F);
 							Mat occurances(8,8,CV_8U);
 
@@ -370,8 +371,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 											{
 												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
 											
-												correlogram.at<double>(xIntensity,yIntensity) += (norm(Point(i,j)-Point(k,l)));
-												correlogram.at<double>(yIntensity,xIntensity) += (norm(Point(i,j)-Point(k,l)));
+												distanceSum.at<double>(xIntensity,yIntensity) += (norm(Point(i,j)-Point(k,l)));
+												distanceSum.at<double>(yIntensity,xIntensity) += (norm(Point(k,l)-Point(i,j)));
 												
 												occurances.at<unsigned char>(xIntensity,yIntensity) += 1;
 												occurances.at<unsigned char>(yIntensity,xIntensity) += 1;
@@ -381,11 +382,18 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								}
 							}
 							//average it out
-							for(int i = 0; i<correlogram.rows; i++)
+							for(int i = 0; i<distanceSum.rows; i++)
 							{
-								for(int j = 0; j<correlogram.cols; j++)
+								for(int j = 0; j<distanceSum.cols; j++)
 								{
-									correlogram.at<double>(i,j) = occurances.at<unsigned char>(i,j);
+									if(occurances.at<unsigned char>(i,j) > 0 and distanceSum.at<double>(i,j) > 0.0)
+									{
+										correlogram.at<double>(i,j) = distanceSum.at<double>(i,j)/occurances.at<unsigned char>(i,j);
+									}
+									else 
+									{
+										correlogram.at<double>(i,j) = 0;
+									}
 								}
 							}
 							feature = correlogram.reshape(1,1);

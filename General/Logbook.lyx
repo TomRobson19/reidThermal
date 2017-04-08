@@ -1388,7 +1388,10 @@ Hist and Flow currently seem to be good.
 
 \begin_layout Itemize
 Correlogram and HOG aren't very distinguishing, and are very slow currently.
- 
+\end_layout
+
+\begin_layout Itemize
+Re-coded correlogram to work as it was intended to.
 \end_layout
 
 \begin_layout Section*
