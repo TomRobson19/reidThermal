@@ -292,10 +292,14 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						Mat feature;
 
+						double classificationThreshold;
+
 						bool classify = true;
 
 						if(featureToUse == 1) //HuMoments
 						{
+							classificationThreshold = 10;
+
 						  vector<vector<Point> > contoursHu;
 						  vector<Vec4i> hierarchyHu;
 
@@ -327,6 +331,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						}
 						else if(featureToUse == 2) //HistogramOfIntensities
 						{
+							classificationThreshold = 5;
+
 						  int histSize = 16;    // bin size - need to determine which pixel threshold to use
 						  float range[] = {0,255};
 						  const float *ranges[] = {range};
@@ -340,6 +346,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						else if(featureToUse == 3) //HOG
 						{
+							classificationThreshold = 0.5;
+
 						  //play with these parameters to change HOG size 
 						  cv::HOGDescriptor descriptor(Size(64, 128), Size(16, 16), Size(16, 16), Size(16, 16), 4, -1, 0.2, true, 64);
 
@@ -351,6 +359,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						else if(featureToUse == 4) //Correlogram
 						{					
+							classificationThreshold = 2;
+
 							Mat distanceSum(8,8,CV_64F);
 							Mat correlogram(8,8,CV_64F);
 							Mat occurances(8,8,CV_8U);
@@ -400,10 +410,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						}
 						else if(featureToUse == 5) //Flow
 						{
-							//this is going to require multiple frames, so need some way of storing previous frames
-							//Needs to be a Histogram of Flow
-							//OpenCV has many flow functions, still don't know which one to use
-							//Based on StackOverflow answers, think it will be PyrLK
+							classificationThreshold = 5;
 
 							classify = false;
 							Mat opticalFlow;
@@ -462,7 +469,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							//LOCK
 							//pthread_mutex_lock(&myLock);
 
-							//classify first target
 							if(targets.size() == 0) //if first target found
 							{
 							  Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
@@ -486,6 +492,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							}
 							else
 							{
+
 								vector<double> mDistances;
 								bool singleEntry = false;
 
@@ -517,20 +524,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 										invert(covar,invCovar,DECOMP_SVD);
 
 										mDistance = Mahalanobis(feature,mean,invCovar);
-
-										//cout << i << " Mahalanobis Distance" << endl << mDistance << endl;
-										if(i==0)
-										{
-											cout << mDistance << endl;
-											if(mDistance > 1000)
-											{
-												cout << feature << endl;
-												cout << regionOfInterest << endl; 
-												imshow("error", regionOfInterest);
-											}
-										}
-										
-										
 									}
 									else
 									{
@@ -541,9 +534,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									}
 									mDistances.push_back(mDistance);
 								}
-
-								Mat test = Mat(mDistances); 
-								//cout << "Distances" << endl << test << endl;
 
 								double sum = 0.0;
 								for(int i = 0; i<mDistances.size(); i++)
@@ -557,113 +547,58 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 								normalize(mDistances,mDistances,1,0,NORM_L1,-1,Mat());
 
-								Mat probabilities = Mat(mDistances);
-
-								//cout << "Probabilities" << endl << probabilities << endl;
+								Mat dists = Mat(mDistances);
 													
-								//special case to classify second target
-		    				if(targets.size() == 1)
-		    				{
-		    					if(fabs(center.x-targets[0].getLastPosition().x)<100 and fabs(center.y-targets[0].getLastPosition().y)<100
-		    					   and cameraID == targets[0].getCurrentCamera() and timeSteps - targets[0].getLastSeen() < 100)
-		    					{
-		    						targets[0].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+	    					double lowestDist = 0.0;
+	    					int identifier = 0;
 
-									  Rect p = targets[0].kalmanPredict();
+	    					double min, max;
+								Point min_loc, max_loc;
+								minMaxLoc(dists, &min, &max, &min_loc, &max_loc);
 
-							  		targets[0].updateFeatures(feature);
+								lowestDist = min;
+								identifier = min_loc.y;
 
-							  		targets[0].setCurrentCamera(cameraID);
+	    					if(lowestDist <= classificationThreshold)
+	    					{
+	    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
-									  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+								  Rect p = targets[identifier].kalmanPredict();
 
-									  char str[200];
-									  sprintf(str,"Person %d",targets[0].getIdentifier());
+						  		targets[identifier].updateFeatures(feature);
 
-									  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-		    					}
-		    					else
-		    					{
-		    						cout << "////////////////////////////////" << endl;
-		    					 	Person person(1, center.x, center.y, timeSteps, rec.width, rec.height);
+						  		targets[identifier].setCurrentCamera(cameraID);
 
-									  // person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-									  
-									  // Rect p = person.kalmanPredict();
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-							  		// person.updateFeatures(feature);
+								  char str[200];
+								  sprintf(str,"Person %d",targets[identifier].getIdentifier());
 
-							  		// person.setCurrentCamera(cameraID);
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+	    					}
+	    					else
+	    					{
+	    						int identifier = targets.size();
+								  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
 
-									  // rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+								  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+								  
+								  Rect p = person.kalmanPredict();
 
-									  // char str[200];
-									  // sprintf(str,"Person %d",person.getIdentifier());
+						  		person.updateFeatures(feature);
 
-									  // putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+						  		person.setCurrentCamera(cameraID);
 
-									   targets.push_back(person);
-		    					}
-		    				}
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
-		    				else
-		    				{
-		    			// 		double greatestProbability = 0.0;
-		    			// 		int identifier = 0;
+								  char str[200];
+								  sprintf(str,"Person %d",person.getIdentifier());
 
-		    			// 		double min, max;
-									// Point min_loc, max_loc;
-									// minMaxLoc(probabilities, &min, &max, &min_loc, &max_loc);
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
-									// greatestProbability = max;
-									// identifier = max_loc.y;
-
-									// //cout << greatestProbability << " at " << identifier << endl;
-
-									// //cout << (1.2/targets.size()) << endl;
-
-									// //change this value
-		    			// 		if(greatestProbability >= (1.2/targets.size()))
-		    			// 		{
-		    			// 			targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-
-									//   Rect p = targets[identifier].kalmanPredict();
-
-							  // 		targets[identifier].updateFeatures(feature);
-
-							  // 		targets[identifier].setCurrentCamera(cameraID);
-
-									//   rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
-
-									//   char str[200];
-									//   sprintf(str,"Person %d",targets[identifier].getIdentifier());
-
-									//   putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-		    			// 		}
-		    			// 		else
-		    			// 		{
-		    			// 			int identifier = targets.size();
-									//   Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
-
-									//   person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-									  
-									//   Rect p = person.kalmanPredict();
-
-							  // 		person.updateFeatures(feature);
-
-							  // 		person.setCurrentCamera(cameraID);
-
-									//   rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
-
-									//   char str[200];
-									//   sprintf(str,"Person %d",person.getIdentifier());
-
-									//   putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-
-									//   targets.push_back(person);
-		    			// 		}
-		    				}
-		    			}
+								  targets.push_back(person);
+	    					}
+			    		}
 		    		}
 		    		//UNLOCK
 	    			//pthread_mutex_unlock(&myLock);
