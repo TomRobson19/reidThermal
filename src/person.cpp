@@ -133,15 +133,24 @@ Rect Person::kalmanPredict() {
   return kalmanRect;
 }
 
-void Person::updateFeatures(Mat newFeature) {
-  if(allFeatures.rows < 10)
+void Person::updateFeatures(Mat newFeature) 
+{
+  if(allFeatures.rows == 0)
   {
     allFeatures.push_back(newFeature); 
   }
-  else
+
+  else if(norm(newFeature,allFeatures.row(allFeatures.rows-1),NORM_L1) != 0)
   {
-    allFeatures.push_back(newFeature); 
-    allFeatures(Range(1, allFeatures.rows), Range(0, allFeatures.cols)).copyTo(allFeatures);
+    if(allFeatures.rows < 10)
+    {
+      allFeatures.push_back(newFeature); 
+    }
+    else
+    {
+      allFeatures.push_back(newFeature); 
+      allFeatures(Range(1, allFeatures.rows), Range(0, allFeatures.cols)).copyTo(allFeatures);
+    }
   }
 }
 
