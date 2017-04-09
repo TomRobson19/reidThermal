@@ -59,11 +59,13 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
   int width = 40;
   int height = 100;
   int learning = 1000;
-  int padding = 40; 
+  int padding = 60; 
 
   //vectors for flow
   vector<Mat> previousROIs;
 	vector<Point2f> centersOfROIs;
+
+	bool specialCase = false;
 
   // if command line arguments are provided try to read image/video_name
   // otherwise default to capture from attached H/W camera
@@ -180,7 +182,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 			  dilate(foreground, foreground, Mat(),Point(),5);
 			  erode(foreground, foreground, Mat(),Point(),1);
 			}
-		  //imshow("foreground", foreground);
+		  imshow("foreground", foreground);
 
 		  // get connected components from the foreground
 		  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
@@ -206,14 +208,13 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 				{
 				  vector<Rect> found, found_filtered;
 
-				  Mat roi = outputImage(r);
+				  Mat roi = img(r);
 
 				  if (classifier == 1)
 				  {
 						//changing last parameter helps deal with multiple rectangles per person
 						if (cameraID == 3)
 						{
-							//this doesn't work
 							hog.detectMultiScale(roi, found, 0, Size(2,2), Size(16,16), 1.05, 5);
 						}
 						else
@@ -240,6 +241,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						rec.x += r.x;
 						rec.y += r.y;
 
+						imshow("rectangle", img(rec));
+
 						size_t j;
 						// Do not add small detections inside a bigger detection.
 						for ( j = 0; j < found.size(); j++ )
@@ -261,10 +264,10 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						// The HOG/Cascade detector returns slightly larger rectangles than the real objects,
 						// so we slightly shrink the rectangles to get a nicer output.
-						rec.x += rec.width*0.1;
-						rec.width = rec.width*0.8;
-						rec.y += rec.height*0.1;
-						rec.height = rec.height*0.8;
+						// rec.x += rec.width*0.1;
+						// rec.width = rec.width*0.8;
+						// rec.y += rec.height*0.1;
+						// rec.height = rec.height*0.8;
 						// rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
 						Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
@@ -282,8 +285,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						Mat clone = regionOfInterest.clone();
 
 						resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
-
-						imshow("roi", regionOfInterest);
 
 						double huMoments[7];
 						vector<double> hu(7);
@@ -331,7 +332,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						}
 						else if(featureToUse == 2) //HistogramOfIntensities
 						{
-							classificationThreshold = 5;
+							classificationThreshold = 8;
 
 						  int histSize = 16;    // bin size - need to determine which pixel threshold to use
 						  float range[] = {0,255};
@@ -459,12 +460,14 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								feature = temp2.reshape(1,1);
 							}
 						}
+
+						//classifier
 						if(classify == true)
 						{
 							feature.convertTo(feature, CV_64F);
 
 							normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
-							//cout << "New Feature" << endl << feature << endl;
+							cout << "New Feature" << endl << feature << endl;
 
 							//LOCK
 							//pthread_mutex_lock(&myLock);
@@ -489,66 +492,75 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
 							  targets.push_back(person);
+							  specialCase = true;
+							}
+							else if(specialCase == true)
+							{
+								targets[0].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+
+							  Rect p = targets[0].kalmanPredict();
+
+					  		targets[0].updateFeatures(feature);
+
+					  		targets[0].setCurrentCamera(cameraID);
+
+							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+							  char str[200];
+							  sprintf(str,"Person %d",targets[0].getIdentifier());
+
+							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+
+							  specialCase = false;
 							}
 							else
 							{
-
 								vector<double> mDistances;
-								bool singleEntry = false;
 
-								for(int i = 0; i<targets.size(); i++)
-								{
-									if(targets[i].getFeatures().rows == 1)
-									{
-										singleEntry = true;
-									}
-								}
-
+								Mat benchmarkCovar;
+								
 								for(int i = 0; i<targets.size(); i++)
 								{
 									Mat covar, mean;
-									Mat data = targets[0].getFeatures();
+									Mat data = targets[i].getFeatures();
 									
 									calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
 
-									// cout << i << " data" << endl << data << endl;
-									// cout << i << " Covar" << endl << covar << endl;
-									// cout << i << " mean" << endl << mean << endl;
+									if(i == 0)
+									{
+										benchmarkCovar = covar.clone();
+									}
 
 									double mDistance;
 
-									if(singleEntry == false)
+									if(data.rows == 1)
+									{
+										Mat invCovar;
+
+										invert(benchmarkCovar,invCovar,DECOMP_SVD);
+
+										mDistance = Mahalanobis(feature,mean,invCovar);
+
+										cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
+									}
+									else
 									{
 										Mat invCovar;
 
 										invert(covar,invCovar,DECOMP_SVD);
 
 										mDistance = Mahalanobis(feature,mean,invCovar);
-									}
-									else
-									{
-										mDistance = norm(feature,mean,NORM_L1);
 
-										//cout << i << " Norm Distance" << endl << mDistance << endl;
-										//cout << "norm" << endl;
+										cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
 									}
 									mDistances.push_back(mDistance);
 								}
 
-								double sum = 0.0;
-								for(int i = 0; i<mDistances.size(); i++)
-								{
-									sum += mDistances[i];
-								}
-								for(int i = 0; i<mDistances.size(); i++)
-								{
-									mDistances[i] = sum/mDistances[i];
-								}
-
-								normalize(mDistances,mDistances,1,0,NORM_L1,-1,Mat());
-
 								Mat dists = Mat(mDistances);
-													
+								
+								cout << endl << endl << endl << endl << endl << endl << endl;
+								//cout << dists << endl;
+
 	    					double lowestDist = 0.0;
 	    					int identifier = 0;
 
@@ -598,6 +610,17 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 								  targets.push_back(person);
 	    					}
+
+								if (lowestDist > classificationThreshold)
+								{
+									imshow("error",regionOfInterest);
+									waitKey(1000000000);
+								}
+								else
+								{
+									imshow("roi", regionOfInterest);
+									waitKey(1000000);
+								}
 			    		}
 		    		}
 		    		//UNLOCK
@@ -656,14 +679,14 @@ int main(int argc,char** argv)
   // }
 
   String alphaFile = directory + "/alphaInput.webm";
-  String betaFile = directory + "/betaInput.webm";
+  String betaFile = directory + "/2017-03-15T11.22.42durham-asm-beta-input.avi";
   String gammaFile = directory + "/gammaInput.webm";
   String deltaFile = directory + "/deltaInput.webm";
 
-  runOnSingleCamera(alphaFile, featureToUse, classifier, 0); 
+  // runOnSingleCamera(alphaFile, featureToUse, classifier, 0); 
   runOnSingleCamera(betaFile, featureToUse, classifier, 1); 
-  runOnSingleCamera(gammaFile, featureToUse, classifier, 2); 
-  runOnSingleCamera(deltaFile, featureToUse, classifier, 3); 
+  // runOnSingleCamera(gammaFile, featureToUse, classifier, 2); 
+  // runOnSingleCamera(deltaFile, featureToUse, classifier, 3); 
 
   //use this to run multithreaded - need to remove all imshow and named window calls, and uncomment all lock stuff and videowriter
 
