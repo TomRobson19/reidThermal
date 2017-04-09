@@ -225,11 +225,11 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 				  {
 				  	if (cameraID == 3)
 				  	{
-				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,32));
+				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,64));
 				  	}
 				  	else
 				  	{
-				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,64));
+				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,128));
 				  	}
 				  }
 
