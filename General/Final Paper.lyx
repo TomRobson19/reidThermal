@@ -668,7 +668,7 @@ key "Gong2014"
 \end_layout
 
 \begin_layout Subsection
-Colour Systems 
+Colour Re-Identification 
 \end_layout
 
 \begin_layout Standard
@@ -771,7 +771,7 @@ fication, and single-shot re-identification when only one image is available
 \end_layout
 
 \begin_layout Subsection
-Thermal Systems 
+Thermal Tracking 
 \end_layout
 
 \begin_layout Standard
@@ -1758,18 +1758,76 @@ Setup of Cameras
 
 \end_layout
 
+\begin_layout Subsection
+Evaluation of the Features
+\end_layout
+
+\begin_layout Standard
+Having discussed the features that we will implement in the previous section,
+ we will now evaluate which of these are sufficiently discriminative between
+ people, and thus address our research question, 
+\series bold
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\series default
+Which features of a human target are appropriate to facilitate Re-Identification
+ in thermal video?
+\series bold
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\series default
+\emph default
+This has been done by performing tests on one of our video files with an
+ altered Re-Identification classifier.
+ We have a set of frames where one person is in the scene, over which the
+ features of this person will be recorded, and each new frame will be compared
+ against these using Mahalanobis distance as before.
+ This person leaves the scene and a different person enters the scene.
+ We stop recording data at this point and just measure the mahalanobis distances
+ between this new person and the data recorded for the previous person.
+ A discriminative feature will be one that has a low mahalanobis distance
+ for the right target and a high mahalanobis distance for the wrong target.
+ 
+\end_layout
+
+\begin_layout Subsection
+The Re-Identification System
+\end_layout
+
 \begin_layout Section
 Evaluation
+\end_layout
+
+\begin_layout Subsection
+Strengths of the Solution
+\end_layout
+
+\begin_layout Subsection
+Weaknesses of the Solution
+\end_layout
+
+\begin_layout Subsection
+Appraisal of Project Organisation
 \end_layout
 
 \begin_layout Section
 Conclusion
 \end_layout
 
-\begin_layout Standard
+\begin_layout Subsection
+What has been Accomplished?
+\end_layout
 
-\series bold
-UPDATE MENDELEY TO GET FULL REFERENCES
+\begin_layout Subsection
+Extensions
 \end_layout
 
 \begin_layout Standard
