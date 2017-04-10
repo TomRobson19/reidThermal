@@ -504,7 +504,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									
 									calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
 
-									cout << covar << endl;
+									//cout << covar << endl;
 
 									// cout << i << " data" << endl << data << endl;
 									// cout << i << " Covar" << endl << covar << endl;
@@ -512,7 +512,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 									double mDistance;
 
-									if(singleEntry == true)
+									if(singleEntry == false)
 									{
 										Mat invCovar;
 
@@ -524,15 +524,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 										if(i==0)
 										{
 											cout << mDistance << endl;
-											if(mDistance > 1000)
-											{
-												cout << feature << endl;
-												cout << regionOfInterest << endl; 
-												imshow("error", regionOfInterest);
-											}
 										}
-										
-										
 									}
 									else
 									{
@@ -727,10 +719,10 @@ int main(int argc,char** argv)
   String gammaFile = directory + "/gammaInput.webm";
   String deltaFile = directory + "/deltaInput.webm";
 
-  runOnSingleCamera(alphaFile, featureToUse, classifier, 0); 
+  //runOnSingleCamera(alphaFile, featureToUse, classifier, 0); 
   runOnSingleCamera(betaFile, featureToUse, classifier, 1); 
-  runOnSingleCamera(gammaFile, featureToUse, classifier, 2); 
-  runOnSingleCamera(deltaFile, featureToUse, classifier, 3); 
+  //runOnSingleCamera(gammaFile, featureToUse, classifier, 2); 
+  //runOnSingleCamera(deltaFile, featureToUse, classifier, 3); 
 
   //use this to run multithreaded - need to remove all imshow and named window calls, and uncomment all lock stuff and videowriter
 
