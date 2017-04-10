@@ -1394,6 +1394,12 @@ Correlogram and HOG aren't very distinguishing, and are very slow currently.
 Re-coded correlogram to work as it was intended to.
 \end_layout
 
+\begin_layout Itemize
+Done lots of work remaking classifier with full mahalanobis, tinkering with
+ person detector and background subtractor, making repeated frames not ruin
+ the results, setting thresholds.
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Key Issues
 \end_layout
