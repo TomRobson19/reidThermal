@@ -1802,6 +1802,12 @@ This has been done by performing tests on one of our video files with an
 The Re-Identification System
 \end_layout
 
+\begin_layout Standard
+Having evaluated the features, we now move on to the Re-Identification system
+ itself.
+ 
+\end_layout
+
 \begin_layout Section
 Evaluation
 \end_layout
