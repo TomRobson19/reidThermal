@@ -460,6 +460,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								}
 								transform(temp, temp2, cv::Matx12f(1,1));
 								feature = temp2.reshape(1,1);
+								cout << feature << endl;
 							}
 						}
 
@@ -621,7 +622,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								else
 								{
 									imshow("roi", regionOfInterest);
-									waitKey(1000000);
+									//waitKey(1000000);
 								}
 			    		}
 		    		}
