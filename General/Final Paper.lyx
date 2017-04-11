@@ -1685,7 +1685,15 @@ key "HornSchunck1981"
  As mentioned when discussing the Correlogram, this feature vector is quite
  large, and therefore takes a lot of processing time, making this not practical
  in real time.
- To mitigate this problem, 
+ To mitigate this problem, as suggested in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dawson-Howe2014"
+
+\end_inset
+
+, we only used every eighth row and every eight column for our purposes.
+ 
 \end_layout
 
 \begin_layout Subsection
