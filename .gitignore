@@ -19,6 +19,7 @@ General/*
 !General/*.lyx
 !General/*.tex
 !General/.*.sty
+!General/Poster/*.tex
 
 src/data/
 
