@@ -1485,58 +1485,13 @@ Kalman Filter Output
 \end_layout
 
 \begin_layout Subsection
-Features for Re-Identification
+Features for Re-Identification - PUT MORE DETAIL IN HERE, MAYBE SOME MATHS
 \end_layout
 
 \begin_layout Standard
 To properly associate and compare person objects, we must now consider the
  features of each person.
- These have not been implemented at this stage of the development progress,
- so will be discussed briefly from a hypothetical point of view.
- The system will compare each person found by the real time person detection
- code to each of the people already stored in the system, and score their
- similarity based one or a combination of the features described below.
- These features will be stored as vectors, and compared to the feature vectors
- of existing targets using Euclidean distances.
- The results of this will be displayed by the system during execution as
- shown the Figure below.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename /home/tom/Pictures/Screenshot 2017-01-25 14:54:50.png
-	scale 30
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Presentation of Identified Person
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsubsection
@@ -1697,7 +1652,7 @@ key "Dawson-Howe2014"
 \end_layout
 
 \begin_layout Subsection
-Comparison Method
+Comparison Method - EXPLAIN WHAT MAHALANOBIS DISTANCE IS
 \end_layout
 
 \begin_layout Standard
