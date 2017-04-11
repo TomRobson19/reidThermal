@@ -1,0 +1,100 @@
+\documentclass[final]{beamer}
+% beamer 3.10: do NOT use option hyperref={pdfpagelabels=false} !
+% \documentclass[final,hyperref={pdfpagelabels=false}]{beamer} 
+% beamer 3.07: get rid of beamer warnings
+
+\mode<presentation> {  
+%% check http://www-i6.informatik.rwth-aachen.de/~dreuw/latexbeamerposter.php for examples
+  \usetheme{Durham} %% This points to the theme cooked up by the final year tutor
+}
+
+
+\usepackage[english]{babel} 
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath,amsthm, amssymb, latexsym}
+
+  \usefonttheme[onlymath]{serif}
+  \boldmath
+  \usepackage[orientation=portrait,size=a0,scale=1.4,debug]{beamerposter}                       
+
+  % e.g. for DIN-A0 poster
+  % \usepackage[orientation=portrait,size=a1,scale=1.4,grid,debug]{beamerposter}
+  % e.g. for DIN-A1 poster, with optional grid and debug output
+  % \usepackage[size=custom,width=200,height=120,scale=2,debug]{beamerposter} % e.g. for custom size poster
+  % \usepackage[orientation=portrait,size=a0,scale=1.0,printer=rwth-glossy-uv.df]{beamerposter}
+  % e.g. for DIN-A0 poster with rwth-glossy-uv printer check ...
+  %
+
+  \title[Thermal Re-ID]{Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery}
+  \author[G Ingram]{Thomas Robson - Supervised by Dr Toby Breckon}
+  \institute[Durham]{School of Engineering and Computing Sciences, Durham University}
+  \date{16th April 2012}
+
+  \begin{document}
+  \begin{frame}{} 
+
+  \vfill
+    \begin{columns}[t]
+      \begin{column}{.48\linewidth}
+        \begin{block}{Introduction}
+          A fundamental task for a distributed multi-camera surveillance system is to associate people across different camera views at different locations and times. This is referred to as the Person Re-Identification problem and is an important problem within the field of computer vision, with many different approaches being taken to try and perform this process efficiently and reliably, revolving around the use of features or attributes of a person. This has been researched widely in colour space, but there has been very little research done on solving this problem in thermal space. 
+
+The intent of this project is to expand upon this existing research and answer the question "Which features of a human target are appropriate to facilitate Re-Identification in thermal video?" The challenges associated with answering this question are due to the increased complexity of the features required. Once we have addressed this question, we will create a functioning Re-Identification system accross multiple cameras using thebest performing features.
+        \end{block}
+
+       
+
+        \begin{block}{System Architecture}
+          \includegraphics[width=.9\columnwidth]{ProjectActivityDiagram2.png}  
+          \centering
+        \end{block}
+        
+        \begin{block}{Person Detection and Tracking}
+        	The process of Person detection and Tracking employed in this Project can be broken down into multiple stages. 
+        	\begin{itemize}
+        	\item Background Subtraction. This is done using the Mixture of Gaussians (MOG) method, allowing the system to learn a background model and comparing each new frame to this. 
+        	\item Person Identification. This is done by performing contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) or a Haar Cascade to determine whether this target is a person.
+        	\item Person Tracking and Position Prediction. Each person identified has a Kalman Filter associated with them which records their position, velocity and size within the image, and predicts their next position. 
+        	\end{itemize}
+          \includegraphics[width=.80\linewidth]{Kalman.png}
+          \centering  
+        \end{block}
+        
+        
+      \end{column}
+
+
+      \begin{column}{.48\linewidth}
+        \begin{block}{Features and the Classifier}
+        For this project, we have selected 5 potential features to test:
+          \begin{itemize}
+          \item Hu Moments. 
+          This enables us to describe, characterise, and quantify the shape of a target in a manner that is position, scale and rotation invariant.
+          \item Histogram of Thermal Intensities. The intensity of each pixel that makes up the target is recorded, and a histogram is constructed of all pixels within certain bounds.
+          \item Histogram of Oriented Gradients (HOG) Descriptor. This feature performs edge detection on the target and calculating the gradient and magnitude of each of these edges. These edges and gradients are processed and combined to give a HOG descriptor, a high dimensional vector. 
+          \item Correlogram. This method gives an idea of spatial correlation of colours, using a table indexed by colour pairs, where the  entry for <i,j>
+  specifies the average distance of a pixel of colour j from a pixel of colour i
+  in the image.
+          \item Optical Flow.
+          \end{itemize}
+          The last 10 feature vectors for each target are stored. From here, we calculate the mean and covariance of these feature vectors, and use mahalanobis distance to compare each new person identified to each existing target. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.  
+        \end{block}
+
+        \begin{block}{Evaluation of Features}
+         This has been done by performing tests on one of our video files with an altered Re-Identification classifier. We run it with one person in the scene, and record features of this person. We compare each new frame against these using Mahalanobis distance as before. This person leaves the scene and a different person enters the scene. We do not record data at this point and calculate the mahalanobis distances between this new person and the previous person. A discriminative feature will be one that has a low mahalanobis distance for the right target and a high mahalanobis distance for the wrong target. 
+          %\includegraphics[width=\columnwidth]{}  
+        \end{block}
+
+ 		\begin{block}{The Re-Identification System}
+
+         
+
+        \end{block}
+
+      \end{column}
+    \end{columns}
+
+  \end{frame}
+\end{document}
+
+
