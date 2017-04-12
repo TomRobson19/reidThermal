@@ -444,7 +444,17 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									}
 								}
 								transform(temp, temp2, cv::Matx12f(1,1));
-								feature = temp2.reshape(1,1);
+								//feature = temp2.reshape(1,1);
+
+								int histSize = 30;    // bin size - need to determine which pixel threshold to use
+							  float range[] = {-30,30};
+							  const float *ranges[] = {range};
+							  int channels[] = {0, 1};
+
+							  calcHist(&temp2, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
+							  feature = hist.clone();
+							  feature = feature.t();
+
 								cout << feature << endl;
 							}
 						}
