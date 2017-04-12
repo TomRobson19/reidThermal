@@ -31,20 +31,20 @@ using namespace cv::ximgproc;
 #define CASCADE_TO_USE "classifiers/people_thermal_23_07_casALL16x32_stump_sym_24_n4.xml"
 
 vector<Person> targets;
-//pthread_mutex_t myLock;
+pthread_mutex_t myLock;
 
 static const char* keys =
     ("{h help       | | Help Menu}"
      "{d dataset    | | Dataset - 1, 2, 3}"
      "{f feature    | | 1 - Hu, 2 - Hist, 3 - HOG, 4 - Correlogram, 5 - Flow}"
-     "{c classifier | | 1 - HOG, 2 - Haar}");
+     "{c classifier | | 1 - HOG, 2 - Haar}"
+     "{t testing 		| | 1 - yes, 2 - no}");
  
-int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
+int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID, int multipleCameras) 
 {
-	//VideoWriter video(file+"results.avi",CV_FOURCC('M','J','P','G'),10, Size(640,480),true);
+	VideoWriter video(file+"results.avi",CV_FOURCC('M','J','P','G'),10, Size(640,480),true);
 
 	int timeSteps = 0;
-
 
   Mat img, outputImage, foreground;	// image objects
   VideoCapture cap;
@@ -172,7 +172,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 			  dilate(foreground, foreground, Mat(),Point(),5);
 			  erode(foreground, foreground, Mat(),Point(),1);
 			}
-		  //imshow("foreground", foreground);
 
 		  // get connected components from the foreground
 		  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
@@ -474,8 +473,11 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
 							//cout << "New Feature" << endl << feature << endl;
 
-							//LOCK
-							//pthread_mutex_lock(&myLock);
+							if(multipleCameras == 1)
+							{
+								//LOCK
+								pthread_mutex_lock(&myLock);
+							}
 
 							if(targets.size() == 0) //if first target found
 							{
@@ -615,30 +617,42 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 								  targets.push_back(person);
 	    					}
-
-								if (lowestDist > classificationThreshold)
-								{
-									imshow("error",regionOfInterest);
-									waitKey(1000000000);
-								}
-								else
-								{
-									imshow("roi", regionOfInterest);
-									//waitKey(1000000);
+	    					if(multipleCameras == 0)
+	    					{
+									if (lowestDist > classificationThreshold)
+									{
+										imshow("error",regionOfInterest);
+										//waitKey(1000000000);
+									}
+									else
+									{
+										imshow("roi", regionOfInterest);
+										//waitKey(1000000);
+									}
 								}
 			    		}
 		    		}
-		    		//UNLOCK
-	    			//pthread_mutex_unlock(&myLock);
+		    		if(multipleCameras == 1)
+		    		{
+		    			//UNLOCK
+	    				pthread_mutex_unlock(&myLock);
+				  	}
 				  }
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
 				}
 		  }
-		  // display image in window
-		  imshow(file, outputImage);
-		  //video.write(outputImage);
 
-	  key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
+		  // display image in window
+		  if(multipleCameras == 1)
+		  {
+		  	video.write(outputImage);
+		  	key = waitKey(1000);
+		  }
+		  else 
+		  {
+		  	imshow(file, outputImage);
+		  	key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
+		  }
 
 	  if (key == 'x')
   	{
@@ -669,47 +683,42 @@ int main(int argc,char** argv)
   int datasetToUse = cmd.get<int>("dataset");
   int featureToUse = cmd.get<int>("feature");
   int classifier = cmd.get<int>("classifier");
+  int testing = cmd.get<int>("testing");
 
   String directory = "data/Dataset" + to_string(datasetToUse);
-
-  //other option
-  // vector<String> filenames;
-
-  // glob(directory,filenames);
-
-  // #pragma omp parallel for
-  // for(size_t i = 0; i < filenames.size(); i++)
-  // {
-  //     runOnSingleCamera(filenames[i], featureToUse, classifier, i);
-  // }
 
   String alphaFile = directory + "/alphaInput.webm";
   String betaFile = directory + "/betaInput.webm";
   String gammaFile = directory + "/gammaInput.webm";
   String deltaFile = directory + "/deltaInput.webm";
 
-  // runOnSingleCamera(alphaFile, featureToUse, classifier, 0); 
-  runOnSingleCamera(betaFile, featureToUse, classifier, 1); 
-  // runOnSingleCamera(gammaFile, featureToUse, classifier, 2); 
-  // runOnSingleCamera(deltaFile, featureToUse, classifier, 3); 
-
+  if(testing == 1)
+  {
+	  runOnSingleCamera(alphaFile, featureToUse, classifier, 0, 0); 
+	  runOnSingleCamera(betaFile, featureToUse, classifier, 1, 0); 
+	  runOnSingleCamera(gammaFile, featureToUse, classifier, 2, 0); 
+	  runOnSingleCamera(deltaFile, featureToUse, classifier, 3, 0); 
+  }
   //use this to run multithreaded - need to remove all imshow and named window calls, and uncomment all lock stuff and videowriter
 
-  // if (pthread_mutex_init(&myLock, NULL) != 0)
-  // {
-  //   printf("\n mutex init failed\n");
-  //   return 1;
-  // }
+  else
+  {
+	  if (pthread_mutex_init(&myLock, NULL) != 0)
+	  {
+	    printf("\n mutex init failed\n");
+	    return 1;
+	  }
 
-  // std::thread t1(runOnSingleCamera, alphaFile, featureToUse, classifier,0);
-  // std::thread t2(runOnSingleCamera, betaFile, featureToUse, classifier,1);
-  // std::thread t3(runOnSingleCamera, gammaFile, featureToUse, classifier,2);
-  // std::thread t4(runOnSingleCamera, deltaFile, featureToUse, classifier,3);
-  // t1.join();
-  // t2.join();
-  // t3.join();
-  // t4.join();
-  // pthread_mutex_destroy(&myLock);
+	  std::thread t1(runOnSingleCamera, alphaFile, featureToUse, classifier, 0, 1);
+	  std::thread t2(runOnSingleCamera, betaFile, featureToUse, classifier, 1, 1);
+	  std::thread t3(runOnSingleCamera, gammaFile, featureToUse, classifier, 2, 1);
+	  std::thread t4(runOnSingleCamera, deltaFile, featureToUse, classifier, 3, 1);
+	  t1.join();
+	  t2.join();
+	  t3.join();
+	  t4.join();
+	  pthread_mutex_destroy(&myLock);
+	}
 
   return 0;
 }
