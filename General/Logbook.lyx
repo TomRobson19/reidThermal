@@ -1472,6 +1472,11 @@ Need to find some way of populating new targets quicker, so they don't get
  
 \end_layout
 
+\begin_layout Itemize
+Didn't originally write Flow as a Histogram, now changed it to be a histogram
+ and it is worse.
+\end_layout
+
 \begin_layout Section*
 Easter Holidays - Implementation Goals
 \end_layout
