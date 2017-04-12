@@ -45,7 +45,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 	int timeSteps = 0;
 
-  string windowName = file; // window name
 
   Mat img, outputImage, foreground;	// image objects
   VideoCapture cap;
@@ -71,9 +70,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
   // otherwise default to capture from attached H/W camera
   if((cap.open(file) == true))
   {
-		// create window object (use flag=0 to allow resize, 1 to auto fix size)
-		namedWindow(windowName, 1);
-
 		// create background / foreground Mixture of Gaussian (MoG) model
 		Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25,false);
 
@@ -88,18 +84,15 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 	  while(keepProcessing)
 		{
 		  int64 timeStart = getTickCount();
-
 			if (cap.isOpened())
 		  {
 				cap >> img;
-			
 				if(img.empty())
 				{
 					std::cerr << "End of video file reached" << std::endl;
 					exit(0);
 				}
 				outputImage = img.clone();
-
 				cvtColor(img, img, CV_BGR2GRAY);
 			}
 		  else
@@ -108,11 +101,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 			  // indefinitely (as single image file, no need to loop)
 			  EVENT_LOOP_DELAY = 0;
 		  }
-
 		  // update background model and get background/foreground
 		  MoG->apply(img, foreground, (double)(1.0/learning));
-
-		  //imshow("old foreground", foreground);
 
 /////////////////////////////////////////////////////////////////////////////////SUPERPIXELS
 		  int useSuperpixels = 0;
@@ -240,10 +230,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						rec.x += r.x;
 						rec.y += r.y;
-
-						imshow("rectangle", img(rec));
-
-						cout << "size" << img(rec).size() << endl;
 
 						size_t j;
 						// Do not add small detections inside a bigger detection.
@@ -414,7 +400,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						else if(featureToUse == 5) //Flow
 						{
 							classificationThreshold = 5;
-
 							classify = false;
 							Mat opticalFlow;
 
@@ -544,7 +529,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 										mDistance = Mahalanobis(feature,mean,invCovar);
 
-										cout << "Target " << i << " of size " << data.size() << " Mahalanobis error from current image = " << mDistance << endl;
+										cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
 									}
 									else
 									{
@@ -554,7 +539,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 										mDistance = Mahalanobis(feature,mean,invCovar);
 
-										cout << "Target "<< i << " of size " << data.size() << i << " Mahalanobis error from current image = " << mDistance << endl;
+										cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
 									}
 									mDistances.push_back(mDistance);
 								}
@@ -633,7 +618,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 				}
 		  }
 		  // display image in window
-		  imshow(windowName, outputImage);
+		  imshow(file, outputImage);
 		  //video.write(outputImage);
 
 	  key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
