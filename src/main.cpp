@@ -540,7 +540,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								}
 								transform(temp, temp2, cv::Matx12f(1,1));
 
-								int histSize = 60;    // bin size - need to determine which pixel threshold to use
+								int histSize = 120;    // bin size - need to determine which pixel threshold to use
 							  float range[] = {-30,30};
 							  const float *ranges[] = {range};
 							  int channels[] = {0, 1};
@@ -557,7 +557,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							feature.convertTo(feature, CV_64F);
 
 							normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
-							//cout << "New Feature" << endl << feature << endl;
+							cout << "New Feature" << endl << feature << endl;
 
 							if(multipleCameras == 1)
 							{
@@ -780,10 +780,10 @@ int main(int argc,char** argv)
 
   if(testing == 1)
   {
-	  runOnSingleCamera(alphaFile, featureToUse, classifier, 0, 0); 
+	  //runOnSingleCamera(alphaFile, featureToUse, classifier, 0, 0); 
 	  runOnSingleCamera(betaFile, featureToUse, classifier, 1, 0); 
-	  runOnSingleCamera(gammaFile, featureToUse, classifier, 2, 0); 
-	  runOnSingleCamera(deltaFile, featureToUse, classifier, 3, 0); 
+	  //runOnSingleCamera(gammaFile, featureToUse, classifier, 2, 0); 
+	  //runOnSingleCamera(deltaFile, featureToUse, classifier, 3, 0); 
   }
   //use this to run multithreaded - need to remove all imshow and named window calls, and uncomment all lock stuff and videowriter
 
