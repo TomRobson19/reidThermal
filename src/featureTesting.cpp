@@ -36,7 +36,8 @@ vector<Person> targets;
 static const char* keys =
     ("{h help       | | Help Menu}"
      "{d dataset    | | Dataset - 1, 2, 3}"
-     "{f feature    | | 1 - Hu, 2 - Hist, 3 - HOG, 4 - Correlogram, 5 - Flow}"
+     "{f feature    | | 1 - HuMoments, 2 - HistogramOfIntensities, 3 - HistogramofOrientedGradients, \
+     	4 - CorrelogramVariant, 5 - CorrelogramOriginal, 6 - Flow, 7 - HistogramOfFlow}"
      "{c classifier | | 1 - HOG, 2 - Haar}");
  
 int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
@@ -351,8 +352,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						else if(featureToUse == 4) //Correlogram Variant
 						{					
-							classificationThreshold = 4;
-
 							Mat distanceSum(8,8,CV_64F);
 							Mat correlogram(8,8,CV_64F);
 							Mat occurances(8,8,CV_8U);
@@ -401,8 +400,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						else if(featureToUse == 5) //Correlogram Original
 						{					
-							classificationThreshold = 5;
-
 							int sizes[] = { 8, 8, 3 };
 							Mat correlogram(3, sizes, CV_32S, cv::Scalar(0));
 
@@ -445,7 +442,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						else if(featureToUse == 6) //Flow
 						{
-							classificationThreshold = 5;
 							classify = false;
 							Mat opticalFlow;
 
@@ -497,7 +493,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						else if(featureToUse == 7) //Histogram of Flow
 						{
-							classificationThreshold = 5;
 							classify = false;
 							Mat opticalFlow;
 
