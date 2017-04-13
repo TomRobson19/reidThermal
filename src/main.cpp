@@ -36,8 +36,8 @@ pthread_mutex_t myLock;
 static const char* keys =
     ("{h help       | | Help Menu}"
      "{d dataset    | | Dataset - 1, 2, 3}"
-     "{f feature    | | 1 - HuMoments, 2 - HistogramOfIntensities, 3 - HistogramofOrientedGradients, 
-     										4 - CorrelogramVariant, 5 - CorrelogramOriginal, 6 - Flow, 7 - HistogramOfFlow}"
+     "{f feature    | | 1 - HuMoments, 2 - HistogramOfIntensities, 3 - HistogramofOrientedGradients, \
+     	4 - CorrelogramVariant, 5 - CorrelogramOriginal, 6 - Flow, 7 - HistogramOfFlow}"
      "{c classifier | | 1 - HOG, 2 - Haar}"
      "{t testing 		| | 1 - yes, 2 - no}");
  
