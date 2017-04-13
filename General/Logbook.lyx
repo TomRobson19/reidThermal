@@ -1477,41 +1477,8 @@ Didn't originally write Flow as a Histogram, now changed it to be a histogram
  and it is worse.
 \end_layout
 
-\begin_layout Section*
-Easter Holidays - Implementation Goals
-\end_layout
-
 \begin_layout Itemize
-New Classifier as described above - DONE for now, needs testing on multiple
- cameras to work out the best solution for edge cases 
-\end_layout
-
-\begin_layout Itemize
-Command Line Parser - DONE
-\end_layout
-
-\begin_layout Itemize
-Multiple Cameras - moved most of the code to a different function, multithreadin
-g works on outputting files, but not imshow
-\end_layout
-
-\begin_layout Itemize
-Superpixels - works but isn't very good, DONE plenty of parameter experiments
-\end_layout
-
-\begin_layout Itemize
-Correlogram - variant of this implemented, seems only way to make it run
- at a decent speed, mahalanobis distances look promising for this being
- a good feature - DONE FOR NOW
-\end_layout
-
-\begin_layout Itemize
-Flow - DONE a variant of
-\end_layout
-
-\begin_layout Itemize
-Experiment with HOG and Haar parameters to stop them recognising small parts
- of people, maybe have different parameters from camera delta - DONE
+Now have variants of Correlogram and Flow
 \end_layout
 
 \end_body
