@@ -1572,7 +1572,7 @@ cation.
 \end_layout
 
 \begin_layout Subsubsection
-Thermal Correlogram
+Thermal Correlogram - DESCRIBE BOTH VARIANTS
 \end_layout
 
 \begin_layout Standard
@@ -1616,8 +1616,7 @@ key "Huang,Zhang2015"
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Flow - CHANGE TO REFLECT WHETHER I ACTUALLY USE HISTOGRAM OR
- NOT
+Histogram of Flow - DESCRIBE BOTH VARIANTS
 \end_layout
 
 \begin_layout Standard
@@ -1653,7 +1652,7 @@ key "Dawson-Howe2014"
 \end_layout
 
 \begin_layout Subsection
-Comparison Method - EXPLAIN WHAT MAHALANOBIS DISTANCE IS
+Comparison Method - EXPLAIN WHAT MAHALANOBIS DISTANCE IS - MAYBE MATHS
 \end_layout
 
 \begin_layout Standard
@@ -1755,11 +1754,63 @@ This has been done by performing tests on one of our video files with an
  features of this person will be recorded, and each new frame will be compared
  against these using Mahalanobis distance as before.
  This person leaves the scene and a different person enters the scene.
- We stop recording data at this point and just measure the mahalanobis distances
- between this new person and the data recorded for the previous person.
+ We stop recording data at this point to prevent any misclassifications
+ corrupting the data, and just measure the mahalanobis distances between
+ this new person and the data recorded for the previous person.
  A discriminative feature will be one that has a low mahalanobis distance
  for the right target and a high mahalanobis distance for the wrong target.
  
+\end_layout
+
+\begin_layout Subsubsection
+HuMoments
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Hu Moments was not very successful as a feature in this system, with the
+ majority of the values for both the correct and incorrect targets being
+ inconsistent and with large Mahalanobis distances.
+ There are also some large anomalies 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
