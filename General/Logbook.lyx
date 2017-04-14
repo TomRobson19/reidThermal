@@ -1481,5 +1481,15 @@ Didn't originally write Flow as a Histogram, now changed it to be a histogram
 Now have variants of Correlogram and Flow
 \end_layout
 
+\begin_layout Itemize
+LOOKING AT ANOMALIES, THEY ARE IN DIFFERENT PLACE FOR DIFFERENT FEATURES,
+ SO NEED TO INCLUDE A COMBINATION OF FEATURES
+\end_layout
+
+\begin_layout Itemize
+MAIN FILE IN THE END SHOULD ONLY HAVE THE DATASET AS A PARAMETER, ONE FEATURE
+ COMBINATION, ONE PERSON DETECTOR, MULTI-CAMERAS (KEEP CURRENT MAIN AS WELL)
+\end_layout
+
 \end_body
 \end_document
