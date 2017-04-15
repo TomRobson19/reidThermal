@@ -430,7 +430,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							{
 								for(int j = 0; j<8; j++)
 								{
-									for(int k =0; k<3; k++)
+									for(int k = 0; k<3; k++)
 									{
 										feature.push_back(correlogram.at<int>(i,j,k));
 									}
