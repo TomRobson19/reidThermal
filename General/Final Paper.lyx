@@ -176,7 +176,7 @@ This system will be implemented in C++ using the widely used OpenCV computer
 
 \color black
  From here, more advanced features are implemented, these are the Thermal
- Correlogram and Histogram of Flow.
+ Correlogram and Optical Flow.
 \end_layout
 
 \begin_layout Abstract
@@ -570,8 +570,7 @@ key "Huang,Zhang2015"
 , which suggest the use of a colour correlogram.
  This method gives an idea of spatial correlation of colours, and we will
  adapt it to get an idea of the spatial correlation of intensities.
- The other advance feature will be the Histogram of Flow, which will be
- used to
+ The other advance feature will be Optical Flow, which will be used to
 \color black
  capture the gait characteristics of the person.
  
@@ -1033,6 +1032,11 @@ As can be seen from the prior work discussed above, the research that has
 
 \begin_layout Section
 Solution
+\end_layout
+
+\begin_layout Standard
+Here, we will break down the most important elements of our solution.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1628,8 +1632,9 @@ key "Huang,Zhang2015"
 \end_inset
 
 , but to save on run time we place the distances into quite wide distance
- thresholds, as we understand that while these thresholds are quite wide,
- they still give a sufficient picture of where the 
+ thresholds, creating a histogram of distances per intensity value pair,
+ as we understand that while these thresholds are quite wide, they still
+ give a sufficient picture of where the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1687,8 +1692,9 @@ key "Dawson-Howe2014"
 
 \end_inset
 
-, we loop through the region of interest and only use every eighth row and
- every eight column for to be used as the feature vector.
+, we loop through the flow matrix calculated from region of interest and
+ only use every eighth row and every eight column for to be used as the
+ feature vector.
  The second variant uses all data values of the flow matrix that has been
  caluclated, and creates a histogram of these values.
  As before, these variants will be evaluated in the Results section.
@@ -1872,14 +1878,23 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-
+\align left
+Hu Moments proved to not be a very discriminative feature for the purpose
+ of re-identification, as seen in the graph, as the mahalanobis distances
+ for both correct and incorrect targets are very similar.
+ The first entry also has a very large mahalanobis distance, which was due
+ to the covariance matrix not yet allowing sufficient variation, as this
+ feature seems to vary to quite a large extent.
+ This feature is therefore not recommended for use in re-identification,
+ and will not be used in the final system.
+ 
 \end_layout
 
 \end_inset
@@ -1889,16 +1904,22 @@ status open
 position "t"
 hor_pos "c"
 has_inner_box 1
-inner_pos "t"
+inner_pos "b"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/Hu.png
+	scale 40
+
+\end_inset
+
 
 \end_layout
 
@@ -1920,14 +1941,23 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-
+\align left
+Hu Moments proved to not be a very discriminative feature for the purpose
+ of re-identification, as seen in the graph, as the mahalanobis distances
+ for both correct and incorrect targets are very similar.
+ The first entry also has a very large mahalanobis distance, which was due
+ to the covariance matrix not yet allowing sufficient variation, as this
+ feature seems to vary to quite a large extent.
+ This feature is therefore not recommended for use in re-identification,
+ and will not be used in the final system.
+ 
 \end_layout
 
 \end_inset
@@ -1937,16 +1967,22 @@ status open
 position "t"
 hor_pos "c"
 has_inner_box 1
-inner_pos "t"
+inner_pos "b"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/Hist.png
+	scale 40
+
+\end_inset
+
 
 \end_layout
 
@@ -1968,14 +2004,23 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-
+\align left
+Hu Moments proved to not be a very discriminative feature for the purpose
+ of re-identification, as seen in the graph, as the mahalanobis distances
+ for both correct and incorrect targets are very similar.
+ The first entry also has a very large mahalanobis distance, which was due
+ to the covariance matrix not yet allowing sufficient variation, as this
+ feature seems to vary to quite a large extent.
+ This feature is therefore not recommended for use in re-identification,
+ and will not be used in the final system.
+ 
 \end_layout
 
 \end_inset
@@ -1985,16 +2030,22 @@ status open
 position "t"
 hor_pos "c"
 has_inner_box 1
-inner_pos "t"
+inner_pos "b"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/HOG.png
+	scale 40
+
+\end_inset
+
 
 \end_layout
 
@@ -2016,14 +2067,23 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-
+\align left
+Hu Moments proved to not be a very discriminative feature for the purpose
+ of re-identification, as seen in the graph, as the mahalanobis distances
+ for both correct and incorrect targets are very similar.
+ The first entry also has a very large mahalanobis distance, which was due
+ to the covariance matrix not yet allowing sufficient variation, as this
+ feature seems to vary to quite a large extent.
+ This feature is therefore not recommended for use in re-identification,
+ and will not be used in the final system.
+ 
 \end_layout
 
 \end_inset
@@ -2033,16 +2093,81 @@ status open
 position "t"
 hor_pos "c"
 has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/CorrelogramAverage.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
+\align left
+Hu Moments proved to not be a very discriminative feature for the purpose
+ of re-identification, as seen in the graph, as the mahalanobis distances
+ for both correct and incorrect targets are very similar.
+ The first entry also has a very large mahalanobis distance, which was due
+ to the covariance matrix not yet allowing sufficient variation, as this
+ feature seems to vary to quite a large extent.
+ This feature is therefore not recommended for use in re-identification,
+ and will not be used in the final system.
+ 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/CorrelogramHist.png
+	scale 40
+
+\end_inset
+
 
 \end_layout
 
@@ -2064,14 +2189,23 @@ has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-
+\align left
+Hu Moments proved to not be a very discriminative feature for the purpose
+ of re-identification, as seen in the graph, as the mahalanobis distances
+ for both correct and incorrect targets are very similar.
+ The first entry also has a very large mahalanobis distance, which was due
+ to the covariance matrix not yet allowing sufficient variation, as this
+ feature seems to vary to quite a large extent.
+ This feature is therefore not recommended for use in re-identification,
+ and will not be used in the final system.
+ 
 \end_layout
 
 \end_inset
@@ -2081,16 +2215,81 @@ status open
 position "t"
 hor_pos "c"
 has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/RawFlow.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
 inner_pos "t"
 use_parbox 0
 use_makebox 0
-width "50col%"
+width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
+\align left
+Hu Moments proved to not be a very discriminative feature for the purpose
+ of re-identification, as seen in the graph, as the mahalanobis distances
+ for both correct and incorrect targets are very similar.
+ The first entry also has a very large mahalanobis distance, which was due
+ to the covariance matrix not yet allowing sufficient variation, as this
+ feature seems to vary to quite a large extent.
+ This feature is therefore not recommended for use in re-identification,
+ and will not be used in the final system.
+ 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/HOF.png
+	scale 40
+
+\end_inset
+
 
 \end_layout
 
@@ -2106,6 +2305,9 @@ The Re-Identification System
 \begin_layout Standard
 Having evaluated the features, we now move on to the Re-Identification system
  itself.
+ Here we will use a combination of the most discriminative features to try
+ and get the best possible results, as this will help to eliminate some
+ of the spikes in the above graphs.
  
 \end_layout
 
