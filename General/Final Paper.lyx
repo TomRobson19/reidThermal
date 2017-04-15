@@ -1490,7 +1490,7 @@ Features for Re-Identification - PUT MORE DETAIL IN HERE, MAYBE SOME MATHS
 
 \begin_layout Standard
 To properly associate and compare person objects, we must now consider the
- features of each person.
+ features of each person that we have chosen to implement in this Project.
  
 \end_layout
 
@@ -1572,7 +1572,7 @@ cation.
 \end_layout
 
 \begin_layout Subsubsection
-Thermal Correlogram - DESCRIBE BOTH VARIANTS
+Thermal Correlogram
 \end_layout
 
 \begin_layout Standard
@@ -1608,22 +1608,48 @@ key "Huang,Zhang2015"
  in the image.
  We will apply a similar principle in our implementation, replacing the
  colour values with thermal intensity values.
- Due to limitations of processing time, we will not store the probability
- at each distance value, but rather the average distance between intensity
- values.
- We have adjusted the number and size of the intensity bins to try and find
- the best balance between Re-Identification accuracy and runtime.
+ Due to limitations of processing time, we cannot store the probability
+ of each distance value for each intensity pair, so multiple variants of
+ this feature have been implemented.
+ 
+\end_layout
+
+\begin_layout Standard
+In the first of these, we will not store the probability at each distance
+ value, but rather the average distance between intensity values.
+ We have adjusted the number and size of the intensity thresholds to try
+ and find the best balance between Re-Identification accuracy and runtime.
+ The second variant is a simplified implementation of the method proposed
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Huang,Zhang2015"
+
+\end_inset
+
+, but to save on run time we place the distances into quite wide distance
+ thresholds, as we understand that while these thresholds are quite wide,
+ they still give a sufficient picture of where the 
+\begin_inset Quotes eld
+\end_inset
+
+hotspots
+\begin_inset Quotes erd
+\end_inset
+
+ are on the target, and how large they are.
+ These variants will be evaluated in the Results section.
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Flow - DESCRIBE BOTH VARIANTS
+Optical Flow - TALK ABOUT THE USE OF FARNEBACK
 \end_layout
 
 \begin_layout Standard
 The purpose of this feature is to capture the movements of the target within
- the bounding box, and store this in the form of a Histogram.
- This uses Optical flow, which is the distribution of apparent velocities
- of movement of brightness patterns in an image 
+ the bounding box.
+ Optical Flow is the distribution of apparent velocities of movement of
+ brightness patterns in an image 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "HornSchunck1981"
@@ -1637,17 +1663,26 @@ key "HornSchunck1981"
  flow features.
  Unlike other features, this cannot be measured over a single frame, but
  must instead be calculated over the course of multiple frames.
- As mentioned when discussing the Correlogram, this feature vector is quite
+ As mentioned when discussing the Correlogram, this feature vector is very
  large, and therefore takes a lot of processing time, making this not practical
  in real time.
- To mitigate this problem, as suggested in 
+ To mitigate this problem, we have implemented multiple variants of this
+ feature, as done with the correlogram.
+\end_layout
+
+\begin_layout Standard
+In the first of these variants, as suggested in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Dawson-Howe2014"
 
 \end_inset
 
-, we only used every eighth row and every eight column for our purposes.
+, we loop through the region of interest and only use every eighth row and
+ every eight column for to be used as the feature vector.
+ The second variant uses all data values of the flow matrix that has been
+ caluclated, and creates a histogram of these values.
+ As before, these variants will be evaluated in the Results section.
  
 \end_layout
 
