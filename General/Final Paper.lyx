@@ -1696,7 +1696,7 @@ key "Dawson-Howe2014"
 \end_layout
 
 \begin_layout Subsection
-Comparison Method - EXPLAIN WHAT MAHALANOBIS DISTANCE IS - MAYBE MATHS
+Comparison Method - Mahalanobis Distance
 \end_layout
 
 \begin_layout Standard
@@ -1704,7 +1704,57 @@ The method that we have employed for comparing these features and facilitating
  Re-Identification is primarily of our own design, and relies on several
  recognised techniques for the comparison of feature vectors.
  This method has several stages, the first of which being the special case
- for the first target.
+ for the first person.
+ As we have nothing to compare the first identified target to in the system,
+ we immediately create a new person object for this target.
+ We also assume that the next frame captured by the camera is this same
+ first person, as the way our dataset has been recorded means that this
+ will always be the case across all four cameras.
+ Now that we have two feature vectors associated with this person, we can
+ then calculate the mean vector and covariance matrix, which gives us an
+ idea of the average value of each element of the feature vector, and how
+ much each element is likely to change.
+ Now that we have the mean and covariance, we can compare these to each
+ new target identified by the person detector, and calculate the mahalanobis
+ distance.
+ 
+\end_layout
+
+\begin_layout Standard
+Mahalanobis distance, originally proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Mahalanobis1936"
+
+\end_inset
+
+, is a measure of the distance between one single piece of data and a distributi
+on of this data, and relies on the mean and covariance of the distribution
+ as has been discussed.
+ The use of the mahalanobis distance gives an idea of how many multidimensional
+ standard deviations the new data value is from the mean of the distribution.
+ This multidimensional standard deviation is informed by the covariance
+ matrix discussed above.
+ Based on our evaluation of the features, we then determine a mahalanobis
+ distance threshold, where the target is re-identified as one of the people
+ already seen by the system if the mahalanobis distance is below the threshold,
+ else a new person object is created.
+ 
+\end_layout
+
+\begin_layout Standard
+When this new person object is created, we only have one data value associated
+ with it, meaning that we cannot calculate a covariance matrix, and therefore
+ cannot calculate the mahalanobis distance.
+ As all of the people have similar covariance matrices, until we get a second
+ classification for this person we will use the covariance matrix from one
+ of the other people in the system as an approximation.
+ After a second classification for this person, we can then calculate a
+ covariance matrix for this person and use this for all future comparisons.
+ Now that multiple targets exist, the one with the lowest mahalanobis distance
+ will be chosen, rather than the first one to be below the threshold to
+ try and ensure the best possible accuracy.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1793,7 +1843,7 @@ Which features of a human target are appropriate to facilitate Re-Identification
 \series default
 \emph default
 This has been done by performing tests on one of our video files with an
- altered Re-Identification classifier.
+ altered Re-Identification classifier to the one described above.
  We have a set of frames where one person is in the scene, over which the
  features of this person will be recorded, and each new frame will be compared
  against these using Mahalanobis distance as before.
@@ -1803,6 +1853,9 @@ This has been done by performing tests on one of our video files with an
  this new person and the data recorded for the previous person.
  A discriminative feature will be one that has a low mahalanobis distance
  for the right target and a high mahalanobis distance for the wrong target.
+ These two people have fairly similar thermal signatures, and after examining
+ our three datasets, we concluded that it was this section of video that
+ was the best suited to the evaluation of our features.
  
 \end_layout
 
