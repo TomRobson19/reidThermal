@@ -1782,10 +1782,7 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Hu Moments was not very successful as a feature in this system, with the
- majority of the values for both the correct and incorrect targets being
- inconsistent and with large Mahalanobis distances.
- There are also some large anomalies 
+
 \end_layout
 
 \end_inset
