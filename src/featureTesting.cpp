@@ -528,22 +528,14 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							if(classify == true)
 							{
 								Mat temp;
-								Mat temp2;
-								for(int i = 8; i<regionOfInterest.rows; i+=8)
-								{
-									for(int j = 8; j< regionOfInterest.cols; j+=8)
-									{
-										temp.push_back(opticalFlow.at<Point2f>(i,j));
-									}
-								}
-								transform(temp, temp2, cv::Matx12f(1,1));
+								transform(opticalFlow, temp, cv::Matx12f(1,1));
 
-								int histSize = 60;    // bin size - need to determine which pixel threshold to use
-							  float range[] = {-30,30};
+								int histSize = 100;    // bin size - need to determine which pixel threshold to use
+							  float range[] = {-25,25};
 							  const float *ranges[] = {range};
 							  int channels[] = {0, 1};
 
-							  calcHist(&temp2, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
+							  calcHist(&temp, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
 							  feature = hist.clone();
 							  feature = feature.t();
 							}
