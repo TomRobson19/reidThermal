@@ -300,7 +300,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						  vector<vector<Point> > contoursHu;
 						  vector<Vec4i> hierarchyHu;
 
-						  findContours(regionOfInterest, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+						  findContours(regionOfInterestOriginal, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
 						  double largestSize,size;
 						  int largestContour;
