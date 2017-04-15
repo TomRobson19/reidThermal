@@ -1642,7 +1642,7 @@ hotspots
 \end_layout
 
 \begin_layout Subsubsection
-Optical Flow - TALK ABOUT THE USE OF FARNEBACK
+Optical Flow
 \end_layout
 
 \begin_layout Standard
@@ -1657,12 +1657,21 @@ key "HornSchunck1981"
 \end_inset
 
 .
- The moving object is detected and located from the flow field using a Gaussian
- model.
- Afterwards, the feature vector for each target is built up using optical
- flow features.
- Unlike other features, this cannot be measured over a single frame, but
- must instead be calculated over the course of multiple frames.
+ The method employed here to calculate the Optical Flow values is the tensor-bas
+ed method proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Farneback2003"
+
+\end_inset
+
+, simply known as the Farneback algorithm, which uses quadratic polynomials
+ to approximate the neighbourhood of each pixel in each frame, and then
+ estimates the change between frames based on knowledge of how these polynomials
+ vary under translation.
+ As suggested from this description of the algorithm, and unlike the other
+ features we have implemented, this feature cannot be measured over a single
+ frame, but must instead be calculated over the course of multiple frames.
  As mentioned when discussing the Correlogram, this feature vector is very
  large, and therefore takes a lot of processing time, making this not practical
  in real time.
