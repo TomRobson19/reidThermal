@@ -289,6 +289,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						double huMoments[7];
 						vector<double> hu(7);
 						Mat hist;
+						Mat histFlow;
 						vector<float> descriptorsValues;
 
 						Mat feature;
@@ -537,9 +538,121 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 							  calcHist(&temp, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
 							  feature = hist.clone();
+
+							  cout << feature << endl;
 							  feature = feature.t();
 							}
 						}
+						else if(featureToUse == 10)
+						{
+							int histSize = 16;    // bin size - need to determine which pixel threshold to use
+						  float range[] = {0,255};
+						  const float *ranges[] = {range};
+						  int channels[] = {0, 1};
+
+						  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
+
+						  hist.convertTo(hist, CV_64F);
+
+						  feature.push_back(hist);
+
+
+							int sizes[] = { 4, 4, 3 };
+							Mat correlogram(3, sizes, CV_32S, cv::Scalar(0));
+
+							Mat newCorrelogram;
+
+							int xIntensity, yIntensity;
+
+							for(int i = 0; i<regionOfInterest.rows; i++)
+							{
+								for(int j = 0; j<regionOfInterest.cols; j++)
+								{
+									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/64);
+
+									for(int k = i; k<regionOfInterest.rows; k++)
+									{
+										for(int l = j; l<regionOfInterest.cols; l++)
+										{
+											if((k == i && l > j) || k > i)
+											{
+												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/64);
+											
+												double distance = (norm(Point(i,j)-Point(k,l)));
+												correlogram.at<int>(xIntensity,yIntensity,floor(distance/50)) += 1;
+											}
+										}
+									}
+								}
+							}
+							for(int i = 0; i<4; i++)
+							{
+								for(int j = 0; j<4; j++)
+								{
+									for(int k = 0; k<3; k++)
+									{
+										newCorrelogram.push_back(correlogram.at<int>(i,j,k));
+									}
+								}
+							}
+
+							newCorrelogram.convertTo(newCorrelogram, CV_64F);
+
+							feature.push_back(newCorrelogram);
+
+
+													
+							Mat opticalFlow;
+
+							if(previousROIs.size() == 0)
+							{
+								previousROIs.push_back(regionOfInterest);
+								centersOfROIs.push_back(center);
+								classify = false;
+							}
+							else
+							{
+								Mat previousROI;
+								bool hasPrevious = false;
+								for(int i = 0; i<centersOfROIs.size(); i++)
+								{
+									if(fabs(center.x-centersOfROIs[i].x)<100 and fabs(center.y-centersOfROIs[i].y)<100)
+									{
+										previousROI = previousROIs[i];
+										hasPrevious = true;
+									}
+								}
+								if(hasPrevious == true)
+								{
+									classify = true;
+									calcOpticalFlowFarneback(previousROI, regionOfInterest, opticalFlow, 0.5, 3, 15, 3, 5, 1.2, 0);
+								}
+								else
+								{
+									previousROIs.push_back(regionOfInterest);
+									centersOfROIs.push_back(center);
+								}
+							}
+							Mat temp;
+							if(classify == true)
+							{
+								
+								transform(opticalFlow, temp, cv::Matx12f(1,1));
+
+								int histFlowSize = 50;    // bin size - need to determine which pixel threshold to use
+							  float flowRange[] = {-25,25};
+							  const float *flowRanges[] = {flowRange};
+							  int flowChannels[] = {0, 1};
+
+							  calcHist(&temp, 1, flowChannels, Mat(), histFlow, 1, &histFlowSize, flowRanges, true, false);
+							  histFlow.convertTo(histFlow, CV_64F);
+
+							  feature.push_back(histFlow);
+							}
+							feature = feature.t();
+						}
+
+
 						if(classify == true)
 						{
 							feature.convertTo(feature, CV_64F);
