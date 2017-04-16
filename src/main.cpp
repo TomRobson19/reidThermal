@@ -1,6 +1,6 @@
 /*
 Run like this : 
-./main -d=1 -f=1 -c=1
+./main -d=1 -f=1
 */
 
 #include <opencv2/core.hpp>
@@ -38,10 +38,9 @@ static const char* keys =
      "{d dataset    | | Dataset - 1, 2, 3}"
      "{f feature    | | 1 - HuMoments, 2 - HistogramOfIntensities, 3 - HistogramofOrientedGradients, \
      	4 - CorrelogramVariant, 5 - CorrelogramOriginal, 6 - Flow, 7 - HistogramOfFlow}"
-     "{c classifier | | 1 - HOG, 2 - Haar}"
      "{t testing 		| | 1 - yes, 2 - no}");
  
-int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID, int multipleCameras) 
+int runOnSingleCamera(String file, int featureToUse, int cameraID, int multipleCameras) 
 {
 	VideoWriter video(file+"results.avi",CV_FOURCC('M','J','P','G'),10, Size(640,480),true);
 
@@ -73,9 +72,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
   {
 		// create background / foreground Mixture of Gaussian (MoG) model
 		Ptr<BackgroundSubtractorMOG2> MoG = createBackgroundSubtractorMOG2(500,25,false);
-
-		HOGDescriptor hog;
-		hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
 
 		CascadeClassifier cascade = CascadeClassifier(CASCADE_TO_USE);
 
@@ -200,29 +196,14 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 				  Mat roi = img(r);
 
-				  if (classifier == 1)
-				  {
-						//changing last parameter helps deal with multiple rectangles per person
-						if (cameraID == 3)
-						{
-							hog.detectMultiScale(roi, found, 0, Size(2,2), Size(16,16), 1.05, 5);
-						}
-						else
-						{
-							hog.detectMultiScale(roi, found, 0, Size(16,16), Size(64,64), 1.05, 5);
-						}
-				  }
-				  else 
-				  {
-				  	if (cameraID == 3)
-				  	{
-				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,64));
-				  	}
-				  	else
-				  	{
-				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(96,160));
-				  	}
-				  }
+			  	if (cameraID == 3)
+			  	{
+			  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,64));
+			  	}
+			  	else
+			  	{
+			  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(96,160));
+			  	}
 
 				  for(size_t i = 0; i < found.size(); i++ )
 				  {
@@ -760,7 +741,6 @@ int main(int argc,char** argv)
 
   int datasetToUse = cmd.get<int>("dataset");
   int featureToUse = cmd.get<int>("feature");
-  int classifier = cmd.get<int>("classifier");
   int testing = cmd.get<int>("testing");
 
   String directory = "data/Dataset" + to_string(datasetToUse);
@@ -787,10 +767,10 @@ int main(int argc,char** argv)
 	    return 1;
 	  }
 
-	  std::thread t1(runOnSingleCamera, alphaFile, featureToUse, classifier, 0, 1);
-	  std::thread t2(runOnSingleCamera, betaFile, featureToUse, classifier, 1, 1);
-	  std::thread t3(runOnSingleCamera, gammaFile, featureToUse, classifier, 2, 1);
-	  std::thread t4(runOnSingleCamera, deltaFile, featureToUse, classifier, 3, 1);
+	  std::thread t1(runOnSingleCamera, alphaFile, featureToUse, 0, 1);
+	  std::thread t2(runOnSingleCamera, betaFile, featureToUse, 1, 1);
+	  std::thread t3(runOnSingleCamera, gammaFile, featureToUse, 2, 1);
+	  std::thread t4(runOnSingleCamera, deltaFile, featureToUse, 3, 1);
 	  t1.join();
 	  t2.join();
 	  t3.join();
