@@ -2133,7 +2133,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2160,19 +2160,50 @@ Having evaluated the features, we now move on to the Re-Identification system
  Here we will use a combination of the most discriminative features to try
  and get the best possible results, as this will help to eliminate some
  of the spikes in the above graphs.
- 
+ These most discriminative features are the Histogram of Intensities, the
+ Thermal Correlogram and the Histogram of Optical Flow.
 \end_layout
 
 \begin_layout Section
 Evaluation
 \end_layout
 
+\begin_layout Standard
+We will now evaluate the strengths, weaknesses and limitations of the research
+ that has been presented here.
+ 
+\end_layout
+
 \begin_layout Subsection
 Strengths of the Solution
 \end_layout
 
+\begin_layout Standard
+Functioning Re-ID
+\end_layout
+
+\begin_layout Standard
+Multiple people
+\end_layout
+
+\begin_layout Standard
+feature successfully evaluated.
+\end_layout
+
 \begin_layout Subsection
 Weaknesses of the Solution
+\end_layout
+
+\begin_layout Subsection
+Limitations of the Solution
+\end_layout
+
+\begin_layout Standard
+Runtime
+\end_layout
+
+\begin_layout Subsection
+What has been Learnt?
 \end_layout
 
 \begin_layout Subsection
