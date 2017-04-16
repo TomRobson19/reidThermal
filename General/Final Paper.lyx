@@ -1572,7 +1572,8 @@ key "Dalal"
  support vector machine for classification as a human or not, we save this
  vector for each target, and use this as a feature of comparison for re-identifi
 cation.
- 
+ This feature vector is very large, meaning the the processing time is impractic
+ally slow, so we have had to simplify it to make it run in reasonable time.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1696,7 +1697,7 @@ key "Dawson-Howe2014"
  only use every eighth row and every eight column for to be used as the
  feature vector.
  The second variant uses all data values of the flow matrix that has been
- caluclated, and creates a histogram of these values.
+ calculated, and creates a histogram of these values.
  As before, these variants will be evaluated in the Results section.
  
 \end_layout
@@ -1793,7 +1794,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename datasetDiagram.png
-	scale 40
+	scale 30
 
 \end_inset
 
@@ -1952,6 +1953,13 @@ status open
 As can be seen in the graph, the Histogram of Intensities was shown to be
  a good feature, as the line for the incorrect person is always higher than
  the line for the correct target.
+ However, there are some unusually large mahalanobis distances for the correct
+ target, which we believe is due to problems with the person detectors,
+ as they sometimes miss parts of the target, or the orientation of the target
+ changes slightly and therefore the thermal profile changes.
+ This will be a useful feature for re-identification, and will be used for
+ re-identification, but will need to be combined with other features to
+ reduce the effects of these anomalies.
  
 \end_layout
 
@@ -1969,7 +1977,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2007,14 +2015,16 @@ status open
 
 \begin_layout Plain Layout
 \align left
-Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, as seen in the graph, as the mahalanobis distances
- for both correct and incorrect targets are very similar.
- The first entry also has a very large mahalanobis distance, which was due
- to the covariance matrix not yet allowing sufficient variation, as this
- feature seems to vary to quite a large extent.
- This feature is therefore not recommended for use in re-identification,
- and will not be used in the final system.
+The Histogram of Oriented Gradients is another feature that is not very
+ discriminative for re-identification.
+ All of the mahalanobis distances are very low, but there is very little
+ difference between the correct and incorrect target.
+ We have simplified this feature to improve runtime, but testing with more
+ complex HOG parameters did not improve the performance of this feature
+ enough to make it usable for the re-identification.
+ The low mahalanobis distance for alll classifications and the fact that
+ this feature cannot effectively discriminate between different people validates
+ its use as a generic person detector earlier in the system.
  
 \end_layout
 
@@ -2032,7 +2042,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
