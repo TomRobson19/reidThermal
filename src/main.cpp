@@ -36,11 +36,9 @@ pthread_mutex_t myLock;
 static const char* keys =
     ("{h help       | | Help Menu}"
      "{d dataset    | | Dataset - 1, 2, 3}"
-     "{f feature    | | 1 - HuMoments, 2 - HistogramOfIntensities, 3 - HistogramofOrientedGradients, \
-     	4 - CorrelogramVariant, 5 - CorrelogramOriginal, 6 - Flow, 7 - HistogramOfFlow}"
      "{t testing 		| | 1 - yes, 2 - no}");
  
-int runOnSingleCamera(String file, int featureToUse, int cameraID, int multipleCameras) 
+int runOnSingleCamera(String file, int cameraID, int multipleCameras) 
 {
 	VideoWriter video(file+"results.avi",CV_FOURCC('M','J','P','G'),10, Size(640,480),true);
 
@@ -255,9 +253,12 @@ int runOnSingleCamera(String file, int featureToUse, int cameraID, int multipleC
 
 						resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
 
+
+
 						double huMoments[7];
 						vector<double> hu(7);
 						Mat hist;
+						Mat histFlow;
 						vector<float> descriptorsValues;
 
 						Mat feature;
@@ -266,271 +267,126 @@ int runOnSingleCamera(String file, int featureToUse, int cameraID, int multipleC
 
 						bool classify = true;
 
-						if(featureToUse == 1) //HuMoments
+						classificationThreshold = 10;
+
+					  
+
+
+					  int histSize = 16;    // bin size - need to determine which pixel threshold to use
+					  float range[] = {0,255};
+					  const float *ranges[] = {range};
+					  int channels[] = {0, 1};
+
+					  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
+
+					  hist.convertTo(hist, CV_64F);
+
+					  feature.push_back(hist);
+
+
+						int sizes[] = { 8, 8, 3 };
+						Mat correlogram(3, sizes, CV_32S, cv::Scalar(0));
+
+						Mat newCorrelogram;
+
+						int xIntensity, yIntensity;
+
+						for(int i = 0; i<regionOfInterest.rows; i++)
 						{
-							classificationThreshold = 10;
-
-						  vector<vector<Point> > contoursHu;
-						  vector<Vec4i> hierarchyHu;
-
-						  findContours(regionOfInterestOriginal, contoursHu, hierarchyHu, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
-
-						  double largestSize,size;
-						  int largestContour;
-
-						  for(int i = 0; i < contoursHu.size(); i++)
-						  {
-								size = contoursHu[i].size();
-
-								if(size > largestSize)
-								{
-								  largestSize = size;
-								  largestContour = i;
-								}
-						  }
-						  Moments contourMoments;
-
-						  contourMoments = moments(contoursHu[largestContour]);
-
-						  HuMoments(contourMoments, huMoments);
-
-						  hu.assign(huMoments,huMoments+7);
-
-              feature = Mat(hu);
-              feature = feature.t();
-						}
-						else if(featureToUse == 2) //HistogramOfIntensities
-						{
-							classificationThreshold = 10;
-
-						  int histSize = 16;    // bin size - need to determine which pixel threshold to use
-						  float range[] = {0,255};
-						  const float *ranges[] = {range};
-						  int channels[] = {0, 1};
-
-						  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
-
-						  feature = hist.clone();
-						  feature = feature.t();
-						}
-
-						else if(featureToUse == 3) //HOG
-						{
-							classificationThreshold = 0.5;
-
-						  //play with these parameters to change HOG size 
-						  cv::HOGDescriptor descriptor(Size(64, 128), Size(16, 16), Size(16, 16), Size(16, 16), 4, -1, 0.2, true, 64);
-
-						  descriptor.compute(regionOfInterest, descriptorsValues);
-
-						  feature = Mat(descriptorsValues);
-						  feature = feature.t();
-						}
-
-						else if(featureToUse == 4) //Correlogram Variant
-						{					
-							classificationThreshold = 4;
-
-							Mat distanceSum(8,8,CV_64F);
-							Mat correlogram(8,8,CV_64F);
-							Mat occurances(8,8,CV_8U);
-
-							int xIntensity, yIntensity;
-
-							for(int i = 0; i<regionOfInterest.rows; i++)
+							for(int j = 0; j<regionOfInterest.cols; j++)
 							{
-								for(int j = 0; j<regionOfInterest.cols; j++)
-								{
-									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/32);
+								xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/32);
 
-									for(int k = i; k<regionOfInterest.rows; k++)
+								for(int k = i; k<regionOfInterest.rows; k++)
+								{
+									for(int l = j; l<regionOfInterest.cols; l++)
 									{
-										for(int l = j; l<regionOfInterest.cols; l++)
+										if((k == i && l > j) || k > i)
 										{
-											if((k == i && l > j) || k > i)
-											{
-												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
-											
-												distanceSum.at<double>(xIntensity,yIntensity) += (norm(Point(i,j)-Point(k,l)));
+											yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
+										
+											double distance = (norm(Point(i,j)-Point(k,l)));
+											correlogram.at<int>(xIntensity,yIntensity,floor(distance/50)) += 1;
+										}
+									}
+								}
+							}
+						}
+						for(int i = 0; i<8; i++)
+						{
+							for(int j = 0; j<8; j++)
+							{
+								for(int k = 0; k<3; k++)
+								{
+									newCorrelogram.push_back(correlogram.at<int>(i,j,k));
+								}
+							}
+						}
+
+						newCorrelogram.convertTo(newCorrelogram, CV_64F);
+
+						feature.push_back(newCorrelogram);
+
+
 												
-												occurances.at<unsigned char>(xIntensity,yIntensity) += 1;
-											}
-										}
-									}
-								}
-							}
-							//average it out
-							for(int i = 0; i<distanceSum.rows; i++)
-							{
-								for(int j = 0; j<distanceSum.cols; j++)
-								{
-									if(occurances.at<unsigned char>(i,j) > 0 and distanceSum.at<double>(i,j) > 0.0)
-									{
-										correlogram.at<double>(i,j) = distanceSum.at<double>(i,j)/occurances.at<unsigned char>(i,j);
-									}
-									else 
-									{
-										correlogram.at<double>(i,j) = 0;
-									}
-								}
-							}
-							feature = correlogram.reshape(1,1);
-						}
+						Mat opticalFlow;
+						classify = false;
 
-						else if(featureToUse == 5) //Correlogram Original
-						{					
-							classificationThreshold = 5;
-
-							int sizes[] = { 8, 8, 3 };
-							Mat correlogram(3, sizes, CV_32S, cv::Scalar(0));
-
-							int xIntensity, yIntensity;
-
-							for(int i = 0; i<regionOfInterest.rows; i++)
-							{
-								for(int j = 0; j<regionOfInterest.cols; j++)
-								{
-									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/32);
-
-									for(int k = i; k<regionOfInterest.rows; k++)
-									{
-										for(int l = j; l<regionOfInterest.cols; l++)
-										{
-											if((k == i && l > j) || k > i)
-											{
-												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
-											
-												double distance = (norm(Point(i,j)-Point(k,l)));
-												correlogram.at<int>(xIntensity,yIntensity,floor(distance/50)) += 1;
-											}
-										}
-									}
-								}
-							}
-							for(int i = 0; i<8; i++)
-							{
-								for(int j = 0; j<8; j++)
-								{
-									for(int k =0; k<3; k++)
-									{
-										feature.push_back(correlogram.at<int>(i,j,k));
-									}
-								}
-							}
-							
-							feature = feature.t();
-						}
-
-						else if(featureToUse == 6) //Flow
+						if(previousROIs.size() == 0)
 						{
-							classificationThreshold = 5;
-							classify = false;
-							Mat opticalFlow;
-
-							if(previousROIs.size() == 0)
+							previousROIs.push_back(regionOfInterest);
+							centersOfROIs.push_back(center);
+						}
+						else
+						{
+							Mat previousROI;
+							bool hasPrevious = false;
+							for(int i = 0; i<centersOfROIs.size(); i++)
+							{
+								if(fabs(center.x-centersOfROIs[i].x)<100 and fabs(center.y-centersOfROIs[i].y)<100)
+								{
+									previousROI = previousROIs[i];
+									hasPrevious = true;
+								}
+							}
+							if(hasPrevious == true)
+							{
+								classify = true;
+								calcOpticalFlowFarneback(previousROI, regionOfInterest, opticalFlow, 0.5, 3, 15, 3, 5, 1.2, 0);
+							}
+							else
 							{
 								previousROIs.push_back(regionOfInterest);
 								centersOfROIs.push_back(center);
 							}
-							else
-							{
-								Mat previousROI;
-								bool hasPrevious = false;
-								for(int i = 0; i<centersOfROIs.size(); i++)
-								{
-									if(fabs(center.x-centersOfROIs[i].x)<100 and fabs(center.y-centersOfROIs[i].y)<100)
-									{
-										previousROI = previousROIs[i];
-										hasPrevious = true;
-									}
-								}
-								if(hasPrevious == true)
-								{
-									classify = true;
-									calcOpticalFlowFarneback(previousROI, regionOfInterest, opticalFlow, 0.5, 3, 15, 3, 5, 1.2, 0);
-								}
-								else
-								{
-									previousROIs.push_back(regionOfInterest);
-									centersOfROIs.push_back(center);
-								}
-							}
-
-							if(classify == true)
-							{
-								Mat temp;
-								Mat temp2;
-								for(int i = 8; i<regionOfInterest.rows; i+=8)
-								{
-									for(int j = 8; j< regionOfInterest.cols; j+=8)
-									{
-										temp.push_back(opticalFlow.at<Point2f>(i,j));
-									}
-								}
-								transform(temp, temp2, cv::Matx12f(1,1));
-
-						  	feature = temp2.reshape(1,1);
-							}
 						}
 
-						else if(featureToUse == 7) //Histogram of Flow
+						if(classify == true)
 						{
-							classificationThreshold = 5;
-							classify = false;
-							Mat opticalFlow;
+							Mat temp;
+							transform(opticalFlow, temp, cv::Matx12f(1,1));
 
-							if(previousROIs.size() == 0)
-							{
-								previousROIs.push_back(regionOfInterest);
-								centersOfROIs.push_back(center);
-							}
-							else
-							{
-								Mat previousROI;
-								bool hasPrevious = false;
-								for(int i = 0; i<centersOfROIs.size(); i++)
-								{
-									if(fabs(center.x-centersOfROIs[i].x)<100 and fabs(center.y-centersOfROIs[i].y)<100)
-									{
-										previousROI = previousROIs[i];
-										hasPrevious = true;
-									}
-								}
-								if(hasPrevious == true)
-								{
-									classify = true;
-									calcOpticalFlowFarneback(previousROI, regionOfInterest, opticalFlow, 0.5, 3, 15, 3, 5, 1.2, 0);
-								}
-								else
-								{
-									previousROIs.push_back(regionOfInterest);
-									centersOfROIs.push_back(center);
-								}
-							}
+							int histFlowSize = 50;    // bin size - need to determine which pixel threshold to use
+						  float flowRange[] = {-25,25};
+						  const float *flowRanges[] = {flowRange};
+						  int flowChannels[] = {0, 1};
 
-							if(classify == true)
-							{
-								Mat temp;
-								transform(opticalFlow, temp, cv::Matx12f(1,1));
+						  calcHist(&temp, 1, flowChannels, Mat(), histFlow, 1, &histFlowSize, flowRanges, true, false);
+						  
+						  histFlow.convertTo(histFlow, CV_64F);
 
-								int histSize = 100;    // bin size - need to determine which pixel threshold to use
-							  float range[] = {-25,25};
-							  const float *ranges[] = {range};
-							  int channels[] = {0, 1};
+						  cout << histFlow << endl;
 
-							  calcHist(&temp, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
-							  feature = hist.clone();
-							  feature = feature.t();
-							}
+						  feature.push_back(histFlow);
 						}
 
 						//classifier
 						if(classify == true)
 						{
-							feature.convertTo(feature, CV_64F);
+							feature=feature.t();
 
 							normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
-							cout << "New Feature" << endl << feature << endl;
+							//cout << "New Feature" << endl << feature << endl;
 
 							if(multipleCameras == 1)
 							{
@@ -690,12 +546,12 @@ int runOnSingleCamera(String file, int featureToUse, int cameraID, int multipleC
 									}
 								}
 			    		}
+			    		if(multipleCameras == 1)
+			    		{
+			    			//UNLOCK
+		    				pthread_mutex_unlock(&myLock);
+					  	}
 		    		}
-		    		if(multipleCameras == 1)
-		    		{
-		    			//UNLOCK
-	    				pthread_mutex_unlock(&myLock);
-				  	}
 				  }
 				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
 				}
@@ -740,7 +596,6 @@ int main(int argc,char** argv)
   }
 
   int datasetToUse = cmd.get<int>("dataset");
-  int featureToUse = cmd.get<int>("feature");
   int testing = cmd.get<int>("testing");
 
   String directory = "data/Dataset" + to_string(datasetToUse);
@@ -752,10 +607,10 @@ int main(int argc,char** argv)
 
   if(testing == 1)
   {
-	  //runOnSingleCamera(alphaFile, featureToUse, classifier, 0, 0); 
-	  runOnSingleCamera(betaFile, featureToUse, classifier, 1, 0); 
-	  //runOnSingleCamera(gammaFile, featureToUse, classifier, 2, 0); 
-	  //runOnSingleCamera(deltaFile, featureToUse, classifier, 3, 0); 
+	  //runOnSingleCamera(alphaFile, 0, 0); 
+	  runOnSingleCamera(betaFile, 1, 0); 
+	  //runOnSingleCamera(gammaFile, 2, 0); 
+	  //runOnSingleCamera(deltaFile, 3, 0); 
   }
   //use this to run multithreaded - need to remove all imshow and named window calls, and uncomment all lock stuff and videowriter
 
@@ -767,10 +622,10 @@ int main(int argc,char** argv)
 	    return 1;
 	  }
 
-	  std::thread t1(runOnSingleCamera, alphaFile, featureToUse, 0, 1);
-	  std::thread t2(runOnSingleCamera, betaFile, featureToUse, 1, 1);
-	  std::thread t3(runOnSingleCamera, gammaFile, featureToUse, 2, 1);
-	  std::thread t4(runOnSingleCamera, deltaFile, featureToUse, 3, 1);
+	  std::thread t1(runOnSingleCamera, alphaFile, 0, 1);
+	  std::thread t2(runOnSingleCamera, betaFile, 1, 1);
+	  std::thread t3(runOnSingleCamera, gammaFile, 2, 1);
+	  std::thread t4(runOnSingleCamera, deltaFile, 3, 1);
 	  t1.join();
 	  t2.join();
 	  t3.join();
