@@ -2071,7 +2071,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2109,7 +2109,14 @@ status open
 
 \begin_layout Plain Layout
 \align left
-
+The Histogram of Flow is another fairly discriminative feature, and while
+ the two lines are closer together on this graph than on the graphs for
+ the Histogram of Intensities and Correlogram, they are still far enough
+ apart to be discriminative.
+ Also, while this feature does still have some unusually high values, they
+ are in a different place on the graph, meaning that these features should
+ function well in combination with each other.
+ 
 \end_layout
 
 \end_inset
