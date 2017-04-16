@@ -1949,14 +1949,9 @@ status open
 
 \begin_layout Plain Layout
 \align left
-Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, as seen in the graph, as the mahalanobis distances
- for both correct and incorrect targets are very similar.
- The first entry also has a very large mahalanobis distance, which was due
- to the covariance matrix not yet allowing sufficient variation, as this
- feature seems to vary to quite a large extent.
- This feature is therefore not recommended for use in re-identification,
- and will not be used in the final system.
+As can be seen in the graph, the Histogram of Intensities was shown to be
+ a good feature, as the line for the incorrect person is always higher than
+ the line for the correct target.
  
 \end_layout
 
@@ -1974,7 +1969,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
