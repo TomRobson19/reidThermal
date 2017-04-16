@@ -2046,7 +2046,15 @@ status open
 
 \begin_layout Plain Layout
 \align left
-
+This feature has proved to be quite discriminative, as the graph shows.
+ However, as previously discussed in the Histogram of Intensities section,
+ there are some anomalies.
+ The shape of the two graphs is fairly similar, as they are both a measure
+ of how many pixels of differing intensities are present.
+ The Correlogram gives an idea of locations of these pixels, and therefore
+ will be a useful feature in combination with the Histogram of Intensities
+ when used in the final system.
+ 
 \end_layout
 
 \end_inset
