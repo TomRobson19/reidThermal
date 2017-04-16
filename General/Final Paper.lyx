@@ -1614,28 +1614,10 @@ key "Huang,Zhang2015"
  We will apply a similar principle in our implementation, replacing the
  colour values with thermal intensity values.
  Due to limitations of processing time, we cannot store the probability
- of each distance value for each intensity pair, so multiple variants of
- this feature have been implemented.
- 
-\end_layout
-
-\begin_layout Standard
-In the first of these, we will not store the probability at each distance
- value, but rather the average distance between intensity values.
- We have adjusted the number and size of the intensity thresholds to try
- and find the best balance between Re-Identification accuracy and runtime.
- The second variant is a simplified implementation of the method proposed
- in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Huang,Zhang2015"
-
-\end_inset
-
-, but to save on run time we place the distances into quite wide distance
- thresholds, creating a histogram of distances per intensity value pair,
- as we understand that while these thresholds are quite wide, they still
- give a sufficient picture of where the 
+ of each distance value for each intensity pair, so we have placed the distances
+ into quite wide distance thresholds, creating a histogram of distances
+ per intensity value pair, as we understand that while these thresholds
+ are quite wide, they still give a sufficient picture of where the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1644,7 +1626,6 @@ hotspots
 \end_inset
 
  are on the target, and how large they are.
- These variants will be evaluated in the Results section.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1681,24 +1662,9 @@ key "Farneback2003"
  As mentioned when discussing the Correlogram, this feature vector is very
  large, and therefore takes a lot of processing time, making this not practical
  in real time.
- To mitigate this problem, we have implemented multiple variants of this
- feature, as done with the correlogram.
-\end_layout
-
-\begin_layout Standard
-In the first of these variants, as suggested in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Dawson-Howe2014"
-
-\end_inset
-
-, we loop through the flow matrix calculated from region of interest and
- only use every eighth row and every eight column for to be used as the
- feature vector.
- The second variant uses all data values of the flow matrix that has been
- calculated, and creates a histogram of these values.
- As before, these variants will be evaluated in the Results section.
+ To mitigate this problem, instead of using the raw flow values that we
+ have caluclated, we create a histogram of these values to enable us to
+ better use all of the information available to us.
  
 \end_layout
 
@@ -2022,7 +1988,7 @@ The Histogram of Oriented Gradients is another feature that is not very
  We have simplified this feature to improve runtime, but testing with more
  complex HOG parameters did not improve the performance of this feature
  enough to make it usable for the re-identification.
- The low mahalanobis distance for alll classifications and the fact that
+ The low mahalanobis distance for all classifications and the fact that
  this feature cannot effectively discriminate between different people validates
  its use as a generic person detector earlier in the system.
  
@@ -2042,7 +2008,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2080,15 +2046,7 @@ status open
 
 \begin_layout Plain Layout
 \align left
-Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, as seen in the graph, as the mahalanobis distances
- for both correct and incorrect targets are very similar.
- The first entry also has a very large mahalanobis distance, which was due
- to the covariance matrix not yet allowing sufficient variation, as this
- feature seems to vary to quite a large extent.
- This feature is therefore not recommended for use in re-identification,
- and will not be used in the final system.
- 
+
 \end_layout
 
 \end_inset
@@ -2099,36 +2057,6 @@ position "t"
 hor_pos "c"
 has_inner_box 1
 inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Graphs/CorrelogramAverage.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
 use_parbox 0
 use_makebox 0
 width "45col%"
@@ -2138,37 +2066,8 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-\align left
-Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, as seen in the graph, as the mahalanobis distances
- for both correct and incorrect targets are very similar.
- The first entry also has a very large mahalanobis distance, which was due
- to the covariance matrix not yet allowing sufficient variation, as this
- feature seems to vary to quite a large extent.
- This feature is therefore not recommended for use in re-identification,
- and will not be used in the final system.
- 
-\end_layout
-
-\end_inset
-
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
 \begin_inset Graphics
-	filename Graphs/CorrelogramHist.png
+	filename Graphs/Correlogram.png
 	scale 40
 
 \end_inset
@@ -2202,15 +2101,7 @@ status open
 
 \begin_layout Plain Layout
 \align left
-Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, as seen in the graph, as the mahalanobis distances
- for both correct and incorrect targets are very similar.
- The first entry also has a very large mahalanobis distance, which was due
- to the covariance matrix not yet allowing sufficient variation, as this
- feature seems to vary to quite a large extent.
- This feature is therefore not recommended for use in re-identification,
- and will not be used in the final system.
- 
+
 \end_layout
 
 \end_inset
@@ -2221,36 +2112,6 @@ position "t"
 hor_pos "c"
 has_inner_box 1
 inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Graphs/RawFlow.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
 use_parbox 0
 use_makebox 0
 width "45col%"
@@ -2258,35 +2119,6 @@ special "none"
 height "1in"
 height_special "totalheight"
 status open
-
-\begin_layout Plain Layout
-\align left
-Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, as seen in the graph, as the mahalanobis distances
- for both correct and incorrect targets are very similar.
- The first entry also has a very large mahalanobis distance, which was due
- to the covariance matrix not yet allowing sufficient variation, as this
- feature seems to vary to quite a large extent.
- This feature is therefore not recommended for use in re-identification,
- and will not be used in the final system.
- 
-\end_layout
-
-\end_inset
-
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
