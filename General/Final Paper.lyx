@@ -1732,10 +1732,6 @@ When this new person object is created, we only have one data value associated
  
 \end_layout
 
-\begin_layout Subsection
-Testing
-\end_layout
-
 \begin_layout Section
 Results
 \end_layout
@@ -1920,14 +1916,11 @@ status open
 \align left
 As can be seen in the graph, the Histogram of Intensities was shown to be
  a good feature, as the line for the incorrect person is always higher than
- the line for the correct target.
- However, there are some unusually large mahalanobis distances for the correct
- target, which we believe is due to problems with the person detectors,
- as they sometimes miss parts of the target, or the orientation of the target
- changes slightly and therefore the thermal profile changes.
- This will be a useful feature for re-identification, and will be used for
- re-identification, but will need to be combined with other features to
- reduce the effects of these anomalies.
+ the line for the correct target, and we can therefore determine a threshold
+ that will be correct for the majority of classifications.
+ This will be a very useful feature for re-identification, and will be used
+ for re-identification, but will need to be combined with other features
+ to reduce the effects of these anomalies.
  
 \end_layout
 
@@ -2053,9 +2046,12 @@ This feature has proved to be quite discriminative, as the graph shows.
  there are some anomalies.
  The shape of the two graphs is fairly similar, as they are both a measure
  of how many pixels of differing intensities are present.
- The Correlogram gives an idea of locations of these pixels, and therefore
- will be a useful feature in combination with the Histogram of Intensities
+ The Correlogram gives an idea of locations of these pixels, and we believe
+ it will be a useful feature in combination with the Histogram of Intensities
  when used in the final system.
+ This performance is good even with the vastly simplified nature of the
+ feature in this implementation, so we can expect that if our runtime constraint
+s did not exist, it would perform even better.
  
 \end_layout
 
@@ -2164,9 +2160,145 @@ Having evaluated the features, we now move on to the Re-Identification system
  of the spikes in the above graphs.
  These most discriminative features are the Histogram of Intensities, the
  Thermal Correlogram and the Histogram of Optical Flow.
- These features have therefore been combined together, by simply concatonating
- them.
+ These features have therefore been combined together, by simply concatenating
+ them together.
+ Due to the size of the combined feature vectors however, this method runs
+ slowly, when all three are concatenated together.
+ As a result of this, we have experimented the combination of all three
+ features, as well as the possible combinations of two of them, using the
+ same method as was used to test the induvidual features.
  
+\end_layout
+
+\begin_layout Standard
+Due to its third dimension, the Correlogram is the largest feature, and
+ therefore has the greatest effect on runtime.
+ Each combination that involves this feature 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -2192,7 +2324,7 @@ Multiple people
 \end_layout
 
 \begin_layout Standard
-feature successfully evaluated.
+features successfully evaluated.
 \end_layout
 
 \begin_layout Subsection
