@@ -2194,12 +2194,22 @@ feature successfully evaluated.
 Weaknesses of the Solution
 \end_layout
 
+\begin_layout Standard
+Person Detector and Background Subtractor mistakes - balance occasional
+ detection of small parts of person with ability to detect at a distance
+\end_layout
+
 \begin_layout Subsection
 Limitations of the Solution
 \end_layout
 
 \begin_layout Standard
 Runtime
+\end_layout
+
+\begin_layout Standard
+Thermal Reset of the cameras.
+ 
 \end_layout
 
 \begin_layout Subsection
