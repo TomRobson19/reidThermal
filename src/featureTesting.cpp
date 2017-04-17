@@ -554,6 +554,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 						  hist.convertTo(hist, CV_64F);
 
+						  normalize(hist, hist, 1, 0, NORM_L1, -1, Mat());
+
 						  feature.push_back(hist);
 
 
@@ -597,6 +599,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							}
 
 							newCorrelogram.convertTo(newCorrelogram, CV_64F);
+
+							normalize(newCorrelogram, newCorrelogram, 1, 0, NORM_L1, -1, Mat());
 
 							feature.push_back(newCorrelogram);
 
@@ -647,6 +651,8 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							  calcHist(&temp, 1, flowChannels, Mat(), histFlow, 1, &histFlowSize, flowRanges, true, false);
 							  histFlow.convertTo(histFlow, CV_64F);
 
+							  normalize(histFlow, histFlow, 1, 0, NORM_L1, -1, Mat());
+
 							  feature.push_back(histFlow);
 							}
 							feature = feature.t();
@@ -657,7 +663,10 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						{
 							feature.convertTo(feature, CV_64F);
 
-							normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
+							if(featureToUse != 10)
+							{
+								normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
+							}
 							//cout << "New Feature" << endl << feature << endl;
 
 							//LOCK
