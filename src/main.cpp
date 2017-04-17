@@ -272,7 +272,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 					  
 
 
-					  int histSize = 16;    // bin size - need to determine which pixel threshold to use
+					  int histSize = 32;    // bin size - need to determine which pixel threshold to use
 					  float range[] = {0,255};
 					  const float *ranges[] = {range};
 					  int channels[] = {0, 1};

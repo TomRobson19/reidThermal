@@ -329,7 +329,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						}
 						else if(featureToUse == 2) //HistogramOfIntensities
 						{
-						  int histSize = 16;    // bin size - need to determine which pixel threshold to use
+						  int histSize = 32;    // bin size - need to determine which pixel threshold to use
 						  float range[] = {0,255};
 						  const float *ranges[] = {range};
 						  int channels[] = {0, 1};
@@ -545,7 +545,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						}
 						else if(featureToUse == 10)
 						{
-							int histSize = 16;    // bin size - need to determine which pixel threshold to use
+							int histSize = 32;    // bin size - need to determine which pixel threshold to use
 						  float range[] = {0,255};
 						  const float *ranges[] = {range};
 						  int channels[] = {0, 1};
@@ -557,7 +557,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 						  feature.push_back(hist);
 
 
-							int sizes[] = { 4, 4, 3 };
+							int sizes[] = { 8, 8, 3 };
 							Mat correlogram(3, sizes, CV_32S, cv::Scalar(0));
 
 							Mat newCorrelogram;
@@ -568,7 +568,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 							{
 								for(int j = 0; j<regionOfInterest.cols; j++)
 								{
-									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/64);
+									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/32);
 
 									for(int k = i; k<regionOfInterest.rows; k++)
 									{
@@ -576,7 +576,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 										{
 											if((k == i && l > j) || k > i)
 											{
-												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/64);
+												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
 											
 												double distance = (norm(Point(i,j)-Point(k,l)));
 												correlogram.at<int>(xIntensity,yIntensity,floor(distance/50)) += 1;
@@ -585,9 +585,9 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									}
 								}
 							}
-							for(int i = 0; i<4; i++)
+							for(int i = 0; i<8; i++)
 							{
-								for(int j = 0; j<4; j++)
+								for(int j = 0; j<8; j++)
 								{
 									for(int k = 0; k<3; k++)
 									{
