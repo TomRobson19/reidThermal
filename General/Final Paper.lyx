@@ -1626,6 +1626,8 @@ hotspots
 \end_inset
 
  are on the target, and how large they are.
+ Even with this simplification, this feature works slowly.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -2162,6 +2164,9 @@ Having evaluated the features, we now move on to the Re-Identification system
  of the spikes in the above graphs.
  These most discriminative features are the Histogram of Intensities, the
  Thermal Correlogram and the Histogram of Optical Flow.
+ These features have therefore been combined together, by simply concatonating
+ them.
+ 
 \end_layout
 
 \begin_layout Section
