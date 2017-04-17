@@ -1505,7 +1505,12 @@ Related work - should this be other Re-ID systems, as I have done, or literature
 \end_layout
 
 \begin_layout Itemize
-Best way to combine my good features?
+Best way to combine my good features? This is all that is needed implementation
+ wise.
+\end_layout
+
+\begin_layout Itemize
+Help with the previous imshow() advice
 \end_layout
 
 \begin_layout Itemize
@@ -1514,7 +1519,9 @@ Do I need precision/accuracy/hit rate analysis of final system, as the results
 \end_layout
 
 \begin_layout Itemize
-How do I deal with anomalies?
+How do I deal with anomalies? Think most are caused by the jumps in the
+ videos, but some of them caused by the person detector cutting parts of
+ the people off.
 \end_layout
 
 \begin_layout Itemize
