@@ -267,7 +267,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 						bool classify = true;
 
-						classificationThreshold = 10;
+						classificationThreshold = 6;
 
 					  
 
