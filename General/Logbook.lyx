@@ -1482,12 +1482,6 @@ Now have variants of Correlogram and Flow
 \end_layout
 
 \begin_layout Itemize
-LOOKING AT ANOMALIES, THEY ARE IN DIFFERENT PLACE FOR DIFFERENT FEATURES,
- SO NEED TO INCLUDE A COMBINATION OF FEATURES, TRY AND EXPLAIN THE ANOMALIES
- IF I CAN
-\end_layout
-
-\begin_layout Itemize
 MAIN FILE IN THE END SHOULD ONLY HAVE THE DATASET AS A PARAMETER, ONE FEATURE
  COMBINATION, ONE PERSON DETECTOR, MULTI-CAMERAS (KEEP CURRENT MAIN AS WELL)
 \end_layout
@@ -1499,6 +1493,32 @@ SHOULD I INCLUDE THE LITERATURE THAT MY FEATURES COME FROM IN MY RELATED
 
 \begin_layout Itemize
 HOG SUBSTANTIALLY SLOWER AND DOESN'T ADD ANYTHING TO ACCURACY OF CLASSIFICATION.
+\end_layout
+
+\begin_layout Section*
+Questions for skype call with Toby
+\end_layout
+
+\begin_layout Itemize
+Related work - should this be other Re-ID systems, as I have done, or literature
+ on some of the features?
+\end_layout
+
+\begin_layout Itemize
+Best way to combine my good features?
+\end_layout
+
+\begin_layout Itemize
+Do I need precision/accuracy/hit rate analysis of final system, as the results
+ won't really mean anything as any misclassifications ruin the data?
+\end_layout
+
+\begin_layout Itemize
+How do I deal with anomalies?
+\end_layout
+
+\begin_layout Itemize
+References in page count?
 \end_layout
 
 \end_body
