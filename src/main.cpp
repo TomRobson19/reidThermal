@@ -281,6 +281,8 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 					  hist.convertTo(hist, CV_64F);
 
+					  normalize(hist, hist, 1, 0, NORM_L1, -1, Mat());
+
 					  feature.push_back(hist);
 
 
@@ -324,6 +326,8 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 						}
 
 						newCorrelogram.convertTo(newCorrelogram, CV_64F);
+
+						normalize(newCorrelogram, newCorrelogram, 1, 0, NORM_L1, -1, Mat());
 
 						feature.push_back(newCorrelogram);
 
@@ -375,7 +379,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 						  
 						  histFlow.convertTo(histFlow, CV_64F);
 
-						  cout << histFlow << endl;
+						  normalize(histFlow, histFlow, 1, 0, NORM_L1, -1, Mat());
 
 						  feature.push_back(histFlow);
 						}
@@ -385,7 +389,6 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 						{
 							feature=feature.t();
 
-							normalize(feature, feature, 1, 0, NORM_L1, -1, Mat());
 							//cout << "New Feature" << endl << feature << endl;
 
 							if(multipleCameras == 1)
