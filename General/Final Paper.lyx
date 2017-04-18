@@ -1026,7 +1026,8 @@ As can be seen from the prior work discussed above, the research that has
  that have rarely, if at all, been used for Re-Identification purposes.
  As our interest is primarily centred on the features we are using, we will
  implement fairly basic and well understood techniques for person tracking,
- as will be discussed in the next section.
+ and then implement features on top of this, as will be discussed in the
+ next section.
  
 \end_layout
 

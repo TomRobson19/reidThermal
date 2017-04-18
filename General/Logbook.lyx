@@ -1405,10 +1405,6 @@ Easter Holidays - Key Issues
 \end_layout
 
 \begin_layout Itemize
-Should HuMoments operate on the resized ROI or not?
-\end_layout
-
-\begin_layout Itemize
 Still need to establish best HOG parameters for feature
 \end_layout
 
@@ -1478,15 +1474,6 @@ Didn't originally write Flow as a Histogram, now changed it to be a histogram
 \end_layout
 
 \begin_layout Itemize
-Now have variants of Correlogram and Flow
-\end_layout
-
-\begin_layout Itemize
-MAIN FILE IN THE END SHOULD ONLY HAVE THE DATASET AS A PARAMETER, ONE FEATURE
- COMBINATION, ONE PERSON DETECTOR, MULTI-CAMERAS (KEEP CURRENT MAIN AS WELL)
-\end_layout
-
-\begin_layout Itemize
 SHOULD I INCLUDE THE LITERATURE THAT MY FEATURES COME FROM IN MY RELATED
  WORK SECTION???
 \end_layout
@@ -1497,11 +1484,6 @@ HOG SUBSTANTIALLY SLOWER AND DOESN'T ADD ANYTHING TO ACCURACY OF CLASSIFICATION.
 
 \begin_layout Section*
 Questions for skype call with Toby
-\end_layout
-
-\begin_layout Itemize
-Related work - should this be other Re-ID systems, as I have done, or literature
- on some of the features?
 \end_layout
 
 \begin_layout Itemize
@@ -1522,6 +1504,11 @@ Do I need precision/accuracy/hit rate analysis of final system, as the results
 How do I deal with anomalies? Think most are caused by the jumps in the
  videos, but some of them caused by the person detector cutting parts of
  the people off.
+\end_layout
+
+\begin_layout Itemize
+Related work - should this be other Re-ID systems, as I have done, or literature
+ on some of the features?
 \end_layout
 
 \begin_layout Itemize
