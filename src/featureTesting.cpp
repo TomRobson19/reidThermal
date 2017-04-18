@@ -601,7 +601,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								  calcHist(&temp, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
 								  feature = hist.clone();
 
-								  cout << feature << endl;
+								  //cout << feature << endl;
 								  feature = feature.t();
 								}
 							}
