@@ -50,7 +50,14 @@ bool matIsEqual(const cv::Mat mat1, const cv::Mat mat2){
 	cv::Mat diff;
 	cv::compare(mat1, mat2, diff, cv::CMP_NE);
 	int nz = cv::countNonZero(diff);
-	return nz==0;
+	if(nz==0) 
+  { 
+    return true; 
+  } 
+  else 
+  { 
+    return false; 
+  } 
 }
  
 int runOnSingleCamera(String file, int cameraID, int multipleCameras) 
@@ -112,8 +119,9 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 			  EVENT_LOOP_DELAY = 0;
 		  }
 
-		  if(matIsEqual(img,previousImg) == false || timeSteps < 100)
+		  if(matIsEqual(img,previousImg) == false)
 		  {
+		  	previousImg = img;
 			  // update background model and get background/foreground
 			  MoG->apply(img, foreground, (double)(1.0/learning));
 

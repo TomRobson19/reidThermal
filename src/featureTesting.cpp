@@ -52,7 +52,15 @@ bool matIsEqual(const cv::Mat mat1, const cv::Mat mat2){
 	cv::Mat diff;
 	cv::compare(mat1, mat2, diff, cv::CMP_NE);
 	int nz = cv::countNonZero(diff);
-	return nz==0;
+
+	if(nz==0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
  
 int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraID) 
@@ -124,9 +132,11 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 			  EVENT_LOOP_DELAY = 0;
 		  }
 
-		  if(matIsEqual(img,previousImg) == false || timeSteps < 100)
+		  if(matIsEqual(img,previousImg) == false)
 		  {
 			  // update background model and get background/foreground
+		  	previousImg = img;
+
 			  MoG->apply(img, foreground, (double)(1.0/learning));
 
 			  //imshow("old foreground", foreground);
