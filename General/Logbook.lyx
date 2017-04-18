@@ -1533,5 +1533,14 @@ Related work - constantly argue that I am state of the art, we agree that
 References in page count - Fairly sure they count
 \end_layout
 
+\begin_layout Section*
+Next Step
+\end_layout
+
+\begin_layout Itemize
+Implemented stuff that Toby suggested, the rectangles from Kalman filter
+ jump around a lot.
+\end_layout
+
 \end_body
 \end_document
