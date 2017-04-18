@@ -249,21 +249,53 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 							// The HOG/Cascade detector returns slightly larger rectangles than the real objects,
 							// so we slightly shrink the rectangles to get a nicer output.
-							rec.x += rec.width*0.1;
-							rec.width = rec.width*0.8;
-							rec.y += rec.height*0.1;
-							rec.height = rec.height*0.8;
+							// rec.x += rec.width*0.1;
+							// rec.width = rec.width*0.8;
+							// rec.y += rec.height*0.1;
+							// rec.height = rec.height*0.8;
 							// rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
 							Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
-							Mat regionOfInterest;
+							bool useKalmanRectangle = false;
+							int targetID, closestX = 100, closestY = 100;
 
-							Mat regionOfInterestOriginal = img(rec);
-							//Mat regionOfInterestOriginal = img(r);
+							for(int iterator = 0; i < targets.size(); i++)
+							{
+								Point2f lastPosition = targets[iterator].getLastPosition();
+								int xDistance = fabs(center.x-lastPosition.x);
+								int yDistance = fabs(center.y-lastPosition.y);
 
-							Mat regionOfInterestForeground  = foreground(rec);
-							//Mat regionOfInterestForeground = foreground(r);
+								if(targets[iterator].getCurrentCamera() == cameraID && timeSteps - targets[iterator].getLastSeen() < 10 \
+								   && (xDistance<50 && yDistance<50))
+								{
+									useKalmanRectangle = true;
+									//come up with something better than this
+									if(xDistance+yDistance < closestX+closestY)
+									{
+										targetID = iterator;
+										closestX = xDistance;
+										closestY = yDistance;
+									}
+								}
+							}
+
+							Mat regionOfInterest, regionOfInterestOriginal, regionOfInterestForeground;
+
+							if(useKalmanRectangle == true)
+							{
+								Rect p = targets[targetID].kalmanPredict();
+
+								regionOfInterestOriginal = img(p);
+
+								regionOfInterestForeground  = foreground(p);
+							}
+							else
+							{
+								regionOfInterestOriginal = img(rec);
+
+								regionOfInterestForeground  = foreground(rec);
+							}
 
 							bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
 
