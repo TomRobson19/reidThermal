@@ -86,6 +86,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 		// start main loop
 	  while(keepProcessing)
 		{
+			//##########################
 		  int64 timeStart = getTickCount();
 
 			if (cap.isOpened())
@@ -879,15 +880,17 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 		  imshow(windowName, outputImage);
 		  //video.write(outputImage);
 
-	  key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
+		  key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
 
-	  if (key == 'x')
-  	{
-			// if user presses "x" then exit
-			std::cout << "Keyboard exit requested : exiting now - bye!" << std::endl;
-			keepProcessing = false;
-	  }
-	  timeSteps += 1;
+		  if (key == 'x')
+	  	{
+				// if user presses "x" then exit
+				std::cout << "Keyboard exit requested : exiting now - bye!" << std::endl;
+				keepProcessing = false;
+		  }
+		  timeSteps += 1;
+		  
+		  //##########################
 	  }
 	  // the camera will be deinitialized automatically in VideoCapture destructor
 	  // all OK : main returns 0

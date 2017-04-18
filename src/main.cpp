@@ -572,13 +572,13 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 		  	key = waitKey((int) std::max(2.0, EVENT_LOOP_DELAY - (((getTickCount() - timeStart) / getTickFrequency())*1000)));
 		  }
 
-	  if (key == 'x')
-  	{
-			// if user presses "x" then exit
-			std::cout << "Keyboard exit requested : exiting now - bye!" << std::endl;
-			keepProcessing = false;
-	  }
-	  timeSteps += 1;
+		  if (key == 'x')
+	  	{
+				// if user presses "x" then exit
+				std::cout << "Keyboard exit requested : exiting now - bye!" << std::endl;
+				keepProcessing = false;
+		  }
+		  timeSteps += 1;
 	  }
 	  // the camera will be deinitialized automatically in VideoCapture destructor
 	  // all OK : main returns 0
