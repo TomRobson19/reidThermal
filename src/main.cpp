@@ -37,6 +37,21 @@ static const char* keys =
     ("{h help       | | Help Menu}"
      "{d dataset    | | Dataset - 1, 2, 3}"
      "{t testing 		| | 1 - yes, 2 - no}");
+
+bool matIsEqual(const cv::Mat mat1, const cv::Mat mat2){
+	// treat two empty mat as identical as well
+	if (mat1.empty() && mat2.empty()) {
+	  return true;
+	}
+	// if dimensionality of two mat is not identical, these two mat is not identical
+	if (mat1.cols != mat2.cols || mat1.rows != mat2.rows || mat1.dims != mat2.dims) {
+	  return false;
+	}
+	cv::Mat diff;
+	cv::compare(mat1, mat2, diff, cv::CMP_NE);
+	int nz = cv::countNonZero(diff);
+	return nz==0;
+}
  
 int runOnSingleCamera(String file, int cameraID, int multipleCameras) 
 {
@@ -96,435 +111,321 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 			  // indefinitely (as single image file, no need to loop)
 			  EVENT_LOOP_DELAY = 0;
 		  }
-		  // update background model and get background/foreground
-		  MoG->apply(img, foreground, (double)(1.0/learning));
 
-/////////////////////////////////////////////////////////////////////////////////SUPERPIXELS
-		  int useSuperpixels = 0;
-		  
-		  if(useSuperpixels == 1)
-			{
-			  Mat seedMask, labels, result;
-
-			  result = img.clone();
-
-			  int width = img.size().width;
-	    	int height = img.size().height;
-
-		    seeds = createSuperpixelSEEDS(width, height, 1, 2000, 10, 2, 5, true);
-
-	  	  seeds->iterate(img, 10);
-
-	    	seeds->getLabels(labels);
-
-	    	vector<int> counter(seeds->getNumberOfSuperpixels(),0);
-	    	vector<int> numberOfPixelsPerSuperpixel(seeds->getNumberOfSuperpixels(),0);
-
-	    	vector<bool> useSuperpixel(seeds->getNumberOfSuperpixels(),false);
-
-	    	for(int i = 0; i<foreground.rows; i++)
-	    	{
-	    		for(int j = 0; j<foreground.cols; j++)
-	    		{
-	    			numberOfPixelsPerSuperpixel[labels.at<int>(i,j)] += 1;
-	    			if(foreground.at<unsigned char>(i,j)==255)
-	    			{
-	    				counter[labels.at<int>(i,j)] += 1;
-	    			}
-	    		}
-	    	}
-
-	    	for(int i = 0; i<counter.size(); i++)
-	    	{
-	    		if(counter[i]/numberOfPixelsPerSuperpixel[i] > 0.0001)
-	    		{
-	    			useSuperpixel[i] = true;
-	    		}
-	    	}
-
-	    	for(int i = 0; i<foreground.rows; i++)
-	    	{
-	    		for(int j = 0; j<foreground.cols; j++)
-	    		{
-	    			if(useSuperpixel[labels.at<int>(i,j)] == true)
-	    			{
-	    				foreground.at<unsigned char>(i,j) = 255;
-	    			}
-	    			else
-	    			{
-	    				foreground.at<unsigned char>(i,j) = 0;
-	    			}
-	    		}
-	    	}
-			}
-/////////////////////////////////////////////////////////////////////////////////
-			else
-			{
-			  // perform erosion - removes boundaries of foreground object
-			  erode(foreground, foreground, Mat(),Point(),1);
-
-			  // perform morphological closing
-			  dilate(foreground, foreground, Mat(),Point(),5);
-			  erode(foreground, foreground, Mat(),Point(),1);
-			}
-
-		  // get connected components from the foreground
-		  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
-
-		  // iterate through all the top-level contours,
-		  // and get bounding rectangles for them (if larger than given value)
-
-		  for(int idx = 0; idx >=0; idx = hierarchy[idx][0])
+		  if(matIsEqual(img,previousImg) == false || timeSteps < 100)
 		  {
-				Rect r = boundingRect(contours[idx]);
+			  // update background model and get background/foreground
+			  MoG->apply(img, foreground, (double)(1.0/learning));
 
-				// adjust bounding rectangle to be padding% larger
-				// around the object
-				r.x = max(0, r.x - (int) (padding/100.0 * (double) r.width));
-				r.y = max(0, r.y - (int) (padding/100.0 * (double) r.height));
-
-				r.width = min(img.cols - 1, (r.width + 2 * (int) (padding/100.0 * (double) r.width)));
-				r.height = min(img.rows - 1, (r.height + 2 * (int) (padding/100.0 * (double) r.height)));
-
-				// draw rectangle if greater than width/height constraints and if
-				// also still inside image
-				if ((r.width >= width) && (r.height >= height) && (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
+	/////////////////////////////////////////////////////////////////////////////////SUPERPIXELS
+			  int useSuperpixels = 0;
+			  
+			  if(useSuperpixels == 1)
 				{
-				  vector<Rect> found, found_filtered;
+				  Mat seedMask, labels, result;
 
-				  Mat roi = img(r);
+				  result = img.clone();
 
-			  	if (cameraID == 3)
-			  	{
-			  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,64));
-			  	}
-			  	else
-			  	{
-			  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(96,160));
-			  	}
+				  int width = img.size().width;
+		    	int height = img.size().height;
 
-				  for(size_t i = 0; i < found.size(); i++ )
-				  {
-						Rect rec = found[i];
+			    seeds = createSuperpixelSEEDS(width, height, 1, 2000, 10, 2, 5, true);
 
-						rec.x += r.x;
-						rec.y += r.y;
+		  	  seeds->iterate(img, 10);
 
-						size_t j;
-						// Do not add small detections inside a bigger detection.
-						for ( j = 0; j < found.size(); j++ )
-						{
-						  if ( j != i && (rec & found[j]) == rec )
-						  {
-							  break;
-						  }
-						}
+		    	seeds->getLabels(labels);
 
-						if (j == found.size())
-						{
-						  found_filtered.push_back(rec);
-						}
-				  }
-				  for (size_t i = 0; i < found_filtered.size(); i++)
-				  {
-						Rect rec = found_filtered[i];
+		    	vector<int> counter(seeds->getNumberOfSuperpixels(),0);
+		    	vector<int> numberOfPixelsPerSuperpixel(seeds->getNumberOfSuperpixels(),0);
 
-						// The HOG/Cascade detector returns slightly larger rectangles than the real objects,
-						// so we slightly shrink the rectangles to get a nicer output.
-						rec.x += rec.width*0.1;
-						rec.width = rec.width*0.8;
-						rec.y += rec.height*0.1;
-						rec.height = rec.height*0.8;
-						// rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+		    	vector<bool> useSuperpixel(seeds->getNumberOfSuperpixels(),false);
 
-						Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
+		    	for(int i = 0; i<foreground.rows; i++)
+		    	{
+		    		for(int j = 0; j<foreground.cols; j++)
+		    		{
+		    			numberOfPixelsPerSuperpixel[labels.at<int>(i,j)] += 1;
+		    			if(foreground.at<unsigned char>(i,j)==255)
+		    			{
+		    				counter[labels.at<int>(i,j)] += 1;
+		    			}
+		    		}
+		    	}
 
-						Mat regionOfInterest;
+		    	for(int i = 0; i<counter.size(); i++)
+		    	{
+		    		if(counter[i]/numberOfPixelsPerSuperpixel[i] > 0.0001)
+		    		{
+		    			useSuperpixel[i] = true;
+		    		}
+		    	}
 
-						Mat regionOfInterestOriginal = img(rec);
-						//Mat regionOfInterestOriginal = img(r);
+		    	for(int i = 0; i<foreground.rows; i++)
+		    	{
+		    		for(int j = 0; j<foreground.cols; j++)
+		    		{
+		    			if(useSuperpixel[labels.at<int>(i,j)] == true)
+		    			{
+		    				foreground.at<unsigned char>(i,j) = 255;
+		    			}
+		    			else
+		    			{
+		    				foreground.at<unsigned char>(i,j) = 0;
+		    			}
+		    		}
+		    	}
+				}
+	/////////////////////////////////////////////////////////////////////////////////
+				else
+				{
+				  // perform erosion - removes boundaries of foreground object
+				  erode(foreground, foreground, Mat(),Point(),1);
 
-						Mat regionOfInterestForeground  = foreground(rec);
-						//Mat regionOfInterestForeground = foreground(r);
+				  // perform morphological closing
+				  dilate(foreground, foreground, Mat(),Point(),5);
+				  erode(foreground, foreground, Mat(),Point(),1);
+				}
 
-						bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
+			  // get connected components from the foreground
+			  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
-						Mat clone = regionOfInterest.clone();
+			  // iterate through all the top-level contours,
+			  // and get bounding rectangles for them (if larger than given value)
 
-						resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
+			  for(int idx = 0; idx >=0; idx = hierarchy[idx][0])
+			  {
+					Rect r = boundingRect(contours[idx]);
 
+					// adjust bounding rectangle to be padding% larger
+					// around the object
+					r.x = max(0, r.x - (int) (padding/100.0 * (double) r.width));
+					r.y = max(0, r.y - (int) (padding/100.0 * (double) r.height));
 
+					r.width = min(img.cols - 1, (r.width + 2 * (int) (padding/100.0 * (double) r.width)));
+					r.height = min(img.rows - 1, (r.height + 2 * (int) (padding/100.0 * (double) r.height)));
 
-						double huMoments[7];
-						vector<double> hu(7);
-						Mat hist;
-						Mat histFlow;
-						vector<float> descriptorsValues;
+					// draw rectangle if greater than width/height constraints and if
+					// also still inside image
+					if ((r.width >= width) && (r.height >= height) && (r.x + r.width < img.cols) && (r.y + r.height < img.rows))
+					{
+					  vector<Rect> found, found_filtered;
 
-						Mat feature;
+					  Mat roi = img(r);
 
-						double classificationThreshold;
+				  	if (cameraID == 3)
+				  	{
+				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(32,64));
+				  	}
+				  	else
+				  	{
+				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(96,160));
+				  	}
 
-						bool classify = true;
+					  for(size_t i = 0; i < found.size(); i++ )
+					  {
+							Rect rec = found[i];
 
-						classificationThreshold = 6;
+							rec.x += r.x;
+							rec.y += r.y;
 
-					  
-
-
-					  int histSize = 32;    // bin size - need to determine which pixel threshold to use
-					  float range[] = {0,255};
-					  const float *ranges[] = {range};
-					  int channels[] = {0, 1};
-
-					  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
-
-					  hist.convertTo(hist, CV_64F);
-
-					  normalize(hist, hist, 1, 0, NORM_L1, -1, Mat());
-
-					  feature.push_back(hist);
-
-
-						int sizes[] = { 8, 8, 3 };
-						Mat correlogram(3, sizes, CV_32S, cv::Scalar(0));
-
-						Mat newCorrelogram;
-
-						int xIntensity, yIntensity;
-
-						for(int i = 0; i<regionOfInterest.rows; i++)
-						{
-							for(int j = 0; j<regionOfInterest.cols; j++)
+							size_t j;
+							// Do not add small detections inside a bigger detection.
+							for ( j = 0; j < found.size(); j++ )
 							{
-								xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/32);
+							  if ( j != i && (rec & found[j]) == rec )
+							  {
+								  break;
+							  }
+							}
 
-								for(int k = i; k<regionOfInterest.rows; k++)
+							if (j == found.size())
+							{
+							  found_filtered.push_back(rec);
+							}
+					  }
+					  for (size_t i = 0; i < found_filtered.size(); i++)
+					  {
+							Rect rec = found_filtered[i];
+
+							// The HOG/Cascade detector returns slightly larger rectangles than the real objects,
+							// so we slightly shrink the rectangles to get a nicer output.
+							rec.x += rec.width*0.1;
+							rec.width = rec.width*0.8;
+							rec.y += rec.height*0.1;
+							rec.height = rec.height*0.8;
+							// rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
+
+							Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
+
+							Mat regionOfInterest;
+
+							Mat regionOfInterestOriginal = img(rec);
+							//Mat regionOfInterestOriginal = img(r);
+
+							Mat regionOfInterestForeground  = foreground(rec);
+							//Mat regionOfInterestForeground = foreground(r);
+
+							bitwise_and(regionOfInterestOriginal, regionOfInterestForeground, regionOfInterest);
+
+							Mat clone = regionOfInterest.clone();
+
+							resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
+
+
+
+							double huMoments[7];
+							vector<double> hu(7);
+							Mat hist;
+							Mat histFlow;
+							vector<float> descriptorsValues;
+
+							Mat feature;
+
+							double classificationThreshold;
+
+							bool classify = true;
+
+							classificationThreshold = 6;
+
+						  
+
+
+						  int histSize = 32;    // bin size - need to determine which pixel threshold to use
+						  float range[] = {0,255};
+						  const float *ranges[] = {range};
+						  int channels[] = {0, 1};
+
+						  calcHist(&regionOfInterest, 1, channels, Mat(), hist, 1, &histSize, ranges, true, false);
+
+						  hist.convertTo(hist, CV_64F);
+
+						  normalize(hist, hist, 1, 0, NORM_L1, -1, Mat());
+
+						  feature.push_back(hist);
+
+
+							int sizes[] = { 8, 8, 3 };
+							Mat correlogram(3, sizes, CV_32S, cv::Scalar(0));
+
+							Mat newCorrelogram;
+
+							int xIntensity, yIntensity;
+
+							for(int i = 0; i<regionOfInterest.rows; i++)
+							{
+								for(int j = 0; j<regionOfInterest.cols; j++)
 								{
-									for(int l = j; l<regionOfInterest.cols; l++)
+									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/32);
+
+									for(int k = i; k<regionOfInterest.rows; k++)
 									{
-										if((k == i && l > j) || k > i)
+										for(int l = j; l<regionOfInterest.cols; l++)
 										{
-											yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
-										
-											double distance = (norm(Point(i,j)-Point(k,l)));
-											correlogram.at<int>(xIntensity,yIntensity,floor(distance/50)) += 1;
+											if((k == i && l > j) || k > i)
+											{
+												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
+											
+												double distance = (norm(Point(i,j)-Point(k,l)));
+												correlogram.at<int>(xIntensity,yIntensity,floor(distance/50)) += 1;
+											}
 										}
 									}
 								}
 							}
-						}
-						for(int i = 0; i<8; i++)
-						{
-							for(int j = 0; j<8; j++)
+							for(int i = 0; i<8; i++)
 							{
-								for(int k = 0; k<3; k++)
+								for(int j = 0; j<8; j++)
 								{
-									newCorrelogram.push_back(correlogram.at<int>(i,j,k));
+									for(int k = 0; k<3; k++)
+									{
+										newCorrelogram.push_back(correlogram.at<int>(i,j,k));
+									}
 								}
 							}
-						}
 
-						newCorrelogram.convertTo(newCorrelogram, CV_64F);
+							newCorrelogram.convertTo(newCorrelogram, CV_64F);
 
-						normalize(newCorrelogram, newCorrelogram, 1, 0, NORM_L1, -1, Mat());
+							normalize(newCorrelogram, newCorrelogram, 1, 0, NORM_L1, -1, Mat());
 
-						feature.push_back(newCorrelogram);
+							feature.push_back(newCorrelogram);
 
 
-												
-						Mat opticalFlow;
-						classify = false;
+													
+							Mat opticalFlow;
+							classify = false;
 
-						if(previousROIs.size() == 0)
-						{
-							previousROIs.push_back(regionOfInterest);
-							centersOfROIs.push_back(center);
-						}
-						else
-						{
-							Mat previousROI;
-							bool hasPrevious = false;
-							for(int i = 0; i<centersOfROIs.size(); i++)
-							{
-								if(fabs(center.x-centersOfROIs[i].x)<100 and fabs(center.y-centersOfROIs[i].y)<100)
-								{
-									previousROI = previousROIs[i];
-									hasPrevious = true;
-								}
-							}
-							if(hasPrevious == true)
-							{
-								classify = true;
-								calcOpticalFlowFarneback(previousROI, regionOfInterest, opticalFlow, 0.5, 3, 15, 3, 5, 1.2, 0);
-							}
-							else
+							if(previousROIs.size() == 0)
 							{
 								previousROIs.push_back(regionOfInterest);
 								centersOfROIs.push_back(center);
 							}
-						}
-
-						if(classify == true)
-						{
-							Mat temp;
-							transform(opticalFlow, temp, cv::Matx12f(1,1));
-
-							int histFlowSize = 50;    // bin size - need to determine which pixel threshold to use
-						  float flowRange[] = {-25,25};
-						  const float *flowRanges[] = {flowRange};
-						  int flowChannels[] = {0, 1};
-
-						  calcHist(&temp, 1, flowChannels, Mat(), histFlow, 1, &histFlowSize, flowRanges, true, false);
-						  
-						  histFlow.convertTo(histFlow, CV_64F);
-
-						  normalize(histFlow, histFlow, 1, 0, NORM_L1, -1, Mat());
-
-						  feature.push_back(histFlow);
-						}
-
-						//classifier
-						if(classify == true)
-						{
-							feature=feature.t();
-
-							//cout << "New Feature" << endl << feature << endl;
-
-							if(multipleCameras == 1)
-							{
-								//LOCK
-								pthread_mutex_lock(&myLock);
-							}
-
-							if(targets.size() == 0) //if first target found
-							{
-							  Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
-
-							  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-
-							  Rect p = person.kalmanPredict();
-
-							  person.updateFeatures(feature);
-
-							  person.setCurrentCamera(cameraID);
-
-							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
-
-							  char str[200];
-							  sprintf(str,"Person %d",person.getIdentifier());
-
-							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-
-							  targets.push_back(person);
-							  specialCase = true;
-							}
-							else if(specialCase == true)
-							{
-								targets[0].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-
-							  Rect p = targets[0].kalmanPredict();
-
-					  		targets[0].updateFeatures(feature);
-
-					  		targets[0].setCurrentCamera(cameraID);
-
-							  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
-
-							  char str[200];
-							  sprintf(str,"Person %d",targets[0].getIdentifier());
-
-							  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-
-							  specialCase = false;
-							}
 							else
 							{
-								vector<double> mDistances;
-
-								Mat benchmarkCovar;
-								
-								for(int i = 0; i<targets.size(); i++)
+								Mat previousROI;
+								bool hasPrevious = false;
+								for(int i = 0; i<centersOfROIs.size(); i++)
 								{
-									Mat covar, mean;
-									Mat data = targets[i].getFeatures();
-									
-									calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
-
-									if(i == 0)
+									if(fabs(center.x-centersOfROIs[i].x)<100 and fabs(center.y-centersOfROIs[i].y)<100)
 									{
-										benchmarkCovar = covar.clone();
+										previousROI = previousROIs[i];
+										hasPrevious = true;
 									}
+								}
+								if(hasPrevious == true)
+								{
+									classify = true;
+									calcOpticalFlowFarneback(previousROI, regionOfInterest, opticalFlow, 0.5, 3, 15, 3, 5, 1.2, 0);
+								}
+								else
+								{
+									previousROIs.push_back(regionOfInterest);
+									centersOfROIs.push_back(center);
+								}
+							}
 
-									double mDistance;
+							if(classify == true)
+							{
+								Mat temp;
+								transform(opticalFlow, temp, cv::Matx12f(1,1));
 
-									if(data.rows == 1)
-									{
-										Mat invCovar;
+								int histFlowSize = 50;    // bin size - need to determine which pixel threshold to use
+							  float flowRange[] = {-25,25};
+							  const float *flowRanges[] = {flowRange};
+							  int flowChannels[] = {0, 1};
 
-										invert(benchmarkCovar,invCovar,DECOMP_SVD);
+							  calcHist(&temp, 1, flowChannels, Mat(), histFlow, 1, &histFlowSize, flowRanges, true, false);
+							  
+							  histFlow.convertTo(histFlow, CV_64F);
 
-										mDistance = Mahalanobis(feature,mean,invCovar);
+							  normalize(histFlow, histFlow, 1, 0, NORM_L1, -1, Mat());
 
-										cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
-									}
-									else
-									{
-										Mat invCovar;
+							  feature.push_back(histFlow);
+							}
 
-										invert(covar,invCovar,DECOMP_SVD);
+							//classifier
+							if(classify == true)
+							{
+								feature=feature.t();
 
-										mDistance = Mahalanobis(feature,mean,invCovar);
+								//cout << "New Feature" << endl << feature << endl;
 
-										cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
-									}
-									mDistances.push_back(mDistance);
+								if(multipleCameras == 1)
+								{
+									//LOCK
+									pthread_mutex_lock(&myLock);
 								}
 
-								Mat dists = Mat(mDistances);
-								
-								cout << endl << endl << endl << endl << endl << endl << endl;
-								//cout << dists << endl;
-
-	    					double lowestDist = 0.0;
-	    					int identifier = 0;
-
-	    					double min, max;
-								Point min_loc, max_loc;
-								minMaxLoc(dists, &min, &max, &min_loc, &max_loc);
-
-								lowestDist = min;
-								identifier = min_loc.y;
-
-	    					if(lowestDist <= classificationThreshold)
-	    					{
-	    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-
-								  Rect p = targets[identifier].kalmanPredict();
-
-						  		targets[identifier].updateFeatures(feature);
-
-						  		targets[identifier].setCurrentCamera(cameraID);
-
-								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
-
-								  char str[200];
-								  sprintf(str,"Person %d",targets[identifier].getIdentifier());
-
-								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
-	    					}
-	    					else
-	    					{
-	    						int identifier = targets.size();
-								  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+								if(targets.size() == 0) //if first target found
+								{
+								  Person person(0, center.x, center.y, timeSteps, rec.width, rec.height);
 
 								  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
-								  
+
 								  Rect p = person.kalmanPredict();
 
-						  		person.updateFeatures(feature);
+								  person.updateFeatures(feature);
 
-						  		person.setCurrentCamera(cameraID);
+								  person.setCurrentCamera(cameraID);
 
 								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
 
@@ -534,32 +435,149 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 
 								  targets.push_back(person);
-	    					}
-	    					if(multipleCameras == 0)
-	    					{
-									if (lowestDist > classificationThreshold)
-									{
-										imshow("error",regionOfInterest);
-										//waitKey(1000000000);
-									}
-									else
-									{
-										imshow("roi", regionOfInterest);
-										//waitKey(1000000);
-									}
+								  specialCase = true;
 								}
-			    		}
-			    		if(multipleCameras == 1)
-			    		{
-			    			//UNLOCK
-		    				pthread_mutex_unlock(&myLock);
-					  	}
-		    		}
-				  }
-				  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
-				}
-		  }
+								else if(specialCase == true)
+								{
+									targets[0].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
+								  Rect p = targets[0].kalmanPredict();
+
+						  		targets[0].updateFeatures(feature);
+
+						  		targets[0].setCurrentCamera(cameraID);
+
+								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+								  char str[200];
+								  sprintf(str,"Person %d",targets[0].getIdentifier());
+
+								  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+
+								  specialCase = false;
+								}
+								else
+								{
+									vector<double> mDistances;
+
+									Mat benchmarkCovar;
+									
+									for(int i = 0; i<targets.size(); i++)
+									{
+										Mat covar, mean;
+										Mat data = targets[i].getFeatures();
+										
+										calcCovarMatrix(data,covar,mean,CV_COVAR_NORMAL|CV_COVAR_ROWS);
+
+										if(i == 0)
+										{
+											benchmarkCovar = covar.clone();
+										}
+
+										double mDistance;
+
+										if(data.rows == 1)
+										{
+											Mat invCovar;
+
+											invert(benchmarkCovar,invCovar,DECOMP_SVD);
+
+											mDistance = Mahalanobis(feature,mean,invCovar);
+
+											cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
+										}
+										else
+										{
+											Mat invCovar;
+
+											invert(covar,invCovar,DECOMP_SVD);
+
+											mDistance = Mahalanobis(feature,mean,invCovar);
+
+											cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
+										}
+										mDistances.push_back(mDistance);
+									}
+
+									Mat dists = Mat(mDistances);
+									
+									cout << endl << endl << endl << endl << endl << endl << endl;
+									//cout << dists << endl;
+
+		    					double lowestDist = 0.0;
+		    					int identifier = 0;
+
+		    					double min, max;
+									Point min_loc, max_loc;
+									minMaxLoc(dists, &min, &max, &min_loc, &max_loc);
+
+									lowestDist = min;
+									identifier = min_loc.y;
+
+		    					if(lowestDist <= classificationThreshold)
+		    					{
+		    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+
+									  Rect p = targets[identifier].kalmanPredict();
+
+							  		targets[identifier].updateFeatures(feature);
+
+							  		targets[identifier].setCurrentCamera(cameraID);
+
+									  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+									  char str[200];
+									  sprintf(str,"Person %d",targets[identifier].getIdentifier());
+
+									  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+		    					}
+		    					else
+		    					{
+		    						int identifier = targets.size();
+									  Person person(identifier, center.x, center.y, timeSteps, rec.width, rec.height);
+
+									  person.kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
+									  
+									  Rect p = person.kalmanPredict();
+
+							  		person.updateFeatures(feature);
+
+							  		person.setCurrentCamera(cameraID);
+
+									  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+
+									  char str[200];
+									  sprintf(str,"Person %d",person.getIdentifier());
+
+									  putText(outputImage, str, center, FONT_HERSHEY_SIMPLEX,1,(0,0,0));
+
+									  targets.push_back(person);
+		    					}
+		    					if(multipleCameras == 0)
+		    					{
+										if (lowestDist > classificationThreshold)
+										{
+											imshow("error",regionOfInterest);
+											//waitKey(1000000000);
+										}
+										else
+										{
+											imshow("roi", regionOfInterest);
+											//waitKey(1000000);
+										}
+									}
+				    		}
+				    		if(multipleCameras == 1)
+				    		{
+				    			//UNLOCK
+			    				pthread_mutex_unlock(&myLock);
+						  	}
+			    		}
+					  }
+					  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
+					}
+			  }
+			}
 		  // display image in window
 		  if(multipleCameras == 1)
 		  {
