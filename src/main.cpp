@@ -281,11 +281,12 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 							Mat feature;
 
-							double classificationThreshold;
+							double classificationThreshold, learningThreshold;
 
 							bool classify = true;
 
 							classificationThreshold = 6;
+							learningThreshold = 4;
 
 						  
 
@@ -516,11 +517,15 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 		    					if(lowestDist <= classificationThreshold)
 		    					{
+		    						if(lowestDist <= learningThreshold)
+		    						{
+		    							targets[identifier].updateFeatures(feature);
+		    							//decide if I should also put Kalman stuff in here
+		    						}
+
 		    						targets[identifier].kalmanCorrect(center.x, center.y, timeSteps, rec.width, rec.height);
 
 									  Rect p = targets[identifier].kalmanPredict();
-
-							  		targets[identifier].updateFeatures(feature);
 
 							  		targets[identifier].setCurrentCamera(cameraID);
 
