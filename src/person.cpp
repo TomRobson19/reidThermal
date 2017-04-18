@@ -42,6 +42,13 @@ Point2f Person::getLastPosition() {
 	return position;
 }
 
+Point2f Person::getKalmanRectangle() {
+  float currentX = measurement(4);
+  float currentY = measurement(5);
+  Point2f rectangle = Point2f(currentX,currentY);
+  return rectangle;
+}
+
 void Person::setCurrentCamera(int cameraID)
 {
   currentCamera = cameraID;
