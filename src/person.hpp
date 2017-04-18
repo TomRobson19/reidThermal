@@ -42,8 +42,6 @@ public:
 
 	Point2f getLastPosition();
 
-	Point2f getKalmanRectangle();
-
 	void setCurrentCamera(int cameraID);
 
 	int getCurrentCamera();
