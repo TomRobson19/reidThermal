@@ -1483,40 +1483,54 @@ HOG SUBSTANTIALLY SLOWER AND DOESN'T ADD ANYTHING TO ACCURACY OF CLASSIFICATION.
 \end_layout
 
 \begin_layout Section*
-Questions for skype call with Toby
+Skype call with Toby
 \end_layout
 
 \begin_layout Itemize
-Best way to combine my good features? This is all that is needed implementation
- wise.
+Best way to combine my good features? Remove anomalies, check how good combinati
+on is, if not as good as Hist then just use Hist.
 \end_layout
 
 \begin_layout Itemize
-Help with the previous imshow() advice
+Help with the previous imshow() advice - will discuss on friday
 \end_layout
 
 \begin_layout Itemize
 Do I need precision/accuracy/hit rate analysis of final system, as the results
- won't really mean anything as any misclassifications ruin the data?
+ won't really mean anything as any misclassifications ruin the data? - Get
+ if I can, it would be nice
 \end_layout
 
 \begin_layout Itemize
 How do I deal with anomalies? Think most are caused by the jumps in the
  videos, but some of them caused by the person detector cutting parts of
  the people off.
+ Don't consider frame if it is the same as the previous one, preserve a
+ few for background learning though.
+ Use Kalman filter to smooth out the bounding box size to prevent parts
+ of people being cut off.
+ 
 \end_layout
 
 \begin_layout Itemize
-Related work - should this be other Re-ID systems, as I have done, or literature
- on some of the features?
+If spikes persist, maybe have a classification threshold and a learning
+ threshold to prevent cross polution.
 \end_layout
 
 \begin_layout Itemize
-References in page count?
+For paper - thermal reset is a limitation of these uncooled thermal cameras,
+ nothing we can do about it.
+ 
 \end_layout
 
 \begin_layout Itemize
-Words in poster? How much sense does it need to make without me there?
+Related work - constantly argue that I am state of the art, we agree that
+ this has not been done before.
+ 
+\end_layout
+
+\begin_layout Itemize
+References in page count - Fairly sure they count
 \end_layout
 
 \end_body
