@@ -1443,6 +1443,8 @@ With such a Kalman Filter associated with each person object, we know where
  This can inform us as to which person any identified target is likely to
  be, due to their most recent position, and can speed up the comparison,
  as we know people cannot be in two places at once.
+ It also helps us to reduce noise from the person detector, as we have a
+ predicted size of the next classification of each person.
  The Figure below shows the output of this, with the red box showing the
  area identified as a foreground target, and the blue box is the predicted
  position of the target in the next frame.
