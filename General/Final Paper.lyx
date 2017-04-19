@@ -2120,14 +2120,12 @@ status open
 
 \begin_layout Plain Layout
 \align left
-The Histogram of Flow is another fairly discriminative feature, and while
- the two lines are closer together on this graph than on the graphs for
- the Histogram of Intensities and Correlogram, they are still far enough
- apart to be discriminative.
- Also, while this feature does still have some unusually high values, they
- are in a different place on the graph, meaning that these features should
- function well in combination with each other.
- 
+The Histogram of Flow is slightly discriminative feature, as the correct
+ person has a smaller average mahalanobis distance than the incorrect target,
+ but the two lines are close together and vary highly, meaning that it would
+ be very hard to determine an effective re-identification threshold for
+ using this feature, so it is therefore of very limited use to us when consideri
+ng which features to use in our final solution.
 \end_layout
 
 \end_inset
@@ -2161,6 +2159,64 @@ status collapsed
 
 \end_layout
 
+\begin_layout Standard
+\noindent
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\align left
+However, when just using the raw Optical Flow values that we have calculated
+ from our region of interest, we have a far more discriminative feature
+ than when we used these values to construct a histogram.
+ Even though we are only using every eighth row and column to enable this
+ feature to run in an acceptable amount of time, these results show that
+ it is one of our more discriminative features.
+ If we did not have this runtime limitation, it would be reasonable to expect
+ this feature to perform better.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/Flow.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 The Re-Identification System
 \end_layout
@@ -2168,150 +2224,7 @@ The Re-Identification System
 \begin_layout Standard
 Having evaluated the features, we now move on to the Re-Identification system
  itself.
- Here we will use a combination of the most discriminative features to try
- and get the best possible results, as this will help to eliminate some
- of the spikes in the above graphs.
- These most discriminative features are the Histogram of Intensities, the
- Thermal Correlogram and the Histogram of Optical Flow.
- These features have therefore been combined together, by simply concatenating
- them together.
- Due to the size of the combined feature vectors however, this method runs
- slowly, when all three are concatenated together.
- As a result of this, we have experimented the combination of all three
- features, as well as the possible combinations of two of them, using the
- same method as was used to test the induvidual features.
  
-\end_layout
-
-\begin_layout Standard
-Due to its third dimension, the Correlogram is the largest feature, and
- therefore has the greatest effect on runtime.
- Each combination that involves this feature 
-\end_layout
-
-\begin_layout Standard
-\noindent
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
