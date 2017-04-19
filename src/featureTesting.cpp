@@ -665,8 +665,6 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 
 								feature.push_back(newCorrelogram);
 
-
-														
 								Mat opticalFlow;
 
 								if(previousROIs.size() == 0)
@@ -694,28 +692,32 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 									}
 									else
 									{
+										classify = false;
 										previousROIs.push_back(regionOfInterest);
 										centersOfROIs.push_back(center);
 									}
 								}
-								Mat temp;
+
 								if(classify == true)
 								{
-									
-									transform(opticalFlow, temp, cv::Matx12f(1,1));
+									Mat temp;
+									Mat temp2;
+									for(int i = 8; i<regionOfInterest.rows; i+=8)
+									{
+										for(int j = 8; j< regionOfInterest.cols; j+=8)
+										{
+											temp.push_back(opticalFlow.at<Point2f>(i,j));
+										}
+									}
+									transform(temp, temp2, cv::Matx12f(1,1));
 
-									int histFlowSize = 50;    // bin size - need to determine which pixel threshold to use
-								  float flowRange[] = {-25,25};
-								  const float *flowRanges[] = {flowRange};
-								  int flowChannels[] = {0, 1};
+							  	normalize(temp2, temp2, 1, 0, NORM_L1, -1, Mat());
 
-								  calcHist(&temp, 1, flowChannels, Mat(), histFlow, 1, &histFlowSize, flowRanges, true, false);
-								  histFlow.convertTo(histFlow, CV_64F);
+							   	temp2.convertTo(temp2,CV_64F);
 
-								  normalize(histFlow, histFlow, 1, 0, NORM_L1, -1, Mat());
-
-								  feature.push_back(histFlow);
+							    feature.push_back(temp2);
 								}
+
 								feature = feature.t();
 							}
 
