@@ -1668,10 +1668,22 @@ key "Farneback2003"
  As mentioned when discussing the Correlogram, this feature vector is very
  large, and therefore takes a lot of processing time, making this not practical
  in real time.
- To mitigate this problem, instead of using the raw flow values that we
- have caluclated, we create a histogram of these values to enable us to
- better use all of the information available to us.
  
+\end_layout
+
+\begin_layout Standard
+To investigate this feature we use both the raw flow values that we have
+ caluclated, reduced to take every eight row and column as suggested in
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dawson-Howe2014"
+
+\end_inset
+
+, and we also create a histogram of these values to enable us to better
+ use all of the information available to us.
+ These two approaches will be compared in the results section
 \end_layout
 
 \begin_layout Subsection
@@ -1858,9 +1870,10 @@ status open
 Hu Moments proved to not be a very discriminative feature for the purpose
  of re-identification, as seen in the graph, as the mahalanobis distances
  for both correct and incorrect targets are very similar.
- The first entry also has a very large mahalanobis distance, which was due
- to the covariance matrix not yet allowing sufficient variation, as this
- feature seems to vary to quite a large extent.
+ The first entry also has a comparatively large mahalanobis distance relative
+ to the others, which we believe was due to the covariance matrix not yet
+ allowing sufficient variation, as this feature seems to vary to quite a
+ large extent.
  This feature is therefore not recommended for use in re-identification,
  and will not be used in the final system.
  
@@ -1919,12 +1932,11 @@ status open
 \begin_layout Plain Layout
 \align left
 As can be seen in the graph, the Histogram of Intensities was shown to be
- a good feature, as the line for the incorrect person is always higher than
- the line for the correct target, and we can therefore determine a threshold
- that will be correct for the majority of classifications.
+ a very good feature, as the line for the incorrect person is always higher
+ than the line for the correct target, and we can therefore determine a
+ threshold that will be correct for the vast majority of classifications.
  This will be a very useful feature for re-identification, and will be used
- for re-identification, but will need to be combined with other features
- to reduce the effects of these anomalies.
+ in the final system.
  
 \end_layout
 
@@ -2046,16 +2058,13 @@ status open
 \begin_layout Plain Layout
 \align left
 This feature has proved to be quite discriminative, as the graph shows.
- However, as previously discussed in the Histogram of Intensities section,
- there are some anomalies.
- The shape of the two graphs is fairly similar, as they are both a measure
- of how many pixels of differing intensities are present.
- The Correlogram gives an idea of locations of these pixels, and we believe
- it will be a useful feature in combination with the Histogram of Intensities
- when used in the final system.
- This performance is good even with the vastly simplified nature of the
- feature in this implementation, so we can expect that if our runtime constraint
-s did not exist, it would perform even better.
+ However, there are some notable anomalies, which we believe are due to
+ certain body parts being obstructed, such as a hand disappearing behind
+ the persons back for a frame.
+ Despite this, the performance of this feature is good even with the vastly
+ simplified nature of the feature in this implementation, so we can expect
+ that if our runtime constraints did not exist, it would perform even better,
+ as these anomalies would probably not occur.
  
 \end_layout
 
