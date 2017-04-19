@@ -2238,7 +2238,8 @@ Having evaluated the features, we now move on to the Re-Identification system
  The combination of all three gives good results, as the graph shows, but
  runs so slowly that it would be impractical to use, as it does not run
  anywhere close to real time.
- WRITE ABOUT ALL COMBINATIONS, SELECT FEATURE
+ WRITE ABOUT ALL COMBINATIONS, SELECT FEATURE, WRITE UP FEATURE IN MAIN
+ FILE
 \end_layout
 
 \begin_layout Standard
