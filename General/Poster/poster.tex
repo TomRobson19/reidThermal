@@ -70,7 +70,7 @@ The intent of this project is answer the question "Which features of a human tar
           \item Correlogram. 
            This method gives an idea of spatial correlation of colours, using a table indexed by colour pairs, where the k-th entry for <i,j> specifies how many pixels of colour j there are at a distance k from a pixel of colour i.
           \item Optical Flow. 
-          The purpose of this feature is to capture the movements of the target within the bounding box and store this in the form of a Histogram.
+          The purpose of this feature is to capture the movements of the target within the bounding box and either use the raw values of this or store them in the form of a Histogram.
           \end{itemize}
           The last 10 feature vectors for each target are stored. From here, we calculate the mean and covariance of these feature vectors, and use mahalanobis distance to compare each new person identified to each existing target. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.
         \end{block}
@@ -83,6 +83,7 @@ The intent of this project is answer the question "Which features of a human tar
 		\includegraphics[width=.45\linewidth]{../Graphs/Correlogram.png}
 		
 		\includegraphics[width=.45\linewidth]{../Graphs/HOF.png}
+		\includegraphics[width=.45\linewidth]{../Graphs/Flow.png}
 		
         \end{block}
 
