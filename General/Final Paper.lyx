@@ -1730,7 +1730,10 @@ on of this data, and relies on the mean and covariance of the distribution
  distance threshold, where the target is re-identified as one of the people
  already seen by the system if the mahalanobis distance is below the threshold,
  else a new person object is created.
- 
+ As anomalies are present in our dataset, we make this re-identification
+ threshold quite wide, but then have a much tighter learning threshold.
+ Only instances with mahalanobis distances less than this will be added
+ to the dataset to avoid corruption of each person's data.
 \end_layout
 
 \begin_layout Standard
@@ -2230,7 +2233,173 @@ Having evaluated the features, we now move on to the Re-Identification system
  The best feature that we have is the Histogram of Intensities, but the
  Thermal Correlogram and Raw Optical Flow values are also discriminative
  features.
- 
+ We have therefore experimented with different combinations of these three
+ features.
+ The combination of all three gives good results, as the graph shows, but
+ runs so slowly that it would be impractical to use, as it does not run
+ anywhere close to real time.
+ WRITE ABOUT ALL COMBINATIONS, SELECT FEATURE
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/All.png
+	scale 30
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/C+F.png
+	scale 30
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/H+C.png
+	scale 30
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/H+F.png
+	scale 30
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Combinations of Discriminative Features
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Having decided upon our feature, we will now implement this within the final
+ re-identification system, using the full comparison method described previously
+ in the Solution section, determining an effective re-identification threshold
+ and learning threshold based on the results that we have collected for
+ this feature.
+ To enable the multiple-camera functionality, we will pass multiple files
+ to the system and run each camera on a different thread, using locks to
+ make sure that the global targets array is not corrupted, and a wait command
+ to ensure that all cameras move through frames at the same rate, whether
+ they have processing to do or not.
 \end_layout
 
 \begin_layout Section
