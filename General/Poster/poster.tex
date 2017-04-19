@@ -35,10 +35,11 @@
 
   \vfill
   \begin{block}{Introduction}
-          A fundamental task for a distributed multi-camera surveillance system is Person Re-Identification, or to associate people across different camera views at different locations and times. This has been researched widely in colour, but there has been very little research done on solving this problem in thermal. 
+          A fundamental task for a distributed multi-camera surveillance system is Person Re-Identification, or to associate people across different camera views. This has been well researched in colour, but there has been very little research done on solving this problem in thermal, making our work state of the art. 
 
 The intent of this project is answer the question "Which features of a human target are appropriate to facilitate Re-Identification in thermal video?" and to develop a functioning Re-Identification system. The challenges associated with this are due to the increased complexity of thermal features compared to colour features.
         \end{block}
+        
     \begin{columns}[t]
       \begin{column}{.48\linewidth}
         
@@ -46,32 +47,32 @@ The intent of this project is answer the question "Which features of a human tar
         	The process of Person detection and Tracking employed in this Project can be broken down into multiple stages. 
         	\begin{itemize}
         	\item Background Subtraction. This is done using the Mixture of Gaussians (MOG) method, allowing the system to learn a background model and comparing each new frame to this. 
-        	\includegraphics[width=.80\linewidth]{Mog.png}
+        	\includegraphics[width=.90\linewidth]{Mog.png}
         	\item Person Identification. This is done by performing contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) or a Haar Cascade to determine whether this target is a person.
-        	\includegraphics[width=.80\linewidth]{Hog.png}
+        	\includegraphics[width=.90\linewidth]{Hog.png}
         	\item Person Tracking and Position Prediction. Each person identified has a Kalman Filter associated with them which records their position, velocity and size within the image, and predicts their next position. 
-          \includegraphics[width=.80\linewidth]{Kalman.png}
+          \includegraphics[width=.90\linewidth]{Kalman.png}
           \end{itemize}
         \end{block}
         
-        
       \end{column}
-
 
       \begin{column}{.48\linewidth}
         \begin{block}{Features and the Classifier}
         For this project, we have selected 5 potential features to test:
           \begin{itemize}
           \item Hu Moments. 
-          This enables us to describe, characterise, and quantify the shape of a target in a manner that is position, scale and rotation invariant.
-          \item Histogram of Thermal Intensities. The intensity of each pixel that makes up the target is recorded, and a histogram is constructed of all pixels within certain bounds.
-          \item Histogram of Oriented Gradients (HOG) Descriptor. This feature performs edge detection on the target and calculating the gradient and magnitude of each of these edges. These edges and gradients are processed and combined to give a HOG descriptor, a high dimensional vector. 
-          \item Correlogram. This method gives an idea of spatial correlation of colours, using a table indexed by colour pairs, where the  entry for <i,j>
-  specifies the average distance of a pixel of colour j from a pixel of colour i
-  in the image.
-          \item Optical Flow. The purpose of this feature is to capture the movements of the target within the bounding box and store this in the form of a Histogram.
+          This enables us to quantify the shape of a target in a manner that is position, scale and rotation invariant.
+          \item Histogram of Thermal Intensities. 
+          The intensity of each pixel in the Region of Interest is recorded, and a histogram is constructed from these values.
+          \item Histogram of Oriented Gradients (HOG) Descriptor. 
+          This feature performs edge detection on the target and calculating the gradient and magnitude of each of these edges. These edges and gradients are processed and combined to give a HOG descriptor, a high dimensional vector. 
+          \item Correlogram. 
+           This method gives an idea of spatial correlation of colours, using a table indexed by colour pairs, where the k-th entry for <i,j> specifies how many pixels of colour j there are at a distance k from a pixel of colour i.
+          \item Optical Flow. 
+          The purpose of this feature is to capture the movements of the target within the bounding box and store this in the form of a Histogram.
           \end{itemize}
-          The last 10 feature vectors for each target are stored. From here, we calculate the mean and covariance of these feature vectors, and use mahalanobis distance to compare each new person identified to each existing target. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.  
+          The last 10 feature vectors for each target are stored. From here, we calculate the mean and covariance of these feature vectors, and use mahalanobis distance to compare each new person identified to each existing target. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.
         \end{block}
 
         \begin{block}{Evaluation of Features}
