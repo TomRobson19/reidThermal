@@ -274,17 +274,16 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 								int xDistance = fabs(center.x-lastPosition.x);
 								int yDistance = fabs(center.y-lastPosition.y);
 
-								if(targets[iterator].getCurrentCamera() == cameraID && timeSteps - targets[iterator].getLastSeen() < 10 \
-								   && (xDistance<50 && yDistance<50))
+								Rect p = targets[iterator].kalmanPredict();
+
+								if((targets[iterator].getCurrentCamera() == cameraID) && (timeSteps - targets[iterator].getLastSeen() < 10) \
+								   && (xDistance<50 && yDistance<50) && (xDistance+yDistance < closestX+closestY) && (p.width*p.height - rec.width*rec.height > 5000))
 								{
+									targetID = iterator;
+									closestX = xDistance;
+									closestY = yDistance;
+									
 									useKalmanRectangle = true;
-									//come up with something better than this
-									if(xDistance+yDistance < closestX+closestY)
-									{
-										targetID = iterator;
-										closestX = xDistance;
-										closestY = yDistance;
-									}
 								}
 							}
 
