@@ -2200,7 +2200,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2224,6 +2224,12 @@ The Re-Identification System
 \begin_layout Standard
 Having evaluated the features, we now move on to the Re-Identification system
  itself.
+ We need to decide on the best feature, or combination of features, to use
+ with a re-identification threshold in order to get the best possible accuracy
+ from the system.
+ The best feature that we have is the Histogram of Intensities, but the
+ Thermal Correlogram and Raw Optical Flow values are also discriminative
+ features.
  
 \end_layout
 
@@ -2267,16 +2273,45 @@ Limitations of the Solution
 \end_layout
 
 \begin_layout Standard
-Runtime
+A major limitation of this system, as has been frequently discussed in this
+ paper, is the runtime.
+ We state in our aims for this project that the final system must run in
+ real time on the video files that we are using, or at least reasonably
+ close to real time.
+ This caused problems for us in the development of the most advanced features
+ of our system, the Thermal Correlogram and Optical Flow.
+ In order to use these features, we have had to greatly simplify them, such
+ as only using every eighth row and column of the optical flow matrix, or
+ breaking the correlogram down to wide intensity and distance thresholds.
+ This means we have not been able to leverage the full re-identification
+ capability that these features should have in theory, and we have had to
+ work only with simplifications or other features.
+ 
 \end_layout
 
 \begin_layout Standard
-Thermal Reset of the cameras.
+Another limitation that we faced in this project is associated with the
+ infra-red cameras that we used to record the data.
+ As these are uncooled cameras, they require a thermal reset at regular
+ intervals, to enable the cameras to calibrate themselves to correct for
+ changes in background heat levels.
+ While this calibration occurs, new footage is not recorded, and this leads
+ to jumps in the video and some frames being repeated.
+ To mitigate this, we compare every frame that comes in from the camera
+ to the previous frame, and if they are identical then we ignore it.
+ This stops the data per person from becoming skewed by repetitions of the
+ same data value, but it does lead to some anomalies in the results, which
+ can be seen as spikes in the graph, due to the sudden change in position
+ of the person being tracked.
  
 \end_layout
 
 \begin_layout Subsection
 What has been Learnt?
+\end_layout
+
+\begin_layout Standard
+Why this hasn't really been done....
 \end_layout
 
 \begin_layout Subsection
