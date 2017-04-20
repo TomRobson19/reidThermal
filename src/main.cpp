@@ -344,6 +344,35 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 						  feature.push_back(hist);
 
+							classify = false;
+
+							if(previousROIs.size() == 0)
+							{
+								previousROIs.push_back(regionOfInterest);
+								centersOfROIs.push_back(center);
+							}
+							else
+							{
+								Mat previousROI;
+								bool hasPrevious = false;
+								for(int i = 0; i<centersOfROIs.size(); i++)
+								{
+									if(fabs(center.x-centersOfROIs[i].x)<100 and fabs(center.y-centersOfROIs[i].y)<100)
+									{
+										previousROI = previousROIs[i];
+										hasPrevious = true;
+									}
+								}
+								if(hasPrevious == true)
+								{
+									classify = true;
+								}
+								else
+								{
+									previousROIs.push_back(regionOfInterest);
+									centersOfROIs.push_back(center);
+								}
+							}
 							//classifier
 							if(classify == true)
 							{
