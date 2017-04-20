@@ -1957,7 +1957,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2221,7 +2221,8 @@ status collapsed
 \end_layout
 
 \begin_layout Subsection
-The Re-Identification System
+The Re-Identification System - could remove graphs if I need space, doesn't
+ really add much
 \end_layout
 
 \begin_layout Standard
@@ -2235,11 +2236,17 @@ Having evaluated the features, we now move on to the Re-Identification system
  features.
  We have therefore experimented with different combinations of these three
  features.
- The combination of all three gives good results, as the graph shows, but
- runs so slowly that it would be impractical to use, as it does not run
- anywhere close to real time.
- WRITE ABOUT ALL COMBINATIONS, SELECT FEATURE, WRITE UP FEATURE IN MAIN
- FILE
+ The combination of all three gives good results, but runs so slowly that
+ it would be impractical to use, as it does not run anywhere close to real
+ time.
+ Due to the size of the Correlogram, which runs slowly even when not combined
+ with another feature, all of the combinations that involve this feature
+ run slowly.
+ All of these combinations of the discriminative features give good results,
+ but they all introduce anomalies into the system, which would lead to the
+ creation of new targets, which would then cause a split in the data stored
+ for the correct person, or could be closer to the data of the incorrect
+ person, leading to cross-pollution of the data.
 \end_layout
 
 \begin_layout Standard
@@ -2391,11 +2398,15 @@ Combinations of Discriminative Features
 \end_layout
 
 \begin_layout Standard
-Having decided upon our feature, we will now implement this within the final
- re-identification system, using the full comparison method described previously
- in the Solution section, determining an effective re-identification threshold
- and learning threshold based on the results that we have collected for
- this feature.
+\noindent
+In view of these anomalies and the issues that they may cause, the most
+ discriminative feature that has the fewest anomalies and that runs in real
+ time is using the Histogram of Intensities alone.
+ Having decided upon our feature, we will now implement this within the
+ final re-identification system, using the full comparison method described
+ previously in the Solution section, determining an effective re-identification
+ threshold and learning threshold based on the results that we have collected
+ for this feature.
  To enable the multiple-camera functionality, we will pass multiple files
  to the system and run each camera on a different thread, using locks to
  make sure that the global targets array is not corrupted, and a wait command
