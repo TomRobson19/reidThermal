@@ -2396,8 +2396,8 @@ Combinations of Discriminative Features
 In view of these anomalies and the issues that they may cause, the most
  discriminative feature that has the fewest anomalies and that runs in real
  time is using the Histogram of Intensities alone.
- Having decided upon our feature, we will now implement this within the
- final re-identification system, using the full comparison method described
+ Having decided upon using this feature, we will now implement this within
+ the final re-identification system, using the full comparison method described
  previously in the Solution section, determining an effective re-identification
  threshold and learning threshold based on the results that we have collected
  for this feature.
@@ -2478,12 +2478,20 @@ Weaknesses of the Solution
 
 \begin_layout Standard
 As the primary focus of this project was to investigate the features and
- their viability for re-identification, 
-\end_layout
-
-\begin_layout Standard
-Person Detector and Background Subtractor mistakes - balance occasional
- detection of small parts of person with ability to detect at a distance
+ their viability for re-identification, we have implemented a fairly simple
+ person detection system to give our features a platform to work on.
+ There were some issues associated with these methods, such as the detector
+ cutting parts off people, giving us very different results, as if the head
+ is not part of the classification, a significant thermal hotspot has been
+ missed.
+ In order to mitigate this problem, we have forced acceptable classifications
+ to be larger.
+ This removes many of these partial detections, although some do still occur,
+ but it also means that we cannot identify people far from the camera.
+ We have attempted to find a balance between these erroneous classifications
+ and being able to classify targets at a distance, but this has not been
+ completely successful.
+ 
 \end_layout
 
 \begin_layout Subsection
