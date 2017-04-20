@@ -2469,11 +2469,12 @@ We have also developed an effective classifier to measure the effectiveness
  between correct and incorrect classifications in the majority of cases.
  The problems that our classifier encounters are due to the anomalies that
  the features generate, which shall be discussed in the next section.
+ On the majority of correct detections, our classifier functions very well.
  
 \end_layout
 
 \begin_layout Subsection
-Weaknesses of the Solution
+Weaknesses and Limitations of the Solution
 \end_layout
 
 \begin_layout Standard
@@ -2491,11 +2492,6 @@ As the primary focus of this project was to investigate the features and
  We have attempted to find a balance between these erroneous classifications
  and being able to classify targets at a distance, but this has not been
  completely successful.
- 
-\end_layout
-
-\begin_layout Subsection
-Limitations of the Solution
 \end_layout
 
 \begin_layout Standard
