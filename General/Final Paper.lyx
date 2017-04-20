@@ -1249,7 +1249,7 @@ As the program runs through the video, during each new frame, a Gaussian
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \noindent
@@ -2474,6 +2474,11 @@ We have also developed an effective classifier to measure the effectiveness
 
 \begin_layout Subsection
 Weaknesses of the Solution
+\end_layout
+
+\begin_layout Standard
+As the primary focus of this project was to investigate the features and
+ their viability for re-identification, 
 \end_layout
 
 \begin_layout Standard
