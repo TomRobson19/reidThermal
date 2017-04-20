@@ -2533,7 +2533,12 @@ What has been Learnt?
 \end_layout
 
 \begin_layout Standard
-Why this hasn't really been done before....
+The major learning point from this project has been how difficult the problem
+ that we are trying to solve is.
+ Re-Identification in colour is a well researched area, and the majority
+ of new work in that field is trying to improve an already very good rate
+ of accuracy.
+ In Thermal, on the other hand, the features are far more complex.
 \end_layout
 
 \begin_layout Subsection
