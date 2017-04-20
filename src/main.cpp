@@ -226,7 +226,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 				  	}
 				  	else
 				  	{
-				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,128));
+				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(96,160));
 				  	}
 
 					  for(size_t i = 0; i < found.size(); i++ )
