@@ -2468,7 +2468,8 @@ We have also developed an effective classifier to measure the effectiveness
  For our effective features this classifier produces a clear difference
  between correct and incorrect classifications in the majority of cases.
  The problems that our classifier encounters are due to the anomalies that
- the features generate 
+ the features generate, which shall be discussed in the next section.
+ 
 \end_layout
 
 \begin_layout Subsection
