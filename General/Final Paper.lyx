@@ -1957,7 +1957,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2398,6 +2398,10 @@ Combinations of Discriminative Features
 \end_layout
 
 \begin_layout Standard
+EDIT THIS BIT WHEN MAIN HAS BEEN FULLY IMPLEMENTED
+\end_layout
+
+\begin_layout Standard
 \noindent
 In view of these anomalies and the issues that they may cause, the most
  discriminative feature that has the fewest anomalies and that runs in real
@@ -2429,15 +2433,53 @@ Strengths of the Solution
 \end_layout
 
 \begin_layout Standard
+As the research that we have conducted here is in an area that has previously
+ been largely unexplored, our main objective was to determine if a feasible
+ solution exists, and to answer the research question 
+\series bold
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+
+\series default
+Which features of a human target are appropriate to facilitate Re-Identification
+ in thermal video?
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\emph default
+This has been extensively explored in our results section, and we have effective
+ly proved that some features, such as Hu Moments and HOG, are not suitable
+ to be used for Re-Identification, and some feature are suitable.
+ We have also effectively established that while our more advanced features,
+ the Thermal Correlogram and Optical Flow, are reasonably discriminative
+ features in the form that we have implemented here, but have such a high
+ level of complexity that they would need a more powerful computation system
+ than the one used to perform this work if they are to be used to their
+ full Re-Identification potential.
+ These insights are hugely informative for further work in this area.
+ 
+\end_layout
+
+\begin_layout Standard
+We have also developed an effective classifier to measure the effectiveness
+ of these features, by using the Mahalanobis distance between each new frame
+ and the distribution of previous identifications of each target.
+ For our effective features this classifier produces a clear difference
+ between correct and incorrect classifications in the majority of cases.
+ The problems that our classifier encounters are due to the anomalies 
+\end_layout
+
+\begin_layout Standard
 Functioning Re-ID
 \end_layout
 
 \begin_layout Standard
-Multiple people
-\end_layout
-
-\begin_layout Standard
-features successfully evaluated.
+Multiple people.
 \end_layout
 
 \begin_layout Subsection
