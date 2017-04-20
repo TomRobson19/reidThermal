@@ -1542,5 +1542,14 @@ Implemented stuff that Toby suggested, the rectangles from Kalman filter
  jump around a lot.
 \end_layout
 
+\begin_layout Itemize
+Made a good Re-ID system using Hist, done with Impl for now
+\end_layout
+
+\begin_layout Itemize
+MAKE SURE I RE-READ ALL OF THE PAPER TO ENSURE MY EVAL/CONC MAKES SENSE
+ WITH THE RESULTS
+\end_layout
+
 \end_body
 \end_document
