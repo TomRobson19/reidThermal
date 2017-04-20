@@ -255,14 +255,6 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 					  {
 							Rect rec = found_filtered[i];
 
-							// The HOG/Cascade detector returns slightly larger rectangles than the real objects,
-							// so we slightly shrink the rectangles to get a nicer output.
-							// rec.x += rec.width*0.1;
-							// rec.width = rec.width*0.8;
-							// rec.y += rec.height*0.1;
-							// rec.height = rec.height*0.8;
-							// rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
-
 							Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
 							bool useKalmanRectangle = false;
