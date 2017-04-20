@@ -599,7 +599,8 @@ Achievements of the Project
 \end_layout
 
 \begin_layout Section
-Related Work - FILTER THIS FOR RELEVANCE AND ADD NEW STUFF
+Related Work - EDIT THIS, MAKE SURE ITS OBVIOUS THAT WE ARE DOING STATE
+ OF THE ART WORK
 \end_layout
 
 \begin_layout Subsection
@@ -1281,13 +1282,6 @@ MoG Background Subtraction Output
 
 \end_layout
 
-\begin_layout Standard
-
-\series bold
-STUFF ABOUT SUPERPIXELS HERE, IF I USE IT, MAKE SURE I REFERENCE AND USE
- FIGURES
-\end_layout
-
 \begin_layout Subsubsection
 Person Identification
 \end_layout
@@ -1493,7 +1487,7 @@ Kalman Filter Output
 \end_layout
 
 \begin_layout Subsection
-Features for Re-Identification - PUT MORE DETAIL IN HERE, MAYBE SOME MATHS
+Features for Re-Identification
 \end_layout
 
 \begin_layout Standard
@@ -2398,10 +2392,6 @@ Combinations of Discriminative Features
 \end_layout
 
 \begin_layout Standard
-EDIT THIS BIT WHEN MAIN HAS BEEN FULLY IMPLEMENTED
-\end_layout
-
-\begin_layout Standard
 \noindent
 In view of these anomalies and the issues that they may cause, the most
  discriminative feature that has the fewest anomalies and that runs in real
@@ -2416,6 +2406,12 @@ In view of these anomalies and the issues that they may cause, the most
  make sure that the global targets array is not corrupted, and a wait command
  to ensure that all cameras move through frames at the same rate, whether
  they have processing to do or not.
+\end_layout
+
+\begin_layout Standard
+When this system is run on a single camera, the results that it gives are
+ very good.
+ 
 \end_layout
 
 \begin_layout Section
@@ -2471,15 +2467,8 @@ We have also developed an effective classifier to measure the effectiveness
  and the distribution of previous identifications of each target.
  For our effective features this classifier produces a clear difference
  between correct and incorrect classifications in the majority of cases.
- The problems that our classifier encounters are due to the anomalies 
-\end_layout
-
-\begin_layout Standard
-Functioning Re-ID
-\end_layout
-
-\begin_layout Standard
-Multiple people.
+ The problems that our classifier encounters are due to the anomalies that
+ the features generate 
 \end_layout
 
 \begin_layout Subsection
