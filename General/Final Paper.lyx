@@ -1249,14 +1249,14 @@ As the program runs through the video, during each new frame, a Gaussian
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Mog
-	scale 40
+	scale 30
 
 \end_inset
 
@@ -2524,7 +2524,7 @@ What has been Learnt?
 \end_layout
 
 \begin_layout Standard
-Why this hasn't really been done....
+Why this hasn't really been done before....
 \end_layout
 
 \begin_layout Subsection
@@ -2541,6 +2541,19 @@ What has been Accomplished?
 
 \begin_layout Subsection
 Extensions
+\end_layout
+
+\begin_layout Standard
+In this project, we have explored five possible features for Re-Identification
+ in Thermal Imagery, and found that the best solution was to only use one
+ of these, the Histogram of Intensities.
+ There are many more possible features that can be explored, and future
+ work and extensions of this project should explore more of these features.
+ It would also be worth exploring the full possibilities of the advanced
+ features that we have discussed here, the Thermal Correlogram and Optical
+ Flow, if we had sufficient computational resources to make use of the full
+ detail that these features can supply.
+ 
 \end_layout
 
 \begin_layout Standard
