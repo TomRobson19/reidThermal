@@ -291,10 +291,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 							if(useKalmanRectangle == true)
 							{
-								cout << "kalman" << endl;
 								Rect p = targets[targetID].kalmanPredict();
-
-								cout << p << endl << rec << endl;
 
 								try
 								{
@@ -334,7 +331,6 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 							classificationThreshold = 6;
 							learningThreshold = 4;
 
-
 						  int histSize = 32;    // bin size - need to determine which pixel threshold to use
 						  float range[] = {0,255};
 						  const float *ranges[] = {range};
@@ -353,7 +349,6 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 							{
 								feature=feature.t();
 
-								//cout << "New Feature" << endl << feature << endl;
 
 								if(multipleCameras == 1)
 								{
