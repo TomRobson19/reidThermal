@@ -226,7 +226,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 				  	}
 				  	else
 				  	{
-				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(96,160));
+				  		cascade.detectMultiScale(roi, found, 1.1, 4, CV_HAAR_DO_CANNY_PRUNING, cvSize(64,128));
 				  	}
 
 					  for(size_t i = 0; i < found.size(); i++ )
@@ -254,14 +254,6 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 					  for (size_t i = 0; i < found_filtered.size(); i++)
 					  {
 							Rect rec = found_filtered[i];
-
-							// The HOG/Cascade detector returns slightly larger rectangles than the real objects,
-							// so we slightly shrink the rectangles to get a nicer output.
-							// rec.x += rec.width*0.1;
-							// rec.width = rec.width*0.8;
-							// rec.y += rec.height*0.1;
-							// rec.height = rec.height*0.8;
-							// rectangle(img, rec.tl(), rec.br(), cv::Scalar(0,255,0), 3);
 
 							Point2f center = Point2f(float(rec.x + rec.width/2.0), float(rec.y + rec.height/2.0));
 
