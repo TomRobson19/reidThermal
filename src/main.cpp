@@ -66,7 +66,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 	int timeSteps = 0;
 
-  Mat img, outputImage, foreground;	// image objects
+  Mat img, previousImg, outputImage, foreground;	// image objects
   VideoCapture cap;
 
   bool keepProcessing = true;	// loop control flag
@@ -277,7 +277,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 								Rect p = targets[iterator].kalmanPredict();
 
 								if((targets[iterator].getCurrentCamera() == cameraID) && (timeSteps - targets[iterator].getLastSeen() < 10) \
-								   && (xDistance<50 && yDistance<50) && (xDistance+yDistance < closestX+closestY) && (p.width*p.height - rec.width*rec.height > 5000))
+								   && (xDistance<50 && yDistance<50) && (xDistance+yDistance < closestX+closestY) && (p.width*p.height - rec.width*rec.height > 2000))
 								{
 									targetID = iterator;
 									closestX = xDistance;
@@ -291,11 +291,24 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 							if(useKalmanRectangle == true)
 							{
+								cout << "kalman" << endl;
 								Rect p = targets[targetID].kalmanPredict();
 
-								regionOfInterestOriginal = img(p);
+								cout << p << endl << rec << endl;
 
-								regionOfInterestForeground  = foreground(p);
+								try
+								{
+									regionOfInterestOriginal = img(p);
+
+									regionOfInterestForeground  = foreground(p);
+								}
+								catch (exception& e)
+								{
+									regionOfInterestOriginal = img(rec);
+
+									regionOfInterestForeground  = foreground(rec);
+								}
+								
 							}
 							else
 							{
@@ -310,13 +323,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 							resize(clone, regionOfInterest, Size(64,128), CV_INTER_CUBIC);
 
-
-
-							double huMoments[7];
-							vector<double> hu(7);
 							Mat hist;
-							Mat histFlow;
-							vector<float> descriptorsValues;
 
 							Mat feature;
 
@@ -326,8 +333,6 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 							classificationThreshold = 6;
 							learningThreshold = 4;
-
-						  
 
 
 						  int histSize = 32;    // bin size - need to determine which pixel threshold to use
@@ -342,105 +347,6 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 						  normalize(hist, hist, 1, 0, NORM_L1, -1, Mat());
 
 						  feature.push_back(hist);
-
-
-							int sizes[] = { 8, 8, 3 };
-							Mat correlogram(3, sizes, CV_32S, cv::Scalar(0));
-
-							Mat newCorrelogram;
-
-							int xIntensity, yIntensity;
-
-							for(int i = 0; i<regionOfInterest.rows; i++)
-							{
-								for(int j = 0; j<regionOfInterest.cols; j++)
-								{
-									xIntensity = floor(regionOfInterest.at<unsigned char>(i,j)/32);
-
-									for(int k = i; k<regionOfInterest.rows; k++)
-									{
-										for(int l = j; l<regionOfInterest.cols; l++)
-										{
-											if((k == i && l > j) || k > i)
-											{
-												yIntensity = floor(regionOfInterest.at<unsigned char>(k,l)/32);
-											
-												double distance = (norm(Point(i,j)-Point(k,l)));
-												correlogram.at<int>(xIntensity,yIntensity,floor(distance/50)) += 1;
-											}
-										}
-									}
-								}
-							}
-							for(int i = 0; i<8; i++)
-							{
-								for(int j = 0; j<8; j++)
-								{
-									for(int k = 0; k<3; k++)
-									{
-										newCorrelogram.push_back(correlogram.at<int>(i,j,k));
-									}
-								}
-							}
-
-							newCorrelogram.convertTo(newCorrelogram, CV_64F);
-
-							normalize(newCorrelogram, newCorrelogram, 1, 0, NORM_L1, -1, Mat());
-
-							feature.push_back(newCorrelogram);
-
-
-													
-							Mat opticalFlow;
-							classify = false;
-
-							if(previousROIs.size() == 0)
-							{
-								previousROIs.push_back(regionOfInterest);
-								centersOfROIs.push_back(center);
-							}
-							else
-							{
-								Mat previousROI;
-								bool hasPrevious = false;
-								for(int i = 0; i<centersOfROIs.size(); i++)
-								{
-									if(fabs(center.x-centersOfROIs[i].x)<100 and fabs(center.y-centersOfROIs[i].y)<100)
-									{
-										previousROI = previousROIs[i];
-										hasPrevious = true;
-									}
-								}
-								if(hasPrevious == true)
-								{
-									classify = true;
-									calcOpticalFlowFarneback(previousROI, regionOfInterest, opticalFlow, 0.5, 3, 15, 3, 5, 1.2, 0);
-								}
-								else
-								{
-									previousROIs.push_back(regionOfInterest);
-									centersOfROIs.push_back(center);
-								}
-							}
-
-							if(classify == true)
-							{
-								Mat temp;
-								transform(opticalFlow, temp, cv::Matx12f(1,1));
-
-								int histFlowSize = 50;    // bin size - need to determine which pixel threshold to use
-							  float flowRange[] = {-25,25};
-							  const float *flowRanges[] = {flowRange};
-							  int flowChannels[] = {0, 1};
-
-							  calcHist(&temp, 1, flowChannels, Mat(), histFlow, 1, &histFlowSize, flowRanges, true, false);
-							  
-							  histFlow.convertTo(histFlow, CV_64F);
-
-							  normalize(histFlow, histFlow, 1, 0, NORM_L1, -1, Mat());
-
-							  feature.push_back(histFlow);
-							}
 
 							//classifier
 							if(classify == true)

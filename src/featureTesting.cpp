@@ -312,7 +312,7 @@ int runOnSingleCamera(String file, int featureToUse, int classifier, int cameraI
 								Rect p = targets[iterator].kalmanPredict();
 
 								if((targets[iterator].getCurrentCamera() == cameraID) && (timeSteps - targets[iterator].getLastSeen() < 10) \
-								   && (xDistance<50 && yDistance<50) && (xDistance+yDistance < closestX+closestY) && (p.width*p.height - rec.width*rec.height > 5000))
+								   && (xDistance<50 && yDistance<50) && (xDistance+yDistance < closestX+closestY) && (p.width*p.height - rec.width*rec.height > 2000))
 								{
 									targetID = iterator;
 									closestX = xDistance;
