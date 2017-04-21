@@ -110,7 +110,7 @@ maketitle
 \begin_layout Abstract
 
 \series bold
-Context/Background - PUT REFERENCES IN ABSTRACT
+Context/Background
 \end_layout
 
 \begin_layout Abstract
@@ -196,7 +196,14 @@ Results
 \end_layout
 
 \begin_layout Abstract
-Having carried out evaluation 
+Having carried out evaluation of the features, we established that Histogram
+ of Intensities was the most effective feature, with Thermal Correlogram
+ and Optical Flow also considered to be suitable for re-identification.
+ We implemented a re-identification system as described in the method above,
+ using Histogram of Intensities as our feature, and got very good performance
+ on a single camera system.
+ However, due to differing viewpoints, the multiple camera system did not
+ perform as well, but still gave a good degree of accuracy in certain situations.
 \end_layout
 
 \begin_layout Abstract
@@ -208,7 +215,12 @@ Conclusions
 \begin_layout Abstract
 
 \color black
-placeholder
+We conclude that the work carried out here is a useful starting point, as
+ we have been able to approve or eliminate five potential thermal re-identificat
+ion features and develop a functioning re-identification system over both
+ a single camera and multiple cameras, accross a range of people who will
+ have a variety of thermal signatures.
+ 
 \end_layout
 
 \begin_layout Abstract
