@@ -150,10 +150,10 @@ on approaches.
  We would then implement features/attributes from the literature studied
  and carry out a first pass or initial framework for re-identification using
  these features/attributes.
- The system must be able to re-identify 5+ people within a test video sequence
+ The system must be able to re-identify 3+ people within a test video sequence
  in real time using multiple cameras.
  This would then be extended by implementing some more advanced features/attribu
-tes and extending the re-identification ability to 10+ people.
+tes and extending the re-identification ability to 6+ people.
 \end_layout
 
 \begin_layout Abstract
@@ -164,8 +164,15 @@ Method
 
 \begin_layout Abstract
 This system will be implemented in C++ using the widely used OpenCV computer
- vision library, and will be run simultaneously on multiple video files,
- each being able to access the same array of previously identified targets.
+ vision library
+\begin_inset CommandInset citation
+LatexCommand cite
+key "opencv_library"
+
+\end_inset
+
+, and will be run simultaneously on multiple video files, each being able
+ to access the same array of previously identified targets.
  The first stage is real time person detection, which is done using Mixture
  of Gaussians Background Subtraction, Histogram of Oriented Gradients or
  Haar Cascade Person Detection and a 6 dimensional Kalman filter per person
@@ -178,6 +185,8 @@ This system will be implemented in C++ using the widely used OpenCV computer
 \color black
  From here, more advanced features are implemented, these are the Thermal
  Correlogram and Optical Flow.
+ To comparison and re-identification will be performed using Mahalanobis
+ distance.
 \end_layout
 
 \begin_layout Abstract
@@ -614,8 +623,7 @@ ions
 \end_layout
 
 \begin_layout Section
-Related Work - EDIT THIS, MAKE SURE ITS OBVIOUS THAT WE ARE DOING STATE
- OF THE ART WORK
+Related Work
 \end_layout
 
 \begin_layout Subsection
