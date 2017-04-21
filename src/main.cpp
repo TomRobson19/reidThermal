@@ -125,74 +125,12 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 			  // update background model and get background/foreground
 			  MoG->apply(img, foreground, (double)(1.0/learning));
 
-	/////////////////////////////////////////////////////////////////////////////////SUPERPIXELS
-			  int useSuperpixels = 0;
-			  
-			  if(useSuperpixels == 1)
-				{
-				  Mat seedMask, labels, result;
+			  // perform erosion - removes boundaries of foreground object
+			  erode(foreground, foreground, Mat(),Point(),1);
 
-				  result = img.clone();
-
-				  int width = img.size().width;
-		    	int height = img.size().height;
-
-			    seeds = createSuperpixelSEEDS(width, height, 1, 2000, 10, 2, 5, true);
-
-		  	  seeds->iterate(img, 10);
-
-		    	seeds->getLabels(labels);
-
-		    	vector<int> counter(seeds->getNumberOfSuperpixels(),0);
-		    	vector<int> numberOfPixelsPerSuperpixel(seeds->getNumberOfSuperpixels(),0);
-
-		    	vector<bool> useSuperpixel(seeds->getNumberOfSuperpixels(),false);
-
-		    	for(int i = 0; i<foreground.rows; i++)
-		    	{
-		    		for(int j = 0; j<foreground.cols; j++)
-		    		{
-		    			numberOfPixelsPerSuperpixel[labels.at<int>(i,j)] += 1;
-		    			if(foreground.at<unsigned char>(i,j)==255)
-		    			{
-		    				counter[labels.at<int>(i,j)] += 1;
-		    			}
-		    		}
-		    	}
-
-		    	for(int i = 0; i<counter.size(); i++)
-		    	{
-		    		if(counter[i]/numberOfPixelsPerSuperpixel[i] > 0.0001)
-		    		{
-		    			useSuperpixel[i] = true;
-		    		}
-		    	}
-
-		    	for(int i = 0; i<foreground.rows; i++)
-		    	{
-		    		for(int j = 0; j<foreground.cols; j++)
-		    		{
-		    			if(useSuperpixel[labels.at<int>(i,j)] == true)
-		    			{
-		    				foreground.at<unsigned char>(i,j) = 255;
-		    			}
-		    			else
-		    			{
-		    				foreground.at<unsigned char>(i,j) = 0;
-		    			}
-		    		}
-		    	}
-				}
-	/////////////////////////////////////////////////////////////////////////////////
-				else
-				{
-				  // perform erosion - removes boundaries of foreground object
-				  erode(foreground, foreground, Mat(),Point(),1);
-
-				  // perform morphological closing
-				  dilate(foreground, foreground, Mat(),Point(),5);
-				  erode(foreground, foreground, Mat(),Point(),1);
-				}
+			  // perform morphological closing
+			  dilate(foreground, foreground, Mat(),Point(),5);
+			  erode(foreground, foreground, Mat(),Point(),1);
 
 			  // get connected components from the foreground
 			  findContours(foreground, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
@@ -389,7 +327,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 								  person.setCurrentCamera(cameraID);
 
-								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+								  rectangle(outputImage, p.tl(), p.br(), person.getColour(), 3);
 
 								  char str[200];
 								  sprintf(str,"Person %d",person.getIdentifier());
@@ -409,7 +347,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 						  		targets[0].setCurrentCamera(cameraID);
 
-								  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+								  rectangle(outputImage, p.tl(), p.br(), targets[0].getColour(), 3);
 
 								  char str[200];
 								  sprintf(str,"Person %d",targets[0].getIdentifier());
@@ -446,7 +384,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 											mDistance = Mahalanobis(feature,mean,invCovar);
 
-											cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
+											//cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
 										}
 										else
 										{
@@ -456,14 +394,14 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 											mDistance = Mahalanobis(feature,mean,invCovar);
 
-											cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
+											//cout << "Target " << i << " Mahalanobis error from current image = " << mDistance << endl;
 										}
 										mDistances.push_back(mDistance);
 									}
 
 									Mat dists = Mat(mDistances);
 									
-									cout << endl << endl << endl << endl << endl << endl << endl;
+									//cout << endl << endl << endl << endl << endl << endl << endl;
 									//cout << dists << endl;
 
 		    					double lowestDist = 0.0;
@@ -490,7 +428,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 							  		targets[identifier].setCurrentCamera(cameraID);
 
-									  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+									  rectangle(outputImage, p.tl(), p.br(), targets[identifier].getColour(), 3);
 
 									  char str[200];
 									  sprintf(str,"Person %d",targets[identifier].getIdentifier());
@@ -510,7 +448,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 
 							  		person.setCurrentCamera(cameraID);
 
-									  rectangle(outputImage, p.tl(), p.br(), cv::Scalar(255,0,0), 3);
+									  rectangle(outputImage, p.tl(), p.br(), person.getColour(), 3);
 
 									  char str[200];
 									  sprintf(str,"Person %d",person.getIdentifier());
@@ -540,7 +478,10 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 						  	}
 			    		}
 					  }
-					  rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
+					  if (multipleCameras == 0)
+					  {
+					  	rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
+					  }
 					}
 			  }
 			}
@@ -570,6 +511,51 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 	}
 	// not OK : main returns -1
 	return -1;
+}
+
+int postProcessing(String alphaFile, String betaFile, String gammaFile, String deltaFile, String directory)
+{
+	VideoWriter video(directory+"/fullResults.avi",CV_FOURCC('M','J','P','G'),10, Size(1280,960),true);
+	unsigned char key;
+
+	Mat imgAlpha, imgBeta, imgGamma, imgDelta;
+	VideoCapture capAlpha, capBeta, capGamma, capDelta;
+
+	capAlpha.open(alphaFile+"results.avi");
+	capBeta.open(betaFile+"results.avi");
+	capGamma.open(gammaFile+"results.avi");
+	capDelta.open(deltaFile+"results.avi");
+
+	while(1)
+	{
+		capAlpha >> imgAlpha;
+		capBeta >> imgBeta;
+		capGamma >> imgGamma;
+		capDelta >> imgDelta;
+
+		if(imgAlpha.empty() || imgBeta.empty() || imgGamma.empty() || imgDelta.empty())
+		{
+			std::cerr << "End of video file reached" << std::endl;
+			exit(0);
+		}
+
+    Mat out = Mat(960, 1280, CV_8UC3);
+
+    Mat roiAlpha = out(Rect(0, 0, 640, 480));
+    Mat roiBeta = out(Rect(640, 0, 640, 480));
+    Mat roiGamma = out(Rect(0, 480, 640, 480));
+    Mat roiDelta = out(Rect(640, 480, 640, 480));
+
+    imgAlpha.copyTo(roiAlpha);
+    imgBeta.copyTo(roiBeta);
+    imgGamma.copyTo(roiGamma);
+    imgDelta.copyTo(roiDelta);
+
+		//imshow("output",out);
+		video.write(out);
+
+		key = waitKey(1);
+	}
 }
 
 int main(int argc,char** argv)
@@ -609,6 +595,8 @@ int main(int argc,char** argv)
 	    return 1;
 	  }
 
+	  cout << "processing stage" << endl;
+
 	  std::thread t1(runOnSingleCamera, alphaFile, 0, 1);
 	  std::thread t2(runOnSingleCamera, betaFile, 1, 1);
 	  std::thread t3(runOnSingleCamera, gammaFile, 2, 1);
@@ -618,6 +606,10 @@ int main(int argc,char** argv)
 	  t3.join();
 	  t4.join();
 	  pthread_mutex_destroy(&myLock);
+
+	  cout << "post processing stage" << endl;
+
+	  postProcessing(alphaFile, betaFile, gammaFile, deltaFile, directory);
 	}
 
   return 0;
