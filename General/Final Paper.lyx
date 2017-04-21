@@ -117,7 +117,7 @@ Although use of thermal imagery currently poses significant advantages for
  24/7 surveillance in terms of the visibility of human, animal and vehicle
  targets under all environmental conditions, a key limitation is the lack
  of colour.
- Many current approaches to the problem of cross-camera person Re-Identification
+ Many current approaches to the problem of cross-camera person re-identification
 , or the camera-to-camera tracking of pedestrian targets, rely on colour
  features
 \begin_inset CommandInset citation
@@ -127,7 +127,7 @@ key "Gong2014"
 \end_inset
 
 .
- Person Re-Identification across multiple cameras is a key research problem
+ Person re-identification across multiple cameras is a key research problem
  within the domain of visual surveillance and a key challenge for the future
  deployment of thermal sensing as an autonomous sensor technology.
  
@@ -147,12 +147,12 @@ on approaches.
  video in real time, distinguish a person from other objects and track a
  person moving through a scene in real time.
  We would then implement features/attributes from the literature studied
- and carry out a first pass or initial framework for Re-Identification using
+ and carry out a first pass or initial framework for re-identification using
  these features/attributes.
  The system must be able to re-identify 5+ people within a test video sequence
  in real time using multiple cameras.
  This would then be extended by implementing some more advanced features/attribu
-tes and extending the Re-Identification ability to 10+ people.
+tes and extending the re-identification ability to 10+ people.
 \end_layout
 
 \begin_layout Abstract
@@ -239,7 +239,7 @@ key "Gong2014"
 \end_inset
 
 .
- This is referred to as the Person Re-Identification problem 
+ This is referred to as the Person Re-Identification Problem 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gong2014"
@@ -272,7 +272,7 @@ ons.
  While this is currently widely used by human operators, these operators
  have to be trained, which offsets the utility of this approach with training
  and staffing costs.
- The implementation of an automated Re-Identification system is therefore
+ The implementation of an automated re-identification system is therefore
  of great interest, as it would be very useful in supporting these human
  operators and enabling them to achieve better results more efficiently.
  This would be particularly important in thermal space, as many of the features
@@ -282,7 +282,7 @@ ons.
 
 \begin_layout Standard
 From the previous work that we have studied, we can see that a substantial
- amount of research that has been done on Person Re-Identification, but
+ amount of research that has been done on person re-identification, but
  much of this relies on the colour spectrum, with attributes of the form
  “red shirt” 
 \begin_inset CommandInset citation
@@ -294,13 +294,13 @@ key "Layne"
 .
  However, in the modern world, thermal imagery is often used for 24/7 surveillan
 ce when all environmental conditions are possible.
- Therefore, it is important that an effective Re-Identification system is
+ Therefore, it is important that an effective re-identification system is
  developed to utilise this area of surveillance.
  Whilst thermal imagery has many advantages, it is not able to identify
  colour, making attributes that rely on colour useless.
- Therefore, alternative features are required to facilitate Re-Identification.
+ Therefore, alternative features are required to facilitate re-identification.
  Recently there has been an increase in the amount of research into thermal
- tracking, and some focus on Re-Identification, although mainly in robotics,
+ tracking, and some focus on re-identification, although mainly in robotics,
  rather than in a distributed camera network, as discussed in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -329,7 +329,7 @@ The intent of this project is to expand upon this existing research and
 
 
 \series default
-Which features of a human target are appropriate to facilitate Re-Identification
+Which features of a human target are appropriate to facilitate re-identification
  in thermal video?
 \series bold
 
@@ -537,7 +537,7 @@ Example of Thermal Views
 \end_layout
 
 \begin_layout Standard
-The first thing that we shall consider as a feature to solve the Re-Identificati
+The first thing that we shall consider as a feature to solve the re-identificati
 on problem is a measure of the size of the target person.
  Due to the single viewpoint of the camera, we need a measure of size that
  is position, scale and rotation invariant.
@@ -556,7 +556,7 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
  
 \color black
 We will also use the Histogram of Oriented Gradients (HOG) descriptor as
- a feature for Re-Identification.
+ a feature for re-identification.
  
 \color inherit
 From here, we must consider more complex features.
@@ -586,11 +586,11 @@ The aim of this project is to investigate the above research question by
  in real time, distinguish this person from other objects in the scene and
  track this person moving through a scene in real time.
  We would then implement 3 features/attributes, and use these to carry out
- a first pass or initial framework for Re-Identification.
+ a first pass or initial framework for re-identification.
  At this stage, the system must be able to Re-Identify at least 3 people
  within a test video sequence in real time using multiple cameras.
  This would then be extended by implementing 2 more advanced state of the
- art features/attributes and extending the Re-Identification ability to
+ art features/attributes and extending the re-identification ability to
  at least 6 people.
 \end_layout
 
@@ -1030,15 +1030,15 @@ Relation to this Project
 
 \begin_layout Standard
 As can be seen from the prior work discussed above, the research that has
- been put into Re-Identification in the past has been predominantly focused
+ been put into re-identification in the past has been predominantly focused
  on colour, and the state of the art is moving away from the simpler features
  such as shirt colour and towards more advanced features.
  However, in thermal imagery the majority of the research presented here
- is concerned with tracking a person or object, and not with Re-Identification
+ is concerned with tracking a person or object, and not with re-identification
  across multiple cameras.
  This is where this research project fits in, as we are tackling a problem
  that does not seem to have been effectively solved, and using some features
- that have rarely, if at all, been used for Re-Identification purposes.
+ that have rarely, if at all, been used for re-identification purposes.
  As our interest is primarily centred on the features we are using, we will
  implement fairly basic and well understood techniques for person tracking,
  and then implement features on top of this, as will be discussed in the
@@ -1158,7 +1158,7 @@ Real Time Person Detection
 \end_layout
 
 \begin_layout Standard
-Before we can start concerning ourselves with feature based person Re-Identifica
+Before we can start concerning ourselves with feature based person re-identifica
 tion, we must be able to identify whether a person is present in the image
  at all.
  This requires several stages, background subtraction, person identification
@@ -1659,7 +1659,7 @@ Comparison Method - Mahalanobis Distance
 
 \begin_layout Standard
 The method that we have employed for comparing these features and facilitating
- Re-Identification is primarily of our own design, and relies on several
+ re-identification is primarily of our own design, and relies on several
  recognised techniques for the comparison of feature vectors.
  This method has several stages, the first of which being the special case
  for the first person.
@@ -1788,7 +1788,7 @@ Having discussed the features that we will implement in the previous section,
 
 
 \series default
-Which features of a human target are appropriate to facilitate Re-Identification
+Which features of a human target are appropriate to facilitate re-identification
  in thermal video?
 \series bold
 
@@ -1800,7 +1800,7 @@ Which features of a human target are appropriate to facilitate Re-Identification
 \series default
 \emph default
 This has been done by performing tests on one of our video files with an
- altered Re-Identification classifier to the one described above.
+ altered re-identification classifier to the one described above.
  We have a set of frames where one person is in the scene, over which the
  features of this person will be recorded, and each new frame will be compared
  against these using Mahalanobis distance as before.
@@ -2188,12 +2188,11 @@ status collapsed
 \end_layout
 
 \begin_layout Subsection
-The Re-Identification System - could remove graphs if I need space, doesn't
- really add much
+The Re-Identification System
 \end_layout
 
 \begin_layout Standard
-Having evaluated the features, we now move on to the Re-Identification system
+Having evaluated the features, we now move on to the re-identification system
  itself.
  We need to decide on the best feature, or combination of features, to use
  with a re-identification threshold in order to get the best possible accuracy
@@ -2417,7 +2416,7 @@ As the research that we have conducted here is in an area that has previously
 
 
 \series default
-Which features of a human target are appropriate to facilitate Re-Identification
+Which features of a human target are appropriate to facilitate re-identification
  in thermal video?
 \begin_inset Quotes erd
 \end_inset
@@ -2427,13 +2426,13 @@ Which features of a human target are appropriate to facilitate Re-Identification
 \emph default
 This has been extensively explored in our results section, and we have effective
 ly proved that some features, such as Hu Moments and HOG, are not suitable
- to be used for Re-Identification, and some feature are suitable.
+ to be used for re-identification, and some feature are suitable.
  We have also effectively established that while our more advanced features,
  the Thermal Correlogram and Optical Flow, are reasonably discriminative
  features in the form that we have implemented here, but have such a high
  level of complexity that they would need a more powerful computation system
  than the one used to perform this work if they are to be used to their
- full Re-Identification potential.
+ full re-identification potential.
  These insights are hugely informative for further work in this area.
  
 \end_layout
@@ -2515,7 +2514,7 @@ The major learning point from this project has been how difficult the problem
  Re-Identification in colour is a well researched area, and the majority
  of new work in that field is trying to improve an already very good rate
  of accuracy.
- In Thermal, on the other hand, the features are far more complex.
+ In thermal, on the other hand, the features are far more complex.
 \end_layout
 
 \begin_layout Subsection
@@ -2535,8 +2534,8 @@ Extensions
 \end_layout
 
 \begin_layout Standard
-In this project, we have explored five possible features for Re-Identification
- in Thermal Imagery, and found that the best solution was to only use one
+In this project, we have explored five possible features for re-identification
+ in thermal imagery, and found that the best solution was to only use one
  of these, the Histogram of Intensities.
  There are many more possible features that can be explored, and future
  work and extensions of this project should explore more of these features.
