@@ -186,7 +186,7 @@ Results
 \end_layout
 
 \begin_layout Abstract
-placeholder
+Having carried out evaluation 
 \end_layout
 
 \begin_layout Abstract
@@ -1068,47 +1068,6 @@ The implementation will begin by opening each video file, or live camera
 n between targets, and are updated each time the target is successfully
  identified.
  This continues frame by frame until the video file or camera feed ends.
- The subsystems are shown in the Figures below, as well as a flow chart
- for the process followed by the implementation.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename Subsystems.png
-	scale 20
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Pipeline Diagram of the System
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
