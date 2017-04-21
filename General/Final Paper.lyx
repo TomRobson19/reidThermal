@@ -1810,7 +1810,7 @@ The data used to evaluate the features that have been implemented here was
 placement H
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -2766,6 +2766,9 @@ To enable the multiple-camera functionality, we will pass multiple files
  make sure that the global targets array is not corrupted, and a wait command
  to ensure that all cameras move through frames at the same rate, whether
  they have processing to do or not.
+ We then have a post processing stage where all the camera views are combined
+ into one video, to allow the results to be observed more easily.
+ 
 \end_layout
 
 \begin_layout Section
@@ -2880,6 +2883,10 @@ Another limitation that we faced in this project is associated with the
  can be seen as spikes in the graph, due to the sudden change in position
  of the person being tracked.
  
+\end_layout
+
+\begin_layout Standard
+Camera Gamma doesn't add much and Delta gives very different results
 \end_layout
 
 \begin_layout Subsection
