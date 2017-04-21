@@ -1551,5 +1551,47 @@ MAKE SURE I RE-READ ALL OF THE PAPER TO ENSURE MY EVAL/CONC MAKES SENSE
  WITH THE RESULTS
 \end_layout
 
+\begin_layout Itemize
+Make sure all graphs have a figure number
+\end_layout
+
+\begin_layout Itemize
+Look at using negative vspace to fit stuff in
+\end_layout
+
+\begin_layout Itemize
+maybe bring MOG/HOG/Kalman into one figure
+\end_layout
+
+\begin_layout Itemize
+Change box/text colour per target.
+ 
+\end_layout
+
+\begin_layout Itemize
+More academic subtitles
+\end_layout
+
+\begin_layout Itemize
+Comments like 
+\begin_inset Quotes eld
+\end_inset
+
+In this section, we outline what has been learnt, ....
+\begin_inset Quotes erd
+\end_inset
+
+ to steer examiners towards mark scheme
+\end_layout
+
+\begin_layout Itemize
+Couple of slides for oral exam, intro, basic demo, advanced demo, full results,
+ conclusion
+\end_layout
+
+\begin_layout Itemize
+Write script to concatonate video files together.
+\end_layout
+
 \end_body
 \end_document
