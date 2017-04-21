@@ -2401,18 +2401,21 @@ In view of these anomalies and the issues that they may cause, the most
  previously in the Solution section, determining an effective re-identification
  threshold and learning threshold based on the results that we have collected
  for this feature.
- To enable the multiple-camera functionality, we will pass multiple files
+ When this system is run on a single camera, the results that it gives are
+ very good.
+\end_layout
+
+\begin_layout Subsection
+Multiple Cameras
+\end_layout
+
+\begin_layout Standard
+\noindent
+To enable the multiple-camera functionality, we will pass multiple files
  to the system and run each camera on a different thread, using locks to
  make sure that the global targets array is not corrupted, and a wait command
  to ensure that all cameras move through frames at the same rate, whether
  they have processing to do or not.
-\end_layout
-
-\begin_layout Standard
-When this system is run on a single camera, the results that it gives are
- very good.
- On the multi camera system.....
- 
 \end_layout
 
 \begin_layout Section
