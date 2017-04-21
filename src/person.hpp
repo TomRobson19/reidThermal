@@ -23,6 +23,7 @@ class Person
 {
 private: 
 	int personIdentifier;
+	Scalar personColour;
 	int currentCamera;
 	vector<cv::Mat_<float> > history;
 	int lastSeen;
@@ -37,6 +38,10 @@ public:
 	void setIdentifier(int identifier);
 
 	int getIdentifier();
+
+	void setColour(int identifier);
+
+	Scalar getColour();
 
 	int getLastSeen();
 

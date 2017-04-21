@@ -20,15 +20,25 @@ using namespace ml;
 
 Person::Person(int identifier, float x, float y, int timeSteps, float w, float h) {
 	setIdentifier(identifier);
+  setColour(identifier);
 	initKalman(x,y,timeSteps,w,h);
 }
 
+void Person::setColour(int identifier) {
+	srand(identifier*100);
+  personColour = Scalar(rand() % 256, rand() % 256, rand() % 256);
+}
+
+Scalar Person::getColour() {
+	return personColour;
+}
+
 void Person::setIdentifier(int identifier) {
-	personIdentifier = identifier;
+  personIdentifier = identifier;
 }
 
 int Person::getIdentifier() {
-	return personIdentifier;
+  return personIdentifier;
 }
 
 int Person::getLastSeen() {
