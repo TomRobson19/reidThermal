@@ -36,6 +36,7 @@
 \output_sync 0
 \bibtex_command bibtex
 \index_command default
+\float_placement H
 \paperfontsize default
 \spacing single
 \use_hyperref false
@@ -1036,13 +1037,13 @@ As can be seen from the prior work discussed above, the research that has
  However, in thermal imagery the majority of the research presented here
  is concerned with tracking a person or object, and not with re-identification
  across multiple cameras.
- This is where this research project fits in, as we are tackling a problem
- that does not seem to have been effectively solved, and using some features
- that have rarely, if at all, been used for re-identification purposes.
+ This is where this project fits in, as we are tackling a problem that has
+ not been effectively solved, and using some features that have rarely,
+ if at all, been used for re-identification purposes.
  As our interest is primarily centred on the features we are using, we will
  implement fairly basic and well understood techniques for person tracking,
- and then implement features on top of this, as will be discussed in the
- next section.
+ and then implement our set of features on top of this, as will be discussed
+ in the next section.
  
 \end_layout
 
@@ -1210,49 +1211,17 @@ As the program runs through the video, during each new frame, a Gaussian
  mask, erosion and dilation are used to clean up these results.
  From here, we use contour detection to find the connected components, and
  draw bounding boxes around these contours.
- The Figure below shows the background model that the system has built up,
- the foreground of the image, the target identified and the bounding box
- associated with this target, taken from one frame of an example video used
- for testing.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Real-Time-Person"
+
+\end_inset
+
+ (a) shows the background model that the system has built up, the foreground
+ of the image, the target identified and the bounding box associated with
+ this target, taken from one frame of an example video used for testing.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename /home/tom/Pictures/Mog
-	scale 30
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-MoG Background Subtraction Output
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsubsection
@@ -1317,54 +1286,22 @@ The reason for the inclusion of both methods here is that there is a trade
  The Haar Cascade is much faster, but gets a slightly inferior classification
  rate.
  For this reason, the option exists to change between the two systems, depending
- on whether speed or accuracy is important, or how much emphasis is put
- on NFR1.
+ on whether speed or accuracy is important.
  A real world example of this trade-off would be in a surveillance system,
  if the operator is looking to Re-Identify people from live video input
  they would use the Haar Cascade, but if they waned to Re-Identify people
  from pre-recorded video footage, they would use HOG.
- The output of both systems looks much the same, and is displayed in the
- Figure below, where the red box represents the search area given by the
- background subtractor with additional padding, and the green box represents
- the identified human target from HOG or Haar Cascade.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename /home/tom/Pictures/Hog
-	scale 50
+ The output of both systems looks much the same, and is displayed in Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Real-Time-Person"
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Person Detection Output
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+ (b), where the red box represents the search area given by the background
+ subtractor with additional padding, and the green box represents the identified
+ human target from HOG or Haar Cascade.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1412,9 +1349,16 @@ With such a Kalman Filter associated with each person object, we know where
  as we know people cannot be in two places at once.
  It also helps us to reduce noise from the person detector, as we have a
  predicted size of the next classification of each person.
- The Figure below shows the output of this, with the red box showing the
- area identified as a foreground target, and the blue box is the predicted
- position of the target in the next frame.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Real-Time-Person"
+
+\end_inset
+
+ (c) shows the output of this, with the red box showing the area identified
+ as a foreground target, and the blue box is the predicted position of the
+ target in the next frame.
  The green box from the person identification phase is omitted here to reduce
  the clutter in the image, but the process is still being performed to give
  us the measurement of the target's position in each frame.
@@ -1429,11 +1373,96 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Mog
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MoG Background Subtraction Output
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/tom/Pictures/Hog
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Person Detection Output
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Kalman
-	scale 50
+	scale 30
 
 \end_inset
 
@@ -1447,6 +1476,29 @@ status collapsed
 
 \begin_layout Plain Layout
 Kalman Filter Output
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Real-Time-Person"
+
+\end_inset
+
+Real Time Person Detection System Stages
 \end_layout
 
 \end_inset
