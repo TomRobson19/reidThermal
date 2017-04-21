@@ -577,7 +577,7 @@ key "Huang,Zhang2015"
 \end_layout
 
 \begin_layout Subsection
-Aims of the Project - make this longer and more detailed
+Aims of the Project
 \end_layout
 
 \begin_layout Standard
@@ -596,6 +596,20 @@ The aim of this project is to investigate the above research question by
 
 \begin_layout Subsection
 Achievements of the Project
+\end_layout
+
+\begin_layout Standard
+We have managed to achieve a full evaluation of all the features being examined,
+ with Histogram of Intensities being the best, and Thermal Correlogram and
+ Optical Flow also being considered suitable for use in re-identification.
+ We have developed a functioning real time person detection, identification
+ and tracking system, and have built a re-identification system on top of
+ this using the Histogram of Intensities feature, and this has given us
+ reasonably accurate results on a single camera.
+ The problem becomes more complex in a multiple camera system, and although
+ we do still see a reasonable amount of success from our system, the different
+ viewpoints and larger number of targets reduces the accuracy of our classificat
+ions
 \end_layout
 
 \begin_layout Section
