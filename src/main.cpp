@@ -106,8 +106,9 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 				cap >> img;
 				if(img.empty())
 				{
-					std::cerr << "End of video file reached" << std::endl;
-					exit(0);
+					std::cerr << cameraID << " End of video file reached" << std::endl;
+					keepProcessing = false;
+					break;
 				}
 				outputImage = img.clone();
 				cvtColor(img, img, CV_BGR2GRAY);
@@ -480,7 +481,7 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 					  }
 					  if (multipleCameras == 0)
 					  {
-					  	rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
+					  	//rectangle(outputImage, r, Scalar(0,0,255), 2, 8, 0);
 					  }
 					}
 			  }
