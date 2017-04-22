@@ -1539,7 +1539,7 @@ Next Step
 
 \begin_layout Itemize
 Implemented stuff that Toby suggested, the rectangles from Kalman filter
- jump around a lot.
+ jump around a lot - done
 \end_layout
 
 \begin_layout Itemize
@@ -1552,7 +1552,7 @@ MAKE SURE I RE-READ ALL OF THE PAPER TO ENSURE MY EVAL/CONC MAKES SENSE
 \end_layout
 
 \begin_layout Itemize
-Make sure all graphs have a figure number
+Make sure all graphs have a figure number - done
 \end_layout
 
 \begin_layout Itemize
@@ -1560,12 +1560,11 @@ Look at using negative vspace to fit stuff in
 \end_layout
 
 \begin_layout Itemize
-maybe bring MOG/HOG/Kalman into one figure
+maybe bring MOG/HOG/Kalman into one figure - done
 \end_layout
 
 \begin_layout Itemize
-Change box/text colour per target.
- 
+Change box/text colour per target - done
 \end_layout
 
 \begin_layout Itemize
@@ -1590,7 +1589,8 @@ Couple of slides for oral exam, intro, basic demo, advanced demo, full results,
 \end_layout
 
 \begin_layout Itemize
-Write script to concatonate video files together.
+Write script to concatonate video files together - done, post processing
+ function in main.
 \end_layout
 
 \end_body
