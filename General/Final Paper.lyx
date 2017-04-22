@@ -1905,7 +1905,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align left
@@ -1996,7 +1996,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align left
@@ -2080,7 +2080,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align left
@@ -2168,7 +2168,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align left
@@ -2254,7 +2254,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align left
@@ -2333,7 +2333,7 @@ width "45col%"
 special "none"
 height "1in"
 height_special "totalheight"
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align left
@@ -2756,7 +2756,7 @@ Single Camera Re-Identification
 \end_layout
 
 \begin_layout Subsection
-Multiple Cameras
+Deployment of the System on Multiple Cameras
 \end_layout
 
 \begin_layout Standard
@@ -2832,6 +2832,26 @@ We have also developed an effective classifier to measure the effectiveness
 
 \begin_layout Subsection
 Weaknesses and Limitations of the Solution
+\end_layout
+
+\begin_layout Standard
+A major weakness of our system is that fact that miss-classifications cause
+ major problems for the re-identification system.
+ For example, if we have a succession of classifications for a person, stored
+ in the associated person object, and then a miss-classification leads to
+ the data of another person being added to this person object, then the
+ data is no longer exclusively the features of the original person.
+ We refer to this as cross-pollution of the data, and if it occurs then
+ the target that has become polluted is now useless to us, as it has data
+ from the wrong person in it, so may continue to be matched with either
+ of the two people whose data it contains.
+ Also, now that this person object does not contain the data for just one
+ person, the two people that have been misidentified as this object may
+ now be closer to other unpolluted person objects, which will lead to further
+ cross-pollution and to the data becoming meaningless.
+ Therefore, the re-identification system is only effective until it begins
+ making mistakes.
+ 
 \end_layout
 
 \begin_layout Standard
