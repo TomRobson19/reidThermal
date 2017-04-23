@@ -2456,10 +2456,6 @@ Combinations of Discriminative Features
 
 \end_layout
 
-\begin_layout Subsubsection
-Performance of the System on a Single Camera
-\end_layout
-
 \begin_layout Standard
 In view of these anomalies and the issues that they may cause, the most
  discriminative feature that has the fewest anomalies and that runs in real
@@ -2481,6 +2477,11 @@ reference "fig:Single-Camera-Re-Identification"
  Subfigures (a), (b) and (c) show different identification of different
  targets, while subfigure (d) shows the situation where two targets have
  crossed over.
+ For the majority of this video, the system has a perfect re-identification
+ rate for every target that it recognises as a person, until the first mistake
+ occurs towards the end of the video.
+ Despite this, across all our video files, the system has a long period
+ of effective re-identification before any mistakes are made.
  
 \end_layout
 
@@ -2638,10 +2639,6 @@ Single Camera Re-Identification
 
 \end_layout
 
-\begin_layout Subsubsection
-Performance of the System on Multiple Cameras
-\end_layout
-
 \begin_layout Standard
 \noindent
 To enable the multiple-camera functionality, we will pass multiple files
@@ -2651,7 +2648,247 @@ To enable the multiple-camera functionality, we will pass multiple files
  they have processing to do or not.
  We then have a post processing stage where all the camera views are combined
  into one video, to allow the results to be observed more easily.
+ However, as the multiple-camera dataset introduces very different viewpoints,
+ people observed from different cameras have differing characteristics,
+ which means they are sometimes similar enough to be re-identified, and
+ sometimes not.
+ It is also more difficult to differentiate between people from some viewpoints,
+ with camera 
+\begin_inset Formula $\delta$
+\end_inset
+
+ being the main source of this problem.
+ We also rarely get a classification in camera 
+\begin_inset Formula $\gamma,$
+\end_inset
+
+ as the people are too close to the camera, and parts of them are cut off,
+ meaning that the person detector does not pick them up.
+ The result of these problems is many person objects loosely associated
+ with each person, as if all of them are within the re-identification threshold,
+ it will change often between them as individual classifications are by
+ nature closer together than others.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MultiCam"
+
+\end_inset
+
+ shows our setup, as well as an instance of this problem of multiple targets
+ associated with a single person.
+ As the videos proceed, and more people enter the scene, we begin to get
+ a huge amount of targets in the system, and the output becomes very hard
+ to gain any useful insight from.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:DeltaProb"
+
+\end_inset
+
+ shows a small instance of this, as this person is far away and difficult
+ to re-identify, so a new target is created for them for every frame they
+ are identified in.
+ This person takes the total number of targets in the system up a huge amount,
+ and from here the system struggles, as with so many targets, each frame
+ is bound to be closer to a different one of them, or none of them, and
+ will create a new target.
+ This was from dataset 2, and at the end of the run we have over 200 targets
+ in the system.
+ Therefore, we can see that this system, while effective on a single camera,
+ is ineffective over the four cameras used in this dataset.
  
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/prob1.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/prob2.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:MultiCam"
+
+\end_inset
+
+Multiple Camera Re-Identification
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/deltaProb1.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/tom/Pictures/deltaProb2.png
+	scale 20
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:DeltaProb"
+
+\end_inset
+
+Rapid Target Creation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+TEST ON JUST ALPHA AND BETA
 \end_layout
 
 \begin_layout Section
@@ -2665,7 +2902,7 @@ We will now evaluate the strengths, weaknesses and limitations of the research
 \end_layout
 
 \begin_layout Subsection
-Real Time Person Detection System
+Real Time Person Detection System - TALK ABOUT PROBLEMS ON GAMMA
 \end_layout
 
 \begin_layout Standard
@@ -2730,7 +2967,7 @@ ion, and the Histogram of Intensities is suitable.
 \end_layout
 
 \begin_layout Subsection
-Re-Identification System
+Re-Identification System - TALK MORE ABOUT MULTI-CAMERA PROBLEMS
 \end_layout
 
 \begin_layout Standard
