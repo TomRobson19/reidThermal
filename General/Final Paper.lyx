@@ -2908,7 +2908,7 @@ We will now evaluate the strengths, weaknesses and limitations of the research
 \end_layout
 
 \begin_layout Subsection
-Real Time Person Detection System - TALK ABOUT PROBLEMS ON GAMMA
+Real Time Person Detection System
 \end_layout
 
 \begin_layout Standard
@@ -2926,6 +2926,14 @@ ion, a significant thermal hotspot has been missed.
  We have attempted to find a balance between these erroneous classifications
  and being able to classify targets at a distance, but this has not been
  completely successful.
+ We also rarely get detections of people in camera 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ because the edges of the people are too close to the edges of the frame,
+ meaning that this camera is providing little to the multiple camera system
+ due to a weakness in the person detector.
+ This should be addressed by future work.
 \end_layout
 
 \begin_layout Subsection
