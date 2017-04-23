@@ -2698,6 +2698,12 @@ reference "fig:DeltaProb"
  in the system.
  Therefore, we can see that this system, while effective on a single camera,
  is ineffective over the four cameras used in this dataset.
+ This figure also shows the problems with identifying targets at distance
+ in the other cameras, and the lack of detections from camera 
+\begin_inset Formula $\gamma$
+\end_inset
+
+.
  
 \end_layout
 
