@@ -2913,8 +2913,46 @@ A limitation that we faced in this project is associated with the infrared
 Appraisal of Project Organisation
 \end_layout
 
+\begin_layout Standard
+In the implementation of this system we have used a modular approach, implementi
+ng each major component separately.
+ This was a useful process to use as it enabled us to fully test and optimise
+ each part of the system as much as possible, and eliminate as many of the
+ errors and limitations as we could as they came up in each subsystem.
+ Notably, we encountered difficulties with the Kalman filter, as although
+ this is a well understood and often used technique, it was one of the elements
+ of the OpenCV library that changed between version 2 and 3, meaning that
+ much of the existing work that we looked at for this part of our solution
+ functioned in a different way ti how our system would, as we have used
+ OpenCV version 3 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "opencv_library"
+
+\end_inset
+
+.
+ We also had difficulties in the implementation of the comparison system,
+ as we initially intended to use a Bayesian Classifier in a similar manner
+ to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Fukunaga1990"
+
+\end_inset
+
+, but this did not function correctly with our data.
+ 
+\end_layout
+
 \begin_layout Section
 Conclusion
+\end_layout
+
+\begin_layout Standard
+We will now conclude this paper, giving an overview of what we have accomplished
+ and how this could be extended by future work.
+ 
 \end_layout
 
 \begin_layout Subsection
