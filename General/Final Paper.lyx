@@ -1803,6 +1803,11 @@ The data used to evaluate the features that have been implemented here was
  gathered with four cameras on the site of Durham University's Computer
  Science department, with the cameras and their fields of view being arranged
  as they are in the Figure below.
+ We recorded three datasets, the first of which only contained three people,
+ the second contained six people with multiple people in view at the same
+ time and the third also contained six people, but introduced other targets
+ such as cars.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2924,14 +2929,7 @@ ng each major component separately.
  of the OpenCV library that changed between version 2 and 3, meaning that
  much of the existing work that we looked at for this part of our solution
  functioned in a different way ti how our system would, as we have used
- OpenCV version 3 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "opencv_library"
-
-\end_inset
-
-.
+ OpenCV version 3.
  We also had difficulties in the implementation of the comparison system,
  as we initially intended to use a Bayesian Classifier in a similar manner
  to 
@@ -2941,7 +2939,9 @@ key "Fukunaga1990"
 
 \end_inset
 
-, but this did not function correctly with our data.
+, but this did not function correctly with our data, and much time was used
+ trying to get this to function before we decided that using the pure Mahalanobi
+s distances was a superior solution.
  
 \end_layout
 
