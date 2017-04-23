@@ -486,6 +486,9 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 					}
 			  }
 			}
+			String cameras[4] = {"Alpha", "Beta", "Gamma", "Delta"};
+
+			putText(outputImage, cameras[cameraID], Point2f(20,50), FONT_HERSHEY_SIMPLEX,1,(0,0,0));
 		  // display image in window
 		  if(multipleCameras == 1)
 		  {
@@ -581,12 +584,11 @@ int main(int argc,char** argv)
 
   if(testing == 1)
   {
-	  //runOnSingleCamera(alphaFile, 0, 0); 
+	  runOnSingleCamera(alphaFile, 0, 0); 
 	  runOnSingleCamera(betaFile, 1, 0); 
-	  //runOnSingleCamera(gammaFile, 2, 0); 
-	  //runOnSingleCamera(deltaFile, 3, 0); 
+	  runOnSingleCamera(gammaFile, 2, 0); 
+	  runOnSingleCamera(deltaFile, 3, 0); 
   }
-  //use this to run multithreaded - need to remove all imshow and named window calls, and uncomment all lock stuff and videowriter
 
   else
   {
