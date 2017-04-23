@@ -2658,7 +2658,7 @@ To enable the multiple-camera functionality, we will pass multiple files
 \end_inset
 
  being the main source of this problem.
- We also rarely get a classification in camera 
+ We also rarely get a detection in camera 
 \begin_inset Formula $\gamma,$
 \end_inset
 
@@ -3120,15 +3120,22 @@ Extensions
 \end_layout
 
 \begin_layout Standard
-In this project, we have explored five possible features for re-identification
- in thermal imagery, and found that the best solution was to only use one
- of these, the Histogram of Intensities.
- There are many more possible features that can be explored, and future
- work and extensions of this project should explore more of these features.
+There are many more potential features that could be used for re-identification,
+ and therefore future work and extensions of this project should explore
+ more of these features.
  It would also be worth exploring the full possibilities of the advanced
  features that we have discussed here, the Thermal Correlogram and Optical
  Flow, if we had sufficient computational resources to make use of the full
  detail that these features can supply.
+ If we made use of multiple cameras in the same position, or stereo cameras,
+ we will be able to get measurements of depth, and this will most likely
+ be a better feature than Hu Moments proved to be, which was our approximation
+ of size.
+ We could also consider the possibilities of using a different classifier,
+ perhaps storing more information per each target, or incorporating the
+ previous position of the target to improve the accuracy.
+ We could also improve the Person Detection system to enable it to function
+ at distance and not pick up small parts of people as different detections.
  
 \end_layout
 
