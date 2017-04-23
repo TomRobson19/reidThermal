@@ -217,9 +217,9 @@ Conclusions
 \color black
 We conclude that the work carried out here is a useful starting point, as
  we have been able to approve or eliminate five potential thermal re-identificat
-ion features and develop a functioning re-identification system over both
- a single camera and multiple cameras, accross a range of people who will
- have a variety of thermal signatures.
+ion features and develop a classifier to use our best feature to create
+ a functioning re-identification system over both a single camera and multiple
+ cameras, across a range of people who have a variety of thermal signatures.
  
 \end_layout
 
@@ -1566,7 +1566,7 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
  for its implementation in our system.
  When calculating this, we first detect the contours present in our region
  of interest, use the largest of these contours to calculate Moments, and
- then use these Moments to calculate HuMoments.
+ then use these Moments to calculate Hu Moments.
  This gives us a feature vector of length 7, which is normalised to give
  us a feature vector to represent the shape of the object.
 \end_layout
@@ -1689,8 +1689,8 @@ key "HornSchunck1981"
 \end_inset
 
 .
- The method employed here to calculate the Optical Flow values is the tensor-bas
-ed method proposed in 
+ The method employed here to calculate the Optical Flow values is the tensor
+ based method proposed in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Farneback2003"
@@ -1712,7 +1712,7 @@ key "Farneback2003"
 
 \begin_layout Standard
 To investigate this feature we use both the raw flow values that we have
- caluclated, reduced to take every eight row and column as suggested in
+ calculated, reduced to take every eight row and column as suggested in
  
 \begin_inset CommandInset citation
 LatexCommand cite
