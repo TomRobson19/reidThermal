@@ -3031,10 +3031,6 @@ A limitation that we faced in this project is associated with the infrared
  
 \end_layout
 
-\begin_layout Standard
-#######Camera Gamma doesn't add much and Delta gives very different results
-\end_layout
-
 \begin_layout Subsection
 Appraisal of Project Organisation
 \end_layout
@@ -3078,6 +3074,45 @@ We will now conclude this paper, giving an overview of what we have accomplished
 
 \begin_layout Subsection
 What has been Accomplished?
+\end_layout
+
+\begin_layout Standard
+The research that has been performed in this project has enabled us to effective
+ly answer our research question, as we have shown that Hu Moments and Histogram
+ of Oriented Gradients are not suitable for use in re-identification, Histogram
+ of Intensities is suitable and performs fairly well, and Thermal Correlogram
+ and Optical Flow are moderately effective in a simplified form, and need
+ more computation resources if they are to use their full discriminative
+ potential.
+ We have used this information to create a functional re-identification
+ system using the Histogram of Intensities feature and Mahalanobis distance
+ as a comparison method.
+ This system has proven to be very good on a single camera system, and even
+ on multiple cameras with similar viewpoints.
+ A useful insight that our dataset provided was that while Histogram of
+ Intensities is a very discriminative feature over the range of distances
+ in the section of video that we used to measure the performance of the
+ features, it is not as effective as a feature over more of a range of viewpoint
+s, as shown by the issues with camera 
+\begin_inset Formula $\delta$
+\end_inset
+
+ in Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MultiCam"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:DeltaProb"
+
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Subsection
