@@ -1878,9 +1878,13 @@ Which features of a human target are appropriate to facilitate re-identification
 \emph default
 This has been done by performing tests on one of our video files with an
  altered re-identification classifier to the one described above.
- We have a set of frames where one person is in the scene, over which the
- features of this person will be recorded, and each new frame will be compared
- against these using Mahalanobis distance as before.
+ We have a section of video taken from camera 
+\begin_inset Formula $\beta$
+\end_inset
+
+ of dataset 1 where one person is in the scene, over which the features
+ of this person will be recorded, and each new frame will be compared against
+ these using Mahalanobis distance as before.
  This person leaves the scene and a different person enters the scene.
  We stop recording data at this point to prevent any misclassifications
  corrupting the data, and just measure the mahalanobis distances between
@@ -1890,7 +1894,250 @@ This has been done by performing tests on one of our video files with an
  These two people have fairly similar thermal signatures, and after examining
  our three datasets, we concluded that it was this section of video that
  was the best suited to the evaluation of our features.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance"
+
+\end_inset
+
+ shows the performance of all the features from this experiment.
  
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/Hu.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/Hist.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/HOG.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/Correlogram.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/HOF.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graphs/Flow.png
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Performance"
+
+\end_inset
+
+Performance of the Features
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -1898,25 +2145,17 @@ Hu Moments
 \end_layout
 
 \begin_layout Standard
-\noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
 \align left
 Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, as seen in the graph, as the mahalanobis distances
- for both correct and incorrect targets are very similar.
+ of re-identification, as seen graph (a) of Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance"
+
+\end_inset
+
+, as the mahalanobis distances for both correct and incorrect targets are
+ very similar.
  The first entry also has a comparatively large mahalanobis distance relative
  to the others, which we believe was due to the covariance matrix not yet
  allowing sufficient variation, as this feature seems to vary to quite a
@@ -1926,146 +2165,26 @@ Hu Moments proved to not be a very discriminative feature for the purpose
  
 \end_layout
 
-\end_inset
-
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Graphs/Hu.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsubsection
 Histogram of Thermal Intensities
 \end_layout
 
 \begin_layout Standard
 \noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
+As can be seen in graph (b) of Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance"
 
-\begin_layout Plain Layout
-\align left
-As can be seen in the graph, the Histogram of Intensities was shown to be
- a very good feature, as the line for the incorrect person is always higher
- than the line for the correct target, and we can therefore determine a
- threshold that will be correct for the vast majority of classifications.
+\end_inset
+
+, the Histogram of Intensities was shown to be a very good feature, as the
+ line for the incorrect person is always higher than the line for the correct
+ target, and we can therefore determine a threshold that will be correct
+ for the vast majority of classifications.
  This will be a very useful feature for re-identification, and will be used
  in the final system.
  
-\end_layout
-
-\end_inset
-
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Graphs/Hist.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsubsection
@@ -2074,25 +2193,18 @@ Histogram of Oriented Gradients
 
 \begin_layout Standard
 \noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\align left
 The Histogram of Oriented Gradients is another feature that is not very
  discriminative for re-identification.
- All of the mahalanobis distances are very low, but there is very little
- difference between the correct and incorrect target.
+ All of the mahalanobis distances are very low, as shown in graph (c) of
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance"
+
+\end_inset
+
+, but there is very little difference between the correct and incorrect
+ target.
  We have simplified this feature to improve runtime, but testing with more
  complex HOG parameters did not improve the performance of this feature
  enough to make it usable for the re-identification.
@@ -2102,82 +2214,21 @@ The Histogram of Oriented Gradients is another feature that is not very
  
 \end_layout
 
-\end_inset
-
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Graphs/HOG.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsubsection
 Thermal Correlogram
 \end_layout
 
 \begin_layout Standard
 \noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
+This feature has proved to be quite discriminative, as graph (d) of Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance"
 
-\begin_layout Plain Layout
-\align left
-This feature has proved to be quite discriminative, as the graph shows.
+\end_inset
+
+ shows.
  However, there are some notable anomalies, which we believe are due to
  certain body parts being obstructed, such as a hand disappearing behind
  the persons back for a frame.
@@ -2188,222 +2239,45 @@ This feature has proved to be quite discriminative, as the graph shows.
  
 \end_layout
 
-\end_inset
-
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Graphs/Correlogram.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsubsection
 Optical Flow
 \end_layout
 
 \begin_layout Standard
 \noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\align left
 The Histogram of Flow is slightly discriminative feature, as the correct
  person has a smaller average mahalanobis distance than the incorrect target,
- but the two lines are close together and vary highly, meaning that it would
- be very hard to determine an effective re-identification threshold for
- using this feature, so it is therefore of very limited use to us when consideri
-ng which features to use in our final solution.
-\end_layout
+ but the two lines of graph (e) of Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance"
 
 \end_inset
 
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Graphs/HOF.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+ are close together and vary highly, meaning that it would be very hard
+ to determine an effective re-identification threshold for using this feature,
+ so it is therefore of very limited use to us when considering which features
+ to use in our final solution.
 \end_layout
 
 \begin_layout Standard
 \noindent
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\align left
 However, when just using the raw Optical Flow values that we have calculated
  from our region of interest, we have a far more discriminative feature
- than when we used these values to construct a histogram.
+ than when we used these values to construct a histogram, as can be observed
+ in graph (f) of Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance"
+
+\end_inset
+
+.
  Even though we are only using every eighth row and column to enable this
  feature to run in an acceptable amount of time, these results show that
  it is one of our more discriminative features.
  If we did not have this runtime limitation, it would be reasonable to expect
  this feature to perform better.
-\end_layout
-
-\end_inset
-
-
-\begin_inset Box Frameless
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "b"
-use_parbox 0
-use_makebox 0
-width "45col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename Graphs/Flow.png
-	scale 40
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -2580,6 +2454,10 @@ Combinations of Discriminative Features
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Performance of the System on a Single Camera
 \end_layout
 
 \begin_layout Standard
@@ -2760,8 +2638,8 @@ Single Camera Re-Identification
 
 \end_layout
 
-\begin_layout Subsection
-Deployment of the System on Multiple Cameras
+\begin_layout Subsubsection
+Performance of the System on Multiple Cameras
 \end_layout
 
 \begin_layout Standard
