@@ -1845,12 +1845,12 @@ Setup of Cameras
 \end_layout
 
 \begin_layout Subsection
-Evaluation of the Features
+Performance of the Features
 \end_layout
 
 \begin_layout Standard
 Having discussed the features that we will implement in the previous section,
- we will now evaluate which of these are sufficiently discriminative between
+ we will now determine which of these are sufficiently discriminative between
  people, and thus address our research question, 
 \series bold
 \emph on
@@ -2578,7 +2578,6 @@ Combinations of Discriminative Features
 \end_layout
 
 \begin_layout Standard
-\noindent
 In view of these anomalies and the issues that they may cause, the most
  discriminative feature that has the fewest anomalies and that runs in real
  time is using the Histogram of Intensities alone.
@@ -2597,12 +2596,13 @@ reference "fig:Single-Camera-Re-Identification"
 
  shows.
  Subfigures (a), (b) and (c) show different identification of different
- targets, while subfigure (d) shows the system handling the situation where
- two targets have crossed over correctly.
+ targets, while subfigure (d) shows the situation where two targets have
+ crossed over.
  
 \end_layout
 
 \begin_layout Standard
+\noindent
 \begin_inset Float figure
 placement H
 wide false
@@ -2782,13 +2782,34 @@ We will now evaluate the strengths, weaknesses and limitations of the research
 \end_layout
 
 \begin_layout Subsection
-Strengths of the Solution
+Real Time Person Detection System
+\end_layout
+
+\begin_layout Standard
+As the primary focus of this project was to investigate the features and
+ their viability for re-identification, we have implemented a fairly simple
+ person detection system to give our features a platform to work on.
+ While this performed well in the majority of cases, there were some issues
+ associated with these methods, such as the detector cutting parts off people,
+ giving us very different results, as if the head is not part of the classificat
+ion, a significant thermal hotspot has been missed.
+ In order to mitigate this problem, we have forced acceptable classifications
+ to be larger.
+ This removes many of these partial detections, although some do still occur,
+ but it also means that we cannot identify people far from the camera.
+ We have attempted to find a balance between these erroneous classifications
+ and being able to classify targets at a distance, but this has not been
+ completely successful.
+\end_layout
+
+\begin_layout Subsection
+Features
 \end_layout
 
 \begin_layout Standard
 As the research that we have conducted here is in an area that has previously
- been largely unexplored, our main objective was to determine if a feasible
- solution exists, and to answer the research question 
+ been largely unexplored, our first objective was to answer the research
+ question 
 \series bold
 \emph on
 
@@ -2806,37 +2827,46 @@ Which features of a human target are appropriate to facilitate re-identification
  
 \emph default
 This has been extensively explored in our results section, and we have effective
-ly proved that some features, such as Hu Moments and HOG, are not suitable
- to be used for re-identification, and some feature are suitable.
+ly proved that Hu Moments and HOG are not suitable to be used for re-identificat
+ion, and the Histogram of Intensities is suitable.
  We have also effectively established that while our more advanced features,
  the Thermal Correlogram and Optical Flow, are reasonably discriminative
  features in the form that we have implemented here, but have such a high
  level of complexity that they would need a more powerful computation system
  than the one used to perform this work if they are to be used to their
  full re-identification potential.
- These insights are hugely informative for further work in this area.
- 
-\end_layout
-
-\begin_layout Standard
-We have also developed an effective classifier to measure the effectiveness
- of these features, by using the Mahalanobis distance between each new frame
- and the distribution of previous identifications of each target.
- For our effective features this classifier produces a clear difference
- between correct and incorrect classifications in the majority of cases.
- The problems that our classifier encounters are due to the anomalies that
- the features generate, which shall be discussed in the next section.
- On the majority of correct detections, our classifier functions very well.
+ We state in our aims for this project that the final system must run in
+ real time on the video files that we are using, or at least reasonably
+ close to real time.
+ In order to achieve this aim we have had to greatly simplify these features,
+ by only using every eighth row and column of the optical flow matrix and
+ breaking the correlogram down to wide intensity and distance thresholds.
+ However, with these simplifications these features perform worse than the
+ Histogram of Intensities, so this is the feature we use for re-identification.
  
 \end_layout
 
 \begin_layout Subsection
-Weaknesses and Limitations of the Solution
+Re-Identification System
 \end_layout
 
 \begin_layout Standard
-A major weakness of our system is that fact that miss-classifications cause
- major problems for the re-identification system.
+We have developed an effective classifier to measure the effectiveness of
+ these features, by using the Mahalanobis distance between each new frame
+ and the distribution of previous identifications of each target.
+ For our effective features this classifier produces a clear difference
+ between correct and incorrect classifications in the majority of cases.
+ The problems that our classifier encounters are due to the anomalies that
+ the features generate.
+ The reasons for this have already been discussed, but on the majority of
+ correct detections from the person detection system and using the Histogram
+ of Intensities as our feature, our classifier functions very well.
+ 
+\end_layout
+
+\begin_layout Standard
+However, a major weakness of our system is that fact that miss-classifications
+ cause major problems for the re-identification system.
  For example, if we have a succession of classifications for a person, stored
  in the associated person object, and then a miss-classification leads to
  the data of another person being added to this person object, then the
@@ -2854,43 +2884,13 @@ A major weakness of our system is that fact that miss-classifications cause
  
 \end_layout
 
-\begin_layout Standard
-As the primary focus of this project was to investigate the features and
- their viability for re-identification, we have implemented a fairly simple
- person detection system to give our features a platform to work on.
- There were some issues associated with these methods, such as the detector
- cutting parts off people, giving us very different results, as if the head
- is not part of the classification, a significant thermal hotspot has been
- missed.
- In order to mitigate this problem, we have forced acceptable classifications
- to be larger.
- This removes many of these partial detections, although some do still occur,
- but it also means that we cannot identify people far from the camera.
- We have attempted to find a balance between these erroneous classifications
- and being able to classify targets at a distance, but this has not been
- completely successful.
+\begin_layout Subsection
+Limitations of Equipment
 \end_layout
 
 \begin_layout Standard
-A major limitation of this system, as has been frequently discussed in this
- paper, is the runtime.
- We state in our aims for this project that the final system must run in
- real time on the video files that we are using, or at least reasonably
- close to real time.
- This caused problems for us in the development of the most advanced features
- of our system, the Thermal Correlogram and Optical Flow.
- In order to use these features, we have had to greatly simplify them, such
- as only using every eighth row and column of the optical flow matrix, or
- breaking the correlogram down to wide intensity and distance thresholds.
- This means we have not been able to leverage the full re-identification
- capability that these features should have in theory, and we have had to
- work only with simplifications or other features.
- 
-\end_layout
-
-\begin_layout Standard
-Another limitation that we faced in this project is associated with the
- infra-red cameras that we used to record the data.
+A limitation that we faced in this project is associated with the infrared
+ cameras that we used to record the data.
  As these are uncooled cameras, they require a thermal reset at regular
  intervals, to enable the cameras to calibrate themselves to correct for
  changes in background heat levels.
@@ -2906,7 +2906,7 @@ Another limitation that we faced in this project is associated with the
 \end_layout
 
 \begin_layout Standard
-Camera Gamma doesn't add much and Delta gives very different results
+#######Camera Gamma doesn't add much and Delta gives very different results
 \end_layout
 
 \begin_layout Subsection
