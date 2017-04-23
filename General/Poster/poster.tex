@@ -41,23 +41,25 @@ The intent of this project is answer the question "Which features of a human tar
         \end{block}
         
     \begin{columns}[t]
-      \begin{column}{.48\linewidth}
+      \begin{column}{.49\linewidth}
         
         \begin{block}{Person Detection and Tracking}
         	The process of Person detection and Tracking employed in this Project can be broken down into multiple stages. 
         	\begin{itemize}
         	\item Background Subtraction. This is done using the Mixture of Gaussians (MOG) method, allowing the system to learn a background model and comparing each new frame to this. 
-        	\includegraphics[width=.90\linewidth]{Mog.png}
+
         	\item Person Identification. This is done by performing contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) or a Haar Cascade to determine whether this target is a person.
-        	\includegraphics[width=.90\linewidth]{Hog.png}
+        	
         	\item Person Tracking and Position Prediction. Each person identified has a Kalman Filter associated with them which records their position, velocity and size within the image, and predicts their next position. 
-          \includegraphics[width=.90\linewidth]{Kalman.png}
+        \includegraphics[width=.40\linewidth]{Mog.png}  
+        \includegraphics[width=.30\linewidth]{Hog.png}  
+        \includegraphics[width=.30\linewidth]{Kalman.png}
           \end{itemize}
         \end{block}
         
-      \end{column}
 
-      \begin{column}{.48\linewidth}
+
+
         \begin{block}{Features and the Classifier}
         For this project, we have selected 5 potential features to test:
           \begin{itemize}
@@ -74,7 +76,7 @@ The intent of this project is answer the question "Which features of a human tar
           \end{itemize}
           The last 10 feature vectors for each target are stored. From here, we calculate the mean and covariance of these feature vectors, and use mahalanobis distance to compare each new person identified to each existing target. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.
         \end{block}
-
+	
         \begin{block}{Evaluation of Features}
 		\includegraphics[width=.45\linewidth]{../Graphs/Hu.png}
 		\includegraphics[width=.45\linewidth]{../Graphs/Hist.png}
@@ -86,9 +88,15 @@ The intent of this project is answer the question "Which features of a human tar
 		\includegraphics[width=.45\linewidth]{../Graphs/Flow.png}
 		
         \end{block}
-
+	 \end{column}
+	 \begin{column}{.49\linewidth}
  		\begin{block}{The Re-Identification System}
- 		This will use the best combination of features. 
+ 		This will use the best of the features, which is the Histogram of Intensities. It performs very well on a single camera, until an error occurs, and then cross-pollution of the data makes further results questionable as the data is no longer exclusively that of the person it is supposed to be. 
+ 		\includegraphics[width=.45\linewidth]{../0.png}  
+        \includegraphics[width=.43\linewidth]{../1.png}  
+        
+        \includegraphics[width=.45\linewidth]{../2.png}
+        \includegraphics[width=.45\linewidth]{../overlap.png}  
 
          
 
@@ -97,11 +105,6 @@ The intent of this project is answer the question "Which features of a human tar
       \end{column}
     \end{columns}
     
-    \begin{block}{Conclusions}
-
-         
-
-        \end{block}
 
   \end{frame}
 \end{document}
