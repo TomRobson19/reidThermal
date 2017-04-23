@@ -2978,7 +2978,7 @@ ion, and the Histogram of Intensities is suitable.
 \end_layout
 
 \begin_layout Subsection
-Re-Identification System - TALK MORE ABOUT MULTI-CAMERA PROBLEMS
+Re-Identification System
 \end_layout
 
 \begin_layout Standard
@@ -3011,7 +3011,14 @@ However, a major weakness of our system is that fact that miss-classifications
  now be closer to other unpolluted person objects, which will lead to further
  cross-pollution and to the data becoming meaningless.
  Therefore, the re-identification system is only effective until it begins
- making mistakes.
+ making mistakes, and these mistakes become more and more prevalent when
+ the system is applied to multiple cameras, as was discussed in the results
+ section, with many of the misclassifications being traceable to camera
+ 
+\begin_inset Formula $\delta$
+\end_inset
+
+.
  
 \end_layout
 
