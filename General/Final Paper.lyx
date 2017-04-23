@@ -2640,7 +2640,6 @@ Single Camera Re-Identification
 \end_layout
 
 \begin_layout Standard
-\noindent
 To enable the multiple-camera functionality, we will pass multiple files
  to the system and run each camera on a different thread, using locks to
  make sure that the global targets array is not corrupted, and a wait command
@@ -2677,7 +2676,11 @@ reference "fig:MultiCam"
 
  shows our setup, as well as an instance of this problem of multiple targets
  associated with a single person.
- As the videos proceed, and more people enter the scene, we begin to get
+ 
+\end_layout
+
+\begin_layout Standard
+As the videos proceed, and more people enter the scene, we begin to get
  a huge amount of targets in the system, and the output becomes very hard
  to gain any useful insight from.
  Figure 
