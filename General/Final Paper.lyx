@@ -220,7 +220,10 @@ We conclude that the work carried out here is a useful starting point, as
 ion features and develop a classifier to use our best feature to create
  a functioning re-identification system over both a single camera and multiple
  cameras, across a range of people who have a variety of thermal signatures.
- 
+ Future work could look to investigate more features, try to explore the
+ full potential of the Thermal Correlogram and Optical Flow, experiment
+ with different camera viewpoints and improve upon the Person Detection
+ system.
 \end_layout
 
 \begin_layout Abstract
@@ -627,7 +630,7 @@ We have managed to achieve a full evaluation of all the features being examined,
  We have developed a functioning real time person detection, identification
  and tracking system, and have built a re-identification system on top of
  this using the Histogram of Intensities feature, and this has given us
- reasonably accurate results on a single camera.
+ accurate results on a single camera.
  The problem becomes more complex in a multiple camera system, and although
  we do still see a reasonable amount of success from our system, the different
  viewpoints and larger number of targets reduces the accuracy of our classificat
@@ -1051,9 +1054,10 @@ Relation to this Project
 
 \begin_layout Standard
 As can be seen from the prior work discussed above, the research that has
- been put into re-identification in the past has been predominantly focused
- on colour, and the state of the art is moving away from the simpler features
- such as shirt colour and towards more advanced features.
+ been put into re-identification in the past has been focused on colour,
+ and the state of the art is moving away from the simpler features such
+ as shirt colour and towards more advanced features to try and improve the
+ accuracy of this system.
  However, in thermal imagery the majority of the research presented here
  is concerned with tracking a person or object, and not with re-identification
  across multiple cameras.
