@@ -120,7 +120,7 @@ Although use of thermal imagery currently poses significant advantages for
  of colour.
  Many current approaches to the problem of cross-camera person re-identification
 , or the camera-to-camera tracking of pedestrian targets, rely on colour
- features
+ features 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gong2014"
@@ -3057,7 +3057,7 @@ ng each major component separately.
  this is a well understood and often used technique, it was one of the elements
  of the OpenCV library that changed between version 2 and 3, meaning that
  much of the existing work that we looked at for this part of our solution
- functioned in a different way ti how our system would, as we have used
+ functioned in a different way to how our system would, as we have used
  OpenCV version 3.
  We also had difficulties in the implementation of the comparison system,
  as we initially intended to use a Bayesian Classifier in a similar manner
