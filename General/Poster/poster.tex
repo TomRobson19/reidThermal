@@ -51,9 +51,7 @@ The intent of this project is answer the question "Which features of a human tar
         	\item Person Identification. This is done by performing contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) or a Haar Cascade to determine whether this target is a person.
         	
         	\item Person Tracking and Position Prediction. Each person identified has a Kalman Filter associated with them which records their position, velocity and size within the image, and predicts their next position. 
-        \includegraphics[width=.40\linewidth]{Mog.png}  
-        \includegraphics[width=.30\linewidth]{Hog.png}  
-        \includegraphics[width=.30\linewidth]{Kalman.png}
+        \includegraphics[width=.95\linewidth]{../personDetector.png}  
           \end{itemize}
         \end{block}
         
@@ -78,28 +76,40 @@ The intent of this project is answer the question "Which features of a human tar
         \end{block}
 	
         \begin{block}{Evaluation of Features}
+        \hspace{1cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/Hu.png}
+		\hspace{2cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/Hist.png}
 		
+		\hspace{1cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/HOG.png}
+		\hspace{2cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/Correlogram.png}
 		
+		\hspace{1cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/HOF.png}
+		\hspace{2cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/Flow.png}
 		
         \end{block}
 	 \end{column}
 	 \begin{column}{.49\linewidth}
- 		\begin{block}{The Re-Identification System}
+ 		\begin{block}{The Re-Identification System - Single Camera}
  		This will use the best of the features, which is the Histogram of Intensities. It performs very well on a single camera, until an error occurs, and then cross-pollution of the data makes further results questionable as the data is no longer exclusively that of the person it is supposed to be. 
- 		\includegraphics[width=.45\linewidth]{../0.png}  
-        \includegraphics[width=.43\linewidth]{../1.png}  
-        
-        \includegraphics[width=.45\linewidth]{../2.png}
-        \includegraphics[width=.45\linewidth]{../overlap.png}  
-
+ 		These images show the system correctly identifying 3 different people correctly, and dealing with overlapping targets. 
+ 		\includegraphics[width=.95\linewidth]{../combo.png}  
          
-
+        \end{block}
+        
+        \begin{block}{The Re-Identification System - Multiple Cameras}
+ 		 
+ 		\includegraphics[width=.46\linewidth]{../prob1.png}  
+ 		\hspace{.8cm}
+        \includegraphics[width=.46\linewidth]{../prob2.png}  
+        
+        \includegraphics[width=.46\linewidth]{../deltaProb1.png}
+        \hspace{.8cm}
+        \includegraphics[width=.46\linewidth]{../deltaProb2.png}  
         \end{block}
 
       \end{column}
