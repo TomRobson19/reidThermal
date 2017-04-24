@@ -68,7 +68,7 @@ The intent of this project is answer the question "Which features of a human tar
           \item Histogram of Oriented Gradients (HOG) Descriptor. 
           This feature performs edge detection on the target and calculating the gradient and magnitude of each of these edges. These edges and gradients are processed and combined to give a HOG descriptor, a high dimensional vector. 
           \item Correlogram. 
-           This method gives an idea of spatial correlation of colours, using a table indexed by colour pairs, where the k-th entry for <i,j> specifies how many pixels of colour j there are at a distance k from a pixel of colour i.
+           This method gives an idea of spatial correlation of colours, using a table indexed by colour pairs, where the k-th entry for i,j specifies how many pixels of colour j there are at a distance k from a pixel of colour i.
           \item Optical Flow. 
           The purpose of this feature is to capture the movements of the target within the bounding box and either use the raw values of this or store them in the form of a Histogram.
           \end{itemize}
@@ -97,19 +97,27 @@ The intent of this project is answer the question "Which features of a human tar
  		\begin{block}{The Re-Identification System - Single Camera}
  		This will use the best of the features, which is the Histogram of Intensities. It performs very well on a single camera, until an error occurs, and then cross-pollution of the data makes further results questionable as the data is no longer exclusively that of the person it is supposed to be. 
  		These images show the system correctly identifying 3 different people correctly, and dealing with overlapping targets. 
- 		\includegraphics[width=.95\linewidth]{../combo.png}  
+ 		\includegraphics[width=.90\linewidth]{../combo.png}  
          
         \end{block}
         
         \begin{block}{The Re-Identification System - Multiple Cameras}
- 		 
- 		\includegraphics[width=.46\linewidth]{../prob1.png}  
- 		\hspace{.8cm}
-        \includegraphics[width=.46\linewidth]{../prob2.png}  
+        As using multiple cameras introduces more viewpoints, the people observed from different cameras have differing characteristics, which means they are sometimes similar enough to be re-identified, and sometimes not, as shown in the images below. 	
+        	 
+ 		\includegraphics[width=.44\linewidth]{../prob1.png}  
+ 		\hspace{.7cm}
+        \includegraphics[width=.44\linewidth]{../prob2.png}  
         
-        \includegraphics[width=.46\linewidth]{../deltaProb1.png}
-        \hspace{.8cm}
-        \includegraphics[width=.46\linewidth]{../deltaProb2.png}  
+         It is also more difficult to differentiate between people from some viewpoints, with camera delta being the main source of this problem. We also rarely get a detection in camera gamma, as the people are too close to the camera, and parts of them are cut off, meaning that the person detector does not pick them up. These problems are shown in the image below.
+        
+        \includegraphics[width=.44\linewidth]{../deltaProb1.png}
+        \hspace{.7cm}
+        \includegraphics[width=.44\linewidth]{../deltaProb2.png}  
+        \end{block}
+        
+        \begin{block}{Conclusion}
+         We have shown Histogram of Intensities is suitable for re-identification, and Thermal Correlogram and Optical Flow are moderately effective in a simplified form. We have created a re-identification system using the Histogram of Intensities feature and Mahalanobis distance as a comparison method. This system has proven to be very good on a single camera system, but less effective on multiple cameras with similar viewpoints.
+        
         \end{block}
 
       \end{column}
