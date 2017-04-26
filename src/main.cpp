@@ -1,6 +1,8 @@
 /*
 Run like this : 
-./main -d=1 -f=1
+./main -d=1 -t=1
+d - datasets - 1, 2 or 3
+t - testing - 1 to run on a single camera, 2 to run on multiple
 */
 
 #include <opencv2/core.hpp>
