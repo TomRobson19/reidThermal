@@ -1611,5 +1611,18 @@ Reference where the Haar cascade I was given came from!!!
 Space constraints for full image results
 \end_layout
 
+\begin_layout Itemize
+could not think of another way to effectively discriminate between people.
+\end_layout
+
+\begin_layout Itemize
+When system is running, should I add more images to show more frames.
+\end_layout
+
+\begin_layout Itemize
+Hit rate becomes meainingless after first error, and this happens at different
+ stages of each video.
+\end_layout
+
 \end_body
 \end_document
