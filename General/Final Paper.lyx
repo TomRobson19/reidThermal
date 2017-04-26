@@ -1563,7 +1563,7 @@ Real Time Person Detection System Stages
 \end_layout
 
 \begin_layout Subsection
-Features for Re-Identification
+Features for Re-Identification - MORE DETAIL IN HERE, MATHS WHERE APPROPRIATE
 \end_layout
 
 \begin_layout Standard
@@ -1573,7 +1573,7 @@ To properly associate and compare person objects, we must now consider the
 \end_layout
 
 \begin_layout Subsubsection
-Hu Moments - MORE DETAIL IN HERE
+Hu Moments
 \end_layout
 
 \begin_layout Standard
@@ -1675,7 +1675,7 @@ key "Huang,Zhang2015"
 \begin_inset Formula $j$
 \end_inset
 
- at a distance
+ at a distance 
 \begin_inset Formula $k$
 \end_inset
 
@@ -1710,7 +1710,7 @@ Optical Flow
 \begin_layout Standard
 The purpose of this feature is to capture the movements of the target within
  the bounding box.
- Optical Flow is the distribution of apparent velocities of movement of
+ Optical flow is the distribution of apparent velocities of movement of
  brightness patterns in an image 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1719,7 +1719,7 @@ key "HornSchunck1981"
 \end_inset
 
 .
- The method employed here to calculate the Optical Flow values is the tensor
+ The method employed here to calculate the optical flow values is the tensor
  based method proposed in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1761,8 +1761,8 @@ Comparison Method - Mahalanobis Distance
 
 \begin_layout Standard
 The method that we have employed for comparing these features and facilitating
- re-identification is primarily of our own design, and relies on several
- recognised techniques for the comparison of feature vectors.
+ re-identification is primarily of our own design, making using of mahalanobis
+ distance as the main point of comparison.
  This method has several stages, the first of which being the special case
  for the first person.
  As we have nothing to compare the first identified target to in the system,
@@ -1802,7 +1802,7 @@ on of this data, and relies on the mean and covariance of the distribution
  As anomalies are present in our dataset, we make this re-identification
  threshold quite wide, but then have a much tighter learning threshold.
  Only instances with mahalanobis distances less than this will be added
- to the dataset to avoid corruption of each person's data.
+ to the dataset to avoid corruption of each target data signature.
 \end_layout
 
 \begin_layout Standard
@@ -1830,13 +1830,36 @@ The Dataset
 
 \begin_layout Standard
 The data used to evaluate the features that have been implemented here was
- gathered with four cameras on the site of Durham University's Computer
- Science department, with the cameras and their fields of view being arranged
- as they are in the Figure below.
- We recorded three datasets, the first of which only contained three people,
- the second contained six people with multiple people in view at the same
- time and the third also contained six people, but introduced other targets
- such as cars.
+ gathered with four cameras at Durham University, with the cameras and their
+ fields of view being arranged as they are in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Setup-of-Cameras"
+
+\end_inset
+
+ below, with the cameras labelled as camera 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, 
+\begin_inset Formula $\beta$
+\end_inset
+
+,
+\begin_inset Formula $\gamma$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta$
+\end_inset
+
+ respectively, and their fields of view shown by the coloured lines.
+ We recorded three datasets.
+ Dataset 1 only contained three people, Dataset 2 contained six people with
+ multiple people in view at the same time and Dataset 3 also contained six
+ people, but introduced other targets such as cars to test the person detection
+ system.
  
 \end_layout
 
@@ -1862,7 +1885,13 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Setup of Cameras
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Setup-of-Cameras"
+
+\end_inset
+
+Position and field of view of the cameras used to record our data 
 \end_layout
 
 \end_inset
@@ -1916,9 +1945,12 @@ This has been done by performing tests on one of our video files with an
  of this person will be recorded, and each new frame will be compared against
  these using Mahalanobis distance as before.
  This person leaves the scene and a different person enters the scene.
- We stop recording data at this point to prevent any misclassifications
- corrupting the data, and just measure the mahalanobis distances between
- this new person and the data recorded for the previous person.
+ A timeout has been inserted into the code at this point, to prevent any
+ chance of this new person being classified as the first person and corrupting
+ the data.
+ We can therefore measure the mahalanobis distances between this new person
+ and the data recorded for the previous person at all points and determine
+ if an incorrect classification is likely.
  A discriminative feature will be one that has a low mahalanobis distance
  for the right target and a high mahalanobis distance for the wrong target.
  These two people have fairly similar thermal signatures, and after examining
