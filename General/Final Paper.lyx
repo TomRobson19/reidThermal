@@ -4,8 +4,6 @@
 \begin_header
 \textclass article
 \begin_preamble
-\usepackage{apalike}
-\bibliographystyle{apalike}
 
 \usepackage{durhampaper}
 
@@ -117,7 +115,7 @@ Context/Background
 Although use of thermal imagery currently poses significant advantages for
  24/7 surveillance in terms of the visibility of human, animal and vehicle
  targets under all environmental conditions, a key limitation is the lack
- of colour.
+ of colour information.
  Many current approaches to the problem of cross-camera person re-identification
 , or the camera-to-camera tracking of pedestrian targets, rely on colour
  features 
@@ -145,8 +143,8 @@ The aim of this project is to develop a system that would build upon and
  extend the range of existing thermal image detection, tracking and classificati
 on approaches.
  The first step for this would be to be able to detect a person within thermal
- video in real time, distinguish a person from other objects and track a
- person moving through a scene in real time.
+ imagery in real time, distinguish a person from other objects and track
+ a person moving through a scene in real time.
  We would then implement features/attributes from the literature studied
  and carry out a first pass or initial framework for re-identification using
  these features/attributes.
@@ -164,7 +162,7 @@ Method
 
 \begin_layout Abstract
 This system will be implemented in C++ using the widely used OpenCV computer
- vision library
+ vision library 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "opencv_library"
@@ -173,34 +171,34 @@ key "opencv_library"
 
 , and will be run simultaneously on multiple video files, each being able
  to access the same array of previously identified targets.
- The first stage is real time person detection, which is done using Mixture
- of Gaussians Background Subtraction, Histogram of Oriented Gradients or
- Haar Cascade Person Detection and a 6 dimensional Kalman filter per person
+ The first stage is real time person detection, which is done using mixture
+ of gaussians background subtraction, histogram of oriented gradients or
+ haar cascade person detection and a six dimensional kalman filter per person
  to facilitate tracking a person and store their position, velocity and
  bounding box dimensions.
  From here, each of these people will have some of their features stored.
- The basic features used are Hu Moments, the Histogram of Thermal Intensity
- and Histogram of Oriented Gradients of the target.
+ The basic features used are hu moments, the histogram of thermal intensity
+ and histogram of oriented gradients (HOG) of the target.
 
 \color black
- From here, more advanced features are implemented, these are the Thermal
- Correlogram and Optical Flow.
- To comparison and re-identification will be performed using Mahalanobis
+ From here, more advanced features are implemented, these are the thermal
+ correlogram and optical flow.
+ To comparison and re-identification will be performed using mahalanobis
  distance.
 \end_layout
 
 \begin_layout Abstract
 
 \series bold
-Results
+Results - EXPAND UPON THIS AND PUT IN STATS
 \end_layout
 
 \begin_layout Abstract
-Having carried out evaluation of the features, we established that Histogram
- of Intensities was the most effective feature, with Thermal Correlogram
- and Optical Flow also considered to be suitable for re-identification.
+Having carried out evaluation of the features, we established that histogram
+ of intensities was the most effective feature, with thermal correlogram
+ and optical flow also considered to be suitable for re-identification.
  We implemented a re-identification system as described in the method above,
- using Histogram of Intensities as our feature, and got very good performance
+ using histogram of intensities as our feature, and got very good performance
  on a single camera system.
  However, due to differing viewpoints, the multiple camera system did not
  perform as well, but still gave a good degree of accuracy in certain situations.
@@ -221,8 +219,8 @@ ion features and develop a classifier to use our best feature to create
  a functioning re-identification system over both a single camera and multiple
  cameras, across a range of people who have a variety of thermal signatures.
  Future work could look to investigate more features, try to explore the
- full potential of the Thermal Correlogram and Optical Flow, experiment
- with different camera viewpoints and improve upon the Person Detection
+ full potential of the thermal correlogram and optical flow, experiment
+ with different camera viewpoints and improve upon the person detection
  system.
 \end_layout
 
@@ -306,10 +304,9 @@ ons.
 \end_layout
 
 \begin_layout Standard
-From the previous work that we have studied, we can see that a substantial
- amount of research that has been done on person re-identification, but
- much of this relies on the colour spectrum, with attributes of the form
- “red shirt” 
+From the previous work, we can see that a substantial amount of research
+ that has been done on person re-identification, but much of this relies
+ on the visible spectrum, with attributes of the form “red shirt” 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Layne"
@@ -318,7 +315,7 @@ key "Layne"
 
 .
  However, in the modern world, thermal imagery is often used for 24/7 surveillan
-ce when all environmental conditions are possible.
+ce when varying environmental conditions are present.
  Therefore, it is important that an effective re-identification system is
  developed to utilise this area of surveillance.
  Whilst thermal imagery has many advantages, it is not able to identify
@@ -355,7 +352,7 @@ The intent of this project is to expand upon this existing research and
 
 \series default
 Which features of a human target are appropriate to facilitate re-identification
- in thermal video?
+ in thermal imagery?
 \series bold
 
 \begin_inset Quotes erd
@@ -377,9 +374,15 @@ key "Layne"
 , have many applications from clothes colour to hair and skin colour.
  In thermal, we cannot use such simple features, so must think in a more
  complex way.
- The Figure below shows five different views of the same person.
- The features we use must be able to recognise that all of these are the
- same person.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-Thermal"
+
+\end_inset
+
+ shows five different views of the same person that our features must be
+ able to re-identify as being the same person.
  
 \end_layout
 
@@ -399,7 +402,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename /home/tom/Pictures/Screenshot from running20140319.webm.png
-	scale 10
+	scale 12
 
 \end_inset
 
@@ -430,7 +433,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename /home/tom/Pictures/Screenshot from running20140319.webm - 2.png
-	scale 10
+	scale 12
 
 \end_inset
 
@@ -461,7 +464,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename /home/tom/Pictures/Screenshot from running20140319.webm - 3.png
-	scale 10
+	scale 12
 
 \end_inset
 
@@ -492,7 +495,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename /home/tom/Pictures/Screenshot from walking20140319.webm.png
-	scale 10
+	scale 12
 
 \end_inset
 
@@ -523,7 +526,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename /home/tom/Pictures/Screenshot from walking20140319.webm - 1.png
-	scale 10
+	scale 12
 
 \end_inset
 
@@ -548,7 +551,13 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Example of Thermal Views
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-of-Thermal"
+
+\end_inset
+
+Several Frames of the Same Person
 \end_layout
 
 \end_inset
@@ -566,8 +575,8 @@ The first thing that we shall consider as a feature to solve the re-identificati
 on problem is a measure of the size of the target person.
  Due to the single viewpoint of the camera, we need a measure of size that
  is position, scale and rotation invariant.
- For this purpose, we will use moments, or Hu Moments in particular, taking
- inspiration from 
+ For this purpose, we will use hu moments, taking inspiration from the work
+ of 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "FlusserSukZitova2009,Dawson-Howe2014"
@@ -576,11 +585,11 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
 
 .
  The closest we can get to a colour value per pixel in thermal is the intensity
- of each pixel, so a Histogram of these Intensities per target will be a
+ of each pixel, so a histogram of these intensities per target will be a
  key feature for us to use.
  
 \color black
-We will also use the Histogram of Oriented Gradients (HOG) descriptor as
+We will also use the histogram of oriented gradients (HOG) descriptor as
  a feature for re-identification.
  
 \color inherit
@@ -595,9 +604,9 @@ key "Huang,Zhang2015"
 , which suggest the use of a colour correlogram.
  This method gives an idea of spatial correlation of colours, and we will
  adapt it to get an idea of the spatial correlation of intensities.
- The other advance feature will be Optical Flow, which will be used to
+ The other advance feature will be optical flow, which will be used to
 \color black
- capture the gait characteristics of the person.
+ capture the gait (motion) characteristics of the person.
  
 \end_layout
 
@@ -607,30 +616,30 @@ Aims of the Project
 
 \begin_layout Standard
 The aim of this project is to investigate the above research question by
- developing a system that can detect a person within thermal video imagery
- in real time, distinguish this person from other objects in the scene and
+ developing a system that can detect a person within thermal imagery in
+ real time, distinguish this person from other objects in the scene and
  track this person moving through a scene in real time.
- We would then implement 3 features/attributes, and use these to carry out
- a first pass or initial framework for re-identification.
- At this stage, the system must be able to Re-Identify at least 3 people
+ We would then implement three features/attributes, and use these to carry
+ out a first pass or initial framework for re-identification.
+ At this stage, the system must be able to Re-Identify at least three people
  within a test video sequence in real time using multiple cameras.
- This would then be extended by implementing 2 more advanced state of the
- art features/attributes and extending the re-identification ability to
- at least 6 people.
+ This would then be extended by implementing two more advanced state of
+ the art features/attributes and extending the re-identification ability
+ to at least six people.
 \end_layout
 
 \begin_layout Subsection
-Achievements of the Project
+Achievements of the Project - add references (to later in paper?)
 \end_layout
 
 \begin_layout Standard
 We have managed to achieve a full evaluation of all the features being examined,
- with Histogram of Intensities being the best, and Thermal Correlogram and
- Optical Flow also being considered suitable for use in re-identification.
+ with histogram of intensities being the best, and thermal correlogram and
+ optical flow also being considered suitable for use in re-identification.
  We have developed a functioning real time person detection, identification
  and tracking system, and have built a re-identification system on top of
- this using the Histogram of Intensities feature, and this has given us
- accurate results on a single camera.
+ this using histogram of intensities, and this has given us accurate results
+ on a single camera.
  The problem becomes more complex in a multiple camera system, and although
  we do still see a reasonable amount of success from our system, the different
  viewpoints and larger number of targets reduces the accuracy of our classificat
@@ -642,36 +651,33 @@ Related Work
 \end_layout
 
 \begin_layout Subsection
-Overviews of topic
+Overviews of Topic
 \end_layout
 
 \begin_layout Standard
-When beginning to investigate this area, it is important that we first gain
- an overall understanding of the field before narrowing our focus to person
- re-identification in thermal imagery.
- Many re-identification approaches rely upon accurate video tracking, and
- therefore 
+Many re-identification approaches rely upon accurate video tracking, and
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Maggio2011"
 
 \end_inset
 
- was a good place to start to gain an understanding of the fundamentals
- of tracking, feature extraction, target representation and the methods
- that are commonly used to achieve this.
- Moving on to re-identification specifically, the work in 
+ was an informative resource on the fundamentals of tracking, feature extraction
+, target representation and the methods that are commonly used to achieve
+ this, many of which we went on to implement.
+ The work in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Gong2014"
 
 \end_inset
 
- is an good resource for this purpose, as it first gives an overview of
- what re-identification is and why it is useful and challenging, and then
- proceeds to give an high level overview of some of the techniques that
- have been researched and implemented previously in order to find a reliable
- and efficient method to solve the re-identification problem.
+ is an excellent resource for re-idenfitication, as it first gives an overview
+ of what re-identification is and why it is useful and challenging, and
+ then proceeds to give an high level overview of some of the techniques
+ that have been researched and implemented previously in order to find a
+ reliable and efficient method to solve the re-identification problem.
  
 \end_layout
 
@@ -710,8 +716,8 @@ Colour Re-Identification
 \end_layout
 
 \begin_layout Standard
-Re-identification in colour is a well-researched area, particularly in terms
- of using attributes.
+Re-identification in colour is a widely researched area, particularly using
+ attributes for this purpose.
  Many of these methods are discussed in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -719,9 +725,10 @@ key "Gong2014"
 
 \end_inset
 
-, and are fairly simple in nature and well known.
- Here we consider an important part of the current state of the art research
- is network layout and topology, and this is evidenced in 
+, and have been widely researched and understood, so research has moved
+ on to explore more complex methods.
+ An important part of the current state of the art in this area is network
+ layout and topology, as explored in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Martinel2016"
@@ -729,7 +736,7 @@ key "Martinel2016"
 \end_inset
 
 .
- Here, the technique of Distance Vector Routing is employed to get an idea
+ Here, the technique of distance vector routing is employed to get an idea
  of the relative locations of the cameras, enabling the system to prioritise
  the people seen most recently by the closest camera, as these are most
  likely to be correct.
@@ -757,13 +764,13 @@ key "Martinel2016"
 
 , but assumes a non-overlapping camera system.
  Each camera has entry and exit zones from its field of view, and if a person
- can get from one camera’s field of view to another they are directly connected.
+ can get from one camera field of view to another they are directly connected.
  The system can then create what is referred to as a camera link model,
  using a temporal, spatial and appearance relation between the entry and
  exit zones of the cameras.
  These paths are obtained from training data, but the system itself learns
  how to recognise people by attributes, and uses the training data to estimate
- where they are most likely to have gone after leaving a camera’s field
+ where they are most likely to have gone after leaving a given camera field
  of view.
  
 \end_layout
@@ -809,7 +816,7 @@ fication, and single-shot re-identification when only one image is available
 \end_layout
 
 \begin_layout Subsection
-Thermal Tracking 
+Thermal Tracking and Use in Combination with Colour
 \end_layout
 
 \begin_layout Standard
@@ -826,8 +833,8 @@ key "Padole2010"
  This system uses the Wigner Distribution, which includes both time and
  frequency, to enable it to create an association between spatial and temporal
  data.
- This helps to alleviate one of the major problems, with tracking in thermal;
- that temperature is not uniform across the body.
+ This helps to alleviate one of the major problems with tracking in thermal,
+ which is the fact that temperature is not uniform across the body.
  Using this in place of feature-based tracking reduces the complexity of
  the system and therefore allows it to perform accurate tracking faster
  in real time.
@@ -846,8 +853,6 @@ key "Coutts2014"
  We can associate each bounding box with a set of features, both spatial
  and temporal in nature, and rematch this box with the target in subsequent
  frames.
- This approach gives promising results, but requires further research.
- 
 \end_layout
 
 \begin_layout Standard
@@ -922,10 +927,6 @@ key "Kwak2015"
  
 \end_layout
 
-\begin_layout Subsection
-Multiple Source Systems
-\end_layout
-
 \begin_layout Standard
 The re-identification method proposed in 
 \begin_inset CommandInset citation
@@ -949,7 +950,7 @@ key "Mogelmose2013"
 \end_layout
 
 \begin_layout Subsection
-More Complex Attributes 
+Alternative Approaches to Person Tracking
 \end_layout
 
 \begin_layout Standard
@@ -1064,6 +1065,8 @@ As can be seen from the prior work discussed above, the research that has
  This is where this project fits in, as we are tackling a problem that has
  not been effectively solved, and using some features that have rarely,
  if at all, been used for re-identification purposes.
+ This puts us right at the state of the art of research in this specific
+ area.
  As our interest is primarily centred on the features we are using, we will
  implement fairly basic and well understood techniques for person tracking,
  and then implement our set of features on top of this, as will be discussed
@@ -1077,21 +1080,16 @@ Solution
 
 \begin_layout Standard
 Having established the problem that we want to solve, we will now break
- down the most important elements of our solution.
+ down the most important elements of our solution, giving an overview of
+ the structure of our implementation, a description of the elements used
+ for the person detection subsystem, a description of the features that
+ we have used and and explanation of how we compare new detections to previously
+ identified targets.
  
 \end_layout
 
 \begin_layout Subsection
-Implementation
-\end_layout
-
-\begin_layout Standard
-Here we give details of the structure of the implementation and the tools
- used in its development.
-\end_layout
-
-\begin_layout Subsubsection
-Implementation Structure
+Implementation Structure and Tools Used
 \end_layout
 
 \begin_layout Standard
@@ -1106,7 +1104,15 @@ The implementation will begin by opening each video file, or live camera
  estimator and a set of features, and these are used to facilitate the compariso
 n between targets, and are updated each time the target is successfully
  identified.
- This continues frame by frame until the video file or camera feed ends.
+ This continues frame by frame until the video file or camera feed ends,
+ as shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Logic-of-our"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1134,7 +1140,13 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Process Followed by Implementation
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Logic-of-our"
+
+\end_inset
+
+Logic of our Re-Identification System
 \end_layout
 
 \end_inset
@@ -1142,17 +1154,9 @@ Process Followed by Implementation
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
-\end_layout
-
-\begin_layout Subsubsection
-Tools Used
 \end_layout
 
 \begin_layout Standard
@@ -1167,15 +1171,10 @@ key "opencv_library"
 
  has been used to allow us to use stable, well tested code, giving confidence
  in the results obtained while enabling us to focus on the research and
- implementation of the features, which is the main purpose of this project.
- This library provides all of the the image processing and machine learning
- techniques to facilitate the first stage of this project.
- The implementation will be developed in C++ as it is the most suitable
- for the performance requirements and has a well supported implementation
- of OpenCV functions.
- A text editor will be used for code development and CMake will be used
- for building and deployment of the system, while GitHub has been used for
- version control.
+ implementation of the features.
+ The implementation will be developed in C++, using a text editor for code
+ development and CMake for building and deployment of the system.
+ GitHub has been used for version control and project organisation.
 \end_layout
 
 \begin_layout Subsection
@@ -1206,8 +1205,8 @@ key "Zivkovic2004,Zivkovic"
 \end_inset
 
 .
- This technique works by 'learning' a background model, modelling each of
- the pixels by multiple Gaussians.
+ This technique works by building up a background model over, modelling
+ each of the pixels using multiple Gaussians.
  Using a Gaussian over the last 
 \begin_inset Formula $N$
 \end_inset
@@ -1232,9 +1231,27 @@ As the program runs through the video, during each new frame, a Gaussian
  are classified as foreground elements, and added to a new image in the
  code.
  Once these foreground pixels are identified and built into a foreground
- mask, erosion and dilation are used to clean up these results.
- From here, we use contour detection to find the connected components, and
- draw bounding boxes around these contours.
+ mask, erosion and dilation image operators 
+\series bold
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "solomonbreckon10fundamentals"
+
+\end_inset
+
+
+\series default
+ are used to clean up these results.
+ From here, we use the contour detection algorithm from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Suzuki1985"
+
+\end_inset
+
+ to find the connected components, and draw bounding boxes around these
+ contours.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1264,16 +1281,15 @@ key "Dalal"
 \end_inset
 
 .
- This method works by performing edge detection on the bounding box identified
- by the background subtraction, and calculating the gradient and magnitude
- of each of these edges.
+ This method works by performing edge gradient calculation on the bounding
+ box identified by the background subtractor.
  From here cell histograms are computed, with each of the histogram entries
  filled by gradient magnitudes.
  These histograms are then used to create overlapping block histograms of
  the adjacent cells.
- These block histograms are then combined to give a HOG descriptor, a high
- dimensional vector.
- This HOG descriptor is then passed to a pre-trained Machine Learning algorithm,
+ These block histograms are then concatenated to give a HOG descriptor,
+ a high dimensional vector.
+ This HOG descriptor is then passed to a pre-trained machine learning algorithm,
  in this case a Support Vector Machine (SVM).
  If this comes up with a positive identification, then it is classified
  as a person.
@@ -1281,7 +1297,7 @@ key "Dalal"
 \end_layout
 
 \begin_layout Standard
-An alternative to HOG is the use of a Haar Cascade detector, proposed in
+An alternative to HOG is the use of a Haar cascade detector, proposed in
  
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1290,16 +1306,20 @@ key "RainerLienhartandJochenMaydt2002,Viola"
 \end_inset
 
 .
- This method works by combining successively more complex classifiers in
- a cascade structure.
- This focuses the attention of the detector on the promising reasons of
- the image.
- It is trained on a set of very simple features, which are much faster to
- evaluate than the HOG descriptors.
- The final classification is done using a combination of these classifiers
- in a cascade structure, beginning with those less accurate but faster classifie
-rs to discard clearly negative areas.
+ This method works by training a cascade of simple classifiers based on
+ Haar-like image features, with are all simple and weak, but when combined
+ together, give good results and area quick to evaluate.
+ The cascade is build up using the boosting machine learnig technique, where
+ each new classifier that is added to the cascade prioritises the examples
+ that the previous classifiers did not classify correctly.
+ As this cascade is build up, it focuses on the section of the target that
+ is most likely to result in a definitive classification, speeding up processing
+ time.
+ We have used an existing cascade of classifiers trained to recognise people
+ in thermal imagery, and it gives us effective results.
  
+\series bold
+REFERENCE THE CASCADE
 \end_layout
 
 \begin_layout Standard
@@ -1307,13 +1327,13 @@ The reason for the inclusion of both methods here is that there is a trade
  off between them.
  HOG is a slightly more accurate identifier, but it is slow, even within
  the confines of the bounding box identified.
- The Haar Cascade is much faster, but gets a slightly inferior classification
+ The Haar cascade is much faster, but gets a slightly inferior classification
  rate.
  For this reason, the option exists to change between the two systems, depending
  on whether speed or accuracy is important.
  A real world example of this trade-off would be in a surveillance system,
  if the operator is looking to Re-Identify people from live video input
- they would use the Haar Cascade, but if they waned to Re-Identify people
+ they would use the Haar cascade, but if they waned to Re-Identify people
  from pre-recorded video footage, they would use HOG.
  The output of both systems looks much the same, and is displayed in Figure
  
@@ -1325,7 +1345,7 @@ reference "fig:Real-Time-Person"
 
  (b), where the red box represents the search area given by the background
  subtractor with additional padding, and the green box represents the identified
- human target from HOG or Haar Cascade.
+ human target from HOG or Haar cascade.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1336,7 +1356,7 @@ Person Tracking and Position Prediction
 Once the target has been identified as a person, we need to track each identifie
 d person.
  This is done by creating a new person object for each newly identified
- target, each with an associated Kalman Filter, explained in 
+ target, each with an associated Kalman filter 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Bishop"
@@ -1344,14 +1364,14 @@ key "Bishop"
 \end_inset
 
 .
- A Kalman Filter is a commonly used position estimator in such tracking
- problems, and is important because it makes use of current information
- about a target to reduce the search space required in subsequent frames.
+ This is a commonly used position estimator in such tracking problems, and
+ is important because it makes use of current information about a target
+ to reduce the search space required in subsequent frames.
  
 \end_layout
 
 \begin_layout Standard
-The Kalman Filter that has been implemented here is 6-dimensional, storing
+The Kalman Filter that has been implemented here is six-dimensional, storing
  the coordinates of the centre of the target, its velocity in each direction
  and the width and height of the associated bounding box.
  This is updated each time the target is detected and the implementation
@@ -1359,9 +1379,16 @@ The Kalman Filter that has been implemented here is 6-dimensional, storing
  the video.
  This prediction is based on a transition matrix, which in this implementation
  keeps the velocity and bounding box dimensions the same as in the current
- state, and changes the position in both x and y by adding the current velocity,
- as this is how much its position should change in the next frame if the
- velocity remains constant.
+ state, and changes the (
+\begin_inset Formula $x$
+\end_inset
+
+,
+\begin_inset Formula $y$
+\end_inset
+
+) position by adding the current velocity, as this is how much its position
+ should change in the next frame if the velocity remains constant.
  
 \end_layout
 
@@ -1385,7 +1412,7 @@ reference "fig:Real-Time-Person"
  target in the next frame.
  The green box from the person identification phase is omitted here to reduce
  the clutter in the image, but the process is still being performed to give
- us the measurement of the target's position in each frame.
+ us the measurement of target position in each frame.
  
 \end_layout
 
@@ -1546,14 +1573,13 @@ To properly associate and compare person objects, we must now consider the
 \end_layout
 
 \begin_layout Subsubsection
-Hu Moments
+Hu Moments - MORE DETAIL IN HERE
 \end_layout
 
 \begin_layout Standard
 This feature enables us to describe, characterise, and quantify the shape
  of a target in a manner that is position, scale and rotation invariant.
- The method for doing this is included in the OpenCV library, inspired by
- 
+ This method is derived initially from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Hu1962"
@@ -1571,8 +1597,8 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
  When calculating this, we first detect the contours present in our region
  of interest, use the largest of these contours to calculate Moments, and
  then use these Moments to calculate Hu Moments.
- This gives us a feature vector of length 7, which is normalised to give
- us a feature vector to represent the shape of the object.
+ This gives us a feature vector of length seven, which is normalised to
+ give us a feature vector to represent the shape of the object.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1870,7 +1896,7 @@ Having discussed the features that we will implement in the previous section,
 
 \series default
 Which features of a human target are appropriate to facilitate re-identification
- in thermal video?
+ in thermal imagery?
 \series bold
 
 \begin_inset Quotes erd
@@ -2954,7 +2980,7 @@ As the research that we have conducted here is in an area that has previously
 
 \series default
 Which features of a human target are appropriate to facilitate re-identification
- in thermal video?
+ in thermal imagery?
 \begin_inset Quotes erd
 \end_inset
 
