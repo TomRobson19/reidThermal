@@ -12,6 +12,7 @@
 \usepackage[english]{babel} 
 \usepackage[latin1]{inputenc}
 \usepackage{amsmath,amsthm, amssymb, latexsym}
+\usepackage[document]{ragged2e}
 
   \usefonttheme[onlymath]{serif}
   \boldmath
@@ -35,9 +36,10 @@
 
   \vfill
   \begin{block}{Introduction}
+  \justify
           A fundamental task for a distributed multi-camera surveillance system is Person Re-Identification, or to associate people across different camera views. This has been well researched in colour, but there has been very little research done on solving this problem in thermal, making our work state of the art. 
-
-The intent of this project is answer the question "Which features of a human target are appropriate to facilitate Re-Identification in thermal video?" and to develop a functioning Re-Identification system. The challenges associated with this are due to the increased complexity of thermal features compared to colour features.
+\justify
+The intent of this project is answer the question {\textit{``Which features of a human target are appropriate to facilitate Re-Identification in thermal video?''}} and to develop a functioning Re-Identification system. The challenges associated with this are due to the increased complexity of thermal features compared to colour features.
         \end{block}
         
     \begin{columns}[t]
@@ -46,33 +48,29 @@ The intent of this project is answer the question "Which features of a human tar
         \begin{block}{Person Detection and Tracking}
         	The process of Person detection and Tracking employed in this Project can be broken down into multiple stages. 
         	\begin{itemize}
-        	\item Background Subtraction. This is done using the Mixture of Gaussians (MOG) method, allowing the system to learn a background model and comparing each new frame to this. 
+        	\item Background Subtraction. Mixture of Gaussians (MOG) method, we learn a background model and compare each new frame to this. 
 
-        	\item Person Identification. This is done by performing contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) or a Haar Cascade to determine whether this target is a person.
+        	\item Person Identification. Performs contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) or a Haar Cascade to determine whether this target is a person.
         	
-        	\item Person Tracking and Position Prediction. Each person identified has a Kalman Filter associated with them which records their position, velocity and size within the image, and predicts their next position. 
+        	\item Person Tracking and Position Prediction. Kalman Filter associated with each person which records position, velocity and boundix box size, and predicts their next position. 
+        	
         \includegraphics[width=.95\linewidth]{../personDetector.png}  
           \end{itemize}
         \end{block}
-        
 
 
 
         \begin{block}{Features and the Classifier}
-        For this project, we have selected 5 potential features to test:
+        We have selected 5 potential features to test:
           \begin{itemize}
-          \item Hu Moments. 
-          This enables us to quantify the shape of a target in a manner that is position, scale and rotation invariant.
-          \item Histogram of Thermal Intensities. 
-          The intensity of each pixel in the Region of Interest is recorded, and a histogram is constructed from these values.
-          \item Histogram of Oriented Gradients (HOG) Descriptor. 
-          This feature performs edge detection on the target and calculating the gradient and magnitude of each of these edges. These edges and gradients are processed and combined to give a HOG descriptor, a high dimensional vector. 
-          \item Correlogram. 
-           This method gives an idea of spatial correlation of colours, using a table indexed by colour pairs, where the k-th entry for i,j specifies how many pixels of colour j there are at a distance k from a pixel of colour i.
-          \item Optical Flow. 
-          The purpose of this feature is to capture the movements of the target within the bounding box and either use the raw values of this or store them in the form of a Histogram.
+          \item Hu Moments, an approximation of shape that is position, scale and rotation invariant.
+          \item Histogram of Thermal Intensities, a measure of how many pixels of each intensity range make up the target.
+          \item Histogram of Oriented Gradients (HOG) Descriptor, a count of  occurrences of each gradient orientation. 
+          \item Thermal Correlogram, a measure of spatial correlation of intensity value pairs.
+          \item Optical Flow, a measure of the movements of the target between frames, giving an idea of gait. 
           \end{itemize}
-          The last 10 feature vectors for each target are stored. From here, we calculate the mean and covariance of these feature vectors, and use mahalanobis distance to compare each new person identified to each existing target. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.
+          \justify
+          A distribution of each of these features per target is stored and compared to each new identification using mahalanobis distance. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.
         \end{block}
 	
         \begin{block}{Evaluation of Features}
@@ -95,20 +93,22 @@ The intent of this project is answer the question "Which features of a human tar
 	 \end{column}
 	 \begin{column}{.49\linewidth}
  		\begin{block}{The Re-Identification System - Single Camera}
- 		This will use the best of the features, which is the Histogram of Intensities. It performs very well on a single camera, until an error occurs, and then cross-pollution of the data makes further results questionable as the data is no longer exclusively that of the person it is supposed to be. 
+ 		\justify This will use the best of the features, Histogram of Intensities. It performs very well on a single camera, until an error occurs, and then cross-pollution of the data makes further results questionable as the data is no longer exclusively that of the person it is supposed to be. 
  		These images show the system correctly identifying 3 different people correctly, and dealing with overlapping targets. 
+ 		\justify
  		\includegraphics[width=.90\linewidth]{../combo.png}  
          
         \end{block}
         
         \begin{block}{The Re-Identification System - Multiple Cameras}
+        \justify
         As using multiple cameras introduces more viewpoints, the people observed from different cameras have differing characteristics, which means they are sometimes similar enough to be re-identified, and sometimes not, as shown in the images below. 	
         	 
  		\includegraphics[width=.44\linewidth]{../prob1.png}  
  		\hspace{.7cm}
         \includegraphics[width=.44\linewidth]{../prob2.png}  
         
-         It is also more difficult to differentiate between people from some viewpoints, with camera delta being the main source of this problem. We also rarely get a detection in camera gamma, as the people are too close to the camera, and parts of them are cut off, meaning that the person detector does not pick them up. These problems are shown in the image below.
+        \justify It is also more difficult to differentiate between people from some viewpoints, with camera delta being the main source of this problem. We also rarely get a detection in camera gamma, as the people are too close to the camera, and parts of them are cut off, meaning that the person detector does not pick them up. These problems are shown in the image below.
         
         \includegraphics[width=.44\linewidth]{../deltaProb1.png}
         \hspace{.7cm}
@@ -116,8 +116,12 @@ The intent of this project is answer the question "Which features of a human tar
         \end{block}
         
         \begin{block}{Conclusion}
-         We have shown Histogram of Intensities is suitable for re-identification, and Thermal Correlogram and Optical Flow are moderately effective in a simplified form. We have created a re-identification system using the Histogram of Intensities feature and Mahalanobis distance as a comparison method. This system has proven to be very good on a single camera system, but less effective on multiple cameras with similar viewpoints.
-        
+        \begin{itemize}
+         \item We have shown Histogram of Intensities is suitable for re-identification, and Thermal Correlogram and Optical Flow are effective in a simplified form. 
+         \item We have created a re-identification system using the Histogram of Intensities feature and Mahalanobis distance as a comparison method. 
+         
+         \item This system has proven to be very good on a single camera system, but less effective on multiple cameras with similar viewpoints.
+        \end{itemize}
         \end{block}
 
       \end{column}
