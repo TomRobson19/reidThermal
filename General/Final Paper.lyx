@@ -1563,7 +1563,8 @@ Real Time Person Detection System Stages
 \end_layout
 
 \begin_layout Subsection
-Features for Re-Identification - MORE DETAIL IN HERE, MATHS WHERE APPROPRIATE
+Features for Re-Identification - MORE DETAIL IN HERE, MATHS WHERE APPROPRIATE,
+ talk about normalisation for all
 \end_layout
 
 \begin_layout Standard
@@ -1607,10 +1608,8 @@ Histogram of Thermal Intensities
 
 \begin_layout Standard
 The next feature that we have used is the histogram of thermal intensities.
- This has been done by first using edge detection methods to get just the
- pixels that represent the target from within the Kalman bounding box.
- From here, the intensity of each pixel that makes up the target is recorded,
- and a histogram is constructed of all pixels within certain bounds.
+ The intensity of each pixel that makes up the target is recorded, and a
+ sixteen bin histogram is constructed from all the pixels.
 
 \series bold
  
