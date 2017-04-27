@@ -464,12 +464,12 @@ int runOnSingleCamera(String file, int cameraID, int multipleCameras)
 		    					{
 										if (lowestDist > classificationThreshold)
 										{
-											imshow("error",regionOfInterest);
+											//imshow("error",regionOfInterest);
 											//waitKey(1000000000);
 										}
 										else
 										{
-											imshow("roi", regionOfInterest);
+											//imshow("roi", regionOfInterest);
 											//waitKey(1000000);
 										}
 									}
