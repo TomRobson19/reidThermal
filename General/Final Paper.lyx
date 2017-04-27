@@ -630,7 +630,7 @@ The aim of this project is to investigate the above research question by
 \end_layout
 
 \begin_layout Subsection
-Achievements of the Project - add references (to later in paper?)
+Achievements of the Project
 \end_layout
 
 \begin_layout Standard
@@ -644,7 +644,11 @@ We have managed to achieve a full evaluation of all the features being examined,
  The problem becomes more complex in a multiple camera system, and although
  we do still see a reasonable amount of success from our system, the different
  viewpoints and larger number of targets reduces the accuracy of our classificat
-ions
+ions.
+ We can consider this a success in addressing out aims as the project was
+ delivered on time, and we have performed valuable research in a previously
+ unexplored area that has advanced the state of the art.
+ 
 \end_layout
 
 \begin_layout Section
@@ -652,7 +656,7 @@ Related Work
 \end_layout
 
 \begin_layout Subsection
-Overviews of Topic - rewrite this section
+Overviews of Topic
 \end_layout
 
 \begin_layout Standard
@@ -666,7 +670,7 @@ key "Maggio2011"
 
  was an informative resource on the fundamentals of tracking, feature extraction
 , target representation and the methods that are commonly used to achieve
- this, many of which we went on to implement.
+ this, many of which we went on to implement in our person detection subsystem.
  The work in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -700,9 +704,6 @@ key "Gong2014"
  to focus on the gathering and use of attributes for re-identification,
  emphasising the typical methods for attribute gathering and how to evaluate
  the usefulness and relevance of the attributes.
- This does not suggest any particular method, or carry out new research,
- but instead acts as a good summary of the current state of the art when
- it comes to gathering and using attributes.
  Many of the attributes normally used are simple, appearance based attributes
  such as gender, shirt colour, the presence of a coat or bag and hair colour.
  However, to increase reliability some systems use more complex attributes,
@@ -1163,7 +1164,7 @@ Logic of our Re-Identification System
 \begin_layout Standard
 Many of the computer vision techniques that will be described in the next
  section are complex to implement.
- Therefore, the OpenCV library 
+ Therefore, version 3 of the OpenCV library 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "opencv_library"
@@ -1570,7 +1571,7 @@ Output of the componets of the real time person detection system
 
 \begin_layout Subsection
 Features for Re-Identification - MORE DETAIL IN HERE, MATHS WHERE APPROPRIATE,
- talk about normalisation for all
+ talk about normalisation for all, 
 \end_layout
 
 \begin_layout Standard
@@ -1634,7 +1635,7 @@ n, or the position of the person in the image.
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Thermal Intensities
+Histogram of Thermal Intensities - histogram equations in L2 slides
 \end_layout
 
 \begin_layout Standard
@@ -1661,7 +1662,7 @@ Each frame, a histogram for the newly detected target is build up, normalised
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Oriented Gradients
+Histogram of Oriented Gradients - maths in Mikos papers if i have space
 \end_layout
 
 \begin_layout Standard
@@ -1693,7 +1694,7 @@ ally slow, so we have had to simplify it to make it run in reasonable time.
 \end_layout
 
 \begin_layout Subsubsection
-Thermal Correlogram
+Thermal Correlogram - explain in as much detail as I can
 \end_layout
 
 \begin_layout Standard
@@ -1731,7 +1732,7 @@ key "Huang,Zhang2015"
  the colour values we only have access to thermal intensity values.
  Due to limitations of processing time, we cannot store the probability
  of each distance value for each intensity pair, as this makes the resulting
- featue vector too large to enable efficient comparison, so we have placed
+ feature vector too large to enable efficient comparison, so we have placed
  the distances into quite wide distance thresholds, creating a histogram
  of distances per intensity value pair, as we understand that while these
  thresholds are quite wide, they still give a sufficient picture of where
@@ -1749,7 +1750,7 @@ hotspots
 \end_layout
 
 \begin_layout Subsubsection
-Optical Flow
+Optical Flow - explain in as much detail as I can
 \end_layout
 
 \begin_layout Standard
@@ -1803,8 +1804,7 @@ key "Dawson-Howe2014"
 \end_layout
 
 \begin_layout Subsection
-Comparison Method - Mahalanobis Distance - MORE PRECISE, FORMAL LANGUAGE
- IN LAST PARAGRAPH
+Comparison Method - Mahalanobis Distance
 \end_layout
 
 \begin_layout Standard
@@ -1925,11 +1925,13 @@ on of this data, and relies on the mean and covariance of the distribution
 \begin_layout Standard
 When a new person object is created, we only have a singular data value
  associated with it, meaning that we cannot calculate a covariance matrix,
- and therefore cannot calculate the mahalanobis distance.
- As all of the people have comparable covariance matrices, until we get
- a second classification for this person we will use the covariance matrix
- from the first person in the system as an approximation which will allow
- us to obtain more classifications for this new person.
+ and are therefore unable to calculate the mahalanobis distance.
+ All people detected have comparable covariance matrices, as changes are
+ results of changes of orientation or movement of legs, which all targets
+ will be doing.
+ Therefore, until we get a second classification for this person we will
+ use the covariance matrix from the first person in the system as an approximati
+on to allow us to obtain more classifications for this new person.
  After a second classification for the new person object, we can then calculate
  a covariance matrix for this person and use this for all future comparisons.
  Now that multiple targets exist, the one with the lowest mahalanobis distance
@@ -1956,7 +1958,7 @@ reference "fig:Setup-of-Cameras"
 
 \end_inset
 
- below, with the cameras labelled as camera 
+(a), with the cameras labelled as camera 
 \begin_inset Formula $\alpha$
 \end_inset
 
@@ -1972,7 +1974,15 @@ reference "fig:Setup-of-Cameras"
 \begin_inset Formula $\delta$
 \end_inset
 
- respectively, and their fields of view shown by the coloured lines.
+ respectively, and their fields of view shown by the matching coloured lines.
+ The images seen by the cameras are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Setup-of-Cameras"
+
+\end_inset
+
+(b).
  We recorded three datasets.
  dataset 1 only contained three people, dataset 2 contained six people with
  multiple people in view at the same time and dataset 3 also contained six
@@ -1990,9 +2000,68 @@ status collapsed
 
 \begin_layout Plain Layout
 \align center
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename datasetDiagram.png
 	scale 40
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename viewpoints.png
+	scale 19
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
@@ -2027,14 +2096,15 @@ Position and field of view of the cameras used to record our data
 \end_layout
 
 \begin_layout Subsection
-Performance of the Features - (change to Selecting a Feature?) - (combine
- subsections, or even put them as descriptions for all induvidual figures)
+Selecting a Feature - (explain experiment clearly) - add means for corect
+ and incorrect per feature (in bullet points or graph labels) - images of
+ video section?
 \end_layout
 
 \begin_layout Standard
 Having discussed the features that we will implement in the previous section,
  we will now determine which of these are sufficiently discriminative between
- people, and tHus address our research question, 
+ people, and thus address our research question, 
 \series bold
 \emph on
 
@@ -2054,9 +2124,14 @@ Which features of a human target are appropriate to facilitate re-identification
  
 \series default
 \emph default
-This has been done by performing tests on one of our video files with an
- altered re-identification classifier to the one described above.
- We have a section of video taken from camera 
+This has been done by performing tests on a small section of one of our
+ video files with an altered re-identification classifier to the one described
+ above.
+ 
+\end_layout
+
+\begin_layout Standard
+We have a section of video taken from camera 
 \begin_inset Formula $\beta$
 \end_inset
 
@@ -2065,24 +2140,25 @@ This has been done by performing tests on one of our video files with an
  these using Mahalanobis distance as before.
  This person leaves the scene and a different person enters the scene.
  A timeout has been inserted into the code at this point, to prevent any
- chance of this new person being classified as the first person and corrupting
- the data.
+ chance of this new person being classified as the first person.
+ These two people in this section of video have fairly similar thermal signature
+s, and after examining our three datasets, we concluded that it was this
+ section of video that was the best suited to the evaluation of our features
+ as a general case.
  We can therefore measure the mahalanobis distances between this new person
- and the data recorded for the previous person at all points and determine
- if an incorrect classification is likely.
+ and the data recorded for the previous person at all points and compare
+ the mahalanobis distances for this target to those of the correct target
+ to determine how discriminative each feature is.
  A discriminative feature will be one that has a low mahalanobis distance
- for the right target and a high mahalanobis distance for the wrong target.
- These two people have fairly similar thermal signatures, and after examining
- our three datasets, we concluded that it was this section of video that
- was the best suited to the evaluation of our features.
- Figure 
+ for the right target and a high mahalanobis distance for the wrong target,
+ as shown by the red and blue lines on the graphs in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
- shows the performance of all the features from this experiment.
+.
  
 \end_layout
 
@@ -2092,7 +2168,7 @@ reference "fig:Performance"
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Float figure
@@ -2304,7 +2380,7 @@ name "fig:Performance"
 
 \end_inset
 
-Performance of the Features
+Performance of the features in the experiment described
 \end_layout
 
 \end_inset
@@ -2321,45 +2397,33 @@ Performance of the Features
 
 \end_layout
 
-\begin_layout Subsubsection
-Hu Moments
-\end_layout
-
-\begin_layout Standard
+\begin_layout Itemize
 \align left
-Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, Figure 
+Hu moments proved to not be a very discriminative feature, as shown in figure
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
-(a), as the mahalanobis distances for both correct and incorrect targets
- are very similar.
- The first entry also has a comparatively large mahalanobis distance relative
- to the others, which we believe was due to the covariance matrix not yet
- allowing sufficient variation, as this feature seems to vary to quite a
- large extent.
- This feature is therefore not recommended for use in re-identification,
- and will not be used in the final system.
+(a), as the mahalanobis distances for correct and incorrect targets are
+ very similar.
+ This feature is not sufficiently disciminative, and will not be used in
+ the final system.
  
 \end_layout
 
-\begin_layout Subsubsection
-Histogram of Thermal Intensities
-\end_layout
-
-\begin_layout Standard
+\begin_layout Itemize
 \noindent
-As can be seen in Figure 
+As can be seen in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
-(b), the Histogram of Intensities was shown to be a very good feature, as
+(b), the histogram of intensities was shown to be a very good feature, as
  the line for the incorrect person is always higher than the line for the
  correct target, and we can therefore determine a threshold that will be
  correct for the vast majority of classifications.
@@ -2368,14 +2432,10 @@ reference "fig:Performance"
  
 \end_layout
 
-\begin_layout Subsubsection
-Histogram of Oriented Gradients
-\end_layout
-
-\begin_layout Standard
+\begin_layout Itemize
 \noindent
-The Histogram of Oriented Gradients is another feature that is not very
- discriminative for re-identification.
+The histogram of oriented gradients is not very discriminative for re-identifica
+tion.
  All of the mahalanobis distances are very low, as shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2385,22 +2445,14 @@ reference "fig:Performance"
 
 (c), but there is very little difference between the correct and incorrect
  target.
- We have simplified this feature to improve runtime, but testing with more
- complex HOG parameters did not improve the performance of this feature
- enough to make it usable for the re-identification.
- The low mahalanobis distance for all classifications and the fact that
- this feature cannot effectively discriminate between different people validates
- its use as a generic person detector earlier in the system.
+ Even testing with more complex HOG parameters did not improve the performance
+ of this feature enough to make it usable for the re-identification.
  
 \end_layout
 
-\begin_layout Subsubsection
-Thermal Correlogram
-\end_layout
-
-\begin_layout Standard
+\begin_layout Itemize
 \noindent
-This feature has proved to be quite discriminative, as Figure 
+The thermal Correlogram proved to be quite discriminative, as figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
@@ -2410,19 +2462,14 @@ reference "fig:Performance"
 (d) shows.
  However, there are some notable anomalies, which we believe are due to
  certain body parts being obstructed, such as a hand disappearing behind
- the persons back for a frame.
- Despite this, the performance of this feature is good even with the vastly
- simplified nature of the feature in this implementation, so we can expect
- that if our runtime constraints did not exist, it would perform even better,
- as these anomalies would probably not occur.
+ the person's back for a frame.
+ Despite this, the performance of this feature is good even with the simplified
+ nature of the feature in this implementation, so we can expect that if
+ our runtime constraints did not exist, it would perform even better.
  
 \end_layout
 
-\begin_layout Subsubsection
-Optical Flow
-\end_layout
-
-\begin_layout Standard
+\begin_layout Itemize
 \noindent
 The Histogram of Flow is slightly discriminative feature, as the correct
  person has a smaller average mahalanobis distance than the incorrect target,
@@ -2439,11 +2486,11 @@ reference "fig:Performance"
  to use in our final solution.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 \noindent
-However, when just using the raw Optical Flow values that we have calculated
- from our region of interest, we have a far more discriminative feature
- than when we used these values to construct a histogram, as can be observed
+When just using the raw optical flow values that we have calculated from
+ our region of interest, we have a far more discriminative feature than
+ when we used these values to construct a histogram, as can be observed
  in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2460,7 +2507,9 @@ reference "fig:Performance"
 \end_layout
 
 \begin_layout Subsection
-The Re-Identification System
+The Re-Identification System (give percentages on each video/dataset) (links
+ to private youtube videos to show performance, don't rely on it, put at
+ end of section)
 \end_layout
 
 \begin_layout Standard
@@ -2480,11 +2529,15 @@ Having evaluated the features, we now move on to the re-identification system
  Due to the size of the Correlogram, which runs slowly even when not combined
  with another feature, all of the combinations that involve this feature
  run slowly.
- All of these combinations of the discriminative features give good results,
- but they all introduce anomalies into the system, which would lead to the
- creation of new targets, which would then cause a split in the data stored
- for the correct person, or could be closer to the data of the incorrect
- person, leading to cross-pollution of the data.
+ All of these combinations of the discriminative features are discriminative
+ as shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Combinations-of-Discriminative"
+
+\end_inset
+
+, but they all introduce anomalies into the system.
 \end_layout
 
 \begin_layout Standard
@@ -2622,7 +2675,13 @@ status collapsed
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Combinations of Discriminative Features
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Combinations-of-Discriminative"
+
+\end_inset
+
+Combinations of our discriminative features
 \end_layout
 
 \end_inset
@@ -3067,7 +3126,7 @@ Rapid Target Creation
 \end_layout
 
 \begin_layout Section
-Evaluation
+Evaluation - cut this section down
 \end_layout
 
 \begin_layout Standard
@@ -3150,17 +3209,16 @@ ion, and the Histogram of Intensities is suitable.
 \end_layout
 
 \begin_layout Standard
-A limitation that we faced in this project is associated with the infrared
- cameras that we used to record the data.
- As these are uncooled cameras, they require a thermal reset at regular
- intervals, to enable the cameras to calibrate themselves to correct for
- changes in background heat levels.
- While this calibration occurs, new footage is not recorded, and this leads
- to jumps in the video and some frames being repeated.
- To mitigate this, we compare every frame that comes in from the camera
- to the previous frame, and if they are identical then we ignore it.
+A limitation that we faced in this project is associated with the uncooled
+ infrared cameras that we used to record the data, which require a thermal
+ reset at regular intervals to enable the cameras to calibrate themselves
+ to respond to changes in background heat levels.
+ While this calibration occurs, and some frames are repeated and the video
+ jumps.
+ To mitigate this, we compare every new frame from the camera to the previous
+ frame, and if they are identical then we ignore it.
  This stops the data per person from becoming skewed by repetitions of the
- same data value, but it does lead to some anomalies in the results, which
+ same data value, but we do still get some anomalies in the results, which
  can be seen as spikes in the graphs, due to the sudden change in position
  of the person being tracked.
  
@@ -3212,24 +3270,18 @@ However, a major weakness of our system is that fact that miss-classifications
 \end_layout
 
 \begin_layout Subsection
-Appraisal of Project Organisation - would remove but in mark scheme
+Appraisal of Project Organisation
 \end_layout
 
 \begin_layout Standard
 In the implementation of this system we have used a modular approach, implementi
 ng each major component separately.
- This was a useful process to use as it enabled us to fully test and optimise
- each part of the system as much as possible, and eliminate as many of the
- errors and limitations as we could as they came up in each subsystem.
- Notably, we encountered difficulties with the Kalman filter, as although
- this is a well understood and often used technique, it was one of the elements
- of the OpenCV library that changed between version 2 and 3, meaning that
- much of the existing work that we looked at for this part of our solution
- functioned in a different way to how our system would, as we have used
- OpenCV version 3.
+ Notably, we encountered difficulties with the Kalman filter, as it was
+ one of the elements of the OpenCV library that changed between version
+ 2 and 3, meaning that much of the existing work that we looked at functioned
+ in a different way to how our system would.
  We also had difficulties in the implementation of the comparison system,
- as we initially intended to use a Bayesian Classifier in a similar manner
- to 
+ as we initially intended to use a Bayesian Classifier 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Fukunaga1990"
@@ -3239,18 +3291,17 @@ key "Fukunaga1990"
 , but this did not function correctly with our data, and much time was used
  trying to get this to function before we decided that using the pure Mahalanobi
 s distances was a superior solution.
- 
+ Despite these difficulties, the project was delivered on time and 
 \end_layout
 
 \begin_layout Section
-Conclusion - shorten and recheck that it makes sense and I don't repeat
- myself
+Conclusion
 \end_layout
 
 \begin_layout Standard
-The research that has been performed in this project has enabled us to effective
-ly answer our research question, as we have shown that Hu moments and histogram
- of oriented gradients are not suitable for use in re-identification, histogram
+The research that has been performed in this project has enabled us to answer
+ our research question, as we have shown that Hu moments and histogram of
+ oriented gradients are not suitable for use in re-identification, histogram
  of intensities is suitable and performs fairly well, and thermal correlogram
  and optical flow are moderately effective in a simplified form, and need
  more computation resources if they are to use their full discriminative
@@ -3265,18 +3316,14 @@ ly answer our research question, as we have shown that Hu moments and histogram
  in the section of video that we used to measure the performance of the
  features, it is not as effective as a feature over more of a range of viewpoint
 s.
-\end_layout
-
-\begin_layout Standard
-As these features have not been used for re-identification in thermal imagery
+ As these features have not been used for re-identification in thermal imagery
  before, the research presented here is at the state of the art in this
- area, as we have been able to evaluate the effectiveness of the features
- and use the best of them to create a functioning single camera re-identificatio
-n system that performs well and a functioning but unreliable multiple camera
- system.
+ area, as we have been able to create a functioning single camera re-identificat
+ion system that performs well and a functioning but unreliable multiple
+ camera system.
  Although it is clear that there is much more work to be done, from finding
  better features to improving the accuracy of the re-identification system
- accross multiple cameras with different viewpoints, the work that we have
+ across multiple cameras with different viewpoints, the work that we have
  done here is a good start to the exploration of this topic.
  
 \end_layout
