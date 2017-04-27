@@ -16,7 +16,7 @@
 
   \usefonttheme[onlymath]{serif}
   \boldmath
-  \usepackage[orientation=portrait,size=a0,scale=1.4,debug]{beamerposter}                       
+  \usepackage[orientation=portrait,size=a2,scale=1.2,debug]{beamerposter}
 
   % e.g. for DIN-A0 poster
   % \usepackage[orientation=portrait,size=a1,scale=1.4,grid,debug]{beamerposter}
@@ -33,26 +33,27 @@
 
   \begin{document}
   \begin{frame}{} 
-
-  \vfill
-  \begin{block}{Introduction}
+	
+	 \begin{block}{Introduction}
   \justify
-          A fundamental task for a distributed multi-camera surveillance system is Person Re-Identification, or to associate people across different camera views. This has been well researched in colour, but there has been very little research done on solving this problem in thermal, making our work state of the art. 
+          A fundamental task for a surveillance system is Person Re-Identification, or to associate people across different cameras. This has been well researched in colour, but there has been very little research done on solving this problem in thermal, making our work state of the art. 
 \justify
-The intent of this project is answer the question {\textit{``Which features of a human target are appropriate to facilitate Re-Identification in thermal video?''}} and to develop a functioning Re-Identification system. The challenges associated with this are due to the increased complexity of thermal features compared to colour features.
+Out intent is to answer the question {\textit{``Which features of a human target are appropriate to facilitate Re-Identification in thermal video?''}} and to develop a functioning Re-Identification system.
         \end{block}
         
     \begin{columns}[t]
       \begin{column}{.49\linewidth}
+      
+     
         
         \begin{block}{Person Detection and Tracking}
         	The process of Person detection and Tracking employed in this Project can be broken down into multiple stages. 
         	\begin{itemize}
-        	\item Background Subtraction. Mixture of Gaussians (MOG) method, we learn a background model and compare each new frame to this. 
+        	\item Background Subtraction. Mixture of Gaussians (MOG) method [1], we learn a background model and compare each new frame to this. 
 
-        	\item Person Identification. Performs contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) or a Haar Cascade to determine whether this target is a person.
+        	\item Person Identification. Performs contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) [2] or a Haar Cascade [3] to determine whether this target is a person.
         	
-        	\item Person Tracking and Position Prediction. Kalman Filter associated with each person which records position, velocity and boundix box size, and predicts their next position. 
+        	\item Person Tracking and Position Prediction. Kalman Filter [4] associated with each person which records position, velocity and boundix box size, and predicts their next position. 
         	
         \includegraphics[width=.95\linewidth]{../personDetector.png}  
           \end{itemize}
@@ -63,58 +64,77 @@ The intent of this project is answer the question {\textit{``Which features of a
         \begin{block}{Features and the Classifier}
         We have selected 5 potential features to test:
           \begin{itemize}
-          \item Hu Moments, an approximation of shape that is position, scale and rotation invariant.
+          \item Hu Moments [5], an approximation of shape that is position, scale and rotation invariant.
           \item Histogram of Thermal Intensities, a measure of how many pixels of each intensity range make up the target.
-          \item Histogram of Oriented Gradients (HOG) Descriptor, a count of  occurrences of each gradient orientation. 
-          \item Thermal Correlogram, a measure of spatial correlation of intensity value pairs.
-          \item Optical Flow, a measure of the movements of the target between frames, giving an idea of gait. 
+          \item Histogram of Oriented Gradients (HOG) Descriptor [6], a count of  occurrences of each gradient orientation. 
+          \item Thermal Correlogram [7], a measure of spatial correlation of intensity value pairs.
+          \item Optical Flow [8], a measure of the movements of the target between frames, giving an idea of gait. 
           \end{itemize}
           \justify
-          A distribution of each of these features per target is stored and compared to each new identification using mahalanobis distance. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.
+          A distribution of each of these features per target is stored and compared to each new identification using mahalanobis distance[9]. If this one of these distances is below a threshold, then that target is Re-Identified, else a new target is created.
         \end{block}
 	
         \begin{block}{Evaluation of Features}
         The following graphs show the difference in mahalanobis distance between the correct and incorrect person. This can from a small section of one of our videos. The better a feature is, the further apart the red and blue lines will be. 
         
-        \hspace{1cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/Hu.png}
 		\hspace{2cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/Hist.png}
 		
-		\hspace{1cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/HOG.png}
 		\hspace{2cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/Correlogram.png}
 		
-		\hspace{1cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/HOF.png}
 		\hspace{2cm}
 		\includegraphics[width=.40\linewidth]{../Graphs/Flow.png}
 		
         \end{block}
+        
+            \begin{block}{References}
+    \scriptsize
+[1] Zoran Zivkovic. Improved Adaptive Gaussian Mixture Model for Background Subtraction. Proceedings of the 17th International Conference on Pattern Recognition, 2004.
+    
+[2] Navneet Dalal and Bill Triggs. Histograms of Oriented Gradients for Human Detection. In IEEE Computer Society Conference on Computer Vision and Pattern Recognition, 2005.
+        
+[3] Rainer Lienhart and Jochen Maydt. An Extended Set of Haar-like Features for Rapid Object Detection. International Conference on Image Processing. 2002
+            
+[4] Gary Bishop and Greg Welch. An Introduction to the Kalman Filter. SIGGRAPH, Course 8, 2001.
+                
+[5] Ming-Kuei Hu. Visual pattern recognition by moment invariants. Information Theory, IEEE Transactions on, 1962.
+                 
+[6] Navneet Dalal and Bill Triggs. Histograms of Oriented Gradients for Human Detection. In IEEE Computer Society Conference on Computer Vision and Pattern Recognition, 2005.
+                  
+[7] Jing Huang, S.R. Kumar, Mandar Mitra, Wei-Jing Zhu, and Ramin Zabih. Image Indexing using Color Correlograms. Proceedings of IEEE Computer Society Conference on Computer Vision and Pattern Recognition, 1994.
+                   
+[8] Berthold K.P. Horn and Brian G. Schunck. Determining optical flow. Artificial Intelligence, aug 1981.
+                   
+[9] PC Mahalanobis. on the Generalized Distance in Statistics. In Proceedings National Institute of Science, India.
+    \end{block}
+        
 	 \end{column}
 	 \begin{column}{.49\linewidth}
  		\begin{block}{The Re-Identification System - Single Camera}
  		\justify This will use the best of the features, Histogram of Intensities. It performs very well on a single camera, until an error occurs, and then cross-pollution of the data makes further results questionable as the data is no longer exclusively that of the person it is supposed to be. 
- 		These images show the system correctly identifying 3 different people correctly, and dealing with overlapping targets. 
+ 		The images below show the system correctly identifying 3 different people correctly, and dealing with overlapping targets. 
  		\justify
- 		\includegraphics[width=.90\linewidth]{../combo.png}  
+ 		\includegraphics[width=.99\linewidth]{../combo.png}  
          
         \end{block}
         
         \begin{block}{The Re-Identification System - Multiple Cameras}
         \justify
-        As using multiple cameras introduces more viewpoints, the people observed from different cameras have differing characteristics, which means they are sometimes similar enough to be re-identified, and sometimes not, as shown in the images below. 	
+        As using multiple cameras introduces more viewpoints, the people observed from different cameras have differing characteristics, which means they are sometimes similar enough to be re-identified, and sometimes not, as shown in the images below, where the same person is correctly identified in the left image and incorrectly identified in the right image. 	
         	 
- 		\includegraphics[width=.44\linewidth]{../prob1.png}  
- 		\hspace{.7cm}
-        \includegraphics[width=.44\linewidth]{../prob2.png}  
+ 		\includegraphics[width=.48\linewidth]{../prob1.png}  
+ 		\hspace{.4cm}
+        \includegraphics[width=.48\linewidth]{../prob2.png}  
         
-        \justify It is also more difficult to differentiate between people from some viewpoints, with camera delta being the main source of this problem. We also rarely get a detection in camera gamma, as the people are too close to the camera, and parts of them are cut off, meaning that the person detector does not pick them up. These problems are shown in the image below.
+        \justify It is more difficult to differentiate between people from some viewpoints, with the camera on the roof being the main source of this problem. We also rarely get a detection in camera gamma, as the people are too close to the camera, and parts of them are cut off, meaning that the person detector does not pick them up. These problems are shown in the image below, which are only a few frames apart, but the roof camera has generated a new target for this person every frame.
         
-        \includegraphics[width=.44\linewidth]{../deltaProb1.png}
-        \hspace{.7cm}
-        \includegraphics[width=.44\linewidth]{../deltaProb2.png}  
+        \includegraphics[width=.48\linewidth]{../deltaProb1.png}
+        \hspace{.4cm}
+        \includegraphics[width=.48\linewidth]{../deltaProb2.png}  
         \end{block}
         
         \begin{block}{Conclusion}
@@ -126,10 +146,9 @@ The intent of this project is answer the question {\textit{``Which features of a
         \end{itemize}
         \end{block}
 
-      \end{column}
+        \end{column}
     \end{columns}
     
-
   \end{frame}
 \end{document}
 
