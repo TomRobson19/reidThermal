@@ -1798,7 +1798,8 @@ key "Dawson-Howe2014"
 \end_layout
 
 \begin_layout Subsection
-Comparison Method - Mahalanobis Distance
+Comparison Method - Mahalanobis Distance - MORE PRECISE, FORMAL LANGUAGE
+ IN LAST PARAGRAPH
 \end_layout
 
 \begin_layout Standard
@@ -1907,23 +1908,25 @@ on of this data, and relies on the mean and covariance of the distribution
  matrix discussed above.
  Based on our evaluation of the features, we then determine a mahalanobis
  distance threshold, where the target is re-identified as one of the people
- already seen by the system if the mahalanobis distance is below the threshold,
- else a new person object is created.
+ already in the system if the mahalanobis distance is below the threshold,
+ otherwise a new person object is created.
  As anomalies are present in our dataset, we make this re-identification
- threshold quite wide, but then have a much tighter learning threshold.
+ threshold quite wide, but then have a tighter learning threshold to try
+ and prevent corruption of the data.
  Only instances with mahalanobis distances less than this will be added
- to the dataset to avoid corruption of each target data signature.
+ to each target data signature.
 \end_layout
 
 \begin_layout Standard
-When this new person object is created, we only have one data value associated
- with it, meaning that we cannot calculate a covariance matrix, and therefore
- cannot calculate the mahalanobis distance.
- As all of the people have similar covariance matrices, until we get a second
- classification for this person we will use the covariance matrix from one
- of the other people in the system as an approximation.
- After a second classification for this person, we can then calculate a
- covariance matrix for this person and use this for all future comparisons.
+When a new person object is created, we only have a singular data value
+ associated with it, meaning that we cannot calculate a covariance matrix,
+ and therefore cannot calculate the mahalanobis distance.
+ As all of the people have comparable covariance matrices, until we get
+ a second classification for this person we will use the covariance matrix
+ from the first person in the system as an approximation which will allow
+ us to obtain more classifications for this new person.
+ After a second classification for the new person object, we can then calculate
+ a covariance matrix for this person and use this for all future comparisons.
  Now that multiple targets exist, the one with the lowest mahalanobis distance
  will be chosen, rather than the first one to be below the threshold to
  try and ensure the best possible accuracy.
@@ -1966,8 +1969,8 @@ reference "fig:Setup-of-Cameras"
 
  respectively, and their fields of view shown by the coloured lines.
  We recorded three datasets.
- Dataset 1 only contained three people, Dataset 2 contained six people with
- multiple people in view at the same time and Dataset 3 also contained six
+ dataset 1 only contained three people, dataset 2 contained six people with
+ multiple people in view at the same time and dataset 3 also contained six
  people, but introduced other targets such as cars to test the person detection
  system.
  
@@ -2019,7 +2022,8 @@ Position and field of view of the cameras used to record our data
 \end_layout
 
 \begin_layout Subsection
-Performance of the Features
+Performance of the Features - (change to Selecting a Feature?) - (combine
+ subsections, or even put them as descriptions for all induvidual figures)
 \end_layout
 
 \begin_layout Standard
