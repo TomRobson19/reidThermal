@@ -2558,7 +2558,7 @@ reference "fig:Performance"
 \begin_layout Subsection
 The Re-Identification System (give percentages on each video/dataset) (links
  to private youtube videos to show performance, don't rely on it, put at
- end of section)
+ end of section) (more images to show results like in Miko's papers)
 \end_layout
 
 \begin_layout Standard
@@ -2746,7 +2746,7 @@ Combinations of our discriminative features
 \begin_layout Standard
 In view of these anomalies and the issues that they may cause, the most
  discriminative feature that has the fewest anomalies and that runs in real
- time is using the Histogram of Intensities alone.
+ time is using the histogram of intensities alone.
  Having decided upon using this feature, we will now implement this within
  the final re-identification system, using the full comparison method described
  previously in the Solution section, determining an effective re-identification
@@ -3175,7 +3175,7 @@ Rapid Target Creation
 \end_layout
 
 \begin_layout Section
-Evaluation - cut this section down
+Evaluation - cut this section down if I need the space
 \end_layout
 
 \begin_layout Standard
@@ -3214,7 +3214,7 @@ ion, a significant thermal hotspot has been missed.
 \end_layout
 
 \begin_layout Subsection
-Features - re-write camera limitation bit
+Features
 \end_layout
 
 \begin_layout Standard
@@ -3258,10 +3258,11 @@ ion, and the Histogram of Intensities is suitable.
 \end_layout
 
 \begin_layout Standard
-A limitation that we faced in this project is associated with the uncooled
- infrared cameras that we used to record the data, which require a thermal
- reset at regular intervals to enable the cameras to calibrate themselves
- to respond to changes in background heat levels.
+Aside from errors in the person detection system, another cause of the anomalies
+ that we encounter is associated with the uncooled infrared cameras that
+ we used to record the data, which require a thermal reset at regular intervals
+ to enable the cameras to calibrate themselves to respond to changes in
+ background heat levels.
  While this calibration occurs, and some frames are repeated and the video
  jumps.
  To mitigate this, we compare every new frame from the camera to the previous
@@ -3340,7 +3341,8 @@ key "Fukunaga1990"
 , but this did not function correctly with our data, and much time was used
  trying to get this to function before we decided that using the pure Mahalanobi
 s distances was a superior solution.
- Despite these difficulties, the project was delivered on time and 
+ Despite these difficulties, the project was delivered on time and our aims
+ were accomplished, successfully adding to the state of the art.
 \end_layout
 
 \begin_layout Section
