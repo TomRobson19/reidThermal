@@ -1317,10 +1317,15 @@ key "RainerLienhartandJochenMaydt2002,Viola"
  is most likely to result in a definitive classification, speeding up processing
  time.
  We have used an existing cascade of classifiers trained to recognise people
- in thermal imagery, and it gives us effective results.
+ in thermal imagery from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "T.P.BreckonA.GaszczakJ.HanM.L.Eichner2013"
+
+\end_inset
+
+, and it gives us effective results.
  
-\series bold
-REFERENCE THE CASCADE
 \end_layout
 
 \begin_layout Standard
