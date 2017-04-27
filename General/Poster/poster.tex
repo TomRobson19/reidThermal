@@ -26,7 +26,7 @@
   % e.g. for DIN-A0 poster with rwth-glossy-uv printer check ...
   %
 
-  \title[Thermal Re-ID]{Camera-to-Camera Tracking for Person Re-identification within Thermal Imagery}
+  \title[Thermal Re-ID]{Camera-to-Camera Tracking for Person Re-Identification within Thermal Imagery}
   \author[G Ingram]{Thomas Robson - Supervised by Dr Toby Breckon}
   \institute[Durham]{School of Engineering and Computing Sciences, Durham University}
   \date{16th April 2012}
@@ -35,6 +35,7 @@
   \begin{frame}{} 
 	
 	 \begin{block}{Introduction}
+	 \vspace{-.5cm}
   \justify
           A fundamental task for a surveillance system is Person Re-Identification, or to associate people across different cameras. This has been well researched in colour, but there has been very little research done on solving this problem in thermal, making our work state of the art. 
 \justify
@@ -53,7 +54,7 @@ Out intent is to answer the question {\textit{``Which features of a human target
 
         	\item Person Identification. Performs contour dectection on a foreground target and using either the Histogram of Oriented Gradients (HOG) [2] or a Haar Cascade [3] to determine whether this target is a person.
         	
-        	\item Person Tracking and Position Prediction. Kalman Filter [4] associated with each person which records position, velocity and boundix box size, and predicts their next position. 
+        	\item Person Tracking and Position Prediction. Kalman Filter [4] associated with each person which records position, velocity and bounding box size, and predicts their next position. 
         	
         \includegraphics[width=.95\linewidth]{../personDetector.png}  
           \end{itemize}
@@ -75,7 +76,7 @@ Out intent is to answer the question {\textit{``Which features of a human target
         \end{block}
 	
         \begin{block}{Evaluation of Features}
-        The following graphs show the difference in mahalanobis distance between the correct and incorrect person. This can from a small section of one of our videos. The better a feature is, the further apart the red and blue lines will be. 
+        The following graphs show the difference in mahalanobis distance between the correct and incorrect person. The better a feature is, the further apart the red and blue lines will be. The best feature is the histogram of intensities. 
         
 		\includegraphics[width=.40\linewidth]{../Graphs/Hu.png}
 		\hspace{2cm}
@@ -115,6 +116,7 @@ Out intent is to answer the question {\textit{``Which features of a human target
 	 \end{column}
 	 \begin{column}{.49\linewidth}
  		\begin{block}{The Re-Identification System - Single Camera}
+ 		\vspace{-.5cm}
  		\justify This will use the best of the features, Histogram of Intensities. It performs very well on a single camera, until an error occurs, and then cross-pollution of the data makes further results questionable as the data is no longer exclusively that of the person it is supposed to be. 
  		The images below show the system correctly identifying 3 different people correctly, and dealing with overlapping targets. 
  		\justify
@@ -123,14 +125,14 @@ Out intent is to answer the question {\textit{``Which features of a human target
         \end{block}
         
         \begin{block}{The Re-Identification System - Multiple Cameras}
-        \justify
-        As using multiple cameras introduces more viewpoints, the people observed from different cameras have differing characteristics, which means they are sometimes similar enough to be re-identified, and sometimes not, as shown in the images below, where the same person is correctly identified in the left image and incorrectly identified in the right image. 	
+        \vspace{-.5cm}
+        \justify As using multiple cameras introduces more viewpoints, the people observed from different cameras have differing characteristics, which means they are sometimes similar enough to be re-identified, and sometimes not, as shown in the images below, where the same person is correctly identified in the left image and incorrectly identified in the right image. 	
         	 
  		\includegraphics[width=.48\linewidth]{../prob1.png}  
  		\hspace{.4cm}
         \includegraphics[width=.48\linewidth]{../prob2.png}  
         
-        \justify It is more difficult to differentiate between people from some viewpoints, with the camera on the roof being the main source of this problem. We also rarely get a detection in camera gamma, as the people are too close to the camera, and parts of them are cut off, meaning that the person detector does not pick them up. These problems are shown in the image below, which are only a few frames apart, but the roof camera has generated a new target for this person every frame.
+        \justify It is more difficult to differentiate between people from some viewpoints, with the camera on the roof being the main source of this problem. We also rarely get a detection in camera gamma, as the people are too close to the camera, and parts of them are cut off, meaning that the person detector does not pick them up. These problems are shown in the image below, which are only a few frames apart, but the roof camera has generated a new target for the person that it can see every frame, leading to problems.
         
         \includegraphics[width=.48\linewidth]{../deltaProb1.png}
         \hspace{.4cm}
