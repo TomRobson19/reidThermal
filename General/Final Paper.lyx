@@ -1856,16 +1856,22 @@ The method that we have employed for comparing these features and facilitating
 \end_inset
 
 .
- 
-\begin_inset Formula $\vec{\mu}=\frac{[\vec{x}_{1}+\vec{x}_{2}+...+\vec{x}_{n}]}{n}$
+ The equation for this is 
+\begin_inset Formula $\vec{\mu}=\frac{\vec{x}_{1}+\vec{x}_{2}+...+\vec{x}_{n}}{n}$
 \end_inset
 
+.
+ The covariance matrix, 
+\begin_inset Formula $C$
+\end_inset
 
-\end_layout
+, is build up using the equation 
+\begin_inset Formula $C(i,j)=\frac{[\vec{x}(1,i)-\vec{\mu}(i)][\vec{x}(1,j)-\vec{\mu}(j)]+...+[\vec{x}(n,i)-\vec{\mu}(i)][\vec{x}(n,j)-\vec{\mu}(j)]}{n-1}$
+\end_inset
 
-\begin_layout Standard
-Now that we have the mean and covariance, we can compare these to each new
- target identified by the person detector, and calculate the mahalanobis
+ to calculate the value that should go in each cell of the matrix.
+ Now that we have the mean and covariance, we can compare these to each
+ new target identified by the person detector, and calculate the mahalanobis
  distance.
 \end_layout
 
@@ -1884,19 +1890,11 @@ on of this data, and relies on the mean and covariance of the distribution
 \begin_inset Formula $d$
 \end_inset
 
- is the mahalanobis distance, 
+ is the mahalanobis distance and
 \begin_inset Formula $\vec{x}$
 \end_inset
 
- is the new target, 
-\begin_inset Formula $\vec{\mu}$
-\end_inset
-
-is the mean of the distribution and 
-\begin_inset Formula $C$
-\end_inset
-
- is the covariance matrix of the distribution.
+ is the feature vector of the new target.
  
 \begin_inset Formula $d(\vec{x})=\sqrt{(\vec{x}-\vec{\mu})^{T}C^{-1}(\vec{x}-\vec{\mu})}$
 \end_inset
