@@ -2458,7 +2458,7 @@ reference "fig:Performance"
 
 (a), as the mahalanobis distances for correct and incorrect targets are
  very similar.
- This feature is not sufficiently disciminative, and will not be used in
+ This feature is not sufficiently discriminative, and will not be used in
  the final system.
  
 \end_layout
