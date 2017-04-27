@@ -3106,7 +3106,7 @@ ion, a significant thermal hotspot has been missed.
 \end_layout
 
 \begin_layout Subsection
-Features
+Features - re-write camera limitation bit
 \end_layout
 
 \begin_layout Standard
@@ -3146,6 +3146,23 @@ ion, and the Histogram of Intensities is suitable.
  breaking the correlogram down to wide intensity and distance thresholds.
  However, with these simplifications these features perform worse than the
  Histogram of Intensities, so this is the feature we use for re-identification.
+ 
+\end_layout
+
+\begin_layout Standard
+A limitation that we faced in this project is associated with the infrared
+ cameras that we used to record the data.
+ As these are uncooled cameras, they require a thermal reset at regular
+ intervals, to enable the cameras to calibrate themselves to correct for
+ changes in background heat levels.
+ While this calibration occurs, new footage is not recorded, and this leads
+ to jumps in the video and some frames being repeated.
+ To mitigate this, we compare every frame that comes in from the camera
+ to the previous frame, and if they are identical then we ignore it.
+ This stops the data per person from becoming skewed by repetitions of the
+ same data value, but it does lead to some anomalies in the results, which
+ can be seen as spikes in the graphs, due to the sudden change in position
+ of the person being tracked.
  
 \end_layout
 
@@ -3195,27 +3212,6 @@ However, a major weakness of our system is that fact that miss-classifications
 \end_layout
 
 \begin_layout Subsection
-Limitations of Equipment
-\end_layout
-
-\begin_layout Standard
-A limitation that we faced in this project is associated with the infrared
- cameras that we used to record the data.
- As these are uncooled cameras, they require a thermal reset at regular
- intervals, to enable the cameras to calibrate themselves to correct for
- changes in background heat levels.
- While this calibration occurs, new footage is not recorded, and this leads
- to jumps in the video and some frames being repeated.
- To mitigate this, we compare every frame that comes in from the camera
- to the previous frame, and if they are identical then we ignore it.
- This stops the data per person from becoming skewed by repetitions of the
- same data value, but it does lead to some anomalies in the results, which
- can be seen as spikes in the graph, due to the sudden change in position
- of the person being tracked.
- 
-\end_layout
-
-\begin_layout Subsection
 Appraisal of Project Organisation - would remove but in mark scheme
 \end_layout
 
@@ -3247,7 +3243,8 @@ s distances was a superior solution.
 \end_layout
 
 \begin_layout Section
-Conclusion
+Conclusion - shorten and recheck that it makes sense and I don't repeat
+ myself
 \end_layout
 
 \begin_layout Standard
@@ -3268,6 +3265,20 @@ ly answer our research question, as we have shown that Hu moments and histogram
  in the section of video that we used to measure the performance of the
  features, it is not as effective as a feature over more of a range of viewpoint
 s.
+\end_layout
+
+\begin_layout Standard
+As these features have not been used for re-identification in thermal imagery
+ before, the research presented here is at the state of the art in this
+ area, as we have been able to evaluate the effectiveness of the features
+ and use the best of them to create a functioning single camera re-identificatio
+n system that performs well and a functioning but unreliable multiple camera
+ system.
+ Although it is clear that there is much more work to be done, from finding
+ better features to improving the accuracy of the re-identification system
+ accross multiple cameras with different viewpoints, the work that we have
+ done here is a good start to the exploration of this topic.
+ 
 \end_layout
 
 \begin_layout Standard
