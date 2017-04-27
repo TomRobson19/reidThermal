@@ -847,7 +847,7 @@ key "Coutts2014"
 \end_inset
 
 , another system based on the relationship between spatial and temporal
- signatures in thermal is proposed, combining a Human detection algorithm
+ signatures in thermal is proposed, combining a human detection algorithm
  with the real-time compressive tracking algorithm.
  This algorithm uses bounding boxes, which surround an object to be tracked
  in subsequent frames.
@@ -1674,7 +1674,7 @@ key "Dalal"
  compares the HOG descriptor to a pre-trained support vector machine to
  determine if the target is within acceptable bounds of being a person.
  Here, we use the same feature vector, but instead of passing this to the
- support vector machine for classification as a Human or not, we save this
+ support vector machine for classification as a human or not, we save this
  vector for each target, and use this as a feature of comparison for re-identifi
 cation.
  This feature vector is very large, meaning the the processing time is impractic
@@ -1816,8 +1816,12 @@ The method that we have employed for comparing these features and facilitating
  then calculate the mean vector and covariance matrix, which gives us an
  idea of the average value of each element of the feature vector, and how
  much each element is likely to change.
- The calculation of the mean vector is simple, as it is simply the sum of
- all vectors of the distribution, 
+ The calculation of the mean vector, 
+\begin_inset Formula $\vec{\mu}$
+\end_inset
+
+ is simple, as it is simply the sum of all vectors of the distribution,
+ 
 \family roman
 \series medium
 \shape up
@@ -1853,7 +1857,7 @@ The method that we have employed for comparing these features and facilitating
 
 .
  
-\begin_inset Formula $\mu(n)=\frac{[\vec{x}_{1}+\vec{x}_{2}+...+\vec{x}_{n}]}{n}$
+\begin_inset Formula $\vec{\mu}=\frac{[\vec{x}_{1}+\vec{x}_{2}+...+\vec{x}_{n}]}{n}$
 \end_inset
 
 
@@ -1863,7 +1867,6 @@ The method that we have employed for comparing these features and facilitating
 Now that we have the mean and covariance, we can compare these to each new
  target identified by the person detector, and calculate the mahalanobis
  distance.
- 
 \end_layout
 
 \begin_layout Standard
@@ -2033,7 +2036,7 @@ Having discussed the features that we will implement in the previous section,
 
 
 \series default
-Which features of a Human target are appropriate to facilitate re-identification
+Which features of a human target are appropriate to facilitate re-identification
  in thermal imagery?
 \series bold
 
@@ -3111,7 +3114,7 @@ As the research that we have conducted here is in an area that has previously
 
 
 \series default
-Which features of a Human target are appropriate to facilitate re-identification
+Which features of a human target are appropriate to facilitate re-identification
  in thermal imagery?
 \begin_inset Quotes erd
 \end_inset
