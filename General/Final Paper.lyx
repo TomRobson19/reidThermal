@@ -177,7 +177,7 @@ key "opencv_library"
  to facilitate tracking a person and store their position, velocity and
  bounding box dimensions.
  From here, each of these people will have some of their features stored.
- The basic features used are hu moments, the histogram of thermal intensity
+ The basic features used are Hu moments, the histogram of thermal intensity
  and histogram of oriented gradients (HOG) of the target.
 
 \color black
@@ -557,7 +557,8 @@ name "fig:Example-of-Thermal"
 
 \end_inset
 
-Several Frames of the Same Person
+Several frames showing the same person that our system must know are the
+ same person
 \end_layout
 
 \end_inset
@@ -575,7 +576,7 @@ The first thing that we shall consider as a feature to solve the re-identificati
 on problem is a measure of the size of the target person.
  Due to the single viewpoint of the camera, we need a measure of size that
  is position, scale and rotation invariant.
- For this purpose, we will use hu moments, taking inspiration from the work
+ For this purpose, we will use Hu moments, taking inspiration from the work
  of 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -651,7 +652,7 @@ Related Work
 \end_layout
 
 \begin_layout Subsection
-Overviews of Topic
+Overviews of Topic - rewrite this section
 \end_layout
 
 \begin_layout Standard
@@ -846,7 +847,7 @@ key "Coutts2014"
 \end_inset
 
 , another system based on the relationship between spatial and temporal
- signatures in thermal is proposed, combining a human detection algorithm
+ signatures in thermal is proposed, combining a Human detection algorithm
  with the real-time compressive tracking algorithm.
  This algorithm uses bounding boxes, which surround an object to be tracked
  in subsequent frames.
@@ -1435,7 +1436,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Mog
-	scale 20
+	scale 23
 
 \end_inset
 
@@ -1474,7 +1475,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Hog
-	scale 30
+	scale 32
 
 \end_inset
 
@@ -1513,7 +1514,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Kalman
-	scale 30
+	scale 34
 
 \end_inset
 
@@ -1549,7 +1550,7 @@ name "fig:Real-Time-Person"
 
 \end_inset
 
-Real Time Person Detection System Stages
+Output of the componets of the real time person detection system
 \end_layout
 
 \end_inset
@@ -1568,18 +1569,29 @@ Features for Re-Identification - MORE DETAIL IN HERE, MATHS WHERE APPROPRIATE,
 \end_layout
 
 \begin_layout Standard
-To properly associate and compare person objects, we must now consider the
- features of each person that we have chosen to implement in this Project.
+To properly associate and compare person objects, we now consider the features
+ of each person that we have identified for the cross-camera re-identification
+ task.
+ Each feature is calculated on the region of interest given by the person
+ detector.
  
 \end_layout
 
 \begin_layout Subsubsection
-Hu Moments
+Hu Moments - maths here if space
 \end_layout
 
 \begin_layout Standard
-This feature enables us to describe, characterise, and quantify the shape
- of a target in a manner that is position, scale and rotation invariant.
+This feature enables us to calculate a measure of the distribution of shape
+ of the target in a manner that are invariant to translation, scale and
+ rotation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dawson-Howe2014"
+
+\end_inset
+
+.
  This method is derived initially from 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1596,10 +1608,24 @@ key "FlusserSukZitova2009,Dawson-Howe2014"
 
  for its implementation in our system.
  When calculating this, we first detect the contours present in our region
- of interest, use the largest of these contours to calculate Moments, and
- then use these Moments to calculate Hu Moments.
- This gives us a feature vector of length seven, which is normalised to
- give us a feature vector to represent the shape of the object.
+ of interest 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Suzuki1985"
+
+\end_inset
+
+.
+ We then use the largest of these contours to calculate spatial moments,
+ which enable us to calculate central moments, which are invariant to translatio
+n, or the position of the person in the image.
+ These central moments enable us to compute scale invariant moments, and
+ from these we can compute moment invariants, also called Hu moments, which
+ are invariant to rotation, as well as retaining the translation and scale
+ invariance of the central and scale invariant moments.
+ There are seven of these Hu moments, and we normalise the values of these
+ before passing them to the re-identification system.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -1607,15 +1633,22 @@ Histogram of Thermal Intensities
 \end_layout
 
 \begin_layout Standard
-The next feature that we have used is the histogram of thermal intensities.
- The intensity of each pixel that makes up the target is recorded, and a
- sixteen bin histogram is constructed from all the pixels.
+In this pixel, we loop through our region of interest and tale the intensity
+ of each pixel.
+ From these intensity values, we create a thirty-two bin histogram is constructe
+d from all the pixels.
+ This size of histogram was chosen because it enables the feature to run
+ quickly while still making use of many of the different intensity levels
+ in the image, while also effectively ignoring small changes in pixels in
+ each frame, as the intensities will not stay exactly the same, but are
+ unlikely to change by eight or more and thus move to a different intensity
+ bin.
 
 \series bold
  
 \series default
-Each frame, it builds up a histogram for the new target, and if it is sufficient
-ly close to an existing target, then this feature will be satisfied.
+Each frame, a histogram for the newly detected target is build up, normalised
+ and passed to the re-identification system.
  This is a useful feature as it can give a fair impression of clothing,
  as if one target is wearing a T-Shirt, for example, there will be more
  high intensity pixels than will be present for a target wearing a long
@@ -1641,11 +1674,17 @@ key "Dalal"
  compares the HOG descriptor to a pre-trained support vector machine to
  determine if the target is within acceptable bounds of being a person.
  Here, we use the same feature vector, but instead of passing this to the
- support vector machine for classification as a human or not, we save this
+ support vector machine for classification as a Human or not, we save this
  vector for each target, and use this as a feature of comparison for re-identifi
 cation.
  This feature vector is very large, meaning the the processing time is impractic
 ally slow, so we have had to simplify it to make it run in reasonable time.
+ This simplification has been done by reducing the number of histogram bins
+ from nine to four, and increasing the block size from eight to sixteen,
+ giving us a much smaller feature to compare, and meaning that it runs quickly
+ enough to be used in the re-identification system.
+ As before, to aid in the comparison, this feature is normalised before
+ being passed 
 \end_layout
 
 \begin_layout Subsubsection
@@ -1683,13 +1722,15 @@ key "Huang,Zhang2015"
 \end_inset
 
  in the image.
- We will apply a similar principle in our implementation, replacing the
- colour values with thermal intensity values.
+ We will apply a similar principle in our implementation, but instead of
+ the colour values we only have access to thermal intensity values.
  Due to limitations of processing time, we cannot store the probability
- of each distance value for each intensity pair, so we have placed the distances
- into quite wide distance thresholds, creating a histogram of distances
- per intensity value pair, as we understand that while these thresholds
- are quite wide, they still give a sufficient picture of where the 
+ of each distance value for each intensity pair, as this makes the resulting
+ featue vector too large to enable efficient comparison, so we have placed
+ the distances into quite wide distance thresholds, creating a histogram
+ of distances per intensity value pair, as we understand that while these
+ thresholds are quite wide, they still give a sufficient picture of where
+ the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1728,8 +1769,8 @@ key "Farneback2003"
 
 , simply known as the Farneback algorithm, which uses quadratic polynomials
  to approximate the neighbourhood of each pixel in each frame, and then
- estimates the change between frames based on knowledge of how these polynomials
- vary under translation.
+ estimates the displacement of each pixel between frames based on knowledge
+ of how these polynomials vary under translation.
  As suggested from this description of the algorithm, and unlike the other
  features we have implemented, this feature cannot be measured over a single
  frame, but must instead be calculated over the course of multiple frames.
@@ -1741,17 +1782,19 @@ key "Farneback2003"
 
 \begin_layout Standard
 To investigate this feature we use both the raw flow values that we have
- calculated, reduced to take every eight row and column as suggested in
- 
+ calculated, reduced only one value from the (x,y) values, and only considering
+ every eight row and column as suggested in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Dawson-Howe2014"
 
 \end_inset
 
-, and we also create a histogram of these values to enable us to better
- use all of the information available to us.
- These two approaches will be compared in the results section
+.
+ Another approach to this feature that we have tried is to create a histogram
+ of the full range of raw flow values to attempt to enable us to make better
+ use of all of the information available to us.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1773,8 +1816,52 @@ The method that we have employed for comparing these features and facilitating
  then calculate the mean vector and covariance matrix, which gives us an
  idea of the average value of each element of the feature vector, and how
  much each element is likely to change.
- Now that we have the mean and covariance, we can compare these to each
- new target identified by the person detector, and calculate the mahalanobis
+ The calculation of the mean vector is simple, as it is simply the sum of
+ all vectors of the distribution, 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\lang english
+
+\begin_inset Formula $\vec{x}_{1},\vec{x}_{2},...,\vec{x}_{n}$
+\end_inset
+
+
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+\lang british
+, divided by the size of the distribution, 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\mu(n)=\frac{[\vec{x}_{1}+\vec{x}_{2}+...+\vec{x}_{n}]}{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now that we have the mean and covariance, we can compare these to each new
+ target identified by the person detector, and calculate the mahalanobis
  distance.
  
 \end_layout
@@ -1790,8 +1877,31 @@ key "Mahalanobis1936"
 , is a measure of the distance between one single piece of data and a distributi
 on of this data, and relies on the mean and covariance of the distribution
  as has been discussed.
- The use of the mahalanobis distance gives an idea of how many multidimensional
- standard deviations the new data value is from the mean of the distribution.
+ This is calculated by the following equation, where 
+\begin_inset Formula $d$
+\end_inset
+
+ is the mahalanobis distance, 
+\begin_inset Formula $\vec{x}$
+\end_inset
+
+ is the new target, 
+\begin_inset Formula $\vec{\mu}$
+\end_inset
+
+is the mean of the distribution and 
+\begin_inset Formula $C$
+\end_inset
+
+ is the covariance matrix of the distribution.
+ 
+\begin_inset Formula $d(\vec{x})=\sqrt{(\vec{x}-\vec{\mu})^{T}C^{-1}(\vec{x}-\vec{\mu})}$
+\end_inset
+
+.
+ At a high level, the mahalanobis distance value gives an idea of how many
+ multidimensional standard deviations the new data value is from the mean
+ of the distribution.
  This multidimensional standard deviation is informed by the covariance
  matrix discussed above.
  Based on our evaluation of the features, we then determine a mahalanobis
@@ -1914,7 +2024,7 @@ Performance of the Features
 \begin_layout Standard
 Having discussed the features that we will implement in the previous section,
  we will now determine which of these are sufficiently discriminative between
- people, and thus address our research question, 
+ people, and tHus address our research question, 
 \series bold
 \emph on
 
@@ -1923,7 +2033,7 @@ Having discussed the features that we will implement in the previous section,
 
 
 \series default
-Which features of a human target are appropriate to facilitate re-identification
+Which features of a Human target are appropriate to facilitate re-identification
  in thermal imagery?
 \series bold
 
@@ -2208,15 +2318,15 @@ Hu Moments
 \begin_layout Standard
 \align left
 Hu Moments proved to not be a very discriminative feature for the purpose
- of re-identification, as seen graph (a) of Figure 
+ of re-identification, Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
-, as the mahalanobis distances for both correct and incorrect targets are
- very similar.
+(a), as the mahalanobis distances for both correct and incorrect targets
+ are very similar.
  The first entry also has a comparatively large mahalanobis distance relative
  to the others, which we believe was due to the covariance matrix not yet
  allowing sufficient variation, as this feature seems to vary to quite a
@@ -2232,17 +2342,17 @@ Histogram of Thermal Intensities
 
 \begin_layout Standard
 \noindent
-As can be seen in graph (b) of Figure 
+As can be seen in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
-, the Histogram of Intensities was shown to be a very good feature, as the
- line for the incorrect person is always higher than the line for the correct
- target, and we can therefore determine a threshold that will be correct
- for the vast majority of classifications.
+(b), the Histogram of Intensities was shown to be a very good feature, as
+ the line for the incorrect person is always higher than the line for the
+ correct target, and we can therefore determine a threshold that will be
+ correct for the vast majority of classifications.
  This will be a very useful feature for re-identification, and will be used
  in the final system.
  
@@ -2256,15 +2366,14 @@ Histogram of Oriented Gradients
 \noindent
 The Histogram of Oriented Gradients is another feature that is not very
  discriminative for re-identification.
- All of the mahalanobis distances are very low, as shown in graph (c) of
- Figure 
+ All of the mahalanobis distances are very low, as shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
-, but there is very little difference between the correct and incorrect
+(c), but there is very little difference between the correct and incorrect
  target.
  We have simplified this feature to improve runtime, but testing with more
  complex HOG parameters did not improve the performance of this feature
@@ -2281,15 +2390,14 @@ Thermal Correlogram
 
 \begin_layout Standard
 \noindent
-This feature has proved to be quite discriminative, as graph (d) of Figure
- 
+This feature has proved to be quite discriminative, as Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
- shows.
+(d) shows.
  However, there are some notable anomalies, which we believe are due to
  certain body parts being obstructed, such as a hand disappearing behind
  the persons back for a frame.
@@ -2308,14 +2416,14 @@ Optical Flow
 \noindent
 The Histogram of Flow is slightly discriminative feature, as the correct
  person has a smaller average mahalanobis distance than the incorrect target,
- but the two lines of graph (e) of Figure 
+ but the two lines of Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
- are close together and vary highly, meaning that it would be very hard
+(e) are close together and vary highly, meaning that it would be very hard
  to determine an effective re-identification threshold for using this feature,
  so it is therefore of very limited use to us when considering which features
  to use in our final solution.
@@ -2326,14 +2434,14 @@ reference "fig:Performance"
 However, when just using the raw Optical Flow values that we have calculated
  from our region of interest, we have a far more discriminative feature
  than when we used these values to construct a histogram, as can be observed
- in graph (f) of Figure 
+ in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
 
 \end_inset
 
-.
+(f).
  Even though we are only using every eighth row and column to enable this
  feature to run in an acceptable amount of time, these results show that
  it is one of our more discriminative features.
@@ -2701,14 +2809,7 @@ Single Camera Re-Identification
 \end_layout
 
 \begin_layout Standard
-To enable the multiple-camera functionality, we will pass multiple files
- to the system and run each camera on a different thread, using locks to
- make sure that the global targets array is not corrupted, and a wait command
- to ensure that all cameras move through frames at the same rate, whether
- they have processing to do or not.
- We then have a post processing stage where all the camera views are combined
- into one video, to allow the results to be observed more easily.
- However, as the multiple-camera dataset introduces very different viewpoints,
+However, as the multiple-camera dataset introduces very different viewpoints,
  people observed from different cameras have differing characteristics,
  which means they are sometimes similar enough to be re-identified, and
  sometimes not.
@@ -2742,7 +2843,7 @@ reference "fig:MultiCam"
 
 \begin_layout Standard
 As the videos proceed, and more people enter the scene, we begin to get
- a huge amount of targets in the system, and the output becomes very hard
+ a Huge amount of targets in the system, and the output becomes very hard
  to gain any useful insight from.
  Figure 
 \begin_inset CommandInset ref
@@ -2754,7 +2855,7 @@ reference "fig:DeltaProb"
  shows a small instance of this, as this person is far away and difficult
  to re-identify, so a new target is created for them for every frame they
  are identified in.
- This person takes the total number of targets in the system up a huge amount,
+ This person takes the total number of targets in the system up a Huge amount,
  and from here the system struggles, as with so many targets, each frame
  is bound to be closer to a different one of them, or none of them, and
  will create a new target.
@@ -3010,7 +3111,7 @@ As the research that we have conducted here is in an area that has previously
 
 
 \series default
-Which features of a human target are appropriate to facilitate re-identification
+Which features of a Human target are appropriate to facilitate re-identification
  in thermal imagery?
 \begin_inset Quotes erd
 \end_inset
@@ -3105,7 +3206,7 @@ A limitation that we faced in this project is associated with the infrared
 \end_layout
 
 \begin_layout Subsection
-Appraisal of Project Organisation
+Appraisal of Project Organisation - would remove but in mark scheme
 \end_layout
 
 \begin_layout Standard
@@ -3140,56 +3241,23 @@ Conclusion
 \end_layout
 
 \begin_layout Standard
-We will now conclude this paper, giving an overview of what we have accomplished
- and how this could be extended by future work.
- 
-\end_layout
-
-\begin_layout Subsection
-What has been Accomplished?
-\end_layout
-
-\begin_layout Standard
 The research that has been performed in this project has enabled us to effective
-ly answer our research question, as we have shown that Hu Moments and Histogram
- of Oriented Gradients are not suitable for use in re-identification, Histogram
- of Intensities is suitable and performs fairly well, and Thermal Correlogram
- and Optical Flow are moderately effective in a simplified form, and need
+ly answer our research question, as we have shown that Hu moments and histogram
+ of oriented gradients are not suitable for use in re-identification, histogram
+ of intensities is suitable and performs fairly well, and thermal correlogram
+ and optical flow are moderately effective in a simplified form, and need
  more computation resources if they are to use their full discriminative
  potential.
  We have used this information to create a functional re-identification
- system using the Histogram of Intensities feature and Mahalanobis distance
+ system using the histogram of intensities feature and mahalanobis distance
  as a comparison method.
  This system has proven to be very good on a single camera system, and even
  on multiple cameras with similar viewpoints.
- A useful insight that our dataset provided was that while Histogram of
- Intensities is a very discriminative feature over the range of distances
+ A useful insight that our dataset provided was that while histogram of
+ intensities is a very discriminative feature over the range of distances
  in the section of video that we used to measure the performance of the
  features, it is not as effective as a feature over more of a range of viewpoint
-s, as shown by the issues with camera 
-\begin_inset Formula $\delta$
-\end_inset
-
- in Figures 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:MultiCam"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:DeltaProb"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Subsection
-Extensions
+s.
 \end_layout
 
 \begin_layout Standard
@@ -3197,17 +3265,17 @@ There are many more potential features that could be used for re-identification,
  and therefore future work and extensions of this project should explore
  more of these features.
  It would also be worth exploring the full possibilities of the advanced
- features that we have discussed here, the Thermal Correlogram and Optical
- Flow, if we had sufficient computational resources to make use of the full
+ features that we have discussed here, the thermal correlogram and optical
+ flow, if we had sufficient computational resources to make use of the full
  detail that these features can supply.
  If we made use of multiple cameras in the same position, or stereo cameras,
  we will be able to get measurements of depth, and this will most likely
- be a better feature than Hu Moments proved to be, which was our approximation
+ be a better feature than Hu moments proved to be, which was our approximation
  of size.
  We could also consider the possibilities of using a different classifier,
  perhaps storing more information per each target, or incorporating the
  previous position of the target to improve the accuracy.
- We could also improve the Person Detection system to enable it to function
+ We could also improve the person detection system to enable it to function
  at distance and not pick up small parts of people as different detections.
  
 \end_layout
