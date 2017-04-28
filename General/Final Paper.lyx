@@ -2096,8 +2096,7 @@ Position and field of view of the cameras used to record our data
 \end_layout
 
 \begin_layout Subsection
-Selecting a Feature - add means for correct and incorrect per feature (in
- bullet points or graph labels)?
+Selecting a Feature
 \end_layout
 
 \begin_layout Standard
@@ -2429,7 +2428,9 @@ name "fig:Performance"
 
 \end_inset
 
-Performance of the features in the experiment described
+Performance of the features in the experiment described, comparing identificatio
+ns of the correct target to the incorrect target.
+ The best features are those with a large gap between the two lines.
 \end_layout
 
 \end_inset
@@ -2558,7 +2559,8 @@ reference "fig:Performance"
 \begin_layout Subsection
 The Re-Identification System (give percentages on each video/dataset) (links
  to private youtube videos to show performance, don't rely on it, put at
- end of section) (more images to show results like in Miko's papers)
+ end of section) (more images to show results like in Miko's papers) (do
+ give a hit rate, but explain why it was difficult to obtain)
 \end_layout
 
 \begin_layout Standard
