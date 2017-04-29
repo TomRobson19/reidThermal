@@ -190,7 +190,7 @@ key "opencv_library"
 \begin_layout Abstract
 
 \series bold
-Results - EXPAND UPON THIS AND PUT IN STATS
+Results
 \end_layout
 
 \begin_layout Abstract
@@ -199,9 +199,9 @@ Having carried out evaluation of the features, we established that histogram
  and optical flow also considered to be suitable for re-identification.
  We implemented a re-identification system as described in the method above,
  using histogram of intensities as our feature, and got very good performance
- on a single camera system.
+ on the majority of our video files on a single camera system.
  However, due to differing viewpoints, the multiple camera system did not
- perform as well, but still gave a good degree of accuracy in certain situations.
+ perform as well, leading to many more misclassifications.
 \end_layout
 
 \begin_layout Abstract
@@ -1311,9 +1311,9 @@ key "RainerLienhartandJochenMaydt2002,Viola"
  This method works by training a cascade of simple classifiers based on
  Haar-like image features, with are all simple and weak, but when combined
  together, give good results and area quick to evaluate.
- The cascade is build up using the boosting machine learnig technique, where
- each new classifier that is added to the cascade prioritises the examples
- that the previous classifiers did not classify correctly.
+ The cascade is build up using the boosting machine learning technique,
+ where each new classifier that is added to the cascade prioritises the
+ examples that the previous classifiers did not classify correctly.
  As this cascade is build up, it focuses on the section of the target that
  is most likely to result in a definitive classification, speeding up processing
  time.
@@ -1556,7 +1556,7 @@ name "fig:Real-Time-Person"
 
 \end_inset
 
-Output of the componets of the real time person detection system
+Output of the components of the real time person detection system
 \end_layout
 
 \end_inset
@@ -1570,8 +1570,7 @@ Output of the componets of the real time person detection system
 \end_layout
 
 \begin_layout Subsection
-Features for Re-Identification - MORE DETAIL IN HERE, MATHS WHERE APPROPRIATE,
- talk about normalisation for all, 
+Features for Re-Identification
 \end_layout
 
 \begin_layout Standard
@@ -1584,7 +1583,7 @@ To properly associate and compare person objects, we now consider the features
 \end_layout
 
 \begin_layout Subsubsection
-Hu Moments - maths here if space
+Hu Moments
 \end_layout
 
 \begin_layout Standard
@@ -1635,7 +1634,7 @@ n, or the position of the person in the image.
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Thermal Intensities - histogram equations in L2 slides
+Histogram of Thermal Intensities
 \end_layout
 
 \begin_layout Standard
@@ -1662,7 +1661,7 @@ Each frame, a histogram for the newly detected target is build up, normalised
 \end_layout
 
 \begin_layout Subsubsection
-Histogram of Oriented Gradients - maths in Mikos papers if i have space
+Histogram of Oriented Gradients
 \end_layout
 
 \begin_layout Standard
@@ -1690,11 +1689,12 @@ ally slow, so we have had to simplify it to make it run in reasonable time.
  giving us a much smaller feature to compare, and meaning that it runs quickly
  enough to be used in the re-identification system.
  As before, to aid in the comparison, this feature is normalised before
- being passed 
+ being passed to the re-identification system.
+ 
 \end_layout
 
 \begin_layout Subsubsection
-Thermal Correlogram - explain in as much detail as I can
+Thermal Correlogram
 \end_layout
 
 \begin_layout Standard
@@ -1731,12 +1731,13 @@ key "Huang,Zhang2015"
  We will apply a similar principle in our implementation, but instead of
  the colour values we only have access to thermal intensity values.
  Due to limitations of processing time, we cannot store the probability
- of each distance value for each intensity pair, as this makes the resulting
- feature vector too large to enable efficient comparison, so we have placed
- the distances into quite wide distance thresholds, creating a histogram
- of distances per intensity value pair, as we understand that while these
- thresholds are quite wide, they still give a sufficient picture of where
- the 
+ of each distance value for each intensity pair, as there are many possible
+ distances between pixels.
+ This makes the resulting feature vector too large to enable efficient compariso
+n, so we have placed the distances into quite wide distance thresholds,
+ creating a histogram of distances per intensity value pair, as we understand
+ that while these thresholds are quite wide, they still give a sufficient
+ picture of where the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1744,13 +1745,14 @@ hotspots
 \begin_inset Quotes erd
 \end_inset
 
- are on the target, and how large they are.
- Even with this simplification, this feature works slowly.
+ are on the target, and how large they are, as concentrated hot zones like
+ hands, faces or bare forearms will be in the same distance threshold.
+ Even with this simplification, this feature runs slowly.
  
 \end_layout
 
 \begin_layout Subsubsection
-Optical Flow - explain in as much detail as I can
+Optical Flow
 \end_layout
 
 \begin_layout Standard
@@ -1783,11 +1785,7 @@ key "Farneback2003"
  As mentioned when discussing the Correlogram, this feature vector is very
  large, and therefore takes a lot of processing time, making this not practical
  in real time.
- 
-\end_layout
-
-\begin_layout Standard
-To investigate this feature we use both the raw flow values that we have
+ To investigate this feature we use both the raw flow values that we have
  calculated, reduced only one value from the (x,y) values, and only considering
  every eight row and column as suggested in 
 \begin_inset CommandInset citation
@@ -1800,7 +1798,6 @@ key "Dawson-Howe2014"
  Another approach to this feature that we have tried is to create a histogram
  of the full range of raw flow values to attempt to enable us to make better
  use of all of the information available to us.
- 
 \end_layout
 
 \begin_layout Subsection
@@ -2557,10 +2554,9 @@ reference "fig:Performance"
 \end_layout
 
 \begin_layout Subsection
-The Re-Identification System (give percentages on each video/dataset) (links
- to private youtube videos to show performance, don't rely on it, put at
- end of section) (more images to show results like in Miko's papers) (do
- give a hit rate, but explain why it was difficult to obtain)
+The Re-Identification System (give percentages on each video/dataset) (more
+ images to show results like in Miko's papers) (do give a hit rate, but
+ explain why it was difficult to obtain)
 \end_layout
 
 \begin_layout Standard
@@ -2769,7 +2765,11 @@ reference "fig:Single-Camera-Re-Identification"
  Subfigures (a), (b) and (c) show different identification of different
  targets, while subfigure (d) shows the situation where two targets have
  crossed over.
- For the majority of this video, the system has a perfect re-identification
+ 
+\end_layout
+
+\begin_layout Standard
+For the majority of this video, the system has a very high re-identification
  rate for every target that it recognises as a person, until the first mistake
  occurs towards the end of the video.
  Despite this, across all our video files from cameras 
@@ -2782,7 +2782,7 @@ reference "fig:Single-Camera-Re-Identification"
 
 , the system has a long period of effective re-identification before any
  mistakes are made.
- In dataset 1, we have a 99% re-identification accuracy for the first 75%
+ In dataset 1, we have a 99% re-identification accuracy for the majority
  of the video, but the system gets weaker from here, giving us an accuracy
  rate of around 80% over entire video.
  This is difficult to quantify, however, as if person 0 is misidentified
@@ -3198,11 +3198,13 @@ Rapid Target Creation
 \end_layout
 
 \begin_layout Standard
-Youtube videos of multiple camera results https://tinyurl.com/lp79mbw
+
+\series bold
+YouTube videos of multiple camera results https://tinyurl.com/lp79mbw
 \end_layout
 
 \begin_layout Section
-Evaluation - cut this section down if I need the space
+Evaluation
 \end_layout
 
 \begin_layout Standard
