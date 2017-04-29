@@ -1993,19 +1993,19 @@ reference "fig:Setup-of-Cameras"
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename datasetDiagram.png
-	scale 40
+	scale 33
 
 \end_inset
 
@@ -2035,12 +2035,12 @@ status collapsed
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename viewpoints.png
-	scale 19
+	scale 15
 
 \end_inset
 
@@ -2129,13 +2129,13 @@ This has been done by performing tests on a small section of one of our
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename /home/tom/Pictures/Experiment.png
-	scale 90
+	scale 80
 
 \end_inset
 
@@ -2769,6 +2769,16 @@ reference "fig:Single-Camera-Re-Identification"
 \end_layout
 
 \begin_layout Standard
+The success rate of our system is difficult to quantify, as if person 0
+ is misidentified as person 1 more than five times, the person 1 object
+ now has more of person 0's data in it than person 1's.
+ From here, we can see that an identification of person 0 as person 1 is
+ understandable, and even correct if, but as observers of the performance
+ of the system, we would treat this as a misidentification, as we know who
+ show be person 0 and person 1.
+\end_layout
+
+\begin_layout Standard
 For the majority of this video, the system has a very high re-identification
  rate for every target that it recognises as a person, until the first mistake
  occurs towards the end of the video.
@@ -2785,14 +2795,10 @@ For the majority of this video, the system has a very high re-identification
  In dataset 1, we have a 99% re-identification accuracy for the majority
  of the video, but the system gets weaker from here, giving us an accuracy
  rate of around 80% over entire video.
- This is difficult to quantify, however, as if person 0 is misidentified
- as person 1 more than five times, the person 1 object now has more of person
- 0's data in it than person 1's.
- From here, we can see that an identification of person 0 as person 1 is
- understandable, and even correct if, but as observers of the performance
- of the system, we would treat this as a misidentification, as we know who
- show be person 0 and person 1.
- In dataset 2, due to the higher number of targets and 
+ In dataset 2, due to the higher number of targets and more people in the
+ image at one time, the re-identification rate is substantially lower.
+ The first mistakes are made much earlier, and therefore it becomes almost
+ impossible to effectively 
 \end_layout
 
 \begin_layout Standard
