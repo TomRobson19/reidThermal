@@ -2795,10 +2795,11 @@ reference "fig:Single-Camera-Re-Identification"
 \end_layout
 
 \begin_layout Standard
-For the majority of this video, the system has a very high re-identification
- rate for every target that it recognises as a person, until the first mistake
- occurs towards the end of the video.
- Despite this, across all our video files from cameras 
+/////////
+\end_layout
+
+\begin_layout Standard
+Across many of our video files from cameras 
 \begin_inset Formula $\alpha$
 \end_inset
 
@@ -2806,11 +2807,26 @@ For the majority of this video, the system has a very high re-identification
 \begin_inset Formula $\beta$
 \end_inset
 
-, the system has a long period of effective re-identification before any
- mistakes are made.
- In dataset 1, we have a 99% re-identification accuracy for the majority
- of the video, but the system gets weaker from here, giving us an accuracy
- rate of around 80% over entire video.
+, the system has periods of effective re-identification before any mistakes
+ are made.
+ In dataset 1 camera 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, we can see an example of the circumstance that we have just discussed,
+ as the person that should be person 1 instead gets re-identified as person
+ 0, which leads to the loss of person 0's data.
+ 
+\end_layout
+
+\begin_layout Standard
+In dataset 1 camera 
+\begin_inset Formula $\beta$
+\end_inset
+
+, we have a 99% re-identification accuracy for the majority of the video,
+ but the system gets weaker from here, giving us an accuracy rate of around
+ 80% over entire video.
  In dataset 2, due to the higher number of targets and more people in the
  image at one time, the re-identification rate is substantially lower.
  The first mistakes are made much earlier, and therefore it becomes almost
@@ -3010,7 +3026,7 @@ reference "fig:MultiCam"
 
 \begin_layout Standard
 As the videos proceed, and more people enter the scene, we begin to get
- a Huge amount of targets in the system, and the output becomes very hard
+ a huge amount of targets in the system, and the output becomes very hard
  to gain any useful insight from.
  Figure 
 \begin_inset CommandInset ref
