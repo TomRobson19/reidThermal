@@ -2502,7 +2502,7 @@ reference "fig:Performance"
 
 \begin_layout Itemize
 \noindent
-The thermal Correlogram proved to be quite discriminative, as figure 
+The thermal correlogram proved to be quite discriminative, as figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
@@ -2521,9 +2521,9 @@ reference "fig:Performance"
 
 \begin_layout Itemize
 \noindent
-The Histogram of Flow is slightly discriminative feature, as the correct
- person has a smaller average mahalanobis distance than the incorrect target,
- but the two lines of Figure 
+The histogram of optical flow is slightly discriminative feature, as the
+ correct person has a smaller average mahalanobis distance than the incorrect
+ target, but the two lines of Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Performance"
@@ -3174,6 +3174,10 @@ Rapid Target Creation
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Youtube videos of multiple camera results https://tinyurl.com/lp79mbw
 \end_layout
 
 \begin_layout Section
