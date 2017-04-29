@@ -1593,7 +1593,7 @@ MAKE SURE I RE-READ ALL OF THE PAPER TO ENSURE MY EVAL/CONC MAKES SENSE
  WITH THE RESULTS
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section*
 
 \series bold
 Notes on Toby's Feedback
@@ -1613,12 +1613,7 @@ Hit rate becomes meainingless after first error, and this happens at different
 \end_layout
 
 \begin_layout Itemize
-We discussed my testing method in person and on skype
-\end_layout
-
-\begin_layout Itemize
-How to put more detail in histogram of intensities, its very simple.
- 
+Re-ID system results is the most important section.
 \end_layout
 
 \end_body
