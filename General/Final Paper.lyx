@@ -2809,7 +2809,24 @@ Across many of our video files from cameras
 
 , the system has periods of effective re-identification before any mistakes
  are made.
- In dataset 1 camera 
+ We are not considering cameras 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta$
+\end_inset
+
+ in this section, as people are too close to camera 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, leading to very few detections of people.
+ WHY NOT DELTA?
+\end_layout
+
+\begin_layout Standard
+In dataset 1 camera 
 \begin_inset Formula $\alpha$
 \end_inset
 
@@ -2817,6 +2834,10 @@ Across many of our video files from cameras
  as the person that should be person 1 instead gets re-identified as person
  0, which leads to the loss of person 0's data.
  
+\end_layout
+
+\begin_layout Standard
+////////
 \end_layout
 
 \begin_layout Standard
@@ -3346,7 +3367,7 @@ Aside from errors in the person detection system, another cause of the anomalies
 \end_layout
 
 \begin_layout Subsection
-Re-Identification System
+Re-Identification System - rewrite
 \end_layout
 
 \begin_layout Standard
@@ -3417,7 +3438,7 @@ s distances was a superior solution.
 \end_layout
 
 \begin_layout Section
-Conclusion
+Conclusion - rewrite
 \end_layout
 
 \begin_layout Standard
