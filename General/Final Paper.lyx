@@ -2577,11 +2577,14 @@ Having evaluated the features, we now move on to the re-identification system
  The combination of all three gives good results, but runs so slowly that
  it would be impractical to use, as it does not run anywhere close to real
  time.
- Due to the size of the Correlogram, which runs slowly even when not combined
- with another feature, all of the combinations that involve this feature
- run slowly.
- All of these combinations of the discriminative features are discriminative
- as shown in figure 
+ Both the correlogram and optical flow have been simplified to make them
+ run in reasonable time, but they are still both relatively slow, as we
+ have tried to retain as much information as possible.
+ Therefore, when combined with other features, even if only combined with
+ the relatively small histogram of intensities, the runtime is still considerabl
+y slower than real time.
+ In terms of the results, all of these combinations of the discriminative
+ features are discriminative as shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Combinations-of-Discriminative"
@@ -2755,7 +2758,7 @@ In view of these anomalies and the issues that they may cause, the most
  threshold and learning threshold based on the results that we have collected
  for this feature.
  When this system is run on a single camera, the results that it gives are
- very good, as Figure 
+ very good, as figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Single-Camera-Re-Identification"
@@ -2769,9 +2772,27 @@ reference "fig:Single-Camera-Re-Identification"
  For the majority of this video, the system has a perfect re-identification
  rate for every target that it recognises as a person, until the first mistake
  occurs towards the end of the video.
- Despite this, across all our video files, the system has a long period
- of effective re-identification before any mistakes are made.
- 
+ Despite this, across all our video files from cameras 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+, the system has a long period of effective re-identification before any
+ mistakes are made.
+ In dataset 1, we have a 99% re-identification accuracy for the first 75%
+ of the video, but the system gets weaker from here, giving us an accuracy
+ rate of around 80% over entire video.
+ This is difficult to quantify, however, as if person 0 is misidentified
+ as person 1 more than five times, the person 1 object now has more of person
+ 0's data in it than person 1's.
+ From here, we can see that an identification of person 0 as person 1 is
+ understandable, and even correct if, but as observers of the performance
+ of the system, we would treat this as a misidentification, as we know who
+ show be person 0 and person 1.
+ In dataset 2, due to the higher number of targets and 
 \end_layout
 
 \begin_layout Standard
