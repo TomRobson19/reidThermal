@@ -2829,44 +2829,31 @@ reference "fig:Single-Camera-Re-Identification"
 
 \end_inset
 
-, if the second person to enter the scene, person 1, was to be misidentified
- as person 0, the person 0 object that our system has created would now
- have some of person 1's data inserted into it.
+, when the real person 0 is misidentified as person 2 in the bottom centre
+ image, the person 2 object that our system has created would now have some
+ of person 0's data inserted into it.
  This will have a fairly substantial effect on the feature matrix of this
  object, as we only store the last ten feature vectors per target to try
  and get the maximum speed and accuracy.
- If this were to occur, then an identification of person 1 as person 0 is
- understandable, and becomes more so as more of person 1's data is put into
- the person 0 object, and if this continues there will be none of person
- 1's data left soon.
+ From here, further identifications of person 0 as person 2 is understandable,
+ and becomes more so as more of person 0's data is put into the person 2
+ object, and if this continues there will be none of person 2's data left
+ soon.
  Therefore, even though in theory any subsequent identifications of person
- 1 as person 0 are understandable and even correct, as observers of the
- system, we must treat this as a misidentification, as we know who should
- be person 0 and person 1 in reality.
+ 0 as person 2 are understandable and even correct, as observers of the
+ system, we must treat this as a misidentification, as we know which person
+ should be which in reality.
  Due to this difficulty in quantification, we will estimate the accuracy
  rate of the system based on the viewpoint of an intelligent human observer,
- who can realise when the person 0 object has in fact become full of person
- 1's data, so these detections have become correct.
+ who can realise when the person 2 object has in fact become full of person
+ 0's data, so these detections have become correct.
  
 \end_layout
 
 \begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-In dataset 1 camera 
-\begin_inset Formula $\alpha$
-\end_inset
-
-, we can see an example of the circumstance that we have just discussed,
- as the second person that enters the scene who should be person 1 instead
- gets re-identified as person 0, which leads to the loss of person 0's data.
- 
-\end_layout
-
-\begin_layout Standard
-////////
+//////// 
+\series bold
+- recheck this - maybe put a figure for dataset 2 in if space
 \end_layout
 
 \begin_layout Standard
@@ -2883,11 +2870,20 @@ reference "fig:Single-Camera-Re-Identification"
 
 , we have a 99% re-identification accuracy for the majority of the video,
  but the system gets weaker from here, giving us an accuracy rate of around
- 80% over entire video.
+ 80% over entire video, after the error in identification of person 0 as
+ person 2 as previously discussed.
+ Due to the increase in the covariance of the samples in the person 2 object,
+ we then see person 1 being misidentified as person 2 as well in the bottom
+ right image.
  In dataset 2, due to the higher number of targets and more people in the
  image at one time, the re-identification rate is substantially lower.
- The first mistakes are made much earlier, and therefore it becomes almost
- impossible to effectively 
+ The first mistakes are made earlier, and therefore it becomes difficult
+ to effectively attach a re-identification percentage to the results, but
+ we estimate around 60%.
+ Dataset 3 performs very similarly to dataset 2, as it has the same number
+ of people behaving in similar ways, and the other objects such as cars
+ are effectively ignored by our system.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2922,26 +2918,25 @@ reference "fig:MultiCam"
 
 \end_inset
 
- shows our setup, as well as an instance of this problem of multiple targets
- associated with a single person.
+ shows our multi-camera system running on dataset 1, demonstrating the reasonabl
+e number of correct classifications as well as the mistakes and inaccuracies
+ that occur as the videos proceed and the output becomes very hard to gain
+ any useful insight from.
  
 \end_layout
 
 \begin_layout Standard
-As the videos proceed, and more people enter the scene, we begin to get
- a huge amount of targets in the system, and the output becomes very hard
- to gain any useful insight from.
- Figure 
+Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:DeltaProb"
+reference "fig:MultiCam"
 
 \end_inset
 
  shows a small instance of this, as this person is far away and difficult
  to re-identify, so a new target is created for them for every frame they
  are identified in.
- This person takes the total number of targets in the system up a Huge amount,
+ This person takes the total number of targets in the system up a huge amount,
  and from here the system struggles, as with so many targets, each frame
  is bound to be closer to a different one of them, or none of them, and
  will create a new target.
@@ -2967,60 +2962,10 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
+\align center
 \begin_inset Graphics
-	filename /home/tom/Pictures/prob1.png
-	scale 20
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/tom/Pictures/prob2.png
-	scale 20
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
+	filename multiCam.png
+	scale 70
 
 \end_inset
 
@@ -3037,99 +2982,7 @@ name "fig:MultiCam"
 
 \end_inset
 
-Multiple Camera Re-Identification
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-\begin_inset Float figure
-placement H
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/tom/Pictures/deltaProb1.png
-	scale 20
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/tom/Pictures/deltaProb2.png
-	scale 20
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:DeltaProb"
-
-\end_inset
-
-Rapid Target Creation
+Multi Camera re-dentification on dataset 1
 \end_layout
 
 \end_inset
