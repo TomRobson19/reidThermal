@@ -2785,7 +2785,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename singleCam.png
-	scale 70
+	scale 80
 
 \end_inset
 
@@ -2901,7 +2901,7 @@ However, as the multiple-camera dataset introduces different viewpoints,
 \end_inset
 
  being the main source of this problem.
- We also rarely get a detection in camera 
+ We rarely get a detection in camera 
 \begin_inset Formula $\gamma,$
 \end_inset
 
@@ -2926,14 +2926,76 @@ e number of correct classifications as well as the mistakes and inaccuracies
 \end_layout
 
 \begin_layout Standard
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:MultiCam"
+\noindent
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename multiCam.png
+	scale 80
 
 \end_inset
 
- shows a small instance of this, as this person is far away and difficult
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:MultiCam"
+
+\end_inset
+
+Multi-Camera re-identification on dataset 1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Moving on to dataset 2, the performance is fairly similar to that of dataset
+ 1, but due to more people being present in this dataset with differing
+ thermal profiles, more targets are created, spreading out the data and
+ reducing the amount of data associated with each person object, and reducing
+ the the re-identification capacity of the system.
+ Many of these erroneous new targets originate from camera 
+\begin_inset Formula $\delta$
+\end_inset
+
+, as shown in the centre bottom image of figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:MultiCam2"
+
+\end_inset
+
+.
+ The bottom right image shows the negative effect of the creation of these
+ targets, as it identifies this person as person 163.
+ 
+\end_layout
+
+\begin_layout Standard
+/////
+\end_layout
+
+\begin_layout Standard
+shows a small instance of this, as this person is far away and difficult
  to re-identify, so a new target is created for them for every frame they
  are identified in.
  This person takes the total number of targets in the system up a huge amount,
@@ -2943,7 +3005,7 @@ reference "fig:MultiCam"
  This was from dataset 2, and at the end of the run we have over 200 targets
  in the system.
  Therefore, we can see that this system, while effective on a single camera,
- is ineffective over the four cameras used in this dataset.
+ encounters more problems over the four cameras used in this dataset.
  This figure also shows the problems with identifying targets at distance
  in the other cameras, and the lack of detections from camera 
 \begin_inset Formula $\gamma$
@@ -2964,8 +3026,8 @@ status collapsed
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename multiCam.png
-	scale 70
+	filename multiCam2.png
+	scale 80
 
 \end_inset
 
@@ -2978,11 +3040,11 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:MultiCam"
+name "fig:MultiCam2"
 
 \end_inset
 
-Multi Camera re-dentification on dataset 1
+Multi-Camera re-identification on dataset 2
 \end_layout
 
 \end_inset
@@ -2998,7 +3060,7 @@ Multi Camera re-dentification on dataset 1
 \begin_layout Standard
 
 \series bold
-YouTube videos of multiple camera results https://tinyurl.com/lp79mbw
+YouTube videos of multiple camera results - https://tinyurl.com/lp79mbw
 \end_layout
 
 \begin_layout Section
