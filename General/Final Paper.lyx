@@ -2562,25 +2562,23 @@ The Re-Identification System (give percentages on each video/dataset) (more
 \begin_layout Standard
 Having evaluated the features, we now move on to the re-identification system
  itself.
- We need to decide on the best feature, or combination of features, to use
- with a re-identification threshold in order to get the best possible accuracy
- from the system.
- The best feature that we have is the Histogram of Intensities, but the
- Thermal Correlogram and Raw Optical Flow values are also discriminative
+ We need to decide on the best feature to use with a re-identification threshold
+ in order to get the best possible accuracy from the system.
+ The best feature that we have is the histogram of intensities, but the
+ thermal correlogram and raw optical flow values are also discriminative
  features.
  We have therefore experimented with different combinations of these three
  features.
  The combination of all three gives good results, but runs so slowly that
- it would be impractical to use, as it does not run anywhere close to real
- time.
+ it would be impractical to use.
  Both the correlogram and optical flow have been simplified to make them
- run in reasonable time, but they are still both relatively slow, as we
- have tried to retain as much information as possible.
+ run in reasonable time individually, but they are still both relatively
+ slow, as we have tried to retain as much information as possible.
  Therefore, when combined with other features, even if only combined with
  the relatively small histogram of intensities, the runtime is still considerabl
 y slower than real time.
- In terms of the results, all of these combinations of the discriminative
- features are discriminative as shown in figure 
+ In terms of the mahalanobis distances, all of these combinations are discrimina
+tive as shown in figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Combinations-of-Discriminative"
@@ -2590,28 +2588,7 @@ reference "fig:Combinations-of-Discriminative"
 , but they all introduce anomalies into the system.
  In view of these anomalies and the issues that they may cause, the most
  discriminative feature that has the fewest anomalies and that runs in real
- time is using the histogram of intensities alone.
- Having decided upon using this feature, we will now implement this within
- the final re-identification system, using the full comparison method described
- previously and determining an effective re-identification threshold and
- learning threshold based on the results.
- When this system is run on a single camera, the results that it gives are
- very good, as figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Single-Camera-Re-Identification"
-
-\end_inset
-
- shows.
- Subfigures (a), (b) and (c) show different identification of different
- targets, while subfigure (d) shows the situation where two targets have
- crossed over.
- The video used for this came from camera 
-\begin_inset Formula $\beta$
-\end_inset
-
- in dataset 1.
+ time the histogram of intensities alone.
  
 \end_layout
 
@@ -2770,88 +2747,28 @@ Combinations of our discriminative features
 \end_layout
 
 \begin_layout Standard
-The success rate of our system is very difficult to quantify, as if a misidentif
-ication occurs, it will lead to cross-pollution of the data.
- For example, considering the situation from figure 
+Having decided upon using the histogram of intensities as our feature, we
+ will now implement this within the final re-identification system, using
+ the full comparison method described previously and determining an effective
+ re-identification threshold and learning threshold based on the results.
+ When this system is run on a single camera, the results that it gives are
+ very good, as figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Single-Camera-Re-Identification"
 
 \end_inset
 
-, if person 0 were to be misidentified as person 1, the person 1 object
- that our system creates would have some of person 0's data in it.
- This will have a fairly substantial effect on the feature matrix of this
- object, as we only store the last ten feature vectors per target to try
- and get the maximum speed and accuracy.
- If this were to occur, then an identification of person 0 as person 1 is
- understandable, and becomes more so as more of person 0's data is put into
- the person 1 object, and quickly there will be none of person 1's data
- left.
- Therefore, even though in theory any subsequent identifications of person
- 0 as person 1 are understandable and even correct, as observers of the
- system, we must treat this as a misidentification, as we know who should
- be person 0 and person 1 in reality.
-\end_layout
-
-\begin_layout Standard
-/////////
-\end_layout
-
-\begin_layout Standard
-Across many of our video files from cameras 
-\begin_inset Formula $\alpha$
-\end_inset
-
- and 
+ shows.
+ Subfigures (a), (b) and (c) show different identification of different
+ targets, while subfigure (d) shows the situation where two targets have
+ crossed over.
+ The video used for this came from camera 
 \begin_inset Formula $\beta$
 \end_inset
 
-, the system has periods of effective re-identification before any mistakes
- are made.
- We are not considering cameras 
-\begin_inset Formula $\gamma$
-\end_inset
-
- and 
-\begin_inset Formula $\delta$
-\end_inset
-
- in this section, as people are too close to camera 
-\begin_inset Formula $\gamma$
-\end_inset
-
-, leading to very few detections of people.
- WHY NOT DELTA?
-\end_layout
-
-\begin_layout Standard
-In dataset 1 camera 
-\begin_inset Formula $\alpha$
-\end_inset
-
-, we can see an example of the circumstance that we have just discussed,
- as the person that should be person 1 instead gets re-identified as person
- 0, which leads to the loss of person 0's data.
+ in dataset 1.
  
-\end_layout
-
-\begin_layout Standard
-////////
-\end_layout
-
-\begin_layout Standard
-In dataset 1 camera 
-\begin_inset Formula $\beta$
-\end_inset
-
-, we have a 99% re-identification accuracy for the majority of the video,
- but the system gets weaker from here, giving us an accuracy rate of around
- 80% over entire video.
- In dataset 2, due to the higher number of targets and more people in the
- image at one time, the re-identification rate is substantially lower.
- The first mistakes are made much earlier, and therefore it becomes almost
- impossible to effectively 
 \end_layout
 
 \begin_layout Standard
@@ -3010,6 +2927,96 @@ Single Camera Re-Identification on camera
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The precise success rate of our system is very difficult to quantify, as
+ if a misidentification occurs, it will lead to cross-pollution of the data.
+ For example, considering the situation from figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Single-Camera-Re-Identification"
+
+\end_inset
+
+, if the second person to enter the scene, person 1, was to be misidentified
+ as person 0, the person 0 object that our system has created would have
+ some of person 1's data inserted into it.
+ This will have a fairly substantial effect on the feature matrix of this
+ object, as we only store the last ten feature vectors per target to try
+ and get the maximum speed and accuracy.
+ If this were to occur, then an identification of person 1 as person 0 is
+ understandable, and becomes more so as more of person 1's data is put into
+ the person 0 object, and if this continues there will be none of person
+ 1's data left soon.
+ Therefore, even though in theory any subsequent identifications of person
+ 1 as person 0 are understandable and even correct, as observers of the
+ system, we must treat this as a misidentification, as we know who should
+ be person 0 and person 1 in reality.
+ Due to this difficulty in quantification, we will estimate the accuracy
+ rate of the system based on the viewpoint of an intelligent human observer,
+ who can realise when the person 0 object has in fact become full of person
+ 1's data, so these detections have become correct.
+\end_layout
+
+\begin_layout Standard
+/////////
+\end_layout
+
+\begin_layout Standard
+Across many of our video files from cameras 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+, the system has periods of effective re-identification before any mistakes
+ are made.
+ We are not considering cameras 
+\begin_inset Formula $\gamma$
+\end_inset
+
+ and 
+\begin_inset Formula $\delta$
+\end_inset
+
+ in this section, as people are too close to camera 
+\begin_inset Formula $\gamma$
+\end_inset
+
+, leading to very few detections of people.
+ WHY NOT DELTA?
+\end_layout
+
+\begin_layout Standard
+In dataset 1 camera 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, we can see an example of the circumstance that we have just discussed,
+ as the person that should be person 1 instead gets re-identified as person
+ 0, which leads to the loss of person 0's data.
+ 
+\end_layout
+
+\begin_layout Standard
+////////
+\end_layout
+
+\begin_layout Standard
+In dataset 1 camera 
+\begin_inset Formula $\beta$
+\end_inset
+
+, we have a 99% re-identification accuracy for the majority of the video,
+ but the system gets weaker from here, giving us an accuracy rate of around
+ 80% over entire video.
+ In dataset 2, due to the higher number of targets and more people in the
+ image at one time, the re-identification rate is substantially lower.
+ The first mistakes are made much earlier, and therefore it becomes almost
+ impossible to effectively 
 \end_layout
 
 \begin_layout Standard
