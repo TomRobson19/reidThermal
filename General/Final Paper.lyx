@@ -2851,12 +2851,6 @@ reference "fig:Single-Camera-Re-Identification"
 \end_layout
 
 \begin_layout Standard
-//////// 
-\series bold
-- recheck this - maybe put a figure for dataset 2 in if space
-\end_layout
-
-\begin_layout Standard
 In dataset 1 camera 
 \begin_inset Formula $\beta$
 \end_inset
@@ -2884,10 +2878,6 @@ reference "fig:Single-Camera-Re-Identification"
  of people behaving in similar ways, and the other objects such as cars
  are effectively ignored by our system.
  
-\end_layout
-
-\begin_layout Standard
-///////
 \end_layout
 
 \begin_layout Standard
@@ -2922,6 +2912,8 @@ reference "fig:MultiCam"
 e number of correct classifications as well as the mistakes and inaccuracies
  that occur as the videos proceed and the output becomes very hard to gain
  any useful insight from.
+ We estimate that the re-identification accuracy rate was around 60%, but
+ as discussed previously, it was very difficult to quantify this.
  
 \end_layout
 
@@ -2987,28 +2979,22 @@ reference "fig:MultiCam2"
 .
  The bottom right image shows the negative effect of the creation of these
  targets, as it identifies this person as person 163.
- 
-\end_layout
-
-\begin_layout Standard
-/////
-\end_layout
-
-\begin_layout Standard
-shows a small instance of this, as this person is far away and difficult
- to re-identify, so a new target is created for them for every frame they
- are identified in.
- This person takes the total number of targets in the system up a huge amount,
- and from here the system struggles, as with so many targets, each frame
+ This huge rise in the number of targets is due to the fact that most of
+ these targets only have a single frame associated with them, and each frame
  is bound to be closer to a different one of them, or none of them, and
  will create a new target.
- This was from dataset 2, and at the end of the run we have over 200 targets
- in the system.
  Therefore, we can see that this system, while effective on a single camera,
- encounters more problems over the four cameras used in this dataset.
- This figure also shows the problems with identifying targets at distance
- in the other cameras, and the lack of detections from camera 
-\begin_inset Formula $\gamma$
+ encounters many more problems over the four cameras used in this dataset,
+ with dataset 2 only having a re-identification accuracy rate of approxmately
+ 30%.
+ Dataset 3 does not have this problem, and functions in a similar manner
+ to dataset 1, with a similar accuracy rate.
+ Recordings of the system running on all three datasets are available on
+ YouTube at the following link: 
+\begin_inset CommandInset href
+LatexCommand href
+target "https://tinyurl.com/lp79mbw"
+
 \end_inset
 
 .
@@ -3055,12 +3041,6 @@ Multi-Camera re-identification on dataset 2
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-YouTube videos of multiple camera results - https://tinyurl.com/lp79mbw
 \end_layout
 
 \begin_layout Section
