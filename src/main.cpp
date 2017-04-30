@@ -562,6 +562,7 @@ int postProcessing(String alphaFile, String betaFile, String gammaFile, String d
 
 		key = waitKey(1);
 	}
+	return 0;
 }
 
 int main(int argc,char** argv)
