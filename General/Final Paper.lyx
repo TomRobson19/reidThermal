@@ -142,7 +142,7 @@ Aims
 The aim of this project is to develop a system that would build upon and
  extend the range of existing thermal image detection, tracking and classificati
 on approaches.
- The first step for this would be to be able to detect a person within thermal
+ The first step for this is to be able to detect a person within thermal
  imagery in real time, distinguish a person from other objects and track
  a person moving through a scene in real time.
  We would then implement features/attributes from the literature studied
@@ -173,9 +173,8 @@ key "opencv_library"
  to access the same array of previously identified targets.
  The first stage is real time person detection, which is done using mixture
  of gaussians background subtraction, histogram of oriented gradients or
- haar cascade person detection and a six dimensional kalman filter per person
- to facilitate tracking a person and store their position, velocity and
- bounding box dimensions.
+ haar cascade person detection and a six dimensional kalman filter to facilitate
+ tracking and store each person's position, velocity and bounding box dimensions.
  From here, each of these people will have some of their features stored.
  The basic features used are Hu moments, the histogram of thermal intensity
  and histogram of oriented gradients (HOG) of the target.
@@ -183,7 +182,7 @@ key "opencv_library"
 \color black
  From here, more advanced features are implemented, these are the thermal
  correlogram and optical flow.
- To comparison and re-identification will be performed using mahalanobis
+ The comparison and re-identification will be performed using mahalanobis
  distance.
 \end_layout
 
@@ -198,7 +197,7 @@ Having carried out evaluation of the features, we established that histogram
  of intensities was the most effective feature, with thermal correlogram
  and optical flow also considered to be suitable for re-identification.
  We implemented a re-identification system as described in the method above,
- using histogram of intensities as our feature, and got very good performance
+ using histogram of intensities as our feature, and achieved good performance
  on the majority of our video files on a single camera system.
  However, due to differing viewpoints, the multiple camera system did not
  perform as well, leading to many more misclassifications.
@@ -215,8 +214,8 @@ Conclusions
 \color black
 We conclude that the work carried out here is a useful starting point, as
  we have been able to approve or eliminate five potential thermal re-identificat
-ion features and develop a classifier to use our best feature to create
- a functioning re-identification system over both a single camera and multiple
+ion features and develop a classifier using our best feature to create a
+ functioning re-identification system over both a single camera and multiple
  cameras, across a range of people who have a variety of thermal signatures.
  Future work could look to investigate more features, try to explore the
  full potential of the thermal correlogram and optical flow, experiment
@@ -270,9 +269,9 @@ key "Gong2014"
 \end_inset
 
  and is an interesting and important problem within the field of computer
- vision, with many different approaches being taken to try and perform this
- process efficiently and reliably, mainly revolving around the use of features
- or attributes of a person 
+ vision, with many different approaches being taken to attempt to perform
+ this process efficiently and reliably, mainly revolving around the use
+ of features or attributes of a person 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Layne"
@@ -572,8 +571,8 @@ Several frames showing the same person that our system must know are the
 \end_layout
 
 \begin_layout Standard
-The first thing that we shall consider as a feature to solve the re-identificati
-on problem is a measure of the size of the target person.
+The first thing that we shall consider as a feature is a measure of the
+ size of the target person.
  Due to the single viewpoint of the camera, we need a measure of size that
  is position, scale and rotation invariant.
  For this purpose, we will use Hu moments, taking inspiration from the work
@@ -619,10 +618,10 @@ Aims of the Project
 The aim of this project is to investigate the above research question by
  developing a system that can detect a person within thermal imagery in
  real time, distinguish this person from other objects in the scene and
- track this person moving through a scene in real time.
+ track this person in real time.
  We would then implement three features/attributes, and use these to carry
  out a first pass or initial framework for re-identification.
- At this stage, the system must be able to Re-Identify at least three people
+ At this stage, the system must be able to re-identify at least three people
  within a test video sequence in real time using multiple cameras.
  This would then be extended by implementing two more advanced state of
  the art features/attributes and extending the re-identification ability
@@ -645,7 +644,7 @@ We have managed to achieve a full evaluation of all the features being examined,
  we do still see a reasonable amount of success from our system, the different
  viewpoints and larger number of targets reduces the accuracy of our classificat
 ions.
- We can consider this a success in addressing out aims as the project was
+ We can consider this a success in addressing our aims as the project was
  delivered on time, and we have performed valuable research in a previously
  unexplored area that has advanced the state of the art.
  
@@ -680,9 +679,9 @@ key "Gong2014"
 
  is an excellent resource for re-idenfitication, as it first gives an overview
  of what re-identification is and why it is useful and challenging, and
- then proceeds to give an high level overview of some of the techniques
- that have been researched and implemented previously in order to find a
- reliable and efficient method to solve the re-identification problem.
+ then proceeds to give a high level overview of some of the techniques that
+ have been researched and implemented previously in order to find a reliable
+ and efficient method to solve the re-identification problem.
  
 \end_layout
 
@@ -789,7 +788,7 @@ key "YiminWang2014"
  projection matrix to project image features of one camera to the feature
  space of another, to effectively eliminate the difference of feature distributi
 ons between the two cameras.
- The feature projection matrix is obtained through supervised learning.
+ This feature projection matrix is obtained through supervised learning.
  The proposed method aims to use a simple gradient descent algorithm to
  accelerate and optimise the re-identification process by compensating for
  the inconsistency of feature distributions captured by different cameras.
@@ -900,7 +899,7 @@ key "Ciric2013"
  in many respects, as it is also a person tracking and re-identification
  system for robotics, based on movement through a changing environment.
  The thermal imaging system filters out the background elements, and then
- uses a set of heuristics to determine if a hot-spot is a person or not.
+ uses a set of heuristics to determine if a hotspot is a person or not.
  Experimentation shows that while it performs well in indoor environments,
  it can sometimes be confused in outdoor environments with high levels of
  clutter.
@@ -997,7 +996,7 @@ key "Kundegorski2013"
  2D representation can lead to ambiguity due to overlapping thermal signatures.
  This is where the photogrammetry comes in, determining the 3D position
  using camera projection and target size.
- A Kalman filter is then applied to track the 3D scene trajectories of the
+ A kalman filter is then applied to track the 3D scene trajectories of the
  targets.
  The results of this investigation show that it is an effective improvement
  to 3D localisation in thermal space.
@@ -1027,18 +1026,9 @@ key "Kundegorski2015"
 
  presents a method to address this problem.
  The posture of a target detected in a scene is estimated as a percentage
- of full height based on the use of a Histogram of Oriented Gradient feature
- descriptor, gathered from each detected target, and aided by Support Vector
- Machine based machine learning regression.
- Like 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Kundegorski2013"
-
-\end_inset
-
-, this system makes use of the key advantage of thermal imagery to facilitate
- robust target localisation.
+ of full height based on the use of a Histogram of Oriented Gradient (HOG)
+ feature descriptor, gathered from each detected target, and aided by Support
+ Vector Machine (SVM) based machine learning regression.
  The effect of this work makes the system from 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1059,8 +1049,8 @@ Relation to this Project
 As can be seen from the prior work discussed above, the research that has
  been put into re-identification in the past has been focused on colour,
  and the state of the art is moving away from the simpler features such
- as shirt colour and towards more advanced features to try and improve the
- accuracy of this system.
+ as shirt colour and towards more advanced features to improve the accuracy
+ of this system.
  However, in thermal imagery the majority of the research presented here
  is concerned with tracking a person or object, and not with re-identification
  across multiple cameras.
@@ -1085,7 +1075,7 @@ Having established the problem that we want to solve, we will now break
  down the most important elements of our solution, giving an overview of
  the structure of our implementation, a description of the elements used
  for the person detection subsystem, a description of the features that
- we have used and and explanation of how we compare new detections to previously
+ we have used and explanation of how we compare new detections to previously
  identified targets.
  
 \end_layout
@@ -1187,7 +1177,7 @@ Real Time Person Detection
 Before we can start concerning ourselves with feature based person re-identifica
 tion, we must be able to identify whether a person is present in the image
  at all.
- This requires several stages, background subtraction, person identification
+ This requires several stages: background subtraction, person identification
  and person tracking with position prediction.
 \end_layout
 
@@ -1207,8 +1197,8 @@ key "Zivkovic2004,Zivkovic"
 \end_inset
 
 .
- This technique works by building up a background model over, modelling
- each of the pixels using multiple Gaussians.
+ This technique works by building up a background model over multiple camera
+ frames, modelling each of the pixels using multiple Gaussians.
  Using a Gaussian over the last 
 \begin_inset Formula $N$
 \end_inset
@@ -1218,8 +1208,8 @@ key "Zivkovic2004,Zivkovic"
 \end_inset
 
  is given by a parameter specifying the rate at which the background model
- is updated, is far more memory efficient than storing all of the pixel
- values across the entire video capture.
+ is updated, is far more memory efficient than storing all the pixel values
+ across the entire video capture.
  This update rate is determined by the trade off between being fast enough
  to absorb objects that have become stationary into the background, and
  being slow enough to allow the detection of slow moving objects.
@@ -1234,16 +1224,12 @@ As the program runs through the video, during each new frame, a Gaussian
  code.
  Once these foreground pixels are identified and built into a foreground
  mask, erosion and dilation image operators 
-\series bold
-
 \begin_inset CommandInset citation
 LatexCommand cite
 key "solomonbreckon10fundamentals"
 
 \end_inset
 
-
-\series default
  are used to clean up these results.
  From here, we use the contour detection algorithm from 
 \begin_inset CommandInset citation
@@ -1274,7 +1260,7 @@ Person Identification
 \begin_layout Standard
 Having identified the foreground objects, we must now determine whether
  they are people.
- This implementation has two options for this, the first of these is using
+ The implementation has two options for this, the first of these is using
  Histogram of Oriented Gradients (HOG), discussed in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1310,8 +1296,8 @@ key "RainerLienhartandJochenMaydt2002,Viola"
 .
  This method works by training a cascade of simple classifiers based on
  Haar-like image features, with are all simple and weak, but when combined
- together, give good results and area quick to evaluate.
- The cascade is build up using the boosting machine learning technique,
+ together, give good results and are quick to evaluate.
+ The cascade is built up using the boosting machine learning technique,
  where each new classifier that is added to the cascade prioritises the
  examples that the previous classifiers did not classify correctly.
  As this cascade is build up, it focuses on the section of the target that
@@ -1325,7 +1311,7 @@ key "T.P.BreckonA.GaszczakJ.HanM.L.Eichner2013"
 
 \end_inset
 
-, and it gives us effective results.
+, and it gives us good results.
  
 \end_layout
 
@@ -1588,8 +1574,8 @@ Hu Moments
 
 \begin_layout Standard
 This feature enables us to calculate a measure of the distribution of shape
- of the target in a manner that are invariant to translation, scale and
- rotation 
+ of the target in a manner that is invariant to translation, scale and rotation
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Dawson-Howe2014"
@@ -1638,7 +1624,7 @@ Histogram of Thermal Intensities
 \end_layout
 
 \begin_layout Standard
-In this pixel, we loop through our region of interest and tale the intensity
+In this feature, we loop through our region of interest and tale the intensity
  of each pixel.
  From these intensity values, we create a thirty-two bin histogram is constructe
 d from all the pixels.
@@ -1652,10 +1638,11 @@ d from all the pixels.
 \series bold
  
 \series default
-Each frame, a histogram for the newly detected target is build up, normalised
- and passed to the re-identification system.
+For each frame that comes in from the camera, a histogram for the newly
+ detected target is built up, normalised and passed to the re-identification
+ system.
  This is a useful feature as it can give a fair impression of clothing,
- as if one target is wearing a T-Shirt, for example, there will be more
+ as if one target is wearing a t-shirt, for example, there will be more
  high intensity pixels than will be present for a target wearing a long
  sleeved shirt or jacket.
 \end_layout
@@ -1682,12 +1669,12 @@ key "Dalal"
  support vector machine for classification as a human or not, we save this
  vector for each target, and use this as a feature of comparison for re-identifi
 cation.
- This feature vector is very large, meaning the the processing time is impractic
-ally slow, so we have had to simplify it to make it run in reasonable time.
+ This feature vector is very large, meaning the processing time is impractically
+ slow, so we have had to simplify it to make it run in reasonable time.
  This simplification has been done by reducing the number of histogram bins
  from nine to four, and increasing the block size from eight to sixteen,
  giving us a much smaller feature to compare, and meaning that it runs quickly
- enough to be used in the re-identification system.
+ enough to be used.
  As before, to aid in the comparison, this feature is normalised before
  being passed to the re-identification system.
  
@@ -1781,10 +1768,9 @@ key "Farneback2003"
  of how these polynomials vary under translation.
  As suggested from this description of the algorithm, and unlike the other
  features we have implemented, this feature cannot be measured over a single
- frame, but must instead be calculated over the course of multiple frames.
- As mentioned when discussing the Correlogram, this feature vector is very
- large, and therefore takes a lot of processing time, making this not practical
- in real time.
+ frame, but must instead be calculated over the course of multiple frames.Similar
+ to the correlogram, this feature vector is very large, and therefore takes
+ a lot of processing time, making this not practical in real time.
  To investigate this feature we use both the raw flow values that we have
  calculated, reduced only one value from the (x,y) values, and only considering
  every eight row and column as suggested in 
@@ -1913,8 +1899,8 @@ on of this data, and relies on the mean and covariance of the distribution
  already in the system if the mahalanobis distance is below the threshold,
  otherwise a new person object is created.
  As anomalies are present in our dataset, we make this re-identification
- threshold quite wide, but then have a tighter learning threshold to try
- and prevent corruption of the data.
+ threshold quite wide, but then have a tighter learning threshold to prevent
+ corruption of the data.
  Only instances with mahalanobis distances less than this will be added
  to each target data signature.
 \end_layout
@@ -1947,8 +1933,9 @@ The Dataset
 
 \begin_layout Standard
 The data used to evaluate the features that have been implemented here was
- gathered with four cameras at Durham University, with the cameras and their
- fields of view being arranged as they are in figure 
+ gathered with four cameras at Durham University.
+ The cameras and their fields of view are arranged as they are in figure
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Setup-of-Cameras"
@@ -1980,11 +1967,10 @@ reference "fig:Setup-of-Cameras"
 \end_inset
 
 (b).
- We recorded three datasets.
- dataset 1 only contained three people, dataset 2 contained six people with
- multiple people in view at the same time and dataset 3 also contained six
- people, but introduced other targets such as cars to test the person detection
- system.
+ We recorded three datasets: dataset 1 only contained three people, dataset
+ 2 contained six people with multiple people in view at the same time and
+ dataset 3 also contained six people, but introduced other targets such
+ as cars to test the person detection system.
  
 \end_layout
 
@@ -2110,14 +2096,11 @@ Having discussed the features that we will implement in the previous section,
 \series default
 Which features of a human target are appropriate to facilitate re-identification
  in thermal imagery?
-\series bold
-
 \begin_inset Quotes erd
 \end_inset
 
 .
  
-\series default
 \emph default
 This has been done by performing tests on a small section of one of our
  video files with an altered re-identification classifier to the one described
@@ -2179,9 +2162,9 @@ reference "fig:Section-of-video"
 
 \end_inset
 
-, where one person is in the scene for a number of frames , then leaves,
- then another person enter the scene for a number of frames, then leaves.
- While the first person is in the scene, their feature matrix is build up,
+, where one person is in the scene for a number of frames, then leaves,
+ then another person enters the scene for a number of frames, then leaves.
+ While the first person is in the scene, their feature matrix is built up,
  and each new frame will be compared against this distribution using mahalanobis
  distance as before.
  The distribution will continue to develop as each new feature vector is
@@ -2192,8 +2175,8 @@ reference "fig:Section-of-video"
  distances between the feature vectors of this new person and the data recorded
  for the previous person, and use these to evaluate how discriminative the
  feature is, and whether it is suitable for re-identification.
- These two people in have fairly similar thermal signatures, so this is
- a good test of our features.
+ These two people have fairly similar thermal signatures, so this is a good
+ test of our features.
  A discriminative feature will be one that has a low mahalanobis distance
  for the right target and a high mahalanobis distance for the wrong target,
  as shown by the red and blue lines on the graphs in figure 
@@ -2554,9 +2537,7 @@ reference "fig:Performance"
 \end_layout
 
 \begin_layout Subsection
-The Re-Identification System (give percentages on each video/dataset) (more
- images to show results for multiple cameras) (do give a hit rate, but explain
- why it was difficult to obtain)
+The Re-Identification System
 \end_layout
 
 \begin_layout Standard
@@ -2833,8 +2814,8 @@ reference "fig:Single-Camera-Re-Identification"
  image, the person 2 object that our system has created would now have some
  of person 0's data inserted into it.
  This will have a fairly substantial effect on the feature matrix of this
- object, as we only store the last ten feature vectors per target to try
- and get the maximum speed and accuracy.
+ object, as we only store the last ten feature vectors per target to get
+ the maximum speed and accuracy.
  From here, further identifications of person 0 as person 2 is understandable,
  and becomes more so as more of person 0's data is put into the person 2
  object, and if this continues there will be none of person 2's data left
@@ -2864,8 +2845,8 @@ reference "fig:Single-Camera-Re-Identification"
 
 , we have a 99% re-identification accuracy for the majority of the video,
  but the system gets weaker from here, giving us an accuracy rate of around
- 80% over entire video, after the error in identification of person 0 as
- person 2 as previously discussed.
+ 80% over the entire video, after the error in identification of person
+ 0 as person 2 as previously discussed.
  Due to the increase in the covariance of the samples in the person 2 object,
  we then see person 1 being misidentified as person 2 as well in the bottom
  right image.
@@ -2897,7 +2878,7 @@ However, as the multiple-camera dataset introduces different viewpoints,
 
  as the people are too close to the camera, and parts of them are cut off,
  meaning that the person detector does not pick them up.
- The result of these problems is many person objects loosely associated
+ The result of these problems is that many person objects are loosely associated
  with each person, as if all of them are within the re-identification threshold,
  it will change often between them as individual classifications are by
  nature closer together than others.
@@ -2964,7 +2945,7 @@ Moving on to dataset 2, the performance is fairly similar to that of dataset
  1, but due to more people being present in this dataset with differing
  thermal profiles, more targets are created, spreading out the data and
  reducing the amount of data associated with each person object, and reducing
- the the re-identification capacity of the system.
+ the re-identification capacity of the system.
  Many of these erroneous new targets originate from camera 
 \begin_inset Formula $\delta$
 \end_inset
@@ -3107,10 +3088,10 @@ Which features of a human target are appropriate to facilitate re-identification
  
 \emph default
 This has been extensively explored in our results section, and we have effective
-ly proved that Hu Moments and HOG are not suitable to be used for re-identificat
-ion, and the Histogram of Intensities is suitable.
+ly proved that Hu moments and HOG are not suitable to be used for re-identificat
+ion, and the histogram of intensities is suitable.
  We have also effectively established that while our more advanced features,
- the Thermal Correlogram and Optical Flow, are reasonably discriminative
+ the thermal correlogram and optical flow, are reasonably discriminative
  features in the form that we have implemented here, but have such a high
  level of complexity that they would need a more powerful computation system
  than the one used to perform this work if they are to be used to their
@@ -3122,7 +3103,7 @@ ion, and the Histogram of Intensities is suitable.
  by only using every eighth row and column of the optical flow matrix and
  breaking the correlogram down to wide intensity and distance thresholds.
  However, with these simplifications these features perform worse than the
- Histogram of Intensities, so this is the feature we use for re-identification.
+ histogram of intensities, so this is the feature we use for re-identification.
  
 \end_layout
 
@@ -3144,7 +3125,7 @@ Aside from errors in the person detection system, another cause of the anomalies
 \end_layout
 
 \begin_layout Subsection
-Re-Identification System - rewrite
+Re-Identification System
 \end_layout
 
 \begin_layout Standard
@@ -3156,8 +3137,8 @@ We have developed an effective classifier to measure the effectiveness of
  The problems that our classifier encounters are due to the anomalies that
  the features generate.
  The reasons for this have already been discussed, but on the majority of
- correct detections from the person detection system and using the Histogram
- of Intensities as our feature, our classifier functions very well.
+ correct detections from the person detection system and using the histogram
+ of intensities as our feature, our classifier functions well.
  
 \end_layout
 
@@ -3179,8 +3160,8 @@ However, a major weakness of our system is that fact that miss-classifications
  Therefore, the re-identification system is only effective until it begins
  making mistakes, and these mistakes become more and more prevalent when
  the system is applied to multiple cameras, as was discussed in the results
- section, with many of the misclassifications being traceable to camera
- 
+ section, with many of the misclassifications in the multiple camera system
+ being traceable to camera 
 \begin_inset Formula $\delta$
 \end_inset
 
@@ -3215,7 +3196,7 @@ s distances was a superior solution.
 \end_layout
 
 \begin_layout Section
-Conclusion - rewrite
+Conclusion 
 \end_layout
 
 \begin_layout Standard
