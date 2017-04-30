@@ -2005,7 +2005,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename datasetDiagram.png
-	scale 33
+	scale 34
 
 \end_inset
 
@@ -2040,7 +2040,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename viewpoints.png
-	scale 15
+	scale 16
 
 \end_inset
 
@@ -2190,8 +2190,8 @@ reference "fig:Section-of-video"
  which finalises the data of the first person for this experiment.
  When the second person enters the scene, we can measure the mahalanobis
  distances between the feature vectors of this new person and the data recorded
- for the previous person, and use these to evaluate how effective the feature
- is.
+ for the previous person, and use these to evaluate how discriminative the
+ feature is, and whether it is suitable for re-identification.
  These two people in have fairly similar thermal signatures, so this is
  a good test of our features.
  A discriminative feature will be one that has a low mahalanobis distance
@@ -2224,7 +2224,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/Hu.png
-	scale 30
+	scale 22
 
 \end_inset
 
@@ -2258,7 +2258,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/Hist.png
-	scale 30
+	scale 22
 
 \end_inset
 
@@ -2292,7 +2292,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/HOG.png
-	scale 30
+	scale 22
 
 \end_inset
 
@@ -2326,7 +2326,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/Correlogram.png
-	scale 30
+	scale 22
 
 \end_inset
 
@@ -2360,7 +2360,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/HOF.png
-	scale 30
+	scale 22
 
 \end_inset
 
@@ -2394,7 +2394,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/Flow.png
-	scale 30
+	scale 22
 
 \end_inset
 
@@ -2555,8 +2555,8 @@ reference "fig:Performance"
 
 \begin_layout Subsection
 The Re-Identification System (give percentages on each video/dataset) (more
- images to show results like in Miko's papers) (do give a hit rate, but
- explain why it was difficult to obtain)
+ images to show results for multiple cameras) (do give a hit rate, but explain
+ why it was difficult to obtain)
 \end_layout
 
 \begin_layout Standard
@@ -2609,7 +2609,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/All.png
-	scale 30
+	scale 16
 
 \end_inset
 
@@ -2640,7 +2640,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/C+F.png
-	scale 30
+	scale 16
 
 \end_inset
 
@@ -2671,7 +2671,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/H+C.png
-	scale 30
+	scale 16
 
 \end_inset
 
@@ -2702,7 +2702,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/H+F.png
-	scale 30
+	scale 16
 
 \end_inset
 
@@ -2760,15 +2760,17 @@ reference "fig:Single-Camera-Re-Identification"
 \end_inset
 
  shows.
- Subfigures (a), (b) and (c) show different identification of different
- targets, while subfigure (d) shows the situation where two targets have
- crossed over.
  The video used for this came from camera 
 \begin_inset Formula $\beta$
 \end_inset
 
- in dataset 1.
- 
+ in dataset 1, and shows the ability of the system to re-identify 3 targets
+ correctly, including handling a cross over of two targets, before making
+ a mistake when person 0 is misidentified as person 2.
+ Due to the increase in the variance of the data in the person 2 object,
+ person 1 is then also misidentified as person 2.
+ This effectively shows the problem that our system encounters after making
+ a mistake.
 \end_layout
 
 \begin_layout Standard
@@ -2780,122 +2782,10 @@ sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
+\align center
 \begin_inset Graphics
-	filename /home/tom/Pictures/0.png
-	scale 10
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/tom/Pictures/1.png
-	scale 11
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/tom/Pictures/2.png
-	scale 10
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/tom/Pictures/overlap.png
-	scale 10
-
-\end_inset
-
-
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
+	filename singleCam.png
+	scale 70
 
 \end_inset
 
@@ -2940,8 +2830,8 @@ reference "fig:Single-Camera-Re-Identification"
 \end_inset
 
 , if the second person to enter the scene, person 1, was to be misidentified
- as person 0, the person 0 object that our system has created would have
- some of person 1's data inserted into it.
+ as person 0, the person 0 object that our system has created would now
+ have some of person 1's data inserted into it.
  This will have a fairly substantial effect on the feature matrix of this
  object, as we only store the last ten feature vectors per target to try
  and get the maximum speed and accuracy.
@@ -2957,37 +2847,11 @@ reference "fig:Single-Camera-Re-Identification"
  rate of the system based on the viewpoint of an intelligent human observer,
  who can realise when the person 0 object has in fact become full of person
  1's data, so these detections have become correct.
+ 
 \end_layout
 
 \begin_layout Standard
 /////////
-\end_layout
-
-\begin_layout Standard
-Across many of our video files from cameras 
-\begin_inset Formula $\alpha$
-\end_inset
-
- and 
-\begin_inset Formula $\beta$
-\end_inset
-
-, the system has periods of effective re-identification before any mistakes
- are made.
- We are not considering cameras 
-\begin_inset Formula $\gamma$
-\end_inset
-
- and 
-\begin_inset Formula $\delta$
-\end_inset
-
- in this section, as people are too close to camera 
-\begin_inset Formula $\gamma$
-\end_inset
-
-, leading to very few detections of people.
- WHY NOT DELTA?
 \end_layout
 
 \begin_layout Standard
@@ -2996,8 +2860,8 @@ In dataset 1 camera
 \end_inset
 
 , we can see an example of the circumstance that we have just discussed,
- as the person that should be person 1 instead gets re-identified as person
- 0, which leads to the loss of person 0's data.
+ as the second person that enters the scene who should be person 1 instead
+ gets re-identified as person 0, which leads to the loss of person 0's data.
  
 \end_layout
 
@@ -3010,6 +2874,13 @@ In dataset 1 camera
 \begin_inset Formula $\beta$
 \end_inset
 
+, the video represented in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Single-Camera-Re-Identification"
+
+\end_inset
+
 , we have a 99% re-identification accuracy for the majority of the video,
  but the system gets weaker from here, giving us an accuracy rate of around
  80% over entire video.
@@ -3020,7 +2891,11 @@ In dataset 1 camera
 \end_layout
 
 \begin_layout Standard
-However, as the multiple-camera dataset introduces very different viewpoints,
+///////
+\end_layout
+
+\begin_layout Standard
+However, as the multiple-camera dataset introduces different viewpoints,
  people observed from different cameras have differing characteristics,
  which means they are sometimes similar enough to be re-identified, and
  sometimes not.
