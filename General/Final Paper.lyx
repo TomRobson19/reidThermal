@@ -3076,7 +3076,7 @@ ion, a significant thermal hotspot has been missed.
  because the edges of the people are too close to the edges of the frame,
  meaning that this camera is providing little to the multiple camera system
  due to a weakness in the person detector.
- This should be addressed by future work.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -3103,15 +3103,14 @@ Which features of a human target are appropriate to facilitate re-identification
 .
  
 \emph default
-This has been extensively explored in our results section, and we have effective
-ly proved that Hu moments and HOG are not suitable to be used for re-identificat
-ion, and the histogram of intensities is suitable.
- We have also effectively established that while our more advanced features,
- the thermal correlogram and optical flow, are reasonably discriminative
- features in the form that we have implemented here, but have such a high
- level of complexity that they would need a more powerful computation system
- than the one used to perform this work if they are to be used to their
- full re-identification potential.
+This has been explored in our results section, and the graphs obtained from
+ our experiment show that Hu moments and HOG are not suitable to be used
+ for re-identification, and the histogram of intensities is suitable.
+ We have also established that while the thermal correlogram and optical
+ flow are reasonably discriminative features in the form that we have implemente
+d here, they have such a high level of complexity that they would need a
+ more powerful computation system than the one used to perform this work
+ if they are to be used to their full re-identification potential.
  We state in our aims for this project that the final system must run in
  real time on the video files that we are using, or at least reasonably
  close to real time.
