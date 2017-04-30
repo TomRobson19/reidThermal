@@ -3048,12 +3048,28 @@ As the primary focus of this project was to investigate the features and
 ion, a significant thermal hotspot has been missed.
  In order to mitigate this problem, we have forced acceptable classifications
  to be larger.
- This removes many of these partial detections, although some do still occur,
- but it also means that we cannot identify people far from the camera.
- We have attempted to find a balance between these erroneous classifications
+ This removes 99% of these partial detections, although some do still occur,
+ leading to the spikes observable in the graphs.
+ However, a drawback of this is that that we cannot identify people far
+ from the cameras 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\beta$
+\end_inset
+
+.
+ We have attempted to find a balance between the erroneous classifications
  and being able to classify targets at a distance, but this has not been
  completely successful.
- We also rarely get detections of people in camera 
+ This problem does not exist in camera 
+\begin_inset Formula $\delta$
+\end_inset
+
+, as we have different parameters for this camera, and due to its viewpoint,
+ targets all appear to be a similar size.
+ We rarely get detections of people in camera 
 \begin_inset Formula $\gamma$
 \end_inset
 
