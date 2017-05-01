@@ -3144,9 +3144,9 @@ Re-Identification System
 \end_layout
 
 \begin_layout Standard
-We have developed an effective classifier to measure the effectiveness of
- these features, by using the mahalanobis distance between each new frame
- and the distribution of previous identifications of each target.
+We have developed a classifier to measure the suitability of these features,
+ by using the mahalanobis distance between each new frame and the distribution
+ of previous identifications of each target.
  For our effective features this classifier produces a clear difference
  between correct and incorrect classifications in the majority of cases.
  The problems that our classifier encounters are due to the anomalies that
