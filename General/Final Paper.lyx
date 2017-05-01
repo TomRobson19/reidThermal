@@ -3145,7 +3145,7 @@ Re-Identification System
 
 \begin_layout Standard
 We have developed an effective classifier to measure the effectiveness of
- these features, by using the Mahalanobis distance between each new frame
+ these features, by using the mahalanobis distance between each new frame
  and the distribution of previous identifications of each target.
  For our effective features this classifier produces a clear difference
  between correct and incorrect classifications in the majority of cases.
@@ -3191,12 +3191,12 @@ Appraisal of Project Organisation
 \begin_layout Standard
 In the implementation of this system we have used a modular approach, implementi
 ng each major component separately.
- Notably, we encountered difficulties with the Kalman filter, as it was
+ Notably, we encountered difficulties with the kalman filter, as it was
  one of the elements of the OpenCV library that changed between version
  2 and 3, meaning that much of the existing work that we looked at functioned
  in a different way to how our system would.
  We also had difficulties in the implementation of the comparison system,
- as we initially intended to use a Bayesian Classifier 
+ as we initially intended to use a Bayesian classifier 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Fukunaga1990"
@@ -3204,7 +3204,7 @@ key "Fukunaga1990"
 \end_inset
 
 , but this did not function correctly with our data, and much time was used
- trying to get this to function before we decided that using the pure Mahalanobi
+ trying to get this to function before we decided that using the pure mahalanobi
 s distances was a superior solution.
  Despite these difficulties, the project was delivered on time and our aims
  were accomplished, successfully adding to the state of the art.
