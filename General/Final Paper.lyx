@@ -1112,14 +1112,14 @@ reference "fig:Logic-of-our"
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
 	filename Project Activity Diagram2.png
-	scale 40
+	scale 70
 
 \end_inset
 
@@ -2590,7 +2590,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/All.png
-	scale 16
+	scale 17
 
 \end_inset
 
@@ -2621,7 +2621,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/C+F.png
-	scale 16
+	scale 17
 
 \end_inset
 
@@ -2652,7 +2652,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/H+C.png
-	scale 16
+	scale 17
 
 \end_inset
 
@@ -2683,7 +2683,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename Graphs/H+F.png
-	scale 16
+	scale 17
 
 \end_inset
 
@@ -2760,13 +2760,13 @@ reference "fig:Single-Camera-Re-Identification"
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename singleCam.png
-	scale 80
+	scale 60
 
 \end_inset
 
@@ -2910,7 +2910,7 @@ status collapsed
 \align center
 \begin_inset Graphics
 	filename multiCam.png
-	scale 80
+	scale 85
 
 \end_inset
 
@@ -2988,13 +2988,13 @@ target "https://tinyurl.com/lp79mbw"
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename multiCam2.png
-	scale 80
+	scale 85
 
 \end_inset
 
@@ -3262,6 +3262,22 @@ There are many more potential features that could be used for re-identification,
  We could also improve the person detection system to enable it to function
  at distance and not pick up small parts of people as different detections.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
