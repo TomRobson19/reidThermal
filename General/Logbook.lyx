@@ -1593,28 +1593,5 @@ MAKE SURE I RE-READ ALL OF THE PAPER TO ENSURE MY EVAL/CONC MAKES SENSE
  WITH THE RESULTS
 \end_layout
 
-\begin_layout Section*
-
-\series bold
-Notes on Toby's Feedback
-\end_layout
-
-\begin_layout Itemize
-We discussed how the graphs had been obtained.
-\end_layout
-
-\begin_layout Itemize
-Space constraints for full image results
-\end_layout
-
-\begin_layout Itemize
-Hit rate becomes meainingless after first error, and this happens at different
- stages of each video.
-\end_layout
-
-\begin_layout Itemize
-Re-ID system results is the most important section.
-\end_layout
-
 \end_body
 \end_document
