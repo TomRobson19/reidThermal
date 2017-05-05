@@ -1437,24 +1437,11 @@ Should I/how do I reference opencv documentation, or explanations of concepts
 \end_layout
 
 \begin_layout Itemize
-HOG NOT WORKING WITH NEW PARAMETERS, MAYBE REMOVE, NOT REALLY BRINGING ANYTHING
- EXTRA THAN HAAR
-\end_layout
-
-\begin_layout Itemize
 Multithreading giving a huge variety of GTK errors
 \end_layout
 
 \begin_layout Itemize
-ASK TOBY FOR POSTER TEMPLATE 
-\end_layout
-
-\begin_layout Itemize
 Need to experiment with distance in pixels for classifier and flow feature
-\end_layout
-
-\begin_layout Itemize
-BIG PROBLEM IS THAT A FEW MISCLASSIFICATIONS RUIN THE CLASSIFIER
 \end_layout
 
 \begin_layout Itemize
@@ -1471,15 +1458,6 @@ Need to find some way of populating new targets quicker, so they don't get
 \begin_layout Itemize
 Didn't originally write Flow as a Histogram, now changed it to be a histogram
  and it is worse.
-\end_layout
-
-\begin_layout Itemize
-SHOULD I INCLUDE THE LITERATURE THAT MY FEATURES COME FROM IN MY RELATED
- WORK SECTION???
-\end_layout
-
-\begin_layout Itemize
-HOG SUBSTANTIALLY SLOWER AND DOESN'T ADD ANYTHING TO ACCURACY OF CLASSIFICATION.
 \end_layout
 
 \begin_layout Section*
