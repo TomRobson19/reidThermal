@@ -1,6 +1,6 @@
 /*
 Run like this : 
-./main -d=1 -f=1 -c=1
+./testing -d=1 -f=1 -c=1
 */
 
 #include <opencv2/core.hpp>
